@@ -1,8 +1,61 @@
 import React from "react";
 import Link from "next/link";
-import withApollo from "../lib/with-apollo";
+import { useRouter } from "next/router";
+import gql from "graphql-tag";
+import { useQuery } from "@apollo/react-hooks";
+import clsx from "clsx";
+import { ArticlePreview, Sidebar, FeedToggle } from "../containers";
 
-function FeedPage(props) {
+const FeedPageArticlesQuery = gql`
+  query FeedPageArticlesQuery(
+    $after: String
+    $before: String
+    $first: Int
+    $last: Int
+    $tagName: String
+  ) {
+    feedConnection(
+      after: $after
+      before: $before
+      first: $first
+      last: $last
+      tagName: $tagName
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+      edges {
+        cursor
+        node {
+          ...ArticlePreviewArticleFragment
+        }
+      }
+    }
+  }
+  ${ArticlePreview.fragments.article}
+`;
+
+export default function FeedPage(props) {
+  const router = useRouter();
+  const variables =
+    typeof router.query.before !== "undefined" ||
+    typeof router.query.after !== "undefined"
+      ? {
+          last: router.query.last ? parseInt(router.query.last) : null,
+          first: router.query.first ? parseInt(router.query.first) : null,
+          before: router.query.before ? router.query.before : null,
+          after: router.query.after ? router.query.after : null,
+          tagName: router.query.tagName
+        }
+      : { first: 10, tagName: router.query.tagName };
+
+  const articles = useQuery(FeedPageArticlesQuery, {
+    variables
+  });
+
   return (
     <div className="home-page">
       <div className="banner">
@@ -13,110 +66,89 @@ function FeedPage(props) {
       </div>
       <div className="container page">
         <div className="row">
-          <div className="col-md-9">
-            <div className="feed-toggle">
-              <ul className="nav nav-pills outline-active">
-                <li className="nav-item">
-                  <a className="nav-link active" href="/feed">
-                    Your Feed
-                  </a>
+          <div className="col-xs-12 col-md-9">
+            <FeedToggle />
+            {articles.loading ? (
+              <div className="article-preview">Loading..</div>
+            ) : (
+              articles.data.feedConnection.edges.map(edge => (
+                <ArticlePreview slug={edge.node.slug} key={edge.node.slug} />
+              ))
+            )}
+            <nav>
+              <ul className="pagination">
+                <li
+                  className={clsx("page-item", {
+                    disabled: articles.loading
+                      ? true
+                      : articles.data.feedConnection.pageInfo
+                          .hasPreviousPage === false
+                  })}
+                >
+                  <Link
+                    href={{
+                      pathname: router.pathname,
+                      query: router.query.tagName
+                        ? {
+                            before: articles.loading
+                              ? null
+                              : articles.data.feedConnection.pageInfo
+                                  .startCursor,
+                            last: 10,
+                            tagName: router.query.tagName
+                          }
+                        : {
+                            before: articles.loading
+                              ? null
+                              : articles.data.feedConnection.pageInfo
+                                  .startCursor,
+                            last: 10
+                          }
+                    }}
+                    shallow
+                  >
+                    <a className="page-link">Previous</a>
+                  </Link>
                 </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="/">
-                    Global Feed
-                  </a>
+                <li
+                  className={clsx("page-item", {
+                    disabled: articles.loading
+                      ? true
+                      : articles.data.feedConnection.pageInfo.hasNextPage ===
+                        false
+                  })}
+                >
+                  <Link
+                    href={{
+                      pathname: router.pathname,
+                      query: router.query.tagName
+                        ? {
+                            after: articles.loading
+                              ? null
+                              : articles.data.feedConnection.pageInfo.endCursor,
+                            first: 10,
+                            tagName: router.query.tagName
+                          }
+                        : {
+                            after: articles.loading
+                              ? null
+                              : articles.data.feedConnection.pageInfo.endCursor,
+                            first: 10
+                          }
+                    }}
+                    shallow
+                  >
+                    <a className="page-link">Next</a>
+                  </Link>
                 </li>
               </ul>
-            </div>
-            <div className="article-preview">
-              <div className="article-meta">
-                <Link href="/eric-simons">
-                  <a>
-                    <img src="http://i.imgur.com/Qr71crq.jpg" />
-                  </a>
-                </Link>
-                <div className="info">
-                  <Link href="/eric-simons">
-                    <a className="author">Eric Simons</a>
-                  </Link>
-                  <span className="date">January 20th</span>
-                </div>
-                <button className="btn btn-outline-primary btn-sm pull-xs-right">
-                  <i className="ion-heart" /> 29
-                </button>
-              </div>
-              <Link href="/article/how-to-build-webapps-that-scale">
-                <a className="preview-link">
-                  <h1>How to build webapps that scale</h1>
-                  <p>This is the description for the post.</p>
-                  <span>Read more...</span>
-                </a>
-              </Link>
-            </div>
-            <div className="article-preview">
-              <div className="article-meta">
-                <Link href="/albert-pai">
-                  <a>
-                    <img src="http://i.imgur.com/N4VcUeJ.jpg" />
-                  </a>
-                </Link>
-                <div className="info">
-                  <Link href="/albert-pai">
-                    <a className="author">Albert Pai</a>
-                  </Link>
-                  <span className="date">January 20th</span>
-                </div>
-                <button className="btn btn-outline-primary btn-sm pull-xs-right">
-                  <i className="ion-heart" /> 32
-                </button>
-              </div>
-              <Link href="/article/the-song-you-wont-ever-stop-singing">
-                <a className="preview-link">
-                  <h1>
-                    The song you won't ever stop singing. No matter how hard you
-                    try.
-                  </h1>
-                  <p>This is the description for the post.</p>
-                  <span>Read more...</span>
-                </a>
-              </Link>
-            </div>
+            </nav>
           </div>
-          <div className="col-md-3">
-            <div className="sidebar">
-              <p>Popular Tags</p>
-              <div className="tag-list">
-                <a href="#" className="tag-pill tag-default">
-                  programming
-                </a>
-                <a href="#" className="tag-pill tag-default">
-                  javascript
-                </a>
-                <a href="#" className="tag-pill tag-default">
-                  emberjs
-                </a>
-                <a href="#" className="tag-pill tag-default">
-                  angularjs
-                </a>
-                <a href="#" className="tag-pill tag-default">
-                  react
-                </a>
-                <a href="#" className="tag-pill tag-default">
-                  mean
-                </a>
-                <a href="#" className="tag-pill tag-default">
-                  node
-                </a>
-                <a href="#" className="tag-pill tag-default">
-                  rails
-                </a>
-              </div>
-            </div>
+          <div className="col-xs-12 col-md-3">
+            <Sidebar />
           </div>
         </div>
       </div>
     </div>
   );
 }
-
-export default withApollo(FeedPage);

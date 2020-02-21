@@ -5,18 +5,9 @@ import clsx from "clsx";
 import gql from "graphql-tag";
 import { useRouter } from "next/router";
 
-const TagQuery = gql`
-  query TagQuery($id: ID!) {
-    tag(id: $id) {
-      id
-      name
-    }
-  }
-`;
-
-export function Tag(props) {
+export function SidebarTag(props) {
   const router = useRouter();
-  const tag = useQuery(TagQuery, {
+  const tag = useQuery(SidebarTagQuery, {
     variables: { id: props.id }
   });
   return tag.loading ? (
@@ -27,6 +18,11 @@ export function Tag(props) {
         pathname: "/",
         query: { tagName: tag.data.tag.name }
       }}
+      as={{
+        pathname: "/",
+        query: { tagName: tag.data.tag.name }
+      }}
+      shallow
     >
       <a
         className={clsx("tag-pill tag-default", {
@@ -38,3 +34,21 @@ export function Tag(props) {
     </Link>
   );
 }
+
+SidebarTag.fragments = {
+  tag: gql`
+    fragment SidebarTagTagFragment on Tag {
+      id
+      name
+    }
+  `
+};
+
+const SidebarTagQuery = gql`
+  query SidebarTagQuery($id: ID!) {
+    tag(id: $id) {
+      ...SidebarTagTagFragment
+    }
+  }
+  ${SidebarTag.fragments.tag}
+`;

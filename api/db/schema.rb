@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_20_015427) do
+ActiveRecord::Schema.define(version: 2020_02_20_200738) do
 
   create_table "articles", force: :cascade do |t|
     t.string "slug", null: false
@@ -25,9 +25,19 @@ ActiveRecord::Schema.define(version: 2020_02_20_015427) do
     t.index ["slug"], name: "index_articles_on_slug", unique: true
   end
 
+  create_table "comments", force: :cascade do |t|
+    t.integer "profile_id", null: false
+    t.integer "article_id", null: false
+    t.text "body", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["article_id"], name: "index_comments_on_article_id"
+    t.index ["profile_id"], name: "index_comments_on_profile_id"
+  end
+
   create_table "favorites", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "article_id"
+    t.integer "user_id", null: false
+    t.integer "article_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["article_id"], name: "index_favorites_on_article_id"
@@ -37,8 +47,10 @@ ActiveRecord::Schema.define(version: 2020_02_20_015427) do
   create_table "profiles", force: :cascade do |t|
     t.string "username"
     t.text "bio", default: "", null: false
-    t.string "image"
-    t.integer "user_id"
+    t.string "image_url"
+    t.integer "user_id", null: false
+    t.integer "followers_count", default: 0, null: false
+    t.integer "following_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_profiles_on_user_id", unique: true
@@ -46,8 +58,8 @@ ActiveRecord::Schema.define(version: 2020_02_20_015427) do
   end
 
   create_table "relationships", force: :cascade do |t|
-    t.integer "follower_id"
-    t.integer "followed_id"
+    t.integer "follower_id", null: false
+    t.integer "followed_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["followed_id"], name: "index_relationships_on_followed_id"
@@ -69,6 +81,7 @@ ActiveRecord::Schema.define(version: 2020_02_20_015427) do
     t.integer "taggings_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
   create_table "users", force: :cascade do |t|

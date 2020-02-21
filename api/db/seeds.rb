@@ -32,12 +32,21 @@ end
     user.build_profile(username: Faker::Internet.username(separators: [])) do |profile|
       profile.save!
       20.times do
-        profile.articles.create(
+        profile.articles.build(
           body: Faker::Lorem.paragraph(sentence_count: 10),
           description: Faker::Lorem.sentence,
           slug: Faker::Lorem.words(number: 10).join('-').delete(',.').downcase,
           title: Faker::Lorem.sentence
-        )
+        ) do |article|
+          article.save!
+          article.tags << Tag.order('random()').first
+          5.times do
+            Profile.order('random()').first.comments.create(
+              article: article,
+              body: Faker::Lorem.sentence
+            )
+          end
+        end
       end
     end
   end

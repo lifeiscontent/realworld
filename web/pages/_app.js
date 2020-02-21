@@ -1,25 +1,9 @@
 import Head from "next/head";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import clsx from "clsx";
-import NextApp from "next/app";
-function NavLink(props) {
-  const router = useRouter();
+import withApollo from "../lib/with-apollo";
+import { Navbar } from "../containers";
 
-  return (
-    <Link href={props.href} as={props.as}>
-      <a
-        className={clsx("nav-link", {
-          active: router.pathname === props.href
-        })}
-      >
-        {props.children}
-      </a>
-    </Link>
-  );
-}
-
-export default function App({ Component, pageProps }) {
+function App({ Component, pageProps }) {
   return (
     <>
       <Head>
@@ -37,37 +21,11 @@ export default function App({ Component, pageProps }) {
         />
         <link rel="stylesheet" href="//demo.productionready.io/main.css" />
       </Head>
-      <nav className="navbar navbar-light">
-        <div className="container">
-          <Link href="/">
-            <a className="navbar-brand">conduit</a>
-          </Link>
-          <ul className="nav navbar-nav pull-xs-right">
-            <li className="nav-item">
-              <NavLink href="/">Home</NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink href="/editor">
-                <i className="ion-compose" />
-                &nbsp;New Post
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink href="/settings">
-                <i className="ion-gear-a" />
-                &nbsp;Settings
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink href="/register">Sign up</NavLink>
-            </li>
-          </ul>
-        </div>
-      </nav>
+      <Navbar />
       <Component {...pageProps} />
       <footer>
         <div className="container">
-          <Link href="/">
+          <Link href="/" as="/" shallow>
             <a className="logo-font">conduit</a>
           </Link>
           <span className="attribution">
@@ -81,14 +39,4 @@ export default function App({ Component, pageProps }) {
   );
 }
 
-// Only uncomment this method if you have blocking data requirements for
-// every single page in your application. This disables the ability to
-// perform automatic static optimization, causing every page in your app to
-// be server-side rendered.
-//
-App.getInitialProps = async appContext => {
-  // calls page's `getInitialProps` and fills `appProps.pageProps`
-  const appProps = await NextApp.getInitialProps(appContext);
-
-  return { ...appProps };
-};
+export default withApollo(App);

@@ -1,11 +1,10 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import withApollo from "../lib/with-apollo";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import clsx from "clsx";
-import { ArticlePreview, Sidebar } from "../containers";
+import { ArticlePreview, Sidebar, FeedToggle } from "../containers";
 
 const HomePageArticlesQuery = gql`
   query HomePageArticlesQuery(
@@ -15,7 +14,7 @@ const HomePageArticlesQuery = gql`
     $last: Int
     $tagName: String
   ) {
-    articles(
+    articlesConnection(
       after: $after
       before: $before
       first: $first
@@ -31,24 +30,15 @@ const HomePageArticlesQuery = gql`
       edges {
         cursor
         node {
-          id
-          slug
-          title
-          description
-          favoritesCount
-          createdAt
-          author {
-            id
-            username
-            image
-          }
+          ...ArticlePreviewArticleFragment
         }
       }
     }
   }
+  ${ArticlePreview.fragments.article}
 `;
 
-function HomePage(props) {
+export default function HomePage(props) {
   const router = useRouter();
   const variables =
     typeof router.query.before !== "undefined" ||
@@ -77,36 +67,22 @@ function HomePage(props) {
       <div className="container page">
         <div className="row">
           <div className="col-xs-12 col-md-9">
-            <div className="feed-toggle">
-              <ul className="nav nav-pills outline-active">
-                <li className="nav-item">
-                  <a className="nav-link disabled" href="/login">
-                    Your Feed
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link active" href="/">
-                    Global Feed
-                  </a>
-                </li>
-              </ul>
-            </div>
+            <FeedToggle />
             {articles.loading ? (
               <div className="article-preview">Loading..</div>
             ) : (
-              articles.data.articles.edges.map(edge => (
-                <ArticlePreview id={edge.node.id} key={edge.node.id} />
+              articles.data.articlesConnection.edges.map(edge => (
+                <ArticlePreview slug={edge.node.slug} key={edge.node.slug} />
               ))
             )}
             <nav>
               <ul className="pagination">
                 <li
                   className={clsx("page-item", {
-                    disabled:
-                      articles.loading === false
-                        ? articles.data.articles.pageInfo.hasPreviousPage ===
-                          false
-                        : true
+                    disabled: articles.loading
+                      ? true
+                      : articles.data.articlesConnection.pageInfo
+                          .hasPreviousPage === false
                   })}
                 >
                   <Link
@@ -114,14 +90,18 @@ function HomePage(props) {
                       pathname: "/",
                       query: router.query.tagName
                         ? {
-                            before:
-                              articles?.data?.articles?.pageInfo?.startCursor,
+                            before: articles.loading
+                              ? null
+                              : articles.data.articlesConnection.pageInfo
+                                  .startCursor,
                             last: 10,
                             tagName: router.query.tagName
                           }
                         : {
-                            before:
-                              articles?.data?.articles?.pageInfo?.startCursor,
+                            before: articles.loading
+                              ? null
+                              : articles.data.articlesConnection.pageInfo
+                                  .startCursor,
                             last: 10
                           }
                     }}
@@ -132,10 +112,10 @@ function HomePage(props) {
                 </li>
                 <li
                   className={clsx("page-item", {
-                    disabled:
-                      articles.loading === false
-                        ? articles.data.articles.pageInfo.hasNextPage === false
-                        : true
+                    disabled: articles.loading
+                      ? true
+                      : articles.data.articlesConnection.pageInfo
+                          .hasNextPage === false
                   })}
                 >
                   <Link
@@ -143,14 +123,18 @@ function HomePage(props) {
                       pathname: "/",
                       query: router.query.tagName
                         ? {
-                            after:
-                              articles?.data?.articles?.pageInfo?.endCursor,
+                            after: articles.loading
+                              ? null
+                              : articles.data.articlesConnection.pageInfo
+                                  .endCursor,
                             first: 10,
                             tagName: router.query.tagName
                           }
                         : {
-                            after:
-                              articles?.data?.articles?.pageInfo?.endCursor,
+                            after: articles.loading
+                              ? null
+                              : articles.data.articlesConnection.pageInfo
+                                  .endCursor,
                             first: 10
                           }
                     }}
@@ -171,5 +155,3 @@ function HomePage(props) {
     </div>
   );
 }
-
-export default withApollo(HomePage);

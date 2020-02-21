@@ -3,11 +3,11 @@
 one:
   username: MyString
   bio: MyText
-  image: MyString
+  image_url: MyString
   user: one
 
 two:
   username: MyString
   bio: MyText
-  image: MyString
+  image_url: MyString
   user: two

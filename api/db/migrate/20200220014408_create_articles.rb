@@ -3,7 +3,7 @@
 class CreateArticles < ActiveRecord::Migration[5.2]
   def change
     create_table :articles do |t|
-      t.string :slug, null: false
+      t.string :slug, null: false, index: { unique: true }
       t.string :title, null: false
       t.string :description, null: false
       t.text :body, null: false
@@ -12,6 +12,5 @@ class CreateArticles < ActiveRecord::Migration[5.2]
 
       t.timestamps
     end
-    add_index :articles, :slug, unique: true
   end
 end

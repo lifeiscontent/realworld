@@ -10,8 +10,9 @@ module Types
     field :favorites_count, Int, null: false
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
-    field :author, Types::ProfileType, null: false
-    # field :comments, [Types::CommentType], null: false
-    # field :favorites, [Types::FavoriteType], null: false
+    field :author, ProfileType, null: false
+    field :comments_connection, CommentType.connection_type,
+          null: false, method: :comments
+    field :tags_connection, TagType.connection_type, null: false, method: :tags
   end
 end

@@ -1,20 +1,18 @@
 import React from "react";
 import { useQuery } from "@apollo/react-hooks";
-import { useRouter } from "next/router";
 import gql from "graphql-tag";
-import { Tag } from "./tag";
+import { SidebarTag } from "./sidebar-tag";
 
 const SidebarQuery = gql`
   query SidebarQuery {
     popularTags {
-      id
-      name
+      ...SidebarTagTagFragment
     }
   }
+  ${SidebarTag.fragments.tag}
 `;
 
 export function Sidebar(props) {
-  const router = useRouter();
   const sidebar = useQuery(SidebarQuery);
   return (
     <div className="sidebar">
@@ -25,7 +23,9 @@ export function Sidebar(props) {
             Loading...
           </a>
         ) : (
-          sidebar.data.popularTags.map(tag => <Tag id={tag.id} />)
+          sidebar.data.popularTags.map(tag => (
+            <SidebarTag key={tag.id} id={tag.id} />
+          ))
         )}
       </div>
     </div>
