@@ -4,8 +4,10 @@ import { useQuery } from '@apollo/react-hooks';
 import Link from 'next/link';
 import { format } from '../utils/date';
 import gql from 'graphql-tag';
-import { FollowButton } from './follow-button';
-import { FavoriteButton } from './favorite-button';
+import { UpdateArticleButton } from './update-article-button';
+import { FollowUserButton } from './follow-user-button';
+import { FavoriteArticleButton } from './favorite-article-button';
+import { DeleteArticleButton } from './delete-article-button';
 
 export function ArticleMeta(props) {
   const article = useQuery(ArticleMetaQuery, {
@@ -48,10 +50,12 @@ export function ArticleMeta(props) {
             : null}
         </time>
       </div>
-      <FollowButton
+      <FollowUserButton
         username={article.data?.article?.author?.profile?.username}
       />{' '}
-      <FavoriteButton slug={article.data?.article?.slug} />
+      <FavoriteArticleButton slug={article.data?.article?.slug} />{' '}
+      <UpdateArticleButton slug={article.data?.article?.slug} />{' '}
+      <DeleteArticleButton slug={article.data?.article?.slug} />
     </div>
   );
 }
@@ -66,7 +70,9 @@ ArticleMeta.fragments = {
       slug
       favoritesCount
       createdAt
-      ...FavoriteButtonArticleFragment
+      ...FavoriteArticleButtonArticleFragment
+      ...DeleteArticleButtonArticleFragment
+      ...UpdateArticleButtonArticleFragment
       author {
         id
         followersCount
@@ -74,12 +80,14 @@ ArticleMeta.fragments = {
         profile {
           imageUrl
           username
-          ...FollowButtonProfileFragment
+          ...FollowUserButtonProfileFragment
         }
       }
     }
-    ${FollowButton.fragments.profile}
-    ${FavoriteButton.fragments.article}
+    ${FollowUserButton.fragments.profile}
+    ${FavoriteArticleButton.fragments.article}
+    ${DeleteArticleButton.fragments.article}
+    ${UpdateArticleButton.fragments.article}
   `
 };
 

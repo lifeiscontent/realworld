@@ -6,6 +6,7 @@ import gql from 'graphql-tag';
 import * as Yup from 'yup';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { CommentCard } from './comment-card';
+import Link from 'next/link';
 
 const validationSchema = Yup.object({
   articleSlug: Yup.string().required(),
@@ -33,7 +34,7 @@ export function CommentForm(props) {
       enableReinitialize
       validationSchema={validationSchema}
       initialValues={{
-        articleSlug: commentForm.data?.article?.slug,
+        articleSlug: commentForm.data?.data?.article?.slug,
         input: { body: '' }
       }}
       onSubmit={(values, { setSubmitting, setStatus, resetForm }) => {
@@ -73,11 +74,21 @@ export function CommentForm(props) {
           <div className="card-footer">
             <img
               src={
-                commentForm.viewer?.profile?.imageUrl ??
+                commentForm.data?.viewer?.profile?.imageUrl ??
                 '/images/smiley-cyrus.jpg'
               }
               className="comment-author-img"
             />
+            &nbsp;&nbsp;
+            <Link
+              href="/[username]"
+              as={`/${commentForm.data?.viewer?.profile?.username}`}
+              shallow
+            >
+              <a className="comment-author">
+                {commentForm.data?.viewer?.profile?.username}
+              </a>
+            </Link>
             <FormikSubmitButton
               disabled={commentForm.loading}
               className="btn btn-sm btn-primary"
@@ -93,7 +104,7 @@ export function CommentForm(props) {
 
 CommentForm.propTypes = {
   slug: PropTypes.string.isRequired,
-  onCreate: PropTypes.func
+  onCreate: PropTypes.func.isRequired
 };
 
 const CommentFormQuery = gql`

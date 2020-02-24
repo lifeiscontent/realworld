@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 import Link from 'next/link';
-import { FollowButton } from './follow-button';
+import { FollowUserButton } from './follow-user-button';
 
 export function UserInfo(props) {
   const userInfo = useQuery(UserInfoQuery, {
@@ -36,7 +36,7 @@ export function UserInfo(props) {
                   </a>
                 </Link>
               ) : null}{' '}
-              <FollowButton username={userInfo.data?.profile?.username} />
+              <FollowUserButton username={userInfo.data?.profile?.username} />
             </div>
           </div>
         </div>
@@ -52,7 +52,7 @@ UserInfo.propTypes = {
 UserInfo.fragments = {
   profile: gql`
     fragment UserInfoProfileFragment on Profile {
-      ...FollowButtonProfileFragment
+      ...FollowUserButtonProfileFragment
       imageUrl
       username
       bio
@@ -62,7 +62,7 @@ UserInfo.fragments = {
         }
       }
     }
-    ${FollowButton.fragments.profile}
+    ${FollowUserButton.fragments.profile}
   `
 };
 

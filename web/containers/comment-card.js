@@ -5,6 +5,7 @@ import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 import { format } from '../utils/date';
 import Markdown from 'react-markdown';
+import { DeleteCommentButton } from './delete-comment-button';
 
 export function CommentCard(props) {
   const comment = useQuery(CommentCardQuery, {
@@ -35,7 +36,7 @@ export function CommentCard(props) {
             />
           </a>
         </Link>
-        &nbsp;
+        &nbsp;&nbsp;
         <Link
           href="/[username]"
           as={`/${comment.data.comment.author.profile.username}`}
@@ -49,8 +50,10 @@ export function CommentCard(props) {
           {format(new Date(comment.data.comment.createdAt), 'MMM Qo')}
         </time>
         <span className="mod-options">
-          <i className="ion-edit" />
-          <i className="ion-trash-a" />
+          <DeleteCommentButton
+            id={comment.data.comment.id}
+            onDelete={props.onDelete}
+          />
         </span>
       </div>
     </div>
@@ -58,7 +61,8 @@ export function CommentCard(props) {
 }
 
 CommentCard.propTypes = {
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  onDelete: PropTypes.func.isRequired
 };
 
 CommentCard.fragments = {
@@ -74,7 +78,9 @@ CommentCard.fragments = {
           username
         }
       }
+      ...DeleteCommentButtonCommentFragment
     }
+    ${DeleteCommentButton.fragments.comment}
   `
 };
 

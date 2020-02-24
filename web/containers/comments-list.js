@@ -13,14 +13,40 @@ export function CommentsList(props) {
     skip: typeof props.slug !== 'string'
   });
 
-  const handleCreate = useCallback(
+  const handleDelete = useCallback(
     (proxy, mutationResult) => {
       const commentsList = proxy.readQuery({
         query: CommentsListQuery,
         variables: { slug: props.slug }
       });
 
-      console.log(commentsList, mutationResult);
+      proxy.writeQuery({
+        query: CommentsListQuery,
+        variables: { slug: props.slug },
+        data: {
+          ...commentsList,
+          article: {
+            ...commentsList.article,
+            commentsConnection: {
+              ...commentsList.article.commentsConnection,
+              edges: commentsList.article.commentsConnection.edges.filter(
+                edge =>
+                  edge.node.id !== mutationResult.data.deleteComment.comment.id
+              )
+            }
+          }
+        }
+      });
+    },
+    [props.slug]
+  );
+
+  const handleCreate = useCallback(
+    (proxy, mutationResult) => {
+      const commentsList = proxy.readQuery({
+        query: CommentsListQuery,
+        variables: { slug: props.slug }
+      });
 
       proxy.writeQuery({
         query: CommentsListQuery,
@@ -56,7 +82,11 @@ export function CommentsList(props) {
         <div>Loading...</div>
       ) : (
         commentsList.data?.article?.commentsConnection?.edges?.map(edge => (
-          <CommentCard key={edge.node.id} id={edge.node.id} />
+          <CommentCard
+            key={edge.node.id}
+            id={edge.node.id}
+            onDelete={handleDelete}
+          />
         ))
       )}
     </>

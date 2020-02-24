@@ -18,21 +18,21 @@ ActiveRecord::Schema.define(version: 2020_02_20_200738) do
     t.string "description", null: false
     t.text "body", null: false
     t.integer "favorites_count", default: 0, null: false
-    t.integer "user_id", null: false
+    t.integer "author_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["author_id"], name: "index_articles_on_author_id"
     t.index ["slug"], name: "index_articles_on_slug", unique: true
-    t.index ["user_id"], name: "index_articles_on_user_id"
   end
 
   create_table "comments", force: :cascade do |t|
-    t.integer "user_id", null: false
+    t.integer "author_id", null: false
     t.integer "article_id", null: false
     t.text "body", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["article_id"], name: "index_comments_on_article_id"
-    t.index ["user_id"], name: "index_comments_on_user_id"
+    t.index ["author_id"], name: "index_comments_on_author_id"
   end
 
   create_table "favorites", force: :cascade do |t|

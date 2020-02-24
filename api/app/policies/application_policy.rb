@@ -16,10 +16,6 @@ class ApplicationPolicy < ActionPolicy::Base
     user.present?
   end
 
-  def owner?
-    user? && user.id == record.user_id
-  end
-
   # Define shared methods useful for most policies.
   # For example:
   #

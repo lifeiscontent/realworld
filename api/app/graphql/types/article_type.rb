@@ -25,7 +25,8 @@ module Types
       context[:current_user].favorited?(object)
     end
 
-    expose_authorization_rules :favorite?, :unfavorite?, prefix: 'can_'
+    expose_authorization_rules :favorite?, :unfavorite?, :update?, :delete?,
+                               prefix: 'can_'
     expose_authorization_rules :create?, with: CommentPolicy,
                                          field_name: 'can_create_comment'
   end

@@ -13,11 +13,27 @@ class ArticlePolicy < ApplicationPolicy
     user?
   end
 
+  def update?
+    author?
+  end
+
+  def delete?
+    author?
+  end
+
   def favorite?
-    user? && record.user_id != user.id
+    user_not_author?
   end
 
   def unfavorite?
-    user? && record.user_id != user.id
+    user_not_author?
+  end
+
+  def author?
+    user? && record.author_id == user.id
+  end
+
+  def user_not_author?
+    user? && record.author_id != user.id
   end
 end

@@ -15,8 +15,8 @@ function actionName(viewerIsFollowing) {
   }
 }
 
-export function FollowButton(props) {
-  const followButton = useQuery(FollowButtonQuery, {
+export function FollowUserButton(props) {
+  const followButton = useQuery(FollowUserButtonQuery, {
     fetchPolicy: 'cache-only',
     variables: {
       username: props.username
@@ -24,11 +24,11 @@ export function FollowButton(props) {
     skip: typeof props.username !== 'string'
   });
 
-  const [followUser] = useMutation(FollowButtonFollowUserMutation, {
+  const [followUser] = useMutation(FollowUserButtonFollowUserMutation, {
     variables: { id: followButton.data?.profile?.user?.id }
   });
 
-  const [unfollowUser] = useMutation(FollowButtonUnfollowUserMutation, {
+  const [unfollowUser] = useMutation(FollowUserButtonUnfollowUserMutation, {
     variables: { id: followButton.data?.profile?.user?.id }
   });
 
@@ -63,12 +63,12 @@ export function FollowButton(props) {
   ) : null;
 }
 
-FollowButton.propTypes = {
+FollowUserButton.propTypes = {
   username: PropTypes.string.isRequired
 };
 
 const userFragment = gql`
-  fragment FollowButtonUserFragment on User {
+  fragment FollowUserButtonUserFragment on User {
     id
     viewerIsFollowing
     canFollow {
@@ -80,43 +80,43 @@ const userFragment = gql`
   }
 `;
 
-FollowButton.fragments = {
+FollowUserButton.fragments = {
   profile: gql`
-    fragment FollowButtonProfileFragment on Profile {
+    fragment FollowUserButtonProfileFragment on Profile {
       username
       user {
-        ...FollowButtonUserFragment
+        ...FollowUserButtonUserFragment
       }
     }
     ${userFragment}
   `
 };
 
-const FollowButtonQuery = gql`
-  query FollowButtonQuery($username: String!) {
+const FollowUserButtonQuery = gql`
+  query FollowUserButtonQuery($username: String!) {
     profile: profileByUsername(username: $username) {
-      ...FollowButtonProfileFragment
+      ...FollowUserButtonProfileFragment
     }
   }
-  ${FollowButton.fragments.profile}
+  ${FollowUserButton.fragments.profile}
 `;
 
-const FollowButtonFollowUserMutation = gql`
-  mutation FollowButtonFollowUserMutation($id: ID!) {
+const FollowUserButtonFollowUserMutation = gql`
+  mutation FollowUserButtonFollowUserMutation($id: ID!) {
     followUser(id: $id) {
       user {
-        ...FollowButtonUserFragment
+        ...FollowUserButtonUserFragment
       }
     }
   }
   ${userFragment}
 `;
 
-const FollowButtonUnfollowUserMutation = gql`
-  mutation FollowButtonUnfollowUserMutation($id: ID!) {
+const FollowUserButtonUnfollowUserMutation = gql`
+  mutation FollowUserButtonUnfollowUserMutation($id: ID!) {
     unfollowUser(id: $id) {
       user {
-        ...FollowButtonUserFragment
+        ...FollowUserButtonUserFragment
       }
     }
   }

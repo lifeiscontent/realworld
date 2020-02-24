@@ -1,17 +1,16 @@
 # frozen_string_literal: true
 
 class Article < ApplicationRecord
-  belongs_to :author, class_name: 'User', foreign_key: 'user_id'
-  has_many :taggings, dependent: :destroy
-  has_many :tags, through: :taggings
+  before_validation :set_slug, only: %i[create update]
+  belongs_to :author, class_name: 'User', validate: true
   has_many :comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
-  before_validation :set_slug, only: %i[create update]
-
+  has_many :taggings, dependent: :destroy
+  has_many :tags, through: :taggings
+  validates :body, presence: true
+  validates :description, presence: true
   validates :slug, presence: true
   validates :title, presence: true
-  validates :description, presence: true
-  validates :body, presence: true
 
   def self.feed_for(user)
     joins(:users).where(author: user.following)

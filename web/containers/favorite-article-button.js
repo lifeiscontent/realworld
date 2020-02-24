@@ -15,25 +15,28 @@ function actionName(viewerDidFavorite) {
   }
 }
 
-export function FavoriteButton(props) {
-  const button = useQuery(FavoriteButtonQuery, {
+export function FavoriteArticleButton(props) {
+  const button = useQuery(FavoriteArticleButtonQuery, {
     variables: {
       slug: props.slug
     },
     fetchPolicy: 'cache-only'
   });
 
-  const [favoriteArticle] = useMutation(FavoriteButtonFavoriteMutation, {
+  const [favoriteArticle] = useMutation(FavoriteArticleButtonFavoriteMutation, {
     variables: {
       slug: props.slug
     }
   });
 
-  const [unfavoriteArticle] = useMutation(FavoriteButtonUnfavoriteMutation, {
-    variables: {
-      slug: props.slug
+  const [unfavoriteArticle] = useMutation(
+    FavoriteArticleButtonUnfavoriteMutation,
+    {
+      variables: {
+        slug: props.slug
+      }
     }
-  });
+  );
 
   const handleClick = useCallback(
     event => {
@@ -70,13 +73,13 @@ export function FavoriteButton(props) {
   ) : null;
 }
 
-FavoriteButton.propTypes = {
+FavoriteArticleButton.propTypes = {
   slug: PropTypes.string.isRequired
 };
 
-FavoriteButton.fragments = {
+FavoriteArticleButton.fragments = {
   article: gql`
-    fragment FavoriteButtonArticleFragment on Article {
+    fragment FavoriteArticleButtonArticleFragment on Article {
       id
       slug
       favoritesCount
@@ -91,33 +94,33 @@ FavoriteButton.fragments = {
   `
 };
 
-const FavoriteButtonQuery = gql`
-  query FavoriteButtonQuery($slug: String!) {
+const FavoriteArticleButtonQuery = gql`
+  query FavoriteArticleButtonQuery($slug: String!) {
     article: articleBySlug(slug: $slug) {
-      ...FavoriteButtonArticleFragment
+      ...FavoriteArticleButtonArticleFragment
     }
   }
-  ${FavoriteButton.fragments.article}
+  ${FavoriteArticleButton.fragments.article}
 `;
 
-const FavoriteButtonFavoriteMutation = gql`
-  mutation FavoriteButtonFavoriteMutation($slug: String!) {
+const FavoriteArticleButtonFavoriteMutation = gql`
+  mutation FavoriteArticleButtonFavoriteMutation($slug: String!) {
     favoriteArticle(slug: $slug) {
       article {
-        ...FavoriteButtonArticleFragment
+        ...FavoriteArticleButtonArticleFragment
       }
     }
   }
-  ${FavoriteButton.fragments.article}
+  ${FavoriteArticleButton.fragments.article}
 `;
 
-const FavoriteButtonUnfavoriteMutation = gql`
-  mutation FavoriteButtonUnfavoriteMutation($slug: String!) {
+const FavoriteArticleButtonUnfavoriteMutation = gql`
+  mutation FavoriteArticleButtonUnfavoriteMutation($slug: String!) {
     unfavoriteArticle(slug: $slug) {
       article {
-        ...FavoriteButtonArticleFragment
+        ...FavoriteArticleButtonArticleFragment
       }
     }
   }
-  ${FavoriteButton.fragments.article}
+  ${FavoriteArticleButton.fragments.article}
 `;
