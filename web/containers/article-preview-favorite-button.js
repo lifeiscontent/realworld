@@ -71,9 +71,8 @@ ArticlePreviewFavoriteButton.propTypes = {
 ArticlePreviewFavoriteButton.fragments = {
   article: gql`
     fragment ArticlePreviewFavoriteButtonArticleFragment on Article {
-      id
-      slug
       favoritesCount
+      slug
       viewerDidFavorite
       canFavorite {
         value

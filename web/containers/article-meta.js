@@ -68,25 +68,21 @@ ArticleMeta.fragments = {
   article: gql`
     fragment ArticleMetaArticleFragment on Article {
       slug
-      favoritesCount
       createdAt
-      ...FavoriteArticleButtonArticleFragment
-      ...DeleteArticleButtonArticleFragment
-      ...UpdateArticleButtonArticleFragment
       author {
-        id
-        followersCount
-        viewerIsFollowing
         profile {
           imageUrl
           username
           ...FollowUserButtonProfileFragment
         }
       }
+      ...DeleteArticleButtonArticleFragment
+      ...FavoriteArticleButtonArticleFragment
+      ...UpdateArticleButtonArticleFragment
     }
-    ${FollowUserButton.fragments.profile}
-    ${FavoriteArticleButton.fragments.article}
     ${DeleteArticleButton.fragments.article}
+    ${FavoriteArticleButton.fragments.article}
+    ${FollowUserButton.fragments.profile}
     ${UpdateArticleButton.fragments.article}
   `
 };

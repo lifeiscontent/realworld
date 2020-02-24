@@ -73,7 +73,6 @@ CommentCard.fragments = {
       createdAt
       author {
         profile {
-          id
           imageUrl
           username
         }

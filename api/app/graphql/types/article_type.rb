@@ -2,22 +2,23 @@
 
 module Types
   class ArticleType < Types::BaseObject
-    field :id, ID, null: false
-    field :title, String, null: false
-    field :slug, String, null: false
+    field :author, UserType, null: false
     field :body, String, null: false
+    field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :description, String, null: true
     field :favorites_count, Int, null: false
-    field :created_at, GraphQL::Types::ISO8601DateTime, null: false
+    field :id, ID, null: false
+    field :slug, String, null: false
+    field :tags, [TagType], null: false
+    field :title, String, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
-    field :author, UserType, null: false
-    field :comments_connection, CommentType.connection_type, null: false
-    field :tags_connection, TagType.connection_type, null: false, method: :tags
-    field :viewer_did_favorite, Boolean, null: false
+    field :comments, [CommentType], null: false
 
-    def comments_connection
+    def comments
       object.comments.order(created_at: :desc)
     end
+
+    field :viewer_did_favorite, Boolean, null: false
 
     def viewer_did_favorite
       return false if context[:current_user].nil?

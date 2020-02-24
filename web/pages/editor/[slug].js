@@ -47,9 +47,9 @@ export default function EditorPage() {
                   title: editorPage.data?.article?.title ?? '',
                   description: editorPage.data?.article?.description ?? '',
                   body: editorPage.data?.article?.body ?? '',
-                  tagIds: (
-                    editorPage.data?.article?.tagsConnection?.edges ?? []
-                  ).map(edge => edge.node.id)
+                  tagIds: (editorPage.data?.article?.tags ?? []).map(
+                    tag => tag.id
+                  )
                 }
               }}
               onSubmit={(values, { setSubmitting, setStatus }) => {
@@ -101,13 +101,9 @@ const EditorPageQuery = gql`
       description
       slug
       title
-      tagsConnection {
-        edges {
-          node {
-            id
-            name
-          }
-        }
+      tags {
+        id
+        name
       }
     }
   }

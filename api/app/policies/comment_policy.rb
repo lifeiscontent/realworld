@@ -14,6 +14,6 @@ class CommentPolicy < ApplicationPolicy
   end
 
   def article_author?
-    user? && Article.where(comment: record, author: user).exists?
+    user? && Article.where(comments: record, author: user).exists?
   end
 end

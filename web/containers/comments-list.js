@@ -27,13 +27,12 @@ export function CommentsList(props) {
           ...commentsList,
           article: {
             ...commentsList.article,
-            commentsConnection: {
-              ...commentsList.article.commentsConnection,
-              edges: commentsList.article.commentsConnection.edges.filter(
-                edge =>
-                  edge.node.id !== mutationResult.data.deleteComment.comment.id
+            comments: [
+              ...commentsList.article.comments.filter(
+                comment =>
+                  comment.id !== mutationResult.data.deleteComment.comment.id
               )
-            }
+            ]
           }
         }
       });
@@ -55,16 +54,10 @@ export function CommentsList(props) {
           ...commentsList,
           article: {
             ...commentsList.article,
-            commentsConnection: {
-              ...commentsList.article.commentsConnection,
-              edges: [
-                {
-                  node: mutationResult.data.createComment.comment,
-                  __typename: 'CommentEdge'
-                },
-                ...commentsList.article.commentsConnection.edges
-              ]
-            }
+            comments: [
+              mutationResult.data.createComment.comment,
+              ...commentsList.article.comments
+            ]
           }
         }
       });
@@ -81,10 +74,10 @@ export function CommentsList(props) {
       {commentsList.loading ? (
         <div>Loading...</div>
       ) : (
-        commentsList.data?.article?.commentsConnection?.edges?.map(edge => (
+        commentsList.data?.article?.comments?.map(comment => (
           <CommentCard
-            key={edge.node.id}
-            id={edge.node.id}
+            key={comment.id}
+            id={comment.id}
             onDelete={handleDelete}
           />
         ))
@@ -101,12 +94,8 @@ CommentsList.fragments = {
   article: gql`
     fragment CommentsListArticleFragment on Article {
       slug
-      commentsConnection {
-        edges {
-          node {
-            ...CommentCardCommentFragment
-          }
-        }
+      comments {
+        ...CommentCardCommentFragment
       }
     }
     ${CommentCard.fragments.comment}

@@ -29,18 +29,9 @@ Banner.propTypes = {
 Banner.fragments = {
   article: gql`
     fragment BannerArticleFragment on Article {
-      ...ArticleMetaArticleFragment
-      createdAt
-      favoritesCount
       slug
       title
-      author {
-        followersCount
-        profile {
-          imageUrl
-          username
-        }
-      }
+      ...ArticleMetaArticleFragment
     }
     ${ArticleMeta.fragments.article}
   `

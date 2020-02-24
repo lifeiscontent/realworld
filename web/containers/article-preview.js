@@ -59,10 +59,10 @@ export function ArticlePreview(props) {
           <h1>{article.data.article.title}</h1>
           <p>{article.data.article.description}</p>
           <span>Read more...</span>
-          {article.data.article.tagsConnection.edges.length ? (
+          {article.data.article.tags.length ? (
             <ul className="tag-list">
-              {article.data.article.tagsConnection.edges.map(edge => (
-                <ArticlePreviewTag key={edge.node.id} id={edge.node.id} />
+              {article.data.article.tags.map(tag => (
+                <ArticlePreviewTag key={tag.id} id={tag.id} />
               ))}
             </ul>
           ) : null}
@@ -79,27 +79,20 @@ ArticlePreview.propTypes = {
 ArticlePreview.fragments = {
   article: gql`
     fragment ArticlePreviewArticleFragment on Article {
-      id
       createdAt
       description
-      favoritesCount
       slug
       title
-      ...ArticlePreviewFavoriteButtonArticleFragment
-      tagsConnection {
-        edges {
-          node {
-            ...ArticlePreviewTagTagFragment
-          }
-        }
+      tags {
+        ...ArticlePreviewTagTagFragment
       }
       author {
         profile {
-          id
           imageUrl
           username
         }
       }
+      ...ArticlePreviewFavoriteButtonArticleFragment
     }
     ${ArticlePreviewTag.fragments.tag}
     ${ArticlePreviewFavoriteButton.fragments.article}
