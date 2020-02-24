@@ -1,7 +1,10 @@
-import Head from "next/head";
-import Link from "next/link";
-import withApollo from "../lib/with-apollo";
-import { Navbar } from "../containers";
+import React from 'react';
+import PropTypes from 'prop-types';
+import Head from 'next/head';
+import Link from 'next/link';
+import withApollo from '../lib/with-apollo';
+import { Navbar } from '../containers';
+import NextApp from 'next/app';
 
 function App({ Component, pageProps }) {
   return (
@@ -29,7 +32,7 @@ function App({ Component, pageProps }) {
             <a className="logo-font">conduit</a>
           </Link>
           <span className="attribution">
-            An interactive learning project from{" "}
+            An interactive learning project from{' '}
             <a href="https://thinkster.io">Thinkster</a>. Code &amp; design
             licensed under MIT.
           </span>
@@ -38,5 +41,17 @@ function App({ Component, pageProps }) {
     </>
   );
 }
+
+App.propTypes = {
+  Component: PropTypes.func.isRequired,
+  pageProps: PropTypes.object.isRequired
+};
+
+App.getInitialProps = async appContext => {
+  // calls page's `getInitialProps` and fills `appProps.pageProps`
+  const appProps = await NextApp.getInitialProps(appContext);
+
+  return { ...appProps };
+};
 
 export default withApollo(App);

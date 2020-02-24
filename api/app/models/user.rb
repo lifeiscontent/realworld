@@ -5,16 +5,62 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-  has_one :profile, dependent: :destroy
+  has_one :profile, dependent: :destroy, autosave: true
   has_many :favorites, dependent: :destroy
   has_many :favorite_articles, through: :favorites, source: :article
+  has_many :active_relationships, class_name: 'Relationship',
+                                  foreign_key: 'follower_id',
+                                  dependent: :destroy
+  has_many :passive_relationships, class_name: 'Relationship',
+                                   foreign_key: 'followed_id',
+                                   dependent: :destroy
+  has_many :following, through: :active_relationships, source: :followed
+  has_many :followers, through: :passive_relationships, source: :follower
+  has_many :articles, dependent: :destroy
+  has_many :comments, dependent: :destroy
+  has_many :favorites
+  has_many :favorite_articles, through: :favorites, source: :article
 
-  def favorite_article(article)
-    favorite_articles << article
+  def favorited?(article)
+    favorite_articles.include?(article)
   end
 
-  def unfavorite_article(article)
-    favorite_articles.delete(article)
+  def favorite(article)
+    favorite_articles << article
+
+    article.reload
+
+    favorited?(article)
+  rescue ActiveRecord::RecordInvalid
+    false
+  end
+
+  def unfavorite(article)
+    favorite_articles.destroy(article)
+
+    article.reload
+
+    favorited?(article) == false
+  end
+
+  def following?(user)
+    following.include?(user)
+  end
+
+  def follow(user)
+    following << user
+
+    user.reload
+
+    following?(user)
+  end
+
+  def unfollow(user)
+    following.destroy(user)
+
+    user.reload
+
+    following?(user) == false
   end
 
   def self.from_jwt(token)

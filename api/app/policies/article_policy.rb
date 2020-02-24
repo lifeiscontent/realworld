@@ -3,11 +3,21 @@
 class ArticlePolicy < ApplicationPolicy
   relation_scope do |relation|
     if user.class.name == 'User'
-      return relation.where(
-        author: user.profile.following.pluck(:id)
-      )
+      relation.where(author: user.following.pluck(:id))
+    else
+      relation.none
     end
+  end
 
-    relation.none
+  def create?
+    user?
+  end
+
+  def favorite?
+    user? && record.user_id != user.id
+  end
+
+  def unfavorite?
+    user? && record.user_id != user.id
   end
 end

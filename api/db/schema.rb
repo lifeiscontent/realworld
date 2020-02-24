@@ -18,28 +18,29 @@ ActiveRecord::Schema.define(version: 2020_02_20_200738) do
     t.string "description", null: false
     t.text "body", null: false
     t.integer "favorites_count", default: 0, null: false
-    t.integer "profile_id", null: false
+    t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["profile_id"], name: "index_articles_on_profile_id"
     t.index ["slug"], name: "index_articles_on_slug", unique: true
+    t.index ["user_id"], name: "index_articles_on_user_id"
   end
 
   create_table "comments", force: :cascade do |t|
-    t.integer "profile_id", null: false
+    t.integer "user_id", null: false
     t.integer "article_id", null: false
     t.text "body", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["article_id"], name: "index_comments_on_article_id"
-    t.index ["profile_id"], name: "index_comments_on_profile_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "favorites", force: :cascade do |t|
-    t.integer "user_id", null: false
     t.integer "article_id", null: false
+    t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["article_id", "user_id"], name: "index_favorites_on_article_id_and_user_id", unique: true
     t.index ["article_id"], name: "index_favorites_on_article_id"
     t.index ["user_id"], name: "index_favorites_on_user_id"
   end
@@ -49,8 +50,6 @@ ActiveRecord::Schema.define(version: 2020_02_20_200738) do
     t.text "bio", default: "", null: false
     t.string "image_url"
     t.integer "user_id", null: false
-    t.integer "followers_count", default: 0, null: false
-    t.integer "following_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_profiles_on_user_id", unique: true
@@ -58,12 +57,12 @@ ActiveRecord::Schema.define(version: 2020_02_20_200738) do
   end
 
   create_table "relationships", force: :cascade do |t|
-    t.integer "follower_id", null: false
     t.integer "followed_id", null: false
+    t.integer "follower_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["followed_id", "follower_id"], name: "index_relationships_on_followed_id_and_follower_id", unique: true
     t.index ["followed_id"], name: "index_relationships_on_followed_id"
-    t.index ["follower_id", "followed_id"], name: "index_relationships_on_follower_id_and_followed_id", unique: true
     t.index ["follower_id"], name: "index_relationships_on_follower_id"
   end
 
@@ -92,6 +91,8 @@ ActiveRecord::Schema.define(version: 2020_02_20_200738) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "followers_count", default: 0, null: false
+    t.integer "following_count", default: 0, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

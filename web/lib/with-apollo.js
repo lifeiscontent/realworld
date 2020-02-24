@@ -1,16 +1,16 @@
-import fetch from "isomorphic-unfetch";
-import { HttpLink } from "apollo-link-http";
-import { InMemoryCache, defaultDataIdFromObject } from "apollo-cache-inmemory";
-import { ApolloClient } from "apollo-client";
-import { ApolloProvider } from "@apollo/react-hooks";
-import { setContext } from "apollo-link-context";
-import { ApolloLink } from "apollo-link";
+import fetch from 'isomorphic-unfetch';
+import { HttpLink } from 'apollo-link-http';
+import { InMemoryCache, defaultDataIdFromObject } from 'apollo-cache-inmemory';
+import { ApolloClient } from 'apollo-client';
+import { ApolloProvider } from '@apollo/react-hooks';
+import { setContext } from 'apollo-link-context';
+import { ApolloLink } from 'apollo-link';
 
 function dataIdFromObject(object) {
   switch (object.__typename) {
-    case "Article":
+    case 'Article':
       return `${object.__typename}:${object.slug}`;
-    case "Profile":
+    case 'Profile':
       return `${object.__typename}:${object.username}`;
     default:
       return defaultDataIdFromObject(object);
@@ -20,11 +20,16 @@ function dataIdFromObject(object) {
 export default function withApollo(Page) {
   return function WrappedWithApollo(props) {
     const client = new ApolloClient({
+      defaultOptions: {
+        watchQuery: {
+          returnPartialData: true
+        }
+      },
       assumeImmutableResults: true,
-      connectToDevTools: process.env.NODE_ENV !== "production",
-      ssrMode: typeof window === "undefined",
-      name: "Conduit",
-      version: "1.0.0",
+      connectToDevTools: process.env.NODE_ENV !== 'production',
+      ssrMode: typeof window === 'undefined',
+      name: 'Conduit',
+      version: '1.0.0',
       cache: new InMemoryCache({
         freezeResults: true,
         resultCaching: true,
@@ -33,25 +38,25 @@ export default function withApollo(Page) {
           Query: {
             articleBySlug(_root, args, context) {
               return context.getCacheKey({
-                __typename: "Article",
+                __typename: 'Article',
                 slug: args.slug
               });
             },
             comment(_root, args, context) {
               return context.getCacheKey({
-                __typename: "Comment",
+                __typename: 'Comment',
                 id: args.id
               });
             },
-            profile(_root, args, context) {
+            profileByUsername(_root, args, context) {
               return context.getCacheKey({
-                __typename: "Profile",
+                __typename: 'Profile',
                 username: args.username
               });
             },
             tag(_root, args, context) {
               return context.getCacheKey({
-                __typename: "Tag",
+                __typename: 'Tag',
                 id: args.id
               });
             }
@@ -60,7 +65,7 @@ export default function withApollo(Page) {
       }),
       link: ApolloLink.from([
         setContext(function contextSetter(operation, prevContext) {
-          const token = localStorage.getItem("token");
+          const token = localStorage.getItem('token');
           return {
             ...prevContext,
             headers: {
@@ -71,7 +76,7 @@ export default function withApollo(Page) {
         }),
         new HttpLink({
           fetch,
-          uri: "http://localhost:4000/graphql"
+          uri: 'http://localhost:4000/graphql'
         })
       ])
     });

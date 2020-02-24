@@ -1,17 +1,24 @@
-import React from "react";
-import { useQuery } from "@apollo/react-hooks";
-import gql from "graphql-tag";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 
 export function ArticlePreviewTag(props) {
   const tag = useQuery(ArticlePreviewTagQuery, {
-    variables: { id: props.id }
+    variables: { id: props.id },
+    fetchPolicy: 'cache-only'
   });
+
   return tag.loading ? (
     <li className="tag-pill tag-default">Loading...</li>
   ) : (
-    <li className="tag-default tag-pill tag-outline">{tag.data.tag.name}</li>
+    <li className="tag-pill tag-default">{tag.data.tag.name}</li>
   );
 }
+
+ArticlePreviewTag.propTypes = {
+  id: PropTypes.string.isRequired
+};
 
 ArticlePreviewTag.fragments = {
   tag: gql`

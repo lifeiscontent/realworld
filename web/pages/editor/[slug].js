@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-export default function EditorPage(props) {
+export default function EditorPage() {
   return (
     <div className="editor-page">
       <div className="container page">
@@ -27,7 +27,7 @@ export default function EditorPage(props) {
                     className="form-control"
                     rows={8}
                     placeholder="Write your article (in markdown)"
-                    defaultValue={""}
+                    defaultValue={''}
                   />
                 </fieldset>
                 <fieldset className="form-group">

@@ -7,9 +7,6 @@ class CreateProfiles < ActiveRecord::Migration[5.2]
       t.text :bio, null: false, default: ''
       t.string :image_url
       t.belongs_to :user, null: false, index: { unique: true }, foreign_key: true
-      t.integer :followers_count, null: false, default: 0
-      t.integer :following_count, null: false, default: 0
-
       t.timestamps
     end
   end

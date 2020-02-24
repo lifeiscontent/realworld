@@ -1,14 +1,14 @@
-import React from "react";
-import gql from "graphql-tag";
-import { useRouter } from "next/router";
-import { Formik, Form, ErrorMessage, Field } from "formik";
-import { FormikSubmitButton, FormikStatusErrors } from "../components";
-import { useMutation } from "@apollo/react-hooks";
-import * as Yup from "yup";
+import React from 'react';
+import gql from 'graphql-tag';
+import { useRouter } from 'next/router';
+import { Formik, Form, ErrorMessage, Field } from 'formik';
+import { FormikSubmitButton, FormikStatusErrors } from '../components';
+import { useMutation } from '@apollo/react-hooks';
+import * as Yup from 'yup';
 
-export const LoginPageAuthenticateMutation = gql`
-  mutation LoginPageAuthenticateMutation($input: AuthenticateInput!) {
-    authenticate(input: $input) {
+export const LoginPageSignInMutation = gql`
+  mutation LoginPageSignInMutation($input: SignInInput!) {
+    signIn(input: $input) {
       errors
       token
       user {
@@ -26,18 +26,18 @@ export const LoginPageAuthenticateMutation = gql`
 const validationSchema = Yup.object({
   input: Yup.object({
     email: Yup.string()
-      .label("Email")
+      .label('Email')
       .email()
       .required(),
     password: Yup.string()
-      .label("Password")
+      .label('Password')
       .required()
   })
 });
 
-export default function LoginPage(props) {
+export default function LoginPage() {
   const router = useRouter();
-  const [authenticate] = useMutation(LoginPageAuthenticateMutation);
+  const [signIn] = useMutation(LoginPageSignInMutation);
   return (
     <div className="auth-page">
       <div className="container page">
@@ -50,24 +50,24 @@ export default function LoginPage(props) {
             <Formik
               validationSchema={validationSchema}
               initialStatus={[]}
-              initialValues={{ input: { email: "", password: "" } }}
-              onSubmit={(values, { setSubmitting, setStatus, status }) => {
-                authenticate({
+              initialValues={{ input: { email: '', password: '' } }}
+              onSubmit={(values, { setSubmitting, setStatus }) => {
+                signIn({
                   variables: values
                 })
                   .then(res => {
-                    if (res.data.authenticate.errors.length) {
-                      setStatus(res.data.authenticate.errors);
-                    } else if (res.data.authenticate.token) {
-                      localStorage.setItem(
-                        "token",
-                        res.data.authenticate.token
-                      );
-                      router.push("/feed", undefined, { shallow: true });
+                    if (res.data.signIn.errors.length) {
+                      setStatus(res.data.signIn.errors);
+                      setSubmitting(false);
+                    } else if (res.data.signIn.token) {
+                      localStorage.setItem('token', res.data.signIn.token);
+                      router.push('/feed', undefined, { shallow: true });
                     }
                   })
-                  .catch(err => console.error(err));
-                setSubmitting(false);
+                  .catch(err => {
+                    console.error(err);
+                    setSubmitting(false);
+                  });
               }}
             >
               <Form>

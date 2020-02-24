@@ -1,61 +1,44 @@
-import React from "react";
-import Link from "next/link";
-import gql from "graphql-tag";
-import { useRouter } from "next/router";
-import { useQuery } from "@apollo/react-hooks";
-import { ArticlePreview } from "../containers";
+import React from 'react';
+import Link from 'next/link';
+import gql from 'graphql-tag';
+import { useRouter } from 'next/router';
+import { useQuery } from '@apollo/react-hooks';
+import { ArticlePreview, UserInfo } from '../containers';
 
 const ProfilePageQuery = gql`
   query ProfilePageQuery($username: String!) {
-    profile(username: $username) {
+    profile: profileByUsername(username: $username) {
       username
       bio
-      articlesConnection {
-        edges {
-          node {
-            ...ArticlePreviewArticleFragment
+      ...UserInfoProfileFragment
+      user {
+        articlesConnection {
+          edges {
+            node {
+              ...ArticlePreviewArticleFragment
+            }
           }
         }
       }
     }
   }
   ${ArticlePreview.fragments.article}
+  ${UserInfo.fragments.profile}
 `;
 
-export default function ProfilePage(props) {
+export default function ProfilePage() {
   const router = useRouter();
   const profile = useQuery(ProfilePageQuery, {
     variables: {
       username: router.query.username
     },
-    skip: typeof router.query.username === "undefined"
+    skip: typeof router.query.username === 'undefined'
   });
-
-  if (typeof profile.data === "undefined")
-    return <div className="profile-page">Loading...</div>;
 
   return (
     <div className="profile-page">
-      <div className="user-info">
-        <div className="container">
-          <div className="row">
-            <div className="col-xs-12 col-md-10 offset-md-1">
-              <img
-                src={
-                  profile.data.profile.imageUrl ?? "/images/smiley-cyrus.jpg"
-                }
-                className="user-img"
-              />
-              <h4>{profile.data.profile.username}</h4>
-              <p>{profile.data.profile.bio}</p>
-              <button className="btn btn-sm btn-outline-secondary action-btn">
-                <i className="ion-plus-round" />
-                &nbsp; Follow {profile.data.profile.username}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <UserInfo username={profile.data?.profile?.username} />
+
       <div className="container">
         <div className="row">
           <div className="col-xs-12 col-md-10 offset-md-1">
@@ -64,7 +47,7 @@ export default function ProfilePage(props) {
                 <li className="nav-item">
                   <Link
                     href="/[username]"
-                    as={`/${profile.data.profile.username}`}
+                    as={`/${profile.data?.profile?.username}`}
                     shallow
                   >
                     <a className="nav-link active">My Articles</a>
@@ -73,7 +56,7 @@ export default function ProfilePage(props) {
                 <li className="nav-item">
                   <Link
                     href="/[username]/favorites"
-                    as={`/${profile.data.profile.username}/favorites`}
+                    as={`/${profile.data?.profile?.username}/favorites`}
                     shallow
                   >
                     <a className="nav-link">Favorited Articles</a>
@@ -81,9 +64,14 @@ export default function ProfilePage(props) {
                 </li>
               </ul>
             </div>
-            {profile.data.profile.articlesConnection.edges.map(edge => (
-              <ArticlePreview slug={edge.node.slug} key={edge.node.slug} />
-            ))}
+            {profile.loading ? (
+              <div className="article-preview">Loading...</div>
+            ) : null}
+            {profile.data?.profile?.user?.articlesConnection?.edges?.map(
+              edge => (
+                <ArticlePreview slug={edge.node.slug} key={edge.node.slug} />
+              )
+            )}
           </div>
         </div>
       </div>

@@ -8,7 +8,7 @@ class CreateArticles < ActiveRecord::Migration[5.2]
       t.string :description, null: false
       t.text :body, null: false
       t.integer :favorites_count, null: false, default: 0
-      t.belongs_to :profile, null: false, foreign_key: true
+      t.belongs_to :user, null: false, foreign_key: true
 
       t.timestamps
     end

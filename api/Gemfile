@@ -56,4 +56,4 @@ gem 'rack-cors', '~> 1.1'
 
 gem 'faker', '~> 2.10'
 
-gem "solargraph", "~> 0.38.5"
+gem 'solargraph', '~> 0.38.5'

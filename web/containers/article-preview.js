@@ -1,13 +1,16 @@
-import React from "react";
-import { useQuery } from "@apollo/react-hooks";
-import gql from "graphql-tag";
-import Link from "next/link";
-import { format } from "../utils/date";
-import { ArticlePreviewTag } from "./article-preview-tag";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
+import Link from 'next/link';
+import { format } from '../utils/date';
+import { ArticlePreviewTag } from './article-preview-tag';
+import { ArticlePreviewFavoriteButton } from './article-preview-favorite-button';
 
 export function ArticlePreview(props) {
   const article = useQuery(ArticlePreviewQuery, {
-    variables: { slug: props.slug }
+    variables: { slug: props.slug },
+    fetchPolicy: 'cache-only'
   });
 
   return article.loading ? (
@@ -17,14 +20,14 @@ export function ArticlePreview(props) {
       <div className="article-meta">
         <Link
           href="/[username]"
-          as={`/${article.data.article.author.username}`}
+          as={`/${article.data.article.author.profile.username}`}
           shallow
         >
           <a>
             <img
               src={
-                article.data.article.author.imageUrl ??
-                "/images/smiley-cyrus.jpg"
+                article.data.article.author.profile.imageUrl ??
+                '/images/smiley-cyrus.jpg'
               }
             />
           </a>
@@ -32,18 +35,20 @@ export function ArticlePreview(props) {
         <div className="info">
           <Link
             href="/[username]"
-            as={`/${article.data.article.author.username}`}
+            as={`/${article.data.article.author.profile.username}`}
             shallow
           >
-            <a className="author">{article.data.article.author.username}</a>
+            <a className="author">
+              {article.data.article.author.profile.username}
+            </a>
           </Link>
           <time dateTime={article.data.article.createdAt} className="date">
-            {format(new Date(article.data.article.createdAt), "MMMM Qo")}
+            {format(new Date(article.data.article.createdAt), 'MMMM Qo')}
           </time>
         </div>
-        <button className="btn btn-outline-primary btn-sm pull-xs-right">
-          <i className="ion-heart" /> {article.data.article.favoritesCount}
-        </button>
+        {article.data?.article?.slug ? (
+          <ArticlePreviewFavoriteButton slug={article.data.article.slug} />
+        ) : null}
       </div>
       <Link
         href="/article/[slug]"
@@ -67,6 +72,10 @@ export function ArticlePreview(props) {
   );
 }
 
+ArticlePreview.propTypes = {
+  slug: PropTypes.string.isRequired
+};
+
 ArticlePreview.fragments = {
   article: gql`
     fragment ArticlePreviewArticleFragment on Article {
@@ -76,6 +85,7 @@ ArticlePreview.fragments = {
       favoritesCount
       slug
       title
+      ...ArticlePreviewFavoriteButtonArticleFragment
       tagsConnection {
         edges {
           node {
@@ -84,12 +94,15 @@ ArticlePreview.fragments = {
         }
       }
       author {
-        id
-        imageUrl
-        username
+        profile {
+          id
+          imageUrl
+          username
+        }
       }
     }
     ${ArticlePreviewTag.fragments.tag}
+    ${ArticlePreviewFavoriteButton.fragments.article}
   `
 };
 

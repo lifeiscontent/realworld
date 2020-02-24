@@ -1,10 +1,10 @@
-import React from "react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import gql from "graphql-tag";
-import { useQuery } from "@apollo/react-hooks";
-import clsx from "clsx";
-import { ArticlePreview, Sidebar, FeedToggle } from "../containers";
+import React from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import gql from 'graphql-tag';
+import { useQuery } from '@apollo/react-hooks';
+import clsx from 'clsx';
+import { ArticlePreview, Sidebar, FeedToggle } from '../containers';
 
 const FeedPageArticlesQuery = gql`
   query FeedPageArticlesQuery(
@@ -38,11 +38,11 @@ const FeedPageArticlesQuery = gql`
   ${ArticlePreview.fragments.article}
 `;
 
-export default function FeedPage(props) {
+export default function FeedPage() {
   const router = useRouter();
   const variables =
-    typeof router.query.before !== "undefined" ||
-    typeof router.query.after !== "undefined"
+    typeof router.query.before !== 'undefined' ||
+    typeof router.query.after !== 'undefined'
       ? {
           last: router.query.last ? parseInt(router.query.last) : null,
           first: router.query.first ? parseInt(router.query.first) : null,
@@ -70,6 +70,8 @@ export default function FeedPage(props) {
             <FeedToggle />
             {articles.loading ? (
               <div className="article-preview">Loading..</div>
+            ) : articles.data.feedConnection.edges.length === 0 ? (
+              <div className="article-preview" />
             ) : (
               articles.data.feedConnection.edges.map(edge => (
                 <ArticlePreview slug={edge.node.slug} key={edge.node.slug} />
@@ -78,7 +80,7 @@ export default function FeedPage(props) {
             <nav>
               <ul className="pagination">
                 <li
-                  className={clsx("page-item", {
+                  className={clsx('page-item', {
                     disabled: articles.loading
                       ? true
                       : articles.data.feedConnection.pageInfo
@@ -111,7 +113,7 @@ export default function FeedPage(props) {
                   </Link>
                 </li>
                 <li
-                  className={clsx("page-item", {
+                  className={clsx('page-item', {
                     disabled: articles.loading
                       ? true
                       : articles.data.feedConnection.pageInfo.hasNextPage ===

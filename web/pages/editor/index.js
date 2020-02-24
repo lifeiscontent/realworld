@@ -1,18 +1,75 @@
-import React from "react";
-import { Formik, Form } from "formik";
+import React from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { TagsInput } from '../../containers';
+import { FormikSubmitButton, FormikStatusErrors } from '../../components';
+import { useMutation } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
+import * as Yup from 'yup';
+import Router from 'next/router';
 
-export default function EditorPage(props) {
+const validationSchema = Yup.object({
+  input: Yup.object({
+    title: Yup.string()
+      .label('Title')
+      .required(),
+    description: Yup.string()
+      .label('Description')
+      .required(),
+    body: Yup.string()
+      .label('Body')
+      .required(),
+    tagIds: Yup.array(Yup.string())
+      .label('Tags')
+      .required()
+  })
+});
+
+export default function EditorPage() {
+  const [createArticle] = useMutation(EditorPageCreateArticleMutation);
   return (
     <div className="editor-page">
       <div className="container page">
         <div className="row">
           <div className="col-md-10 offset-md-1 col-xs-12">
-            <Formik>
+            <Formik
+              validationSchema={validationSchema}
+              initialValues={{
+                input: { title: '', description: '', body: '', tagIds: [] }
+              }}
+              onSubmit={(values, { setSubmitting, setStatus }) => {
+                createArticle({ variables: values })
+                  .then(res => {
+                    if (res.data.createArticle.errors.length) {
+                      setStatus(res.data.createArticle.errors);
+                      setSubmitting(false);
+                    } else {
+                      Router.push(
+                        '/article/[slug]',
+                        `/article/${res.data.createArticle.article.slug}`,
+                        { shallow: true }
+                      );
+                    }
+                  })
+                  .catch(err => {
+                    console.error(err);
+                    setSubmitting(false);
+                  });
+              }}
+            >
               <Form>
+                <ul className="error-messages">
+                  <ErrorMessage component="li" name="input.title" />
+                  <ErrorMessage component="li" name="input.description" />
+                  <ErrorMessage component="li" name="input.body" />
+                  <ErrorMessage component="li" name="input.tagId" />
+                  <FormikStatusErrors />
+                </ul>
+
                 <fieldset>
                   <fieldset className="form-group">
                     <label>Article Title</label>
-                    <input
+                    <Field
+                      name="input.title"
                       type="text"
                       className="form-control form-control-lg"
                       placeholder="How to build webapps that scale"
@@ -20,7 +77,8 @@ export default function EditorPage(props) {
                   </fieldset>
                   <fieldset className="form-group">
                     <label>Description</label>
-                    <input
+                    <Field
+                      name="input.description"
                       type="text"
                       className="form-control"
                       placeholder="Rock solid process you can follow when building your apps"
@@ -28,7 +86,9 @@ export default function EditorPage(props) {
                   </fieldset>
                   <fieldset className="form-group">
                     <label>Body</label>
-                    <textarea
+                    <Field
+                      name="input.body"
+                      as="textarea"
                       className="form-control"
                       rows={8}
                       placeholder={`# Introducing RealWorld.\n\nIt's a great solution for learning how other frameworks work.`}
@@ -36,26 +96,11 @@ export default function EditorPage(props) {
                   </fieldset>
                   <fieldset className="form-group">
                     <label>Tags</label>
-                    <p>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Press enter to add tag to list"
-                      />
-                    </p>
-                    <div className="tag-list">
-                      <span className="tag-default tag-pill">
-                        <i className="ion-close-round" />
-                        tag
-                      </span>
-                    </div>
+                    <TagsInput name="input.tagIds" />
                   </fieldset>
-                  <button
-                    className="btn btn-lg pull-xs-right btn-primary"
-                    type="button"
-                  >
+                  <FormikSubmitButton className="btn btn-lg pull-xs-right btn-primary">
                     Publish Article
-                  </button>
+                  </FormikSubmitButton>
                 </fieldset>
               </Form>
             </Formik>
@@ -65,3 +110,14 @@ export default function EditorPage(props) {
     </div>
   );
 }
+
+const EditorPageCreateArticleMutation = gql`
+  mutation EditorPageCreateArticleMutation($input: CreateArticleInput!) {
+    createArticle(input: $input) {
+      errors
+      article {
+        slug
+      }
+    }
+  }
+`;

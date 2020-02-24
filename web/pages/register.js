@@ -1,25 +1,41 @@
-import React from "react";
-import Link from "next/link";
-import { Formik, Form, ErrorMessage } from "formik";
-import { FormikSubmitButton } from "../components";
-import * as Yup from "yup";
+import React from 'react';
+import Link from 'next/link';
+import { Formik, Form, ErrorMessage, Field } from 'formik';
+import { FormikSubmitButton, FormikStatusErrors } from '../components';
+import * as Yup from 'yup';
+import gql from 'graphql-tag';
+import { useMutation } from '@apollo/react-hooks';
+import { useRouter } from 'next/router';
 
 const validationSchema = Yup.object({
   input: Yup.object({
     username: Yup.string()
-      .label("Username")
+      .label('Username')
       .required(),
     email: Yup.string()
-      .label("Email")
+      .label('Email')
       .required()
       .email(),
     password: Yup.string()
-      .label("Password")
+      .label('Password')
       .required()
   })
 });
 
-export default function RegisterPage(props) {
+const RegisterPageSignUpMutation = gql`
+  mutation RegisterPageSignUpMutation($input: SignUpInput!) {
+    signUp(input: $input) {
+      user {
+        id
+      }
+      errors
+    }
+  }
+`;
+
+export default function RegisterPage() {
+  const router = useRouter();
+  const [signUp] = useMutation(RegisterPageSignUpMutation);
   return (
     <div className="auth-page">
       <div className="container page">
@@ -33,8 +49,24 @@ export default function RegisterPage(props) {
             </p>
             <Formik
               validationSchema={validationSchema}
+              initialStatus={[]}
               initialValues={{
-                input: { email: "", username: "", password: "" }
+                input: { email: '', username: '', password: '' }
+              }}
+              onSubmit={(values, { setSubmitting, setStatus }) => {
+                signUp({ variables: values })
+                  .then(res => {
+                    if (res.data.signUp.errors.length) {
+                      setStatus(res.data.signUp.errors);
+                      setSubmitting(false);
+                    } else if (res.data.signUp.user) {
+                      router.push('/login', undefined, { shallow: true });
+                    }
+                  })
+                  .catch(err => {
+                    console.error(err);
+                    setSubmitting(false);
+                  });
               }}
             >
               <Form>
@@ -42,30 +74,34 @@ export default function RegisterPage(props) {
                   <ErrorMessage component="li" name="input.username" />
                   <ErrorMessage component="li" name="input.email" />
                   <ErrorMessage component="li" name="input.password" />
+                  <FormikStatusErrors />
                 </ul>
                 <fieldset className="form-group">
                   <label>Username</label>
-                  <input
+                  <Field
                     className="form-control form-control-lg"
                     type="text"
+                    name="input.username"
                     placeholder="john.doe"
                     autoComplete="username"
                   />
                 </fieldset>
                 <fieldset className="form-group">
                   <label>Email</label>
-                  <input
+                  <Field
                     className="form-control form-control-lg"
                     type="email"
+                    name="input.email"
                     placeholder="john.doe@example.com"
                     autoComplete="email"
                   />
                 </fieldset>
                 <fieldset className="form-group">
                   <label>Password</label>
-                  <input
+                  <Field
                     className="form-control form-control-lg"
                     type="password"
+                    name="input.password"
                     placeholder="A secure password"
                     autoComplete="new-password"
                   />

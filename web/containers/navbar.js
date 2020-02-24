@@ -1,9 +1,10 @@
-import React from "react";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import clsx from "clsx";
-import gql from "graphql-tag";
-import { useQuery } from "@apollo/react-hooks";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import clsx from 'clsx';
+import gql from 'graphql-tag';
+import { useQuery } from '@apollo/react-hooks';
 
 function NavLink(props) {
   const router = useRouter();
@@ -11,7 +12,7 @@ function NavLink(props) {
   return (
     <Link href={props.href} as={props.as} shallow={props.shallow}>
       <a
-        className={clsx("nav-link", {
+        className={clsx('nav-link', {
           active: router.pathname === props.href
         })}
       >
@@ -21,15 +22,27 @@ function NavLink(props) {
   );
 }
 
+NavLink.propTypes = {
+  href: PropTypes.string.isRequired,
+  as: PropTypes.string.isRequired,
+  shallow: PropTypes.bool,
+  children: PropTypes.node.isRequired
+};
+
 const NavbarQuery = gql`
   query NavBarQuery {
     viewer {
       id
+      profile {
+        id
+        username
+      }
     }
   }
 `;
 
-export function Navbar(props) {
+export function Navbar() {
+  const [open, setOpen] = useState(false);
   const navbar = useQuery(NavbarQuery);
   return (
     <nav className="navbar navbar-light">
@@ -46,22 +59,58 @@ export function Navbar(props) {
                   &nbsp;New Post
                 </NavLink>
               </li>
-              <li className="nav-item">
-                <NavLink href="/settings" as="/settings" shallow>
-                  <i className="ion-gear-a" />
-                  &nbsp;Settings
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink href="/" as="/" shallow>
-                  Logout
-                </NavLink>
+              <li className={clsx('nav-item dropdown', { open })}>
+                <a
+                  className="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDropdownMenuLink"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded={open}
+                  onClick={event => {
+                    event.preventDefault();
+                    setOpen(!open);
+                  }}
+                >
+                  {navbar.data?.viewer?.profile?.username ?? 'Loading...'}
+                </a>
+                <div
+                  className="dropdown-menu"
+                  aria-labelledby="navbarDropdownMenuLink"
+                >
+                  <Link
+                    href={`/${navbar.data?.viewer?.profile?.username}`}
+                    as={`/${navbar.data?.viewer?.profile?.username}`}
+                    shallow
+                  >
+                    <a className="dropdown-item" onClick={() => setOpen(false)}>
+                      Profile
+                    </a>
+                  </Link>
+                  <Link href="/settings" as="/settings" shallow>
+                    <a className="dropdown-item" onClick={() => setOpen(false)}>
+                      Settings
+                    </a>
+                  </Link>
+                  <Link href="/" as="/" shallow>
+                    <a
+                      className="dropdown-item"
+                      onClick={() => {
+                        setOpen(false);
+                        localStorage.removeItem('token');
+                      }}
+                    >
+                      Logout
+                    </a>
+                  </Link>
+                </div>
               </li>
             </>
           ) : (
             <>
               <li className="nav-item">
-                <NavLink href="/register" as="/login" shallow>
+                <NavLink href="/login" as="/login" shallow>
                   Sign in
                 </NavLink>
               </li>

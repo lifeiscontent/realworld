@@ -17,6 +17,7 @@
     "graphql-tag": "2.10.3",
     "isomorphic-unfetch": "3.0.0",
     "next": "9.2.2",
+    "prop-types": "15.7.2",
     "react": "16.12.0",
     "react-dom": "16.12.0",
     "react-markdown": "4.3.1",
@@ -26,5 +27,14 @@
     "dev": "next",
     "build": "next build",
     "start": "next start"
+  },
+  "devDependencies": {
+    "babel-eslint": "10.0.3",
+    "eslint": "6.8.0",
+    "eslint-config-prettier": "6.10.0",
+    "eslint-plugin-prettier": "3.1.2",
+    "eslint-plugin-react": "7.18.3",
+    "eslint-plugin-react-hooks": "2.4.0",
+    "prettier": "1.19.1"
   }
 }

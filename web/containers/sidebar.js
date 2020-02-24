@@ -1,7 +1,7 @@
-import React from "react";
-import { useQuery } from "@apollo/react-hooks";
-import gql from "graphql-tag";
-import { SidebarTag } from "./sidebar-tag";
+import React from 'react';
+import { useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
+import { SidebarTag } from './sidebar-tag';
 
 const SidebarQuery = gql`
   query SidebarQuery {
@@ -12,7 +12,7 @@ const SidebarQuery = gql`
   ${SidebarTag.fragments.tag}
 `;
 
-export function Sidebar(props) {
+export function Sidebar() {
   const sidebar = useQuery(SidebarQuery);
   return (
     <div className="sidebar">

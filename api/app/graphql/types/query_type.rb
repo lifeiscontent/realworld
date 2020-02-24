@@ -17,9 +17,11 @@ module Types
     end
 
     def articles_connection(tag_name: nil)
-      return Article.all if tag_name.nil?
+      scope = Article.all
+      scope = scope.tagged_with(tag_name) if tag_name.present?
+      scope = scope.order(created_at: :desc)
 
-      Article.tagged_with(tag_name)
+      scope
     end
 
     field :article_by_slug, ArticleType, null: false do
@@ -34,6 +36,12 @@ module Types
 
     def popular_tags
       Tag.most_used
+    end
+
+    field :tags, [TagType], null: false
+
+    def tags
+      Tag.all
     end
 
     field :tag, TagType, null: false do
@@ -52,11 +60,11 @@ module Types
       Comment.find(id)
     end
 
-    field :profile, ProfileType, null: false do
+    field :profile_by_username, ProfileType, null: false do
       argument :username, String, required: true
     end
 
-    def profile(username:)
+    def profile_by_username(username:)
       Profile.find_by(username: username)
     end
 

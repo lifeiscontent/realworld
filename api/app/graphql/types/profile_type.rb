@@ -6,10 +6,7 @@ module Types
     field :username, String, null: false
     field :bio, String, null: false
     field :image_url, String, null: true
-    field :articles_connection, ArticleType.connection_type, null: false,
-                                                             method: :articles
-    field :favorite_articles_connection, ArticleType.connection_type,
-          null: false, method: :favorite_articles
-    field :followers_count, Int, null: false
+    field :user, UserType, null: false
+    expose_authorization_rules :update?, prefix: 'can_'
   end
 end
