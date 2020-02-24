@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import Link from 'next/link';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
@@ -35,6 +35,42 @@ export default function ProfileFavoritesPage() {
     skip: typeof router.query.username === 'undefined'
   });
 
+  const handleUnfavorite = useCallback(
+    (proxy, mutationResult) => {
+      const data = proxy.readQuery({
+        query: ProfileFavoritesPageQuery,
+        variables: {
+          username: router.query.username
+        }
+      });
+
+      proxy.writeQuery({
+        query: ProfileFavoritesPageQuery,
+        variables: {
+          username: router.query.username
+        },
+        data: {
+          ...data,
+          profile: {
+            ...data.profile,
+            user: {
+              ...data.profile.user,
+              favoriteArticlesConnection: {
+                ...data.profile.user.favoriteArticlesConnection,
+                edges: data.profile.user.favoriteArticlesConnection.edges.filter(
+                  edge =>
+                    edge.node.slug !==
+                    mutationResult.data.unfavoriteArticle.article.slug
+                )
+              }
+            }
+          }
+        }
+      });
+    },
+    [router.query.username]
+  );
+
   return (
     <div className="profile-page">
       <UserInfo username={profile.data?.profile?.username} />
@@ -65,7 +101,11 @@ export default function ProfileFavoritesPage() {
             </div>
             {profile.data?.profile?.user?.favoriteArticlesConnection?.edges?.map(
               edge => (
-                <ArticlePreview slug={edge.node.slug} key={edge.node.slug} />
+                <ArticlePreview
+                  slug={edge.node.slug}
+                  key={edge.node.slug}
+                  onUnfavorite={handleUnfavorite}
+                />
               )
             )}
           </div>

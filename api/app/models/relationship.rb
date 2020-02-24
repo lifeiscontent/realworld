@@ -4,7 +4,7 @@ class Relationship < ApplicationRecord
   belongs_to :followed, class_name: 'User', counter_cache: :following_count
   belongs_to :follower, class_name: 'User', counter_cache: :followers_count
 
-  validates :followed_id, presence: true
-  validates :follower_id, presence: true
-  validates :followed_id, uniqueness: { scope: :follower_id }
+  validates :followed, presence: true
+  validates :follower, presence: true
+  validates :followed, uniqueness: { scope: :follower }
 end

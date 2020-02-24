@@ -47,7 +47,10 @@ export function ArticlePreview(props) {
           </time>
         </div>
         {article.data?.article?.slug ? (
-          <ArticlePreviewFavoriteButton slug={article.data.article.slug} />
+          <ArticlePreviewFavoriteButton
+            slug={article.data.article.slug}
+            onUnfavorite={props.onUnfavorite}
+          />
         ) : null}
       </div>
       <Link
@@ -73,7 +76,8 @@ export function ArticlePreview(props) {
 }
 
 ArticlePreview.propTypes = {
-  slug: PropTypes.string.isRequired
+  slug: PropTypes.string.isRequired,
+  onUnfavorite: PropTypes.func
 };
 
 ArticlePreview.fragments = {

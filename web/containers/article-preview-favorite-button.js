@@ -26,7 +26,8 @@ export function ArticlePreviewFavoriteButton(props) {
     {
       variables: {
         slug: props.slug
-      }
+      },
+      update: props.onUnfavorite
     }
   );
 
@@ -65,7 +66,8 @@ export function ArticlePreviewFavoriteButton(props) {
 }
 
 ArticlePreviewFavoriteButton.propTypes = {
-  slug: PropTypes.string.isRequired
+  slug: PropTypes.string.isRequired,
+  onUnfavorite: PropTypes.func
 };
 
 ArticlePreviewFavoriteButton.fragments = {

@@ -3,7 +3,7 @@
 class Tagging < ApplicationRecord
   belongs_to :article
   belongs_to :tag, counter_cache: true
-  validates :article_id, presence: true
-  validates :article_id, uniqueness: { scope: :tag_id }
-  validates :tag_id, presence: true
+  validates :article, presence: true
+  validates :article, uniqueness: { scope: :tag }
+  validates :tag, presence: true
 end

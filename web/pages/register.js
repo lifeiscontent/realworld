@@ -26,7 +26,9 @@ const RegisterPageSignUpMutation = gql`
   mutation RegisterPageSignUpMutation($input: SignUpInput!) {
     signUp(input: $input) {
       user {
-        id
+        profile {
+          username
+        }
       }
       errors
     }

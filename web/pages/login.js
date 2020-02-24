@@ -13,9 +13,7 @@ export const LoginPageSignInMutation = gql`
       token
       user {
         email
-        id
         profile {
-          id
           username
         }
       }
