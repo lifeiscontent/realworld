@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Formik, Form, ErrorMessage, Field } from 'formik';
-import { FormikStatusErrors, FormikSubmitButton } from './formik';
-import { TagsInput } from '../containers';
+import { FormikStatusErrors } from './formik/formik-status-errors';
+import { FormikSubmitButton } from './formik/formik-submit-button';
+import { TagsInput } from '../containers/tags-input';
 
 export function ArticleForm(props) {
   return (

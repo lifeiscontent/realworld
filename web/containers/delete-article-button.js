@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 
 export function DeleteArticleButton(props) {
+  const router = useRouter();
   const deleteArticleButton = useQuery(DeleteArticleButtonQuery, {
     fetchPolicy: 'cache-only',
     variables: {
@@ -31,7 +32,7 @@ export function DeleteArticleButton(props) {
       className="btn btn-outline-danger btn-sm"
       onClick={() => {
         deleteArticle().then(value => {
-          Router.push(
+          router.push(
             '/[username]',
             `/${value.data.deleteArticle.article.author.profile.username}`
           );

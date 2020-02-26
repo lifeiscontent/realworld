@@ -1,11 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 import { Formik, Form, ErrorMessage, Field } from 'formik';
-import {
-  FormikSubmitButton,
-  FormikStatusErrors,
-  withLayout
-} from '../components';
+import { FormikSubmitButton } from '../components/formik/formik-submit-button';
+import { FormikStatusErrors } from '../components/formik/formik-status-errors';
+import { withLayout } from '../components/layout';
 import * as Yup from 'yup';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';

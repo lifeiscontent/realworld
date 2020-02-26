@@ -4,9 +4,11 @@ import { useRouter } from 'next/router';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 import clsx from 'clsx';
-import { ArticlePreview, Sidebar, FeedToggle } from '../containers';
+import { ArticlePreview } from '../containers/article-preview';
+import { Sidebar } from '../containers/sidebar';
+import { FeedToggle } from '../containers/feed-toggle';
 import withApollo from '../lib/with-apollo';
-import { withLayout } from '../components';
+import { withLayout } from '../components/layout';
 import { NetworkStatus } from 'apollo-client';
 
 const HomePageArticlesQuery = gql`
