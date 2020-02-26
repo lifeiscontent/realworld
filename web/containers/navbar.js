@@ -43,6 +43,7 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
   const navbar = useQuery(NavbarQuery);
   if (navbar.loading) return null;
+
   return (
     <nav className="navbar navbar-light">
       <div className="container">
