@@ -3,7 +3,7 @@
 class Session
   include ActiveModel::Model
 
-  attr_accessor :password
+  attr_writer :password
   attr_reader :token, :user, :email
 
   def email=(email)
@@ -21,10 +21,14 @@ class Session
   end
 
   validate do |session|
-    next if session.user.valid_password?(password)
+    next if session.user&.valid_password?(password)
 
     @token = nil if @token.present?
 
     errors.add(:base, 'Email or password is invalid')
   end
+
+  private
+
+  attr_reader :password
 end

@@ -22,15 +22,16 @@ class User < ApplicationRecord
   has_many :favorite_articles, through: :favorites, source: :article
 
   def favorited?(article)
-    favorite_articles.include?(article)
+    favorite_articles.include? article
+  end
+
+  def unfavorited?(article)
+    favorite_articles.exclude? article
   end
 
   def favorite(article)
     favorite_articles << article
-
-    article.reload
-
-    favorited?(article)
+    favorited? article.reload
   rescue ActiveRecord::RecordInvalid
     false
   end
@@ -38,29 +39,25 @@ class User < ApplicationRecord
   def unfavorite(article)
     favorite_articles.destroy(article)
 
-    article.reload
-
-    favorited?(article) == false
+    unfavorited? article.reload
   end
 
   def following?(user)
-    following.include?(user)
+    following.include? user
+  end
+
+  def unfollowing?(user)
+    following.exclude? user
   end
 
   def follow(user)
     following << user
-
-    user.reload
-
-    following?(user)
+    following? user.reload
   end
 
   def unfollow(user)
     following.destroy(user)
-
-    user.reload
-
-    following?(user) == false
+    unfollowing? user.reload
   end
 
   def self.from_jwt(token)

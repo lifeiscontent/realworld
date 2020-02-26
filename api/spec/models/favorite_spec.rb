@@ -9,8 +9,13 @@ RSpec.describe Favorite, type: :model do
   end
 
   describe 'validations' do
-    it { is_expected.to validate_presence_of(:article) }
-    it { is_expected.to validate_presence_of(:user) }
+    let(:user) { create(:user) }
+    let(:author) { create(:author) }
+    let(:article) { create(:article, author: author) }
+
+    subject { create(:favorite, user: user, article: article) }
+
+    it { is_expected.to validate_uniqueness_of(:article_id).scoped_to(:user_id) }
   end
 
   describe 'columns' do

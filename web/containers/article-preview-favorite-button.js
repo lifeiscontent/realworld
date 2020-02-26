@@ -50,14 +50,14 @@ export function ArticlePreviewFavoriteButton(props) {
       button.data.article.canUnfavorite.value) ??
     false;
 
-  const viewerDidFavorite = button.data.article.viewerDidFavorite;
+  const viewerDidFavorite = button.data.article.viewerDidFavorite ?? false;
 
   return isActionable ? (
     <button
       onClick={handleClick}
       className={clsx('btn btn-sm pull-xs-right', {
-        'btn-outline-primary': (viewerDidFavorite ?? false) === false,
-        'btn-primary': viewerDidFavorite ?? false
+        'btn-outline-primary': viewerDidFavorite === false,
+        'btn-primary': viewerDidFavorite
       })}
     >
       <i className="ion-heart" /> {button.data.article.favoritesCount ?? 0}

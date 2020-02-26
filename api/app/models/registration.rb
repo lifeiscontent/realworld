@@ -3,7 +3,7 @@
 class Registration
   include ActiveModel::Model
 
-  delegate :email, :email=, :pasword, :password=, to: :user
+  delegate :email, :email=, :password=, to: :user
   delegate :username, :username=, to: :profile
 
   def user
@@ -12,6 +12,10 @@ class Registration
 
   def profile
     @profile ||= user.build_profile
+  end
+
+  def destroy
+    user.destroy
   end
 
   def save
@@ -30,5 +34,11 @@ class Registration
     registration.profile.tap(&:valid?).errors.full_messages.each do |message|
       errors.add(:profile, message)
     end
+  end
+
+  private
+
+  def password
+    user.password
   end
 end

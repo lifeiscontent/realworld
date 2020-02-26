@@ -29,7 +29,7 @@ end
     password: 'password'
   ) do |user|
     user.save!
-    user.create_profile(username: Faker::Internet.username(separators: []))
+    user.create_profile(username: Faker::Internet.unique.username(separators: []))
     20.times do
       user.articles.build(
         body: Faker::Lorem.paragraph(sentence_count: 10),

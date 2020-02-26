@@ -3,6 +3,12 @@
 require 'rails_helper'
 
 RSpec.describe Article, type: :model do
+  describe 'when persisted' do
+    subject { create(:article, author: create(:author)) }
+
+    it { expect(subject.slug).to be_a(String) }
+  end
+
   describe 'associations' do
     it { is_expected.to belong_to(:author).class_name('User').validate }
     it { is_expected.to have_many(:comments).dependent(:destroy) }
@@ -31,15 +37,10 @@ RSpec.describe Article, type: :model do
     it { is_expected.to have_db_index(:slug).unique }
   end
 
-  describe '.tagged_with' do
+  describe 'methods' do
     subject { described_class }
 
-    it { is_expected.to respond_to(:tagged_with).with(1).argument }
-  end
-
-  describe '.feed_for' do
-    subject { described_class }
-
-    it { is_expected.to respond_to(:feed_for).with(1).argument }
+    it { expect(subject.tagged_with('test')).to be_a(ActiveRecord::Relation) }
+    it { expect(subject.feed_for(User.new)).to be_a(ActiveRecord::Relation) }
   end
 end

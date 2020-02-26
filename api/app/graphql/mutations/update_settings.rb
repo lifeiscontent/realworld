@@ -26,12 +26,12 @@ module Mutations
     field :errors, [String], null: false
 
     def resolve(id:, input:)
-      settings = Settings.new(**input, user: User.find(id))
+      settings = Settings.new(user: User.find(id), **input)
 
       authorize! settings, to: :update?
 
       if settings.save
-        { user: settings.user, profile: settings.profile, errors: [] }
+        { user: settings.user, profile: settings.user.profile, errors: [] }
       else
         { user: nil, profile: nil, errors: settings.errors.full_messages }
       end

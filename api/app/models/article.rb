@@ -13,10 +13,14 @@ class Article < ApplicationRecord
   validates :title, presence: true
 
   def self.feed_for(user)
+    return none unless user.present?
+
     joins(:users).where(author: user.following)
   end
 
   def self.tagged_with(name)
+    return none unless name.present?
+
     joins(:taggings).where(taggings: { tag: Tag.where(name: name) })
   end
 

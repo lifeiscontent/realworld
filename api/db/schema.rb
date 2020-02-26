@@ -71,6 +71,7 @@ ActiveRecord::Schema.define(version: 2020_02_20_200738) do
     t.integer "tag_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["article_id", "tag_id"], name: "index_taggings_on_article_id_and_tag_id", unique: true
     t.index ["article_id"], name: "index_taggings_on_article_id"
     t.index ["tag_id"], name: "index_taggings_on_tag_id"
   end

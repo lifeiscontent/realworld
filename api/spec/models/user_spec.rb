@@ -36,37 +36,19 @@ RSpec.describe User, type: :model do
     it { is_expected.to have_db_index(:reset_password_token).unique }
   end
 
-  describe '#favorited?' do
+  describe 'instance_methods' do
     it { is_expected.to respond_to(:favorited?).with(1).argument }
-  end
-
-  describe '#favorite' do
     it { is_expected.to respond_to(:favorite).with(1).argument }
-  end
-
-  describe '#unfavorite' do
     it { is_expected.to respond_to(:unfavorite).with(1).argument }
-  end
-
-  describe '#following?' do
     it { is_expected.to respond_to(:following?).with(1).argument }
-  end
-
-  describe '#follow' do
     it { is_expected.to respond_to(:follow).with(1).argument }
-  end
-
-  describe '#unfollow' do
     it { is_expected.to respond_to(:unfollow).with(1).argument }
+    it { is_expected.to respond_to(:generate_jwt).with(0).arguments }
   end
 
-  describe '.from_jwt' do
+  describe 'methods' do
     subject { described_class }
 
     it { is_expected.to respond_to(:from_jwt).with(1).argument }
-  end
-
-  describe '#generate_jwt' do
-    it { is_expected.to respond_to(:generate_jwt).with(0).arguments }
   end
 end
