@@ -23,7 +23,7 @@ class Session
   validate do |session|
     next if session.user&.valid_password?(password)
 
-    @token = nil if @token.present?
+    @token = nil
 
     errors.add(:base, 'Email or password is invalid')
   end
