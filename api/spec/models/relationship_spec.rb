@@ -9,8 +9,14 @@ RSpec.describe Relationship, type: :model do
   end
 
   describe 'validations' do
+    let(:followed) { create(:followed) }
+    let(:follower) { create(:follower) }
+
+    subject { create(:relationship, followed: followed, follower: follower) }
+
     it { is_expected.to validate_presence_of(:followed) }
     it { is_expected.to validate_presence_of(:follower) }
+    it { is_expected.to validate_uniqueness_of(:followed_id).scoped_to(:follower_id) }
   end
 
   describe 'columns' do
