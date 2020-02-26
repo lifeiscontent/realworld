@@ -10,7 +10,7 @@ function NavLink(props) {
   const router = useRouter();
 
   return (
-    <Link href={props.href} as={props.as} shallow={props.shallow}>
+    <Link href={props.href} as={props.as}>
       <a
         className={clsx('nav-link', {
           active: router.pathname === props.href
@@ -25,7 +25,6 @@ function NavLink(props) {
 NavLink.propTypes = {
   href: PropTypes.string.isRequired,
   as: PropTypes.string.isRequired,
-  shallow: PropTypes.bool,
   children: PropTypes.node.isRequired
 };
 
@@ -34,7 +33,6 @@ const NavbarQuery = gql`
     viewer {
       id
       profile {
-        id
         username
       }
     }
@@ -44,17 +42,18 @@ const NavbarQuery = gql`
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const navbar = useQuery(NavbarQuery);
+  if (navbar.loading) return null;
   return (
     <nav className="navbar navbar-light">
       <div className="container">
-        <Link href="/" as="/" shallow>
+        <Link href="/" as="/">
           <a className="navbar-brand">conduit</a>
         </Link>
         <ul className="nav navbar-nav pull-xs-right">
-          {navbar.data?.viewer ? (
+          {navbar.data.viewer ? (
             <>
               <li className="nav-item">
-                <NavLink href="/editor" as="/editor" shallow>
+                <NavLink href="/editor" as="/editor">
                   <i className="ion-compose" />
                   &nbsp;New Post
                 </NavLink>
@@ -73,49 +72,48 @@ export function Navbar() {
                     setOpen(!open);
                   }}
                 >
-                  {navbar.data?.viewer?.profile?.username ?? 'Loading...'}
+                  {navbar.data.viewer.profile.username}
                 </a>
                 <div
                   className="dropdown-menu"
                   aria-labelledby="navbarDropdownMenuLink"
                 >
                   <Link
-                    href={`/${navbar.data?.viewer?.profile?.username}`}
-                    as={`/${navbar.data?.viewer?.profile?.username}`}
-                    shallow
+                    href={`/[username]`}
+                    as={`/${navbar.data.viewer.profile.username}`}
                   >
                     <a className="dropdown-item" onClick={() => setOpen(false)}>
                       Profile
                     </a>
                   </Link>
-                  <Link href="/settings" as="/settings" shallow>
+                  <Link href="/settings" as="/settings">
                     <a className="dropdown-item" onClick={() => setOpen(false)}>
                       Settings
                     </a>
                   </Link>
-                  <Link href="/" as="/" shallow>
-                    <a
-                      className="dropdown-item"
-                      onClick={() => {
-                        setOpen(false);
-                        localStorage.removeItem('token');
-                      }}
-                    >
-                      Logout
-                    </a>
-                  </Link>
+                  <button
+                    className="dropdown-item"
+                    onClick={async () => {
+                      setOpen(false);
+                      fetch('/api/logout', { method: 'POST' }).then(() => {
+                        window.location = '/';
+                      });
+                    }}
+                  >
+                    Logout
+                  </button>
                 </div>
               </li>
             </>
           ) : (
             <>
               <li className="nav-item">
-                <NavLink href="/login" as="/login" shallow>
+                <NavLink href="/login" as="/login">
                   Sign in
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink href="/register" as="/register" shallow>
+                <NavLink href="/register" as="/register">
                   Sign up
                 </NavLink>
               </li>

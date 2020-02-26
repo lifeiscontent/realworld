@@ -1,27 +1,19 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import clsx from 'clsx';
-import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
-const FeedToggleQuery = gql`
-  query FeedToggleQuery {
-    viewer {
-      id
-    }
-  }
-`;
-
-export function FeedToggle() {
+export function FeedToggle(props) {
   const router = useRouter();
-  const feed = useQuery(FeedToggleQuery);
+
   return (
     <div className="feed-toggle">
       <ul className="nav nav-pills outline-active">
         <li className="nav-item">
-          {feed.loading === false && feed.data.viewer ? (
-            <Link href="/feed" as="/feed" shallow>
+          {props.userId ? (
+            <Link href="/feed" as="/feed">
               <a
                 className={clsx('nav-link', {
                   active: router.pathname === '/feed'
@@ -35,7 +27,7 @@ export function FeedToggle() {
           )}
         </li>
         <li className="nav-item">
-          <Link href="/" as="/" shallow>
+          <Link href="/" as="/">
             <a
               className={clsx('nav-link', { active: router.pathname === '/' })}
             >
@@ -47,3 +39,15 @@ export function FeedToggle() {
     </div>
   );
 }
+
+FeedToggle.propTypes = {
+  userId: PropTypes.string
+};
+
+FeedToggle.fragments = {
+  user: gql`
+    fragment FeedToggleUserFragment on User {
+      id
+    }
+  `
+};

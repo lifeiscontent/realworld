@@ -6,18 +6,21 @@ import gql from 'graphql-tag';
 
 export function UpdateArticleButton(props) {
   const updateArticleButton = useQuery(UpdateArticleButtonQuery, {
+    fetchPolicy: 'cache-only',
     variables: {
-      slug: props.slug
+      slug: props.articleSlug
     }
   });
 
+  if (updateArticleButton.loading) return null;
+
   const isActionable =
-    updateArticleButton.data?.article?.canUpdate?.value ?? false;
+    updateArticleButton.data.article.canUpdate.value ?? false;
 
   return isActionable ? (
     <Link
       href="/editor/[slug]"
-      as={`/editor/${updateArticleButton.data?.article?.slug}`}
+      as={`/editor/${updateArticleButton.data.article.slug}`}
     >
       <a className="btn btn-outline-secondary btn-sm">
         <i className="ion-edit"></i> Edit Article
@@ -27,7 +30,7 @@ export function UpdateArticleButton(props) {
 }
 
 UpdateArticleButton.propTypes = {
-  slug: PropTypes.string.isRequired
+  articleSlug: PropTypes.string.isRequired
 };
 
 UpdateArticleButton.fragments = {

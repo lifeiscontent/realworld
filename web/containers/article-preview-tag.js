@@ -5,19 +5,17 @@ import gql from 'graphql-tag';
 
 export function ArticlePreviewTag(props) {
   const tag = useQuery(ArticlePreviewTagQuery, {
-    variables: { id: props.id },
-    fetchPolicy: 'cache-only'
+    fetchPolicy: 'cache-only',
+    variables: { id: props.tagId }
   });
 
-  return tag.loading ? (
-    <li className="tag-pill tag-default">Loading...</li>
-  ) : (
-    <li className="tag-pill tag-default">{tag.data.tag.name}</li>
-  );
+  if (tag.loading) return null;
+
+  return <li className="tag-pill tag-default">{tag.data.tag.name}</li>;
 }
 
 ArticlePreviewTag.propTypes = {
-  id: PropTypes.string.isRequired
+  tagId: PropTypes.string.isRequired
 };
 
 ArticlePreviewTag.fragments = {

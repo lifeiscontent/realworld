@@ -7,21 +7,23 @@ export function DeleteCommentButton(props) {
   const deleteCommentButton = useQuery(DeleteCommentButtonQuery, {
     fetchPolicy: 'cache-only',
     variables: {
-      id: props.id
-    },
-    skip: typeof props.id !== 'string'
+      id: props.commentId
+    }
   });
+
   const [deleteComment] = useMutation(
     DeleteCommentButtonDeleteCommentMutation,
     {
       variables: {
-        id: deleteCommentButton.data?.comment?.id
+        id: props.commentId
       },
-      update: props.onDelete
+      update: props.onDeleteComment
     }
   );
+
   const isActionable =
-    deleteCommentButton.data?.comment?.canDelete?.value ?? false;
+    deleteCommentButton.data.comment.canDelete.value ?? false;
+
   return isActionable ? (
     <i
       className="ion-trash-a"
@@ -34,8 +36,8 @@ export function DeleteCommentButton(props) {
 }
 
 DeleteCommentButton.propTypes = {
-  id: PropTypes.string.isRequired,
-  onDelete: PropTypes.func.isRequired
+  commentId: PropTypes.string.isRequired,
+  onDeleteComment: PropTypes.func.isRequired
 };
 
 DeleteCommentButton.fragments = {

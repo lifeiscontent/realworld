@@ -1,10 +1,15 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { FormikSubmitButton, FormikStatusErrors } from '../components';
+import {
+  FormikSubmitButton,
+  FormikStatusErrors,
+  withLayout
+} from '../components';
 import gql from 'graphql-tag';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import * as Yup from 'yup';
 import Router from 'next/router';
+import withApollo from '../lib/with-apollo';
 
 const validationSchema = Yup.object({
   id: Yup.string().required(),
@@ -19,7 +24,7 @@ const validationSchema = Yup.object({
   })
 });
 
-export default function SettingsPage() {
+function SettingsPage() {
   const settings = useQuery(SettingsPageQuery);
   const [updateSettings] = useMutation(SettingsPageUpdateSettingsMutation, {
     update(proxy, mutationResult) {
@@ -38,6 +43,8 @@ export default function SettingsPage() {
     }
   });
 
+  if (settings.loading) return null;
+
   return (
     <div className="settings-page">
       <div className="container page">
@@ -49,12 +56,12 @@ export default function SettingsPage() {
               initialStatus={[]}
               enableReinitialize
               initialValues={{
-                id: settings.data?.viewer?.id,
+                id: settings.data.viewer.id,
                 input: {
-                  email: settings.data?.viewer?.email,
-                  username: settings.data?.viewer?.profile?.username,
-                  bio: settings.data?.viewer?.profile?.bio ?? '',
-                  imageUrl: settings.data?.viewer?.profile?.imageUrl ?? ''
+                  email: settings.data.viewer.email,
+                  username: settings.data.viewer.profile.username,
+                  bio: settings.data.viewer.profile.bio ?? '',
+                  imageUrl: settings.data.viewer.profile.imageUrl ?? ''
                 }
               }}
               onSubmit={(values, { setSubmitting, setStatus }) => {
@@ -66,8 +73,7 @@ export default function SettingsPage() {
                     } else {
                       Router.push(
                         '/[username]',
-                        `/${res.data.updateSettings.user.profile.username}`,
-                        { shallow: true }
+                        `/${res.data.updateSettings.user.profile.username}`
                       );
                     }
                   })
@@ -94,6 +100,7 @@ export default function SettingsPage() {
                       className="form-control form-control-lg"
                       type="text"
                       placeholder="john.doe"
+                      autoComplete="username"
                     />
                   </fieldset>
                   <fieldset className="form-group">
@@ -103,6 +110,7 @@ export default function SettingsPage() {
                       className="form-control form-control-lg"
                       type="email"
                       placeholder="john.doe@example.com"
+                      autoComplete="email"
                     />
                   </fieldset>
                   <fieldset className="form-group">
@@ -112,6 +120,7 @@ export default function SettingsPage() {
                       className="form-control form-control-lg"
                       type="password"
                       placeholder="A secure password"
+                      autoComplete="new-password"
                     />
                   </fieldset>
 
@@ -134,10 +143,7 @@ export default function SettingsPage() {
                       placeholder="http://example.com/your-photo.jpg"
                     />
                   </fieldset>
-                  <FormikSubmitButton
-                    disabled={settings.loading}
-                    className="btn btn-lg btn-primary pull-xs-right"
-                  >
+                  <FormikSubmitButton className="btn btn-lg btn-primary pull-xs-right">
                     Update Settings
                   </FormikSubmitButton>
                 </fieldset>
@@ -156,7 +162,6 @@ SettingsPage.fragmants = {
       id
       email
       profile {
-        id
         username
         bio
         imageUrl
@@ -188,3 +193,5 @@ const SettingsPageUpdateSettingsMutation = gql`
   }
   ${SettingsPage.fragmants.user}
 `;
+
+export default withApollo(withLayout(SettingsPage));

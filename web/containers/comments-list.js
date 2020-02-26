@@ -7,22 +7,22 @@ import { CommentForm } from './comment-form';
 
 export function CommentsList(props) {
   const commentsList = useQuery(CommentsListQuery, {
+    fetchPolicy: 'cache-only',
     variables: {
-      slug: props.slug
-    },
-    skip: typeof props.slug !== 'string'
+      slug: props.articleSlug
+    }
   });
 
-  const handleDelete = useCallback(
+  const handleDeleteComment = useCallback(
     (proxy, mutationResult) => {
       const commentsList = proxy.readQuery({
         query: CommentsListQuery,
-        variables: { slug: props.slug }
+        variables: { slug: props.articleSlug }
       });
 
       proxy.writeQuery({
         query: CommentsListQuery,
-        variables: { slug: props.slug },
+        variables: { slug: props.articleSlug },
         data: {
           ...commentsList,
           article: {
@@ -37,19 +37,19 @@ export function CommentsList(props) {
         }
       });
     },
-    [props.slug]
+    [props.articleSlug]
   );
 
-  const handleCreate = useCallback(
+  const handleCreateComment = useCallback(
     (proxy, mutationResult) => {
       const commentsList = proxy.readQuery({
         query: CommentsListQuery,
-        variables: { slug: props.slug }
+        variables: { slug: props.articleSlug }
       });
 
       proxy.writeQuery({
         query: CommentsListQuery,
-        variables: { slug: props.slug },
+        variables: { slug: props.articleSlug },
         data: {
           ...commentsList,
           article: {
@@ -62,43 +62,51 @@ export function CommentsList(props) {
         }
       });
     },
-    [props.slug]
+    [props.articleSlug]
   );
 
   return (
     <>
-      <CommentForm
-        slug={commentsList.data?.article?.slug}
-        onCreate={handleCreate}
-      />
-      {commentsList.loading ? (
-        <div>Loading...</div>
-      ) : (
-        commentsList.data?.article?.comments?.map(comment => (
-          <CommentCard
-            key={comment.id}
-            id={comment.id}
-            onDelete={handleDelete}
-          />
-        ))
-      )}
+      {commentsList.data.article.canCreateComment.value ? (
+        <CommentForm
+          userId={props.userId}
+          articleSlug={props.articleSlug}
+          onCreateComment={handleCreateComment}
+        />
+      ) : null}
+      {commentsList.data.article.comments.map(comment => (
+        <CommentCard
+          key={comment.id}
+          commentId={comment.id}
+          onDeleteComment={handleDeleteComment}
+        />
+      ))}
     </>
   );
 }
 
 CommentsList.propTypes = {
-  slug: PropTypes.string.isRequired
+  userId: PropTypes.string,
+  articleSlug: PropTypes.string.isRequired
 };
 
 CommentsList.fragments = {
+  user: gql`
+    fragment CommentsListUserFragment on User {
+      ...CommentFormUserFragment
+    }
+    ${CommentForm.fragments.user}
+  `,
   article: gql`
     fragment CommentsListArticleFragment on Article {
       slug
       comments {
         ...CommentCardCommentFragment
       }
+      ...CommentFormArticleFragment
     }
     ${CommentCard.fragments.comment}
+    ${CommentForm.fragments.article}
   `
 };
 
@@ -106,6 +114,9 @@ const CommentsListQuery = gql`
   query CommentsListQuery($slug: String!) {
     article: articleBySlug(slug: $slug) {
       ...CommentsListArticleFragment
+      canCreateComment {
+        value
+      }
     }
   }
   ${CommentsList.fragments.article}

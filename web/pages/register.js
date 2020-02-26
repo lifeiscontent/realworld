@@ -1,11 +1,16 @@
 import React from 'react';
 import Link from 'next/link';
 import { Formik, Form, ErrorMessage, Field } from 'formik';
-import { FormikSubmitButton, FormikStatusErrors } from '../components';
+import {
+  FormikSubmitButton,
+  FormikStatusErrors,
+  withLayout
+} from '../components';
 import * as Yup from 'yup';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import { useRouter } from 'next/router';
+import withApollo from '../lib/with-apollo';
 
 const validationSchema = Yup.object({
   input: Yup.object({
@@ -26,6 +31,7 @@ const RegisterPageSignUpMutation = gql`
   mutation RegisterPageSignUpMutation($input: SignUpInput!) {
     signUp(input: $input) {
       user {
+        id
         profile {
           username
         }
@@ -35,7 +41,7 @@ const RegisterPageSignUpMutation = gql`
   }
 `;
 
-export default function RegisterPage() {
+function RegisterPage() {
   const router = useRouter();
   const [signUp] = useMutation(RegisterPageSignUpMutation);
   return (
@@ -45,7 +51,7 @@ export default function RegisterPage() {
           <div className="col-md-6 offset-md-3 col-xs-12">
             <h1 className="text-xs-center">Sign up</h1>
             <p className="text-xs-center">
-              <Link href="/login" as="/login" shallow>
+              <Link href="/login" as="/login">
                 <a>Have an account?</a>
               </Link>
             </p>
@@ -62,7 +68,7 @@ export default function RegisterPage() {
                       setStatus(res.data.signUp.errors);
                       setSubmitting(false);
                     } else if (res.data.signUp.user) {
-                      router.push('/login', undefined, { shallow: true });
+                      router.push('/login', '/login');
                     }
                   })
                   .catch(err => {
@@ -119,3 +125,5 @@ export default function RegisterPage() {
     </div>
   );
 }
+
+export default withApollo(withLayout(RegisterPage));

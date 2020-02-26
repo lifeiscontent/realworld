@@ -5,6 +5,9 @@ import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 import clsx from 'clsx';
 import { ArticlePreview, Sidebar, FeedToggle } from '../containers';
+import withApollo from '../lib/with-apollo';
+import { withLayout } from '../components';
+import { NetworkStatus } from 'apollo-client';
 
 const HomePageArticlesQuery = gql`
   query HomePageArticlesQuery(
@@ -14,6 +17,9 @@ const HomePageArticlesQuery = gql`
     $last: Int
     $tagName: String
   ) {
+    viewer {
+      ...FeedToggleUserFragment
+    }
     articlesConnection(
       after: $after
       before: $before
@@ -34,11 +40,14 @@ const HomePageArticlesQuery = gql`
         }
       }
     }
+    ...SidebarQueryFragment
   }
   ${ArticlePreview.fragments.article}
+  ${FeedToggle.fragments.user}
+  ${Sidebar.fragments.query}
 `;
 
-export default function HomePage() {
+function HomePage() {
   const router = useRouter();
   const variables =
     typeof router.query.before !== 'undefined' ||
@@ -53,8 +62,11 @@ export default function HomePage() {
       : { first: 10, tagName: router.query.tagName };
 
   const articles = useQuery(HomePageArticlesQuery, {
-    variables
+    variables,
+    notifyOnNetworkStatusChange: true
   });
+
+  if (articles.networkStatus == NetworkStatus.loading) return null;
 
   return (
     <div className="home-page">
@@ -67,24 +79,20 @@ export default function HomePage() {
       <div className="container page">
         <div className="row">
           <div className="col-xs-12 col-md-9">
-            <FeedToggle />
-            {articles.loading ? (
-              <div className="article-preview">Loading..</div>
-            ) : articles.data.articlesConnection.edges.length === 0 ? (
-              <div className="article-preview" />
-            ) : (
-              articles.data.articlesConnection.edges.map(edge => (
-                <ArticlePreview slug={edge.node.slug} key={edge.node.slug} />
-              ))
-            )}
+            <FeedToggle userId={articles.data.viewer?.id} />
+            {articles.data.articlesConnection.edges.map(edge => (
+              <ArticlePreview
+                articleSlug={edge.node.slug}
+                key={edge.node.slug}
+              />
+            ))}
             <nav>
               <ul className="pagination">
                 <li
                   className={clsx('page-item', {
-                    disabled: articles.loading
-                      ? true
-                      : articles.data.articlesConnection.pageInfo
-                          .hasPreviousPage === false
+                    disabled:
+                      articles.data.articlesConnection.pageInfo
+                        .hasPreviousPage === false
                   })}
                 >
                   <Link
@@ -92,32 +100,28 @@ export default function HomePage() {
                       pathname: '/',
                       query: router.query.tagName
                         ? {
-                            before: articles.loading
-                              ? null
-                              : articles.data.articlesConnection.pageInfo
-                                  .startCursor,
+                            before:
+                              articles.data.articlesConnection.pageInfo
+                                .startCursor,
                             last: 10,
                             tagName: router.query.tagName
                           }
                         : {
-                            before: articles.loading
-                              ? null
-                              : articles.data.articlesConnection.pageInfo
-                                  .startCursor,
+                            before:
+                              articles.data.articlesConnection.pageInfo
+                                .startCursor,
                             last: 10
                           }
                     }}
-                    shallow
                   >
                     <a className="page-link">Previous</a>
                   </Link>
                 </li>
                 <li
                   className={clsx('page-item', {
-                    disabled: articles.loading
-                      ? true
-                      : articles.data.articlesConnection.pageInfo
-                          .hasNextPage === false
+                    disabled:
+                      articles.data.articlesConnection.pageInfo.hasNextPage ===
+                      false
                   })}
                 >
                   <Link
@@ -125,22 +129,19 @@ export default function HomePage() {
                       pathname: '/',
                       query: router.query.tagName
                         ? {
-                            after: articles.loading
-                              ? null
-                              : articles.data.articlesConnection.pageInfo
-                                  .endCursor,
+                            after:
+                              articles.data.articlesConnection.pageInfo
+                                .endCursor,
                             first: 10,
                             tagName: router.query.tagName
                           }
                         : {
-                            after: articles.loading
-                              ? null
-                              : articles.data.articlesConnection.pageInfo
-                                  .endCursor,
+                            after:
+                              articles.data.articlesConnection.pageInfo
+                                .endCursor,
                             first: 10
                           }
                     }}
-                    shallow
                   >
                     <a className="page-link">Next</a>
                   </Link>
@@ -148,7 +149,6 @@ export default function HomePage() {
               </ul>
             </nav>
           </div>
-
           <div className="col-xs-12 col-md-3">
             <Sidebar />
           </div>
@@ -157,3 +157,5 @@ export default function HomePage() {
     </div>
   );
 }
+
+export default withApollo(withLayout(HomePage));

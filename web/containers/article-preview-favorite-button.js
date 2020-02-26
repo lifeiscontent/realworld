@@ -6,17 +6,17 @@ import clsx from 'clsx';
 
 export function ArticlePreviewFavoriteButton(props) {
   const button = useQuery(ArticlePreviewFavoriteButtonQuery, {
+    fetchPolicy: 'cache-only',
     variables: {
-      slug: props.slug
-    },
-    fetchPolicy: 'cache-only'
+      slug: props.articleSlug
+    }
   });
 
   const [favoriteArticle] = useMutation(
     ArticlePreviewFavoriteButtonFavoriteMutation,
     {
       variables: {
-        slug: props.slug
+        slug: props.articleSlug
       }
     }
   );
@@ -25,18 +25,16 @@ export function ArticlePreviewFavoriteButton(props) {
     ArticlePreviewFavoriteButtonUnfavoriteMutation,
     {
       variables: {
-        slug: props.slug
+        slug: props.articleSlug
       },
-      update: props.onUnfavorite
+      update: props.onUnfavoriteArticle
     }
   );
 
   const handleClick = useCallback(
     event => {
       event.preventDefault();
-      if (typeof button.data?.article?.viewerDidFavorite !== 'boolean') return;
-
-      if (button.data?.article?.viewerDidFavorite) {
+      if (button.data.article.viewerDidFavorite) {
         unfavoriteArticle();
       } else {
         favoriteArticle();
@@ -45,12 +43,14 @@ export function ArticlePreviewFavoriteButton(props) {
     [button.data, favoriteArticle, unfavoriteArticle]
   );
 
+  if (button.loading) return null;
+
   const isActionable =
-    (button.data?.article?.canFavorite?.value ||
-      button.data?.article?.canUnfavorite?.value) ??
+    (button.data.article.canFavorite.value ||
+      button.data.article.canUnfavorite.value) ??
     false;
 
-  const viewerDidFavorite = button.data?.article?.viewerDidFavorite;
+  const viewerDidFavorite = button.data.article.viewerDidFavorite;
 
   return isActionable ? (
     <button
@@ -60,14 +60,14 @@ export function ArticlePreviewFavoriteButton(props) {
         'btn-primary': viewerDidFavorite ?? false
       })}
     >
-      <i className="ion-heart" /> {button.data?.article?.favoritesCount ?? 0}
+      <i className="ion-heart" /> {button.data.article.favoritesCount ?? 0}
     </button>
   ) : null;
 }
 
 ArticlePreviewFavoriteButton.propTypes = {
-  slug: PropTypes.string.isRequired,
-  onUnfavorite: PropTypes.func
+  articleSlug: PropTypes.string.isRequired,
+  onUnfavoriteArticle: PropTypes.func
 };
 
 ArticlePreviewFavoriteButton.fragments = {

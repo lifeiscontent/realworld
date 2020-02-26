@@ -19,9 +19,8 @@ export function FollowUserButton(props) {
   const followButton = useQuery(FollowUserButtonQuery, {
     fetchPolicy: 'cache-only',
     variables: {
-      username: props.username
-    },
-    skip: typeof props.username !== 'string'
+      username: props.profileUsername
+    }
   });
 
   const [followUser] = useMutation(FollowUserButtonFollowUserMutation, {
@@ -32,12 +31,14 @@ export function FollowUserButton(props) {
     variables: { id: followButton.data?.profile?.user?.id }
   });
 
+  if (followButton.loading) return null;
+
   const isActionable =
-    (followButton.data?.profile?.user?.canFollow?.value ||
-      followButton.data?.profile?.user?.canUnfollow?.value) ??
+    (followButton.data.profile.user.canFollow.value ||
+      followButton.data.profile.user.canUnfollow.value) ??
     false;
 
-  const viewerIsFollowing = followButton.data?.profile?.user?.viewerIsFollowing;
+  const viewerIsFollowing = followButton.data.profile.user.viewerIsFollowing;
 
   return isActionable ? (
     <button
@@ -58,13 +59,13 @@ export function FollowUserButton(props) {
       }}
     >
       <i className="ion-plus-round" /> {actionName(viewerIsFollowing)}{' '}
-      {props.username}
+      {props.profileUsername}
     </button>
   ) : null;
 }
 
 FollowUserButton.propTypes = {
-  username: PropTypes.string.isRequired
+  profileUsername: PropTypes.string.isRequired
 };
 
 const userFragment = gql`

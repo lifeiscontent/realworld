@@ -1,15 +1,10 @@
 import React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { TagsInput } from '../../containers';
-import {
-  FormikSubmitButton,
-  FormikStatusErrors,
-  ArticleForm
-} from '../../components';
+import { ArticleForm, withLayout } from '../../components';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import * as Yup from 'yup';
 import Router from 'next/router';
+import withApollo from '../../lib/with-apollo';
 
 const validationSchema = Yup.object({
   input: Yup.object({
@@ -28,7 +23,7 @@ const validationSchema = Yup.object({
   })
 });
 
-export default function EditorPage() {
+function EditorPage() {
   const [createArticle] = useMutation(EditorPageCreateArticleMutation);
   return (
     <div className="editor-page">
@@ -49,8 +44,7 @@ export default function EditorPage() {
                     } else {
                       Router.push(
                         '/article/[slug]',
-                        `/article/${res.data.createArticle.article.slug}`,
-                        { shallow: true }
+                        `/article/${res.data.createArticle.article.slug}`
                       );
                     }
                   })
@@ -77,3 +71,5 @@ const EditorPageCreateArticleMutation = gql`
     }
   }
 `;
+
+export default withApollo(withLayout(EditorPage));

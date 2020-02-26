@@ -7,12 +7,13 @@ import { FollowUserButton } from './follow-user-button';
 
 export function UserInfo(props) {
   const userInfo = useQuery(UserInfoQuery, {
-    variables: {
-      username: props.username
-    },
     fetchPolicy: 'cache-only',
-    skip: typeof props.username !== 'string'
+    variables: {
+      username: props.profileUsername
+    }
   });
+
+  if (userInfo.loading) return null;
 
   return (
     <div className="user-info">
@@ -20,23 +21,21 @@ export function UserInfo(props) {
         <div className="row">
           <div className="col-xs-12 col-md-10 offset-md-1">
             <img
-              src={
-                userInfo.data?.profile?.imageUrl ?? '/images/smiley-cyrus.jpg'
-              }
+              src={userInfo.data.profile.imageUrl ?? '/images/smiley-cyrus.jpg'}
               className="user-img"
             />
-            <h4>{userInfo.data?.profile?.username ?? 'Loading...'}</h4>
-            <p>{userInfo.data?.profile?.bio}</p>
+            <h4>{props.profileUsername}</h4>
+            <p>{userInfo.data.profile.bio}</p>
             <div className="btn-toolbar">
-              {userInfo.data?.profile?.user?.canUpdate?.value ? (
-                <Link href="/settings" as="/settings" shallow>
+              {userInfo.data.profile.user.canUpdate.value ? (
+                <Link href="/settings" as="/settings">
                   <a className="btn btn-sm btn-outline-secondary action-btn">
                     <i className="ion-gear-a" />
                     &nbsp; Edit Profile Settings
                   </a>
                 </Link>
               ) : null}{' '}
-              <FollowUserButton username={userInfo.data?.profile?.username} />
+              <FollowUserButton profileUsername={props.profileUsername} />
             </div>
           </div>
         </div>
@@ -46,7 +45,7 @@ export function UserInfo(props) {
 }
 
 UserInfo.propTypes = {
-  username: PropTypes.string.isRequired
+  profileUsername: PropTypes.string.isRequired
 };
 
 UserInfo.fragments = {
@@ -57,6 +56,7 @@ UserInfo.fragments = {
       username
       bio
       user {
+        id
         canUpdate {
           value
         }

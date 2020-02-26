@@ -7,9 +7,11 @@ import { useQuery } from '@apollo/react-hooks';
 
 export function TagsInput(props) {
   const [value, setValue] = useState('');
+
   const tags = useQuery(TagsInputQuery, {
     returnPartialData: true
   });
+
   const [field, , helpers] = useField(props);
   return (
     <>
@@ -46,14 +48,14 @@ export function TagsInput(props) {
           }}
         />
         <datalist id="tags">
-          {tags.data.tags?.map(tag => (
+          {(tags.data?.tags ?? []).map(tag => (
             <option value={tag.name} key={tag.id} />
           ))}
         </datalist>
       </p>
       <div className="tag-list">
         {field.value.map(id => (
-          <TagsInputTag id={id} key={id} />
+          <TagsInputTag tagId={id} key={id} />
         ))}
       </div>
     </>

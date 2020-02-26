@@ -4,6 +4,8 @@ import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/react-hooks';
 import { ArticlePreview, UserInfo } from '../../containers';
+import withApollo from '../../lib/with-apollo';
+import { withLayout } from '../../components';
 
 const ProfileFavoritesPageQuery = gql`
   query ProfileFavoritesPageQuery($username: String!) {
@@ -12,6 +14,7 @@ const ProfileFavoritesPageQuery = gql`
       bio
       ...UserInfoProfileFragment
       user {
+        id
         favoriteArticlesConnection {
           edges {
             node {
@@ -26,16 +29,15 @@ const ProfileFavoritesPageQuery = gql`
   ${ArticlePreview.fragments.article}
 `;
 
-export default function ProfileFavoritesPage() {
+function ProfileFavoritesPage() {
   const router = useRouter();
   const profile = useQuery(ProfileFavoritesPageQuery, {
     variables: {
       username: router.query.username
-    },
-    skip: typeof router.query.username === 'undefined'
+    }
   });
 
-  const handleUnfavorite = useCallback(
+  const handleUnfavoriteArticle = useCallback(
     (proxy, mutationResult) => {
       const data = proxy.readQuery({
         query: ProfileFavoritesPageQuery,
@@ -71,9 +73,11 @@ export default function ProfileFavoritesPage() {
     [router.query.username]
   );
 
+  if (profile.loading) return null;
+
   return (
     <div className="profile-page">
-      <UserInfo username={profile.data?.profile?.username} />
+      <UserInfo profileUsername={profile.data.profile.username} />
       <div className="container">
         <div className="row">
           <div className="col-xs-12 col-md-10 offset-md-1">
@@ -82,8 +86,7 @@ export default function ProfileFavoritesPage() {
                 <li className="nav-item">
                   <Link
                     href="/[username]"
-                    as={`/${profile.data?.profile?.username}`}
-                    shallow
+                    as={`/${profile.data.profile.username}`}
                   >
                     <a className="nav-link">My Articles</a>
                   </Link>
@@ -91,20 +94,19 @@ export default function ProfileFavoritesPage() {
                 <li className="nav-item">
                   <Link
                     href="/[username]/favorites"
-                    as={`/${profile.data?.profile?.username}/favorites`}
-                    shallow
+                    as={`/${profile.data.profile.username}/favorites`}
                   >
                     <a className="nav-link active">Favorited Articles</a>
                   </Link>
                 </li>
               </ul>
             </div>
-            {profile.data?.profile?.user?.favoriteArticlesConnection?.edges?.map(
+            {profile.data.profile.user.favoriteArticlesConnection.edges.map(
               edge => (
                 <ArticlePreview
-                  slug={edge.node.slug}
+                  articleSlug={edge.node.slug}
                   key={edge.node.slug}
-                  onUnfavorite={handleUnfavorite}
+                  onUnfavoriteArticle={handleUnfavoriteArticle}
                 />
               )
             )}
@@ -114,3 +116,5 @@ export default function ProfileFavoritesPage() {
     </div>
   );
 }
+
+export default withApollo(withLayout(ProfileFavoritesPage));
