@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useField } from 'formik';
 import { TagsInputTag } from './tags-input-tag';
@@ -13,6 +13,14 @@ export function TagsInput(props) {
   });
 
   const [field, , helpers] = useField(props);
+
+  const handleRemoveTag = useCallback(
+    tag => {
+      helpers.setValue(field.value.filter(id => id !== tag.id));
+    },
+    [field.value, helpers]
+  );
+
   return (
     <>
       <p>
@@ -55,7 +63,7 @@ export function TagsInput(props) {
       </p>
       <div className="tag-list">
         {field.value.map(id => (
-          <TagsInputTag tagId={id} key={id} />
+          <TagsInputTag tagId={id} key={id} onRemoveTag={handleRemoveTag} />
         ))}
       </div>
     </>

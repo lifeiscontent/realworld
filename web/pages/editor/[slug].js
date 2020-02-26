@@ -81,23 +81,9 @@ function EditorUpdatePage() {
   );
 }
 
-const EditorUpdatePageUpdateArticleMutation = gql`
-  mutation EditorUpdatePageUpdateArticleMutation(
-    $slug: String!
-    $input: UpdateArticleInput!
-  ) {
-    updateArticle(slug: $slug, input: $input) {
-      errors
-      article {
-        slug
-      }
-    }
-  }
-`;
-
-const EditorUpdatePageQuery = gql`
-  query EditorUpdatePageQuery($slug: String!) {
-    article: articleBySlug(slug: $slug) {
+EditorUpdatePage.fragment = {
+  article: gql`
+    fragment EditorUpdatePageArticleFragment on Article {
       body
       description
       slug
@@ -107,7 +93,31 @@ const EditorUpdatePageQuery = gql`
         name
       }
     }
+  `
+};
+
+const EditorUpdatePageUpdateArticleMutation = gql`
+  mutation EditorUpdatePageUpdateArticleMutation(
+    $slug: String!
+    $input: UpdateArticleInput!
+  ) {
+    updateArticle(slug: $slug, input: $input) {
+      errors
+      article {
+        ...EditorUpdatePageArticleFragment
+      }
+    }
   }
+  ${EditorUpdatePage.fragment.article}
+`;
+
+const EditorUpdatePageQuery = gql`
+  query EditorUpdatePageQuery($slug: String!) {
+    article: articleBySlug(slug: $slug) {
+      ...EditorUpdatePageArticleFragment
+    }
+  }
+  ${EditorUpdatePage.fragment.article}
 `;
 
 export default withApollo(withLayout(EditorUpdatePage));
