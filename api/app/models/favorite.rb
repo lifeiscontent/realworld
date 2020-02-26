@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 class Favorite < ApplicationRecord
-  belongs_to :article, counter_cache: true
-  belongs_to :user
-  validates :article, presence: true
-  validates :article, uniqueness: { scope: :user }
+  belongs_to :article, counter_cache: true, validate: true
+  belongs_to :user, validate: true
+  validates :article, presence: true, uniqueness: { scope: :user }
   validates :user, presence: true
 end
