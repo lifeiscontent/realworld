@@ -2,14 +2,9 @@
 
 class Registration
   include ActiveModel::Model
-  include ActiveModel::Callbacks
 
   delegate :email, :email=, :pasword, :password=, to: :user
   delegate :username, :username=, to: :profile
-
-  define_model_callbacks :save, only: [:around]
-
-  around_save :check_valid
 
   def user
     @user ||= User.new
@@ -20,8 +15,10 @@ class Registration
   end
 
   def save
-    run_callbacks :save do
+    if valid?
       user.save
+    else
+      false
     end
   end
 
@@ -33,14 +30,5 @@ class Registration
     registration.profile.tap(&:valid?).errors.full_messages.each do |message|
       errors.add(:profile, message)
     end
-  end
-
-  private
-
-  # used to trigger validations in profile and user
-  def check_valid
-    yield
-
-    valid?
   end
 end

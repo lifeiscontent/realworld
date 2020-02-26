@@ -9,7 +9,7 @@ class Article < ApplicationRecord
   has_many :tags, through: :taggings
   validates :body, presence: true
   validates :description, presence: true
-  validates :slug, presence: true
+  validates :slug, presence: true, uniqueness: true
   validates :title, presence: true
 
   def self.feed_for(user)
@@ -19,6 +19,8 @@ class Article < ApplicationRecord
   def self.tagged_with(name)
     joins(:taggings).where(taggings: { tag: Tag.where(name: name) })
   end
+
+  private
 
   def set_slug
     return unless title_changed?

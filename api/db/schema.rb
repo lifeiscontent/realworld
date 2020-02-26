@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(version: 2020_02_20_200738) do
   end
 
   create_table "profiles", force: :cascade do |t|
-    t.string "username"
+    t.string "username", null: false
     t.text "bio", default: "", null: false
     t.string "image_url"
     t.integer "user_id", null: false

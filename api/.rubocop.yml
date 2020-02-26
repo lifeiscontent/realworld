@@ -1,0 +1,29 @@
+AllCops:
+  Exclude:
+    - db/schema.rb
+Style/HashEachMethods:
+  Enabled: true
+Style/HashTransformKeys:
+  Enabled: true
+Style/HashTransformValues:
+  Enabled: true
+Layout/LineLength:
+  Max: 120
+  Exclude:
+    - config/initializers/**
+    - spec/models/**
+
+Style/Documentation:
+  Enabled: false
+Style/ExpandPathArguments:
+  Exclude:
+    - bin/**
+Style/FrozenStringLiteralComment:
+  Exclude:
+    - bin/**
+Style/MixinUsage:
+  Exclude:
+    - bin/**
+Metrics/BlockLength:
+  Exclude:
+    - spec/models/**
