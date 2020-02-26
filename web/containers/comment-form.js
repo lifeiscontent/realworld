@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { FormikSubmitButton, FormikStatusErrors } from '../components';
+import { FormikSubmitButton } from '../components/formik/formik-submit-button';
+import { FormikStatusErrors } from '../components/formik/formik-status-errors';
 import gql from 'graphql-tag';
 import * as Yup from 'yup';
 import { useQuery, useMutation } from '@apollo/react-hooks';

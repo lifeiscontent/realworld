@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
-import { Navbar } from '../containers';
+import { Navbar } from '../containers/navbar';
 import Link from 'next/link';
 
 export function Layout(props) {

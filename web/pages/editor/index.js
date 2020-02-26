@@ -1,9 +1,10 @@
 import React from 'react';
-import { ArticleForm, withLayout } from '../../components';
+import { ArticleForm } from '../../components/article-form';
+import { withLayout } from '../../components/layout';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import * as Yup from 'yup';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import withApollo from '../../lib/with-apollo';
 
 const validationSchema = Yup.object({
@@ -24,6 +25,7 @@ const validationSchema = Yup.object({
 });
 
 function EditorPage() {
+  const router = useRouter();
   const [createArticle] = useMutation(EditorPageCreateArticleMutation);
   return (
     <div className="editor-page">
@@ -42,7 +44,7 @@ function EditorPage() {
                       setStatus(res.data.createArticle.errors);
                       setSubmitting(false);
                     } else {
-                      Router.push(
+                      router.push(
                         '/article/[slug]',
                         `/article/${res.data.createArticle.article.slug}`
                       );

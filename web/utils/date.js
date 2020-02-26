@@ -1,16 +1,16 @@
 const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December"
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
 ];
 
 const ordinalSuffixOf = i => {
@@ -24,11 +24,11 @@ const ordinalSuffixOf = i => {
 
 export function format(date, format) {
   switch (format) {
-    case "MMM Qo":
+    case 'MMM Qo':
       return `${months[date.getMonth()].substr(0, 3)} ${ordinalSuffixOf(
         date.getDate()
       )}`;
-    case "MMMM Qo":
+    case 'MMMM Qo':
       return `${months[date.getMonth()]} ${ordinalSuffixOf(date.getDate())}`;
     default:
       throw new TypeError(`format ${format} not implemented`);

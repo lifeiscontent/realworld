@@ -3,9 +3,10 @@ import Link from 'next/link';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/react-hooks';
-import { ArticlePreview, UserInfo } from '../containers';
+import { ArticlePreview } from '../containers/article-preview';
+import { UserInfo } from '../containers/user-info';
 import withApollo from '../lib/with-apollo';
-import { withLayout } from '../components';
+import { withLayout } from '../components/layout';
 
 const ProfilePageQuery = gql`
   query ProfilePageQuery($username: String!) {

@@ -1,14 +1,12 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import {
-  FormikSubmitButton,
-  FormikStatusErrors,
-  withLayout
-} from '../components';
+import { FormikSubmitButton } from '../components/formik/formik-submit-button';
+import { FormikStatusErrors } from '../components/formik/formik-status-errors';
+import { withLayout } from '../components/layout';
 import gql from 'graphql-tag';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import * as Yup from 'yup';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import withApollo from '../lib/with-apollo';
 
 const validationSchema = Yup.object({
@@ -25,6 +23,7 @@ const validationSchema = Yup.object({
 });
 
 function SettingsPage() {
+  const router = useRouter();
   const settings = useQuery(SettingsPageQuery);
   const [updateSettings] = useMutation(SettingsPageUpdateSettingsMutation, {
     update(proxy, mutationResult) {
@@ -71,7 +70,7 @@ function SettingsPage() {
                       setStatus(res.data.updateSettings.errors);
                       setSubmitting(false);
                     } else {
-                      Router.push(
+                      router.push(
                         '/[username]',
                         `/${res.data.updateSettings.user.profile.username}`
                       );

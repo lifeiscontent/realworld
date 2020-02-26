@@ -3,9 +3,11 @@ import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 import { useRouter } from 'next/router';
 import Markdown from 'react-markdown';
-import { CommentsList, Banner, ArticleMeta } from '../../containers';
+import { CommentsList } from '../../containers/comments-list';
+import { Banner } from '../../containers/banner';
+import { ArticleMeta } from '../../containers/article-meta';
 import withApollo from '../../lib/with-apollo';
-import { withLayout } from '../../components';
+import { withLayout } from '../../components/layout';
 
 const ArticlePageQuery = gql`
   query ArticlePageQuery($slug: String!) {

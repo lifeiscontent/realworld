@@ -1,5 +1,6 @@
 import React from 'react';
-import { ArticleForm, withLayout } from '../../components';
+import { ArticleForm } from '../../components/article-form';
+import { withLayout } from '../../components/layout';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import * as Yup from 'yup';
