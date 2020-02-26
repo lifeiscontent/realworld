@@ -8,11 +8,11 @@ import { ArticlePreview } from '../containers/article-preview';
 import { Sidebar } from '../containers/sidebar';
 import { FeedToggle } from '../containers/feed-toggle';
 import withApollo from '../lib/with-apollo';
-import { withLayout } from '../components/layout';
+import { Layout } from '../components/layout';
 import { NetworkStatus } from 'apollo-client';
 
-const HomePageArticlesQuery = gql`
-  query HomePageArticlesQuery(
+const IndexPageArticlesQuery = gql`
+  query IndexPageArticlesQuery(
     $after: String
     $before: String
     $first: Int
@@ -21,6 +21,7 @@ const HomePageArticlesQuery = gql`
   ) {
     viewer {
       ...FeedToggleUserFragment
+      ...LayoutUserFragment
     }
     articlesConnection(
       after: $after
@@ -46,10 +47,11 @@ const HomePageArticlesQuery = gql`
   }
   ${ArticlePreview.fragments.article}
   ${FeedToggle.fragments.user}
+  ${Layout.fragments.user}
   ${Sidebar.fragments.query}
 `;
 
-function HomePage() {
+function IndexPage() {
   const router = useRouter();
   const variables =
     typeof router.query.before !== 'undefined' ||
@@ -63,101 +65,105 @@ function HomePage() {
         }
       : { first: 10, tagName: router.query.tagName };
 
-  const articles = useQuery(HomePageArticlesQuery, {
+  const index = useQuery(IndexPageArticlesQuery, {
     variables,
     notifyOnNetworkStatusChange: true
   });
 
-  if (articles.networkStatus == NetworkStatus.loading) return null;
+  if (index.networkStatus == NetworkStatus.loading) return null;
+
+  console.log(index.data);
 
   return (
-    <div className="home-page">
-      <div className="banner">
-        <div className="container">
-          <h1 className="logo-font">conduit</h1>
-          <p>A place to share your knowledge.</p>
-        </div>
-      </div>
-      <div className="container page">
-        <div className="row">
-          <div className="col-xs-12 col-md-9">
-            <FeedToggle userId={articles.data.viewer?.id} />
-            {articles.data.articlesConnection.edges.map(edge => (
-              <ArticlePreview
-                articleSlug={edge.node.slug}
-                key={edge.node.slug}
-              />
-            ))}
-            <nav>
-              <ul className="pagination">
-                <li
-                  className={clsx('page-item', {
-                    disabled:
-                      articles.data.articlesConnection.pageInfo
-                        .hasPreviousPage === false
-                  })}
-                >
-                  <Link
-                    href={{
-                      pathname: '/',
-                      query: router.query.tagName
-                        ? {
-                            before:
-                              articles.data.articlesConnection.pageInfo
-                                .startCursor,
-                            last: 10,
-                            tagName: router.query.tagName
-                          }
-                        : {
-                            before:
-                              articles.data.articlesConnection.pageInfo
-                                .startCursor,
-                            last: 10
-                          }
-                    }}
-                  >
-                    <a className="page-link">Previous</a>
-                  </Link>
-                </li>
-                <li
-                  className={clsx('page-item', {
-                    disabled:
-                      articles.data.articlesConnection.pageInfo.hasNextPage ===
-                      false
-                  })}
-                >
-                  <Link
-                    href={{
-                      pathname: '/',
-                      query: router.query.tagName
-                        ? {
-                            after:
-                              articles.data.articlesConnection.pageInfo
-                                .endCursor,
-                            first: 10,
-                            tagName: router.query.tagName
-                          }
-                        : {
-                            after:
-                              articles.data.articlesConnection.pageInfo
-                                .endCursor,
-                            first: 10
-                          }
-                    }}
-                  >
-                    <a className="page-link">Next</a>
-                  </Link>
-                </li>
-              </ul>
-            </nav>
-          </div>
-          <div className="col-xs-12 col-md-3">
-            <Sidebar />
+    <Layout userId={index.data.viewer?.id}>
+      <div className="home-page">
+        <div className="banner">
+          <div className="container">
+            <h1 className="logo-font">conduit</h1>
+            <p>A place to share your knowledge.</p>
           </div>
         </div>
+        <div className="container page">
+          <div className="row">
+            <div className="col-xs-12 col-md-9">
+              <FeedToggle userId={index.data.viewer?.id} />
+              {index.data.articlesConnection.edges.map(edge => (
+                <ArticlePreview
+                  articleSlug={edge.node.slug}
+                  key={edge.node.slug}
+                />
+              ))}
+              <nav>
+                <ul className="pagination">
+                  <li
+                    className={clsx('page-item', {
+                      disabled:
+                        index.data.articlesConnection.pageInfo
+                          .hasPreviousPage === false
+                    })}
+                  >
+                    <Link
+                      href={{
+                        pathname: '/',
+                        query: router.query.tagName
+                          ? {
+                              before:
+                                index.data.articlesConnection.pageInfo
+                                  .startCursor,
+                              last: 10,
+                              tagName: router.query.tagName
+                            }
+                          : {
+                              before:
+                                index.data.articlesConnection.pageInfo
+                                  .startCursor,
+                              last: 10
+                            }
+                      }}
+                    >
+                      <a className="page-link">Previous</a>
+                    </Link>
+                  </li>
+                  <li
+                    className={clsx('page-item', {
+                      disabled:
+                        index.data.articlesConnection.pageInfo.hasNextPage ===
+                        false
+                    })}
+                  >
+                    <Link
+                      href={{
+                        pathname: '/',
+                        query: router.query.tagName
+                          ? {
+                              after:
+                                index.data.articlesConnection.pageInfo
+                                  .endCursor,
+                              first: 10,
+                              tagName: router.query.tagName
+                            }
+                          : {
+                              after:
+                                index.data.articlesConnection.pageInfo
+                                  .endCursor,
+                              first: 10
+                            }
+                      }}
+                    >
+                      <a className="page-link">Next</a>
+                    </Link>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <div className="col-xs-12 col-md-3">
+              <Sidebar />
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 }
 
-export default withApollo(withLayout(HomePage));
+export default withApollo(IndexPage);

@@ -6,10 +6,13 @@ import { useQuery } from '@apollo/react-hooks';
 import { ArticlePreview } from '../../containers/article-preview';
 import { UserInfo } from '../../containers/user-info';
 import withApollo from '../../lib/with-apollo';
-import { withLayout } from '../../components/layout';
+import { Layout } from '../../components/layout';
 
 const ProfileFavoritesPageQuery = gql`
   query ProfileFavoritesPageQuery($username: String!) {
+    viewer {
+      ...LayoutUserFragment
+    }
     profile: profileByUsername(username: $username) {
       username
       bio
@@ -26,13 +29,14 @@ const ProfileFavoritesPageQuery = gql`
       }
     }
   }
-  ${UserInfo.fragments.profile}
   ${ArticlePreview.fragments.article}
+  ${Layout.fragments.user}
+  ${UserInfo.fragments.profile}
 `;
 
 function ProfileFavoritesPage() {
   const router = useRouter();
-  const profile = useQuery(ProfileFavoritesPageQuery, {
+  const favorites = useQuery(ProfileFavoritesPageQuery, {
     variables: {
       username: router.query.username
     }
@@ -74,48 +78,50 @@ function ProfileFavoritesPage() {
     [router.query.username]
   );
 
-  if (profile.loading) return null;
+  if (favorites.loading) return null;
 
   return (
-    <div className="profile-page">
-      <UserInfo profileUsername={profile.data.profile.username} />
-      <div className="container">
-        <div className="row">
-          <div className="col-xs-12 col-md-10 offset-md-1">
-            <div className="articles-toggle">
-              <ul className="nav nav-pills outline-active">
-                <li className="nav-item">
-                  <Link
-                    href="/[username]"
-                    as={`/${profile.data.profile.username}`}
-                  >
-                    <a className="nav-link">My Articles</a>
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link
-                    href="/[username]/favorites"
-                    as={`/${profile.data.profile.username}/favorites`}
-                  >
-                    <a className="nav-link active">Favorited Articles</a>
-                  </Link>
-                </li>
-              </ul>
+    <Layout userId={favorites.data.viewer?.id}>
+      <div className="profile-page">
+        <UserInfo profileUsername={favorites.data.profile.username} />
+        <div className="container">
+          <div className="row">
+            <div className="col-xs-12 col-md-10 offset-md-1">
+              <div className="articles-toggle">
+                <ul className="nav nav-pills outline-active">
+                  <li className="nav-item">
+                    <Link
+                      href="/[username]"
+                      as={`/${favorites.data.profile.username}`}
+                    >
+                      <a className="nav-link">My Articles</a>
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link
+                      href="/[username]/favorites"
+                      as={`/${favorites.data.profile.username}/favorites`}
+                    >
+                      <a className="nav-link active">Favorited Articles</a>
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+              {favorites.data.profile.user.favoriteArticlesConnection.edges.map(
+                edge => (
+                  <ArticlePreview
+                    articleSlug={edge.node.slug}
+                    key={edge.node.slug}
+                    onUnfavoriteArticle={handleUnfavoriteArticle}
+                  />
+                )
+              )}
             </div>
-            {profile.data.profile.user.favoriteArticlesConnection.edges.map(
-              edge => (
-                <ArticlePreview
-                  articleSlug={edge.node.slug}
-                  key={edge.node.slug}
-                  onUnfavoriteArticle={handleUnfavoriteArticle}
-                />
-              )
-            )}
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }
 
-export default withApollo(withLayout(ProfileFavoritesPage));
+export default withApollo(ProfileFavoritesPage);

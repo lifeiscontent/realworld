@@ -8,6 +8,8 @@ export default (req, res) => {
       headers['Authorization'] = `Bearer ${req.cookies.token}`;
     }
 
+    console.log(headers['Authorization']);
+
     return fetch('http://localhost:4000/graphql', {
       body: JSON.stringify(req.body),
       credentials: 'include',

@@ -28,7 +28,8 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "eslint ."
   },
   "devDependencies": {
     "babel-eslint": "10.0.3",

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Head from 'next/head';
 import { Navbar } from '../containers/navbar';
 import Link from 'next/link';
+import gql from 'graphql-tag';
 
 export function Layout(props) {
   return (
@@ -22,7 +23,7 @@ export function Layout(props) {
         />
         <link rel="stylesheet" href="//demo.productionready.io/main.css" />
       </Head>
-      <Navbar />
+      <Navbar userId={props.userId} />
       {props.children}
       <footer>
         <div className="container">
@@ -41,15 +42,15 @@ export function Layout(props) {
 }
 
 Layout.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
+  userId: PropTypes.string
 };
 
-export function withLayout(Page) {
-  return function WrappedWithPage(props) {
-    return (
-      <Layout>
-        <Page {...props} />
-      </Layout>
-    );
-  };
-}
+Layout.fragments = {
+  user: gql`
+    fragment LayoutUserFragment on User {
+      ...NavbarUserFragment
+    }
+    ${Navbar.fragments.user}
+  `
+};

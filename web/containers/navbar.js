@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import clsx from 'clsx';
+import { NavbarUserDropdown } from './navbar-user-dropdown';
 import gql from 'graphql-tag';
-import { useQuery } from '@apollo/react-hooks';
 
 function NavLink(props) {
   const router = useRouter();
@@ -28,22 +28,7 @@ NavLink.propTypes = {
   children: PropTypes.node.isRequired
 };
 
-const NavbarQuery = gql`
-  query NavBarQuery {
-    viewer {
-      id
-      profile {
-        username
-      }
-    }
-  }
-`;
-
-export function Navbar() {
-  const [open, setOpen] = useState(false);
-  const navbar = useQuery(NavbarQuery);
-  if (navbar.loading) return null;
-
+export function Navbar(props) {
   return (
     <nav className="navbar navbar-light">
       <div className="container">
@@ -51,7 +36,7 @@ export function Navbar() {
           <a className="navbar-brand">conduit</a>
         </Link>
         <ul className="nav navbar-nav pull-xs-right">
-          {navbar.data.viewer ? (
+          {props.userId ? (
             <>
               <li className="nav-item">
                 <NavLink href="/editor" as="/editor">
@@ -59,52 +44,7 @@ export function Navbar() {
                   &nbsp;New Post
                 </NavLink>
               </li>
-              <li className={clsx('nav-item dropdown', { open })}>
-                <a
-                  className="nav-link dropdown-toggle"
-                  href="#"
-                  id="navbarDropdownMenuLink"
-                  role="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded={open}
-                  onClick={event => {
-                    event.preventDefault();
-                    setOpen(!open);
-                  }}
-                >
-                  {navbar.data.viewer.profile.username}
-                </a>
-                <div
-                  className="dropdown-menu"
-                  aria-labelledby="navbarDropdownMenuLink"
-                >
-                  <Link
-                    href={`/[username]`}
-                    as={`/${navbar.data.viewer.profile.username}`}
-                  >
-                    <a className="dropdown-item" onClick={() => setOpen(false)}>
-                      Profile
-                    </a>
-                  </Link>
-                  <Link href="/settings" as="/settings">
-                    <a className="dropdown-item" onClick={() => setOpen(false)}>
-                      Settings
-                    </a>
-                  </Link>
-                  <button
-                    className="dropdown-item"
-                    onClick={async () => {
-                      setOpen(false);
-                      fetch('/api/logout', { method: 'POST' }).then(() => {
-                        window.location = '/';
-                      });
-                    }}
-                  >
-                    Logout
-                  </button>
-                </div>
-              </li>
+              <NavbarUserDropdown userId={props.userId} />
             </>
           ) : (
             <>
@@ -125,3 +65,16 @@ export function Navbar() {
     </nav>
   );
 }
+
+Navbar.propTypes = {
+  userId: PropTypes.string
+};
+
+Navbar.fragments = {
+  user: gql`
+    fragment NavbarUserFragment on User {
+      ...NavbarUserDropdownUserFragment
+    }
+    ${NavbarUserDropdown.fragments.user}
+  `
+};
