@@ -14,6 +14,9 @@ export function CommentCard(props) {
       id: props.commentId
     }
   });
+
+  if (comment.loading) return null;
+
   return (
     <div className="card">
       <div className="card-block">
@@ -33,6 +36,7 @@ export function CommentCard(props) {
                 '/images/smiley-cyrus.jpg'
               }
               className="comment-author-img"
+              alt={`Image of ${comment.data.comment.author.profile.username}`}
             />
           </a>
         </Link>

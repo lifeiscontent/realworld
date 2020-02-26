@@ -23,6 +23,7 @@ export function UserInfo(props) {
             <img
               src={userInfo.data.profile.imageUrl ?? '/images/smiley-cyrus.jpg'}
               className="user-img"
+              alt={`Image of ${userInfo.data.profile.username}`}
             />
             <h4>{props.profileUsername}</h4>
             <p>{userInfo.data.profile.bio}</p>

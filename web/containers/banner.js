@@ -12,6 +12,8 @@ export function Banner(props) {
     }
   });
 
+  if (banner.loading) return null;
+
   return (
     <div className="banner">
       <div className="container">

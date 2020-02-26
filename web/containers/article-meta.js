@@ -31,6 +31,7 @@ export function ArticleMeta(props) {
               article.data.article.author.profile.imageUrl ??
               '/images/smiley-cyrus.jpg'
             }
+            alt={`Image of ${article.data.article.author.profile.username}`}
           />
         </a>
       </Link>

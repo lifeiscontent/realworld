@@ -21,6 +21,8 @@ export function DeleteCommentButton(props) {
     }
   );
 
+  if (deleteCommentButton.loading) return null;
+
   const isActionable =
     deleteCommentButton.data.comment.canDelete.value ?? false;
 

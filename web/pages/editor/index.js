@@ -28,6 +28,9 @@ function EditorPage() {
   const router = useRouter();
   const editor = useQuery(EditorPageQuery);
   const [createArticle] = useMutation(EditorPageCreateArticleMutation);
+
+  if (editor.loading) return null;
+
   return (
     <Layout userId={editor.data.viewer?.id}>
       <div className="editor-page">

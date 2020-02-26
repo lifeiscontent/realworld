@@ -8,42 +8,46 @@ import { ArticlePreviewFavoriteButton } from './article-preview-favorite-button'
 import { format } from '../utils/date';
 
 export function ArticlePreview(props) {
-  const article = useQuery(ArticlePreviewQuery, {
+  const articlePreview = useQuery(ArticlePreviewQuery, {
     fetchPolicy: 'cache-only',
     variables: { slug: props.articleSlug }
   });
 
-  if (article.loading) return null;
+  if (articlePreview.loading) return null;
 
   return (
     <div className="article-preview">
       <div className="article-meta">
         <Link
           href="/[username]"
-          as={`/${article.data.article.author.profile.username}`}
+          as={`/${articlePreview.data.article.author.profile.username}`}
           shallow
         >
           <a>
             <img
               src={
-                article.data.article.author.profile.imageUrl ??
+                articlePreview.data.article.author.profile.imageUrl ??
                 '/images/smiley-cyrus.jpg'
               }
+              alt={`Image of ${articlePreview.data.article.author.profile.username}`}
             />
           </a>
         </Link>
         <div className="info">
           <Link
             href="/[username]"
-            as={`/${article.data.article.author.profile.username}`}
+            as={`/${articlePreview.data.article.author.profile.username}`}
             shallow
           >
             <a className="author">
-              {article.data.article.author.profile.username}
+              {articlePreview.data.article.author.profile.username}
             </a>
           </Link>
-          <time dateTime={article.data.article.createdAt} className="date">
-            {format(new Date(article.data.article.createdAt), 'MMMM Qo')}
+          <time
+            dateTime={articlePreview.data.article.createdAt}
+            className="date"
+          >
+            {format(new Date(articlePreview.data.article.createdAt), 'MMMM Qo')}
           </time>
         </div>
         <ArticlePreviewFavoriteButton
@@ -53,12 +57,12 @@ export function ArticlePreview(props) {
       </div>
       <Link href="/article/[slug]" as={`/article/${props.articleSlug}`}>
         <a className="preview-link">
-          <h1>{article.data.article.title}</h1>
-          <p>{article.data.article.description}</p>
+          <h1>{articlePreview.data.article.title}</h1>
+          <p>{articlePreview.data.article.description}</p>
           <span>Read more...</span>
-          {article.data.article.tags.length ? (
+          {articlePreview.data.article.tags.length ? (
             <ul className="tag-list">
-              {article.data.article.tags.map(tag => (
+              {articlePreview.data.article.tags.map(tag => (
                 <ArticlePreviewTag key={tag.id} tagId={tag.id} />
               ))}
             </ul>

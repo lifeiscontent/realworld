@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 
 export function TagsInputTag(props) {
-  const tag = useQuery(TagsInputTagQuery, {
+  const tagInputTag = useQuery(TagsInputTagQuery, {
     fetchPolicy: 'cache-only',
     variables: {
       id: props.tagId
@@ -12,13 +12,15 @@ export function TagsInputTag(props) {
   });
 
   const handleClick = useCallback(() => {
-    props.onRemoveTag(tag.data.tag);
-  }, [props, tag.data.tag]);
+    props.onRemoveTag(tagInputTag.data.tag);
+  }, [props, tagInputTag.data.tag]);
+
+  if (tagInputTag.loading) return null;
 
   return (
     <span className="tag-default tag-pill">
       <i className="ion-close-round" onClick={handleClick} />
-      {tag.data.tag.name}
+      {tagInputTag.data.tag.name}
     </span>
   );
 }

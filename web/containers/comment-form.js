@@ -31,6 +31,8 @@ export function CommentForm(props) {
     update: props.onCreateComment
   });
 
+  if (commentForm.loading) return null;
+
   return (
     <Formik
       enableReinitialize
@@ -80,6 +82,7 @@ export function CommentForm(props) {
                 '/images/smiley-cyrus.jpg'
               }
               className="comment-author-img"
+              alt={`Image of ${commentForm.data.user.profile.username}`}
             />
             &nbsp;&nbsp;
             <Link

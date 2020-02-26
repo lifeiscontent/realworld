@@ -65,6 +65,8 @@ export function CommentsList(props) {
     [props.articleSlug]
   );
 
+  if (commentsList.loading) return null;
+
   return (
     <>
       {commentsList.data.article.canCreateComment.value ? (
