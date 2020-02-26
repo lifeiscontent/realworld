@@ -5,6 +5,9 @@ import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 import clsx from 'clsx';
 import { ArticlePreview, Sidebar, FeedToggle } from '../containers';
+import withApollo from '../lib/with-apollo';
+import { withLayout } from '../components';
+import { NetworkStatus } from 'apollo-client';
 
 const FeedPageArticlesQuery = gql`
   query FeedPageArticlesQuery(
@@ -14,6 +17,9 @@ const FeedPageArticlesQuery = gql`
     $last: Int
     $tagName: String
   ) {
+    viewer {
+      ...FeedToggleUserFragment
+    }
     feedConnection(
       after: $after
       before: $before
@@ -34,11 +40,14 @@ const FeedPageArticlesQuery = gql`
         }
       }
     }
+    ...SidebarQueryFragment
   }
   ${ArticlePreview.fragments.article}
+  ${FeedToggle.fragments.user}
+  ${Sidebar.fragments.query}
 `;
 
-export default function FeedPage() {
+function FeedPage() {
   const router = useRouter();
   const variables =
     typeof router.query.before !== 'undefined' ||
@@ -53,8 +62,11 @@ export default function FeedPage() {
       : { first: 10, tagName: router.query.tagName };
 
   const articles = useQuery(FeedPageArticlesQuery, {
-    variables
+    variables,
+    notifyOnNetworkStatusChange: true
   });
+
+  if (articles.networkStatus === NetworkStatus.loading) return null;
 
   return (
     <div className="home-page">
@@ -67,24 +79,20 @@ export default function FeedPage() {
       <div className="container page">
         <div className="row">
           <div className="col-xs-12 col-md-9">
-            <FeedToggle />
-            {articles.loading ? (
-              <div className="article-preview">Loading..</div>
-            ) : articles.data.feedConnection.edges.length === 0 ? (
-              <div className="article-preview" />
-            ) : (
-              articles.data.feedConnection.edges.map(edge => (
-                <ArticlePreview slug={edge.node.slug} key={edge.node.slug} />
-              ))
-            )}
+            <FeedToggle userId={articles.data.viewer?.id} />
+            {articles.data.feedConnection.edges.map(edge => (
+              <ArticlePreview
+                articleSlug={edge.node.slug}
+                key={edge.node.slug}
+              />
+            ))}
             <nav>
               <ul className="pagination">
                 <li
                   className={clsx('page-item', {
-                    disabled: articles.loading
-                      ? true
-                      : articles.data.feedConnection.pageInfo
-                          .hasPreviousPage === false
+                    disabled:
+                      articles.data.feedConnection.pageInfo.hasPreviousPage ===
+                      false
                   })}
                 >
                   <Link
@@ -92,32 +100,26 @@ export default function FeedPage() {
                       pathname: router.pathname,
                       query: router.query.tagName
                         ? {
-                            before: articles.loading
-                              ? null
-                              : articles.data.feedConnection.pageInfo
-                                  .startCursor,
+                            before:
+                              articles.data.feedConnection.pageInfo.startCursor,
                             last: 10,
                             tagName: router.query.tagName
                           }
                         : {
-                            before: articles.loading
-                              ? null
-                              : articles.data.feedConnection.pageInfo
-                                  .startCursor,
+                            before:
+                              articles.data.feedConnection.pageInfo.startCursor,
                             last: 10
                           }
                     }}
-                    shallow
                   >
                     <a className="page-link">Previous</a>
                   </Link>
                 </li>
                 <li
                   className={clsx('page-item', {
-                    disabled: articles.loading
-                      ? true
-                      : articles.data.feedConnection.pageInfo.hasNextPage ===
-                        false
+                    disabled:
+                      articles.data.feedConnection.pageInfo.hasNextPage ===
+                      false
                   })}
                 >
                   <Link
@@ -125,20 +127,17 @@ export default function FeedPage() {
                       pathname: router.pathname,
                       query: router.query.tagName
                         ? {
-                            after: articles.loading
-                              ? null
-                              : articles.data.feedConnection.pageInfo.endCursor,
+                            after:
+                              articles.data.feedConnection.pageInfo.endCursor,
                             first: 10,
                             tagName: router.query.tagName
                           }
                         : {
-                            after: articles.loading
-                              ? null
-                              : articles.data.feedConnection.pageInfo.endCursor,
+                            after:
+                              articles.data.feedConnection.pageInfo.endCursor,
                             first: 10
                           }
                     }}
-                    shallow
                   >
                     <a className="page-link">Next</a>
                   </Link>
@@ -154,3 +153,5 @@ export default function FeedPage() {
     </div>
   );
 }
+
+export default withApollo(withLayout(FeedPage));

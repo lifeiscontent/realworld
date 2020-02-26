@@ -8,22 +8,22 @@ export function Banner(props) {
   const banner = useQuery(BannerQuery, {
     fetchPolicy: 'cache-only',
     variables: {
-      slug: props.slug
-    },
-    skip: typeof props.slug !== 'string'
+      slug: props.articleSlug
+    }
   });
+
   return (
     <div className="banner">
       <div className="container">
-        <h1>{banner.data?.article?.title ?? 'Loading...'}</h1>
-        <ArticleMeta slug={props.slug} />
+        <h1>{banner.data.article.title}</h1>
+        <ArticleMeta articleSlug={props.articleSlug} />
       </div>
     </div>
   );
 }
 
 Banner.propTypes = {
-  slug: PropTypes.string.isRequired
+  articleSlug: PropTypes.string.isRequired
 };
 
 Banner.fragments = {

@@ -1,17 +1,22 @@
 import React from 'react';
 import gql from 'graphql-tag';
-import { useRouter } from 'next/router';
 import { Formik, Form, ErrorMessage, Field } from 'formik';
-import { FormikSubmitButton, FormikStatusErrors } from '../components';
+import {
+  FormikSubmitButton,
+  FormikStatusErrors,
+  withLayout
+} from '../components';
 import { useMutation } from '@apollo/react-hooks';
 import * as Yup from 'yup';
+import withApollo from '../lib/with-apollo';
 
-export const LoginPageSignInMutation = gql`
+const LoginPageSignInMutation = gql`
   mutation LoginPageSignInMutation($input: SignInInput!) {
     signIn(input: $input) {
       errors
       token
       user {
+        id
         email
         profile {
           username
@@ -33,8 +38,7 @@ const validationSchema = Yup.object({
   })
 });
 
-export default function LoginPage() {
-  const router = useRouter();
+function LoginPage() {
   const [signIn] = useMutation(LoginPageSignInMutation);
   return (
     <div className="auth-page">
@@ -58,8 +62,12 @@ export default function LoginPage() {
                       setStatus(res.data.signIn.errors);
                       setSubmitting(false);
                     } else if (res.data.signIn.token) {
-                      localStorage.setItem('token', res.data.signIn.token);
-                      router.push('/feed', undefined, { shallow: true });
+                      fetch('/api/login', {
+                        method: 'POST',
+                        body: res.data.signIn.token
+                      }).then(() => {
+                        window.location = '/';
+                      });
                     }
                   })
                   .catch(err => {
@@ -81,6 +89,7 @@ export default function LoginPage() {
                     className="form-control form-control-lg"
                     type="text"
                     placeholder="john.doe@example.com"
+                    autoComplete="email"
                   />
                 </fieldset>
                 <fieldset className="form-group">
@@ -90,6 +99,7 @@ export default function LoginPage() {
                     className="form-control form-control-lg"
                     type="password"
                     placeholder="A strong password"
+                    autoComplete="current-password"
                   />
                 </fieldset>
                 <FormikSubmitButton className="btn btn-lg btn-primary pull-xs-right">
@@ -103,3 +113,5 @@ export default function LoginPage() {
     </div>
   );
 }
+
+export default withApollo(withLayout(LoginPage));

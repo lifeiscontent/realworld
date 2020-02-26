@@ -19,14 +19,15 @@ const validationSchema = Yup.object({
 
 export function CommentForm(props) {
   const commentForm = useQuery(CommentFormQuery, {
+    fetchPolicy: 'cache-only',
     variables: {
-      slug: props.slug
-    },
-    skip: typeof props.slug !== 'string'
+      slug: props.articleSlug,
+      id: props.userId
+    }
   });
 
   const [createComment] = useMutation(CommentFormCreateCommentMutation, {
-    update: props.onCreate
+    update: props.onCreateComment
   });
 
   return (
@@ -34,7 +35,7 @@ export function CommentForm(props) {
       enableReinitialize
       validationSchema={validationSchema}
       initialValues={{
-        articleSlug: commentForm.data?.data?.article?.slug,
+        articleSlug: props.articleSlug,
         input: { body: '' }
       }}
       onSubmit={(values, { setSubmitting, setStatus, resetForm }) => {
@@ -74,7 +75,7 @@ export function CommentForm(props) {
           <div className="card-footer">
             <img
               src={
-                commentForm.data?.viewer?.profile?.imageUrl ??
+                commentForm.data.user.profile.imageUrl ??
                 '/images/smiley-cyrus.jpg'
               }
               className="comment-author-img"
@@ -82,17 +83,13 @@ export function CommentForm(props) {
             &nbsp;&nbsp;
             <Link
               href="/[username]"
-              as={`/${commentForm.data?.viewer?.profile?.username}`}
-              shallow
+              as={`/${commentForm.data.user.profile.username}`}
             >
               <a className="comment-author">
-                {commentForm.data?.viewer?.profile?.username}
+                {commentForm.data.user.profile.username}
               </a>
             </Link>
-            <FormikSubmitButton
-              disabled={commentForm.loading}
-              className="btn btn-sm btn-primary"
-            >
+            <FormikSubmitButton className="btn btn-sm btn-primary">
               Post Comment
             </FormikSubmitButton>
           </div>
@@ -103,26 +100,42 @@ export function CommentForm(props) {
 }
 
 CommentForm.propTypes = {
-  slug: PropTypes.string.isRequired,
-  onCreate: PropTypes.func.isRequired
+  articleSlug: PropTypes.string.isRequired,
+  userId: PropTypes.string.isRequired,
+  onCreateComment: PropTypes.func.isRequired
 };
 
-const CommentFormQuery = gql`
-  query CommentFormQuery($slug: String!) {
-    viewer {
+CommentForm.fragments = {
+  user: gql`
+    fragment CommentFormUserFragment on User {
       id
       profile {
         username
         imageUrl
       }
     }
-    article: articleBySlug(slug: $slug) {
+  `,
+  article: gql`
+    fragment CommentFormArticleFragment on Article {
       slug
       canCreateComment {
         value
       }
     }
+  `
+};
+
+const CommentFormQuery = gql`
+  query CommentFormQuery($id: ID!, $slug: String!) {
+    user(id: $id) {
+      ...CommentFormUserFragment
+    }
+    article: articleBySlug(slug: $slug) {
+      ...CommentFormArticleFragment
+    }
   }
+  ${CommentForm.fragments.user}
+  ${CommentForm.fragments.article}
 `;
 
 const CommentFormCreateCommentMutation = gql`

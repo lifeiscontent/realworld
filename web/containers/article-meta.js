@@ -13,22 +13,22 @@ export function ArticleMeta(props) {
   const article = useQuery(ArticleMetaQuery, {
     fetchPolicy: 'cache-only',
     variables: {
-      slug: props.slug
-    },
-    skip: typeof props.slug !== 'string'
+      slug: props.articleSlug
+    }
   });
+
+  if (article.loading) return null;
 
   return (
     <div className="article-meta">
       <Link
         href="/[username]"
-        as={`/${article.data?.article?.author?.profile?.username}`}
-        shallow
+        as={`/${article.data.article.author.profile.username}`}
       >
         <a>
           <img
             src={
-              article.data?.article?.author?.profile?.imageUrl ??
+              article.data.article.author.profile.imageUrl ??
               '/images/smiley-cyrus.jpg'
             }
           />
@@ -37,31 +37,30 @@ export function ArticleMeta(props) {
       <div className="info">
         <Link
           href="/[username]"
-          as={`/${article.data?.article?.author?.profile?.username}`}
-          shallow
+          as={`/${article.data.article.author.profile.username}`}
         >
           <a className="author">
-            {article.data?.article?.author?.profile?.username}
+            {article.data.article.author.profile.username}
           </a>
         </Link>
-        <time dateTime={article.data?.article?.createdAt} className="date">
-          {article.data?.article?.createdAt
-            ? format(new Date(article.data?.article?.createdAt), 'MMMM Qo')
+        <time dateTime={article.data.article.createdAt} className="date">
+          {article.data.article.createdAt
+            ? format(new Date(article.data.article.createdAt), 'MMMM Qo')
             : null}
         </time>
       </div>
       <FollowUserButton
-        username={article.data?.article?.author?.profile?.username}
+        profileUsername={article.data.article.author.profile.username}
       />{' '}
-      <FavoriteArticleButton slug={article.data?.article?.slug} />{' '}
-      <UpdateArticleButton slug={article.data?.article?.slug} />{' '}
-      <DeleteArticleButton slug={article.data?.article?.slug} />
+      <FavoriteArticleButton articleSlug={props.articleSlug} />{' '}
+      <UpdateArticleButton articleSlug={props.articleSlug} />{' '}
+      <DeleteArticleButton articleSlug={props.articleSlug} />
     </div>
   );
 }
 
 ArticleMeta.propTypes = {
-  slug: PropTypes.string.isRequired
+  articleSlug: PropTypes.string.isRequired
 };
 
 ArticleMeta.fragments = {
@@ -70,6 +69,7 @@ ArticleMeta.fragments = {
       slug
       createdAt
       author {
+        id
         profile {
           imageUrl
           username

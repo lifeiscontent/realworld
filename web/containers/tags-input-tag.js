@@ -5,10 +5,10 @@ import { useQuery } from '@apollo/react-hooks';
 
 export function TagsInputTag(props) {
   const tag = useQuery(TagsInputTagQuery, {
+    fetchPolicy: 'cache-only',
     variables: {
-      id: props.id
-    },
-    fetchPolicy: 'cache-only'
+      id: props.tagId
+    }
   });
 
   return (
@@ -20,7 +20,7 @@ export function TagsInputTag(props) {
 }
 
 TagsInputTag.propTypes = {
-  id: PropTypes.string.isRequired
+  tagId: PropTypes.string.isRequired
 };
 
 TagsInputTag.fragments = {

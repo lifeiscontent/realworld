@@ -13,21 +13,31 @@ const SidebarQuery = gql`
 `;
 
 export function Sidebar() {
-  const sidebar = useQuery(SidebarQuery);
+  const sidebar = useQuery(SidebarQuery, {
+    fetchPolicy: 'cache-only'
+  });
+
+  if (sidebar.loading) return null;
+
   return (
     <div className="sidebar">
       <p>Popular Tags</p>
       <div className="tag-list">
-        {sidebar.loading ? (
-          <a href="#" className="tag-pill">
-            Loading...
-          </a>
-        ) : (
-          sidebar.data.popularTags.map(tag => (
-            <SidebarTag key={tag.id} id={tag.id} />
-          ))
-        )}
+        {sidebar.data.popularTags.map(tag => (
+          <SidebarTag key={tag.id} tagId={tag.id} />
+        ))}
       </div>
     </div>
   );
 }
+
+Sidebar.fragments = {
+  query: gql`
+    fragment SidebarQueryFragment on Query {
+      popularTags {
+        ...SidebarTagTagFragment
+      }
+    }
+    ${SidebarTag.fragments.tag}
+  `
+};

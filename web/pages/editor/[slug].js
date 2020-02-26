@@ -1,9 +1,10 @@
 import React from 'react';
-import { ArticleForm } from '../../components';
+import { ArticleForm, withLayout } from '../../components';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
+import withApollo from '../../lib/with-apollo';
 
 const validationSchema = Yup.object({
   slug: Yup.string()
@@ -25,15 +26,17 @@ const validationSchema = Yup.object({
   })
 });
 
-export default function EditorPage() {
+function EditorUpdatePage() {
   const router = useRouter();
-  const editorPage = useQuery(EditorPageQuery, {
+  const editorUpdatePage = useQuery(EditorUpdatePageQuery, {
     variables: {
       slug: router.query.slug
-    },
-    skip: typeof router.query.slug !== 'string'
+    }
   });
-  const [updateArticle] = useMutation(EditorPageUpdateArticleMutation);
+  const [updateArticle] = useMutation(EditorUpdatePageUpdateArticleMutation);
+
+  if (editorUpdatePage.loading) return null;
+
   return (
     <div className="editor-page">
       <div className="container page">
@@ -42,12 +45,12 @@ export default function EditorPage() {
             <ArticleForm
               validationSchema={validationSchema}
               initialValues={{
-                slug: editorPage.data?.article?.slug ?? '',
+                slug: editorUpdatePage.data.article.slug ?? '',
                 input: {
-                  title: editorPage.data?.article?.title ?? '',
-                  description: editorPage.data?.article?.description ?? '',
-                  body: editorPage.data?.article?.body ?? '',
-                  tagIds: (editorPage.data?.article?.tags ?? []).map(
+                  title: editorUpdatePage.data.article.title ?? '',
+                  description: editorUpdatePage.data.article.description ?? '',
+                  body: editorUpdatePage.data.article.body ?? '',
+                  tagIds: (editorUpdatePage.data.article.tags ?? []).map(
                     tag => tag.id
                   )
                 }
@@ -61,8 +64,7 @@ export default function EditorPage() {
                     } else {
                       router.push(
                         '/article/[slug]',
-                        `/article/${res.data.updateArticle.article.slug}`,
-                        { shallow: true }
+                        `/article/${res.data.updateArticle.article.slug}`
                       );
                     }
                   })
@@ -71,7 +73,6 @@ export default function EditorPage() {
                     setSubmitting(false);
                   });
               }}
-              disabled={editorPage.loading}
             />
           </div>
         </div>
@@ -80,8 +81,8 @@ export default function EditorPage() {
   );
 }
 
-const EditorPageUpdateArticleMutation = gql`
-  mutation EditorPageUpdateArticleMutation(
+const EditorUpdatePageUpdateArticleMutation = gql`
+  mutation EditorUpdatePageUpdateArticleMutation(
     $slug: String!
     $input: UpdateArticleInput!
   ) {
@@ -94,8 +95,8 @@ const EditorPageUpdateArticleMutation = gql`
   }
 `;
 
-const EditorPageQuery = gql`
-  query EditorPageQuery($slug: String!) {
+const EditorUpdatePageQuery = gql`
+  query EditorUpdatePageQuery($slug: String!) {
     article: articleBySlug(slug: $slug) {
       body
       description
@@ -108,3 +109,5 @@ const EditorPageQuery = gql`
     }
   }
 `;
+
+export default withApollo(withLayout(EditorUpdatePage));

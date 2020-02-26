@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
-import Link from 'next/link';
-import withApollo from '../lib/with-apollo';
 import { Navbar } from '../containers';
-import NextApp from 'next/app';
+import Link from 'next/link';
 
-function App({ Component, pageProps }) {
+export function Layout(props) {
   return (
     <>
       <Head>
@@ -25,10 +23,10 @@ function App({ Component, pageProps }) {
         <link rel="stylesheet" href="//demo.productionready.io/main.css" />
       </Head>
       <Navbar />
-      <Component {...pageProps} />
+      {props.children}
       <footer>
         <div className="container">
-          <Link href="/" as="/" shallow>
+          <Link href="/" as="/">
             <a className="logo-font">conduit</a>
           </Link>
           <span className="attribution">
@@ -42,16 +40,16 @@ function App({ Component, pageProps }) {
   );
 }
 
-App.propTypes = {
-  Component: PropTypes.func.isRequired,
-  pageProps: PropTypes.object.isRequired
+Layout.propTypes = {
+  children: PropTypes.node.isRequired
 };
 
-App.getInitialProps = async appContext => {
-  // calls page's `getInitialProps` and fills `appProps.pageProps`
-  const appProps = await NextApp.getInitialProps(appContext);
-
-  return { ...appProps };
-};
-
-export default withApollo(App);
+export function withLayout(Page) {
+  return function WrappedWithPage(props) {
+    return (
+      <Layout>
+        <Page {...props} />
+      </Layout>
+    );
+  };
+}

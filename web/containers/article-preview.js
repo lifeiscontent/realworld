@@ -3,19 +3,19 @@ import PropTypes from 'prop-types';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import Link from 'next/link';
-import { format } from '../utils/date';
 import { ArticlePreviewTag } from './article-preview-tag';
 import { ArticlePreviewFavoriteButton } from './article-preview-favorite-button';
+import { format } from '../utils/date';
 
 export function ArticlePreview(props) {
   const article = useQuery(ArticlePreviewQuery, {
-    variables: { slug: props.slug },
-    fetchPolicy: 'cache-only'
+    fetchPolicy: 'cache-only',
+    variables: { slug: props.articleSlug }
   });
 
-  return article.loading ? (
-    <div className="article-preview">Loading...</div>
-  ) : (
+  if (article.loading) return null;
+
+  return (
     <div className="article-preview">
       <div className="article-meta">
         <Link
@@ -46,18 +46,12 @@ export function ArticlePreview(props) {
             {format(new Date(article.data.article.createdAt), 'MMMM Qo')}
           </time>
         </div>
-        {article.data?.article?.slug ? (
-          <ArticlePreviewFavoriteButton
-            slug={article.data.article.slug}
-            onUnfavorite={props.onUnfavorite}
-          />
-        ) : null}
+        <ArticlePreviewFavoriteButton
+          articleSlug={props.articleSlug}
+          onUnfavoriteArticle={props.onUnfavoriteArticle}
+        />
       </div>
-      <Link
-        href="/article/[slug]"
-        as={`/article/${article.data.article.slug}`}
-        shallow
-      >
+      <Link href="/article/[slug]" as={`/article/${props.articleSlug}`}>
         <a className="preview-link">
           <h1>{article.data.article.title}</h1>
           <p>{article.data.article.description}</p>
@@ -65,7 +59,7 @@ export function ArticlePreview(props) {
           {article.data.article.tags.length ? (
             <ul className="tag-list">
               {article.data.article.tags.map(tag => (
-                <ArticlePreviewTag key={tag.id} id={tag.id} />
+                <ArticlePreviewTag key={tag.id} tagId={tag.id} />
               ))}
             </ul>
           ) : null}
@@ -76,8 +70,8 @@ export function ArticlePreview(props) {
 }
 
 ArticlePreview.propTypes = {
-  slug: PropTypes.string.isRequired,
-  onUnfavorite: PropTypes.func
+  articleSlug: PropTypes.string.isRequired,
+  onUnfavoriteArticle: PropTypes.func
 };
 
 ArticlePreview.fragments = {
@@ -90,7 +84,11 @@ ArticlePreview.fragments = {
       tags {
         ...ArticlePreviewTagTagFragment
       }
+      canFavorite {
+        value
+      }
       author {
+        id
         profile {
           imageUrl
           username

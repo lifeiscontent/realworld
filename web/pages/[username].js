@@ -4,6 +4,8 @@ import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/react-hooks';
 import { ArticlePreview, UserInfo } from '../containers';
+import withApollo from '../lib/with-apollo';
+import { withLayout } from '../components';
 
 const ProfilePageQuery = gql`
   query ProfilePageQuery($username: String!) {
@@ -12,6 +14,7 @@ const ProfilePageQuery = gql`
       bio
       ...UserInfoProfileFragment
       user {
+        id
         articlesConnection {
           edges {
             node {
@@ -26,19 +29,19 @@ const ProfilePageQuery = gql`
   ${UserInfo.fragments.profile}
 `;
 
-export default function ProfilePage() {
+function ProfilePage() {
   const router = useRouter();
   const profile = useQuery(ProfilePageQuery, {
     variables: {
       username: router.query.username
-    },
-    skip: typeof router.query.username === 'undefined'
+    }
   });
+
+  if (profile.loading) return null;
 
   return (
     <div className="profile-page">
-      <UserInfo username={profile.data?.profile?.username} />
-
+      <UserInfo profileUsername={profile.data.profile.username} />
       <div className="container">
         <div className="row">
           <div className="col-xs-12 col-md-10 offset-md-1">
@@ -47,8 +50,7 @@ export default function ProfilePage() {
                 <li className="nav-item">
                   <Link
                     href="/[username]"
-                    as={`/${profile.data?.profile?.username}`}
-                    shallow
+                    as={`/${profile.data.profile.username}`}
                   >
                     <a className="nav-link active">My Articles</a>
                   </Link>
@@ -56,25 +58,24 @@ export default function ProfilePage() {
                 <li className="nav-item">
                   <Link
                     href="/[username]/favorites"
-                    as={`/${profile.data?.profile?.username}/favorites`}
-                    shallow
+                    as={`/${profile.data.profile.username}/favorites`}
                   >
                     <a className="nav-link">Favorited Articles</a>
                   </Link>
                 </li>
               </ul>
             </div>
-            {profile.loading ? (
-              <div className="article-preview">Loading...</div>
-            ) : null}
-            {profile.data?.profile?.user?.articlesConnection?.edges?.map(
-              edge => (
-                <ArticlePreview slug={edge.node.slug} key={edge.node.slug} />
-              )
-            )}
+            {profile.data.profile.user.articlesConnection.edges.map(edge => (
+              <ArticlePreview
+                articleSlug={edge.node.slug}
+                key={edge.node.slug}
+              />
+            ))}
           </div>
         </div>
       </div>
     </div>
   );
 }
+
+export default withApollo(withLayout(ProfilePage));

@@ -9,12 +9,13 @@ import { DeleteCommentButton } from './delete-comment-button';
 
 export function CommentCard(props) {
   const comment = useQuery(CommentCardQuery, {
+    fetchPolicy: 'cache-only',
     variables: {
-      id: props.id
+      id: props.commentId
     }
   });
   return (
-    <div className="card" key={comment.data.comment.id}>
+    <div className="card">
       <div className="card-block">
         <div className="card-text">
           <Markdown source={comment.data.comment.body} />
@@ -24,7 +25,6 @@ export function CommentCard(props) {
         <Link
           href="/[username]"
           as={`/${comment.data.comment.author.profile.username}`}
-          shallow
         >
           <a className="comment-author">
             <img
@@ -40,19 +40,20 @@ export function CommentCard(props) {
         <Link
           href="/[username]"
           as={`/${comment.data.comment.author.profile.username}`}
-          shallow
         >
           <a className="comment-author">
             {comment.data.comment.author.profile.username}
           </a>
         </Link>
         <time dateTime={comment.data.comment.createdAt} className="date-posted">
-          {format(new Date(comment.data.comment.createdAt), 'MMM Qo')}
+          {comment.data.comment.createdAt
+            ? format(new Date(comment.data.comment.createdAt), 'MMM Qo')
+            : null}
         </time>
         <span className="mod-options">
           <DeleteCommentButton
-            id={comment.data.comment.id}
-            onDelete={props.onDelete}
+            commentId={props.commentId}
+            onDeleteComment={props.onDeleteComment}
           />
         </span>
       </div>
@@ -61,8 +62,8 @@ export function CommentCard(props) {
 }
 
 CommentCard.propTypes = {
-  id: PropTypes.string.isRequired,
-  onDelete: PropTypes.func.isRequired
+  commentId: PropTypes.string.isRequired,
+  onDeleteComment: PropTypes.func.isRequired
 };
 
 CommentCard.fragments = {

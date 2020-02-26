@@ -9,22 +9,22 @@ import { useRouter } from 'next/router';
 export function SidebarTag(props) {
   const router = useRouter();
   const tag = useQuery(SidebarTagQuery, {
-    variables: { id: props.id },
-    fetchPolicy: 'cache-only'
+    fetchPolicy: 'cache-only',
+    variables: { id: props.tagId }
   });
-  return tag.loading ? (
-    <span className="tag-pill tag-default">Loading...</span>
-  ) : (
+
+  if (tag.loading) return null;
+
+  return (
     <Link
       href={{
         pathname: router.pathname,
         query: { tagName: tag.data.tag.name }
       }}
       as={{
-        pathname: router.asPath,
+        pathname: router.pathname,
         query: { tagName: tag.data.tag.name }
       }}
-      shallow
     >
       <a
         className={clsx('tag-pill tag-default', {
@@ -38,7 +38,7 @@ export function SidebarTag(props) {
 }
 
 SidebarTag.propTypes = {
-  id: PropTypes.string.isRequired
+  tagId: PropTypes.string.isRequired
 };
 
 SidebarTag.fragments = {

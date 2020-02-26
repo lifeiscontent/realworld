@@ -68,6 +68,14 @@ module Types
       Profile.find_by(username: username)
     end
 
+    field :user, UserType, null: false do
+      argument :id, ID, required: true
+    end
+
+    def user(id:)
+      User.find(id)
+    end
+
     field :viewer, UserType, null: true
 
     def viewer

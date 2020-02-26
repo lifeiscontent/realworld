@@ -8,22 +8,23 @@ export function DeleteArticleButton(props) {
   const deleteArticleButton = useQuery(DeleteArticleButtonQuery, {
     fetchPolicy: 'cache-only',
     variables: {
-      slug: props.slug
-    },
-    skip: typeof props.slug !== 'string'
+      slug: props.articleSlug
+    }
   });
 
   const [deleteArticle] = useMutation(
     DeleteArticleButtonDeleteArticleMutation,
     {
       variables: {
-        slug: deleteArticleButton.data?.article?.slug
+        slug: props.articleSlug
       }
     }
   );
 
+  if (deleteArticleButton.loading) return null;
+
   const isActionable =
-    deleteArticleButton.data?.article?.canDelete?.value ?? false;
+    deleteArticleButton.data.article.canDelete.value ?? false;
 
   return isActionable ? (
     <button
@@ -32,8 +33,7 @@ export function DeleteArticleButton(props) {
         deleteArticle().then(value => {
           Router.push(
             '/[username]',
-            `/${value.data.deleteArticle.article.author.profile.username}`,
-            { shallow: true }
+            `/${value.data.deleteArticle.article.author.profile.username}`
           );
         });
       }}
@@ -44,7 +44,7 @@ export function DeleteArticleButton(props) {
 }
 
 DeleteArticleButton.propTypes = {
-  slug: PropTypes.string.isRequired
+  articleSlug: PropTypes.string.isRequired
 };
 
 DeleteArticleButton.fragments = {
