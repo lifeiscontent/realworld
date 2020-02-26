@@ -8,7 +8,7 @@ import { ArticlePreview } from '../containers/article-preview';
 import { Sidebar } from '../containers/sidebar';
 import { FeedToggle } from '../containers/feed-toggle';
 import withApollo from '../lib/with-apollo';
-import { withLayout } from '../components/layout';
+import { Layout } from '../components/layout';
 import { NetworkStatus } from 'apollo-client';
 
 const FeedPageArticlesQuery = gql`
@@ -21,6 +21,7 @@ const FeedPageArticlesQuery = gql`
   ) {
     viewer {
       ...FeedToggleUserFragment
+      ...LayoutUserFragment
     }
     feedConnection(
       after: $after
@@ -46,6 +47,7 @@ const FeedPageArticlesQuery = gql`
   }
   ${ArticlePreview.fragments.article}
   ${FeedToggle.fragments.user}
+  ${Layout.fragments.user}
   ${Sidebar.fragments.query}
 `;
 
@@ -63,97 +65,98 @@ function FeedPage() {
         }
       : { first: 10, tagName: router.query.tagName };
 
-  const articles = useQuery(FeedPageArticlesQuery, {
+  const feed = useQuery(FeedPageArticlesQuery, {
     variables,
     notifyOnNetworkStatusChange: true
   });
 
-  if (articles.networkStatus === NetworkStatus.loading) return null;
+  if (feed.networkStatus === NetworkStatus.loading) return null;
 
   return (
-    <div className="home-page">
-      <div className="banner">
-        <div className="container">
-          <h1 className="logo-font">conduit</h1>
-          <p>A place to share your knowledge.</p>
-        </div>
-      </div>
-      <div className="container page">
-        <div className="row">
-          <div className="col-xs-12 col-md-9">
-            <FeedToggle userId={articles.data.viewer?.id} />
-            {articles.data.feedConnection.edges.map(edge => (
-              <ArticlePreview
-                articleSlug={edge.node.slug}
-                key={edge.node.slug}
-              />
-            ))}
-            <nav>
-              <ul className="pagination">
-                <li
-                  className={clsx('page-item', {
-                    disabled:
-                      articles.data.feedConnection.pageInfo.hasPreviousPage ===
-                      false
-                  })}
-                >
-                  <Link
-                    href={{
-                      pathname: router.pathname,
-                      query: router.query.tagName
-                        ? {
-                            before:
-                              articles.data.feedConnection.pageInfo.startCursor,
-                            last: 10,
-                            tagName: router.query.tagName
-                          }
-                        : {
-                            before:
-                              articles.data.feedConnection.pageInfo.startCursor,
-                            last: 10
-                          }
-                    }}
-                  >
-                    <a className="page-link">Previous</a>
-                  </Link>
-                </li>
-                <li
-                  className={clsx('page-item', {
-                    disabled:
-                      articles.data.feedConnection.pageInfo.hasNextPage ===
-                      false
-                  })}
-                >
-                  <Link
-                    href={{
-                      pathname: router.pathname,
-                      query: router.query.tagName
-                        ? {
-                            after:
-                              articles.data.feedConnection.pageInfo.endCursor,
-                            first: 10,
-                            tagName: router.query.tagName
-                          }
-                        : {
-                            after:
-                              articles.data.feedConnection.pageInfo.endCursor,
-                            first: 10
-                          }
-                    }}
-                  >
-                    <a className="page-link">Next</a>
-                  </Link>
-                </li>
-              </ul>
-            </nav>
-          </div>
-          <div className="col-xs-12 col-md-3">
-            <Sidebar />
+    <Layout userId={feed.data.viewer?.id}>
+      <div className="home-page">
+        <div className="banner">
+          <div className="container">
+            <h1 className="logo-font">conduit</h1>
+            <p>A place to share your knowledge.</p>
           </div>
         </div>
+        <div className="container page">
+          <div className="row">
+            <div className="col-xs-12 col-md-9">
+              <FeedToggle userId={feed.data.viewer?.id} />
+              {feed.data.feedConnection.edges.map(edge => (
+                <ArticlePreview
+                  articleSlug={edge.node.slug}
+                  key={edge.node.slug}
+                />
+              ))}
+              <nav>
+                <ul className="pagination">
+                  <li
+                    className={clsx('page-item', {
+                      disabled:
+                        feed.data.feedConnection.pageInfo.hasPreviousPage ===
+                        false
+                    })}
+                  >
+                    <Link
+                      href={{
+                        pathname: router.pathname,
+                        query: router.query.tagName
+                          ? {
+                              before:
+                                feed.data.feedConnection.pageInfo.startCursor,
+                              last: 10,
+                              tagName: router.query.tagName
+                            }
+                          : {
+                              before:
+                                feed.data.feedConnection.pageInfo.startCursor,
+                              last: 10
+                            }
+                      }}
+                    >
+                      <a className="page-link">Previous</a>
+                    </Link>
+                  </li>
+                  <li
+                    className={clsx('page-item', {
+                      disabled:
+                        feed.data.feedConnection.pageInfo.hasNextPage === false
+                    })}
+                  >
+                    <Link
+                      href={{
+                        pathname: router.pathname,
+                        query: router.query.tagName
+                          ? {
+                              after:
+                                feed.data.feedConnection.pageInfo.endCursor,
+                              first: 10,
+                              tagName: router.query.tagName
+                            }
+                          : {
+                              after:
+                                feed.data.feedConnection.pageInfo.endCursor,
+                              first: 10
+                            }
+                      }}
+                    >
+                      <a className="page-link">Next</a>
+                    </Link>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <div className="col-xs-12 col-md-3">
+              <Sidebar />
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 }
 
-export default withApollo(withLayout(FeedPage));
+export default withApollo(FeedPage);

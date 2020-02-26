@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import { Formik, Form, ErrorMessage, Field } from 'formik';
 import { FormikSubmitButton } from '../components/formik/formik-submit-button';
 import { FormikStatusErrors } from '../components/formik/formik-status-errors';
-import { withLayout } from '../components/layout';
+import { Layout } from '../components/layout';
 import { useMutation } from '@apollo/react-hooks';
 import * as Yup from 'yup';
 import withApollo from '../lib/with-apollo';
@@ -39,77 +39,79 @@ const validationSchema = Yup.object({
 function LoginPage() {
   const [signIn] = useMutation(LoginPageSignInMutation);
   return (
-    <div className="auth-page">
-      <div className="container page">
-        <div className="row">
-          <div className="col-md-6 offset-md-3 col-xs-12">
-            <h1 className="text-xs-center">Sign in</h1>
-            <p className="text-xs-center">
-              <a href="/register">Need an account?</a>
-            </p>
-            <Formik
-              validationSchema={validationSchema}
-              initialStatus={[]}
-              initialValues={{ input: { email: '', password: '' } }}
-              onSubmit={(values, { setSubmitting, setStatus }) => {
-                signIn({
-                  variables: values
-                })
-                  .then(res => {
-                    if (res.data.signIn.errors.length) {
-                      setStatus(res.data.signIn.errors);
-                      setSubmitting(false);
-                    } else if (res.data.signIn.token) {
-                      fetch('/api/login', {
-                        method: 'POST',
-                        body: res.data.signIn.token
-                      }).then(() => {
-                        window.location = '/';
-                      });
-                    }
+    <Layout>
+      <div className="auth-page">
+        <div className="container page">
+          <div className="row">
+            <div className="col-md-6 offset-md-3 col-xs-12">
+              <h1 className="text-xs-center">Sign in</h1>
+              <p className="text-xs-center">
+                <a href="/register">Need an account?</a>
+              </p>
+              <Formik
+                validationSchema={validationSchema}
+                initialStatus={[]}
+                initialValues={{ input: { email: '', password: '' } }}
+                onSubmit={(values, { setSubmitting, setStatus }) => {
+                  signIn({
+                    variables: values
                   })
-                  .catch(err => {
-                    console.error(err);
-                    setSubmitting(false);
-                  });
-              }}
-            >
-              <Form>
-                <ul className="error-messages">
-                  <ErrorMessage component="li" name="input.email" />
-                  <ErrorMessage component="li" name="input.password" />
-                  <FormikStatusErrors />
-                </ul>
-                <fieldset className="form-group">
-                  <label>Email</label>
-                  <Field
-                    name="input.email"
-                    className="form-control form-control-lg"
-                    type="text"
-                    placeholder="john.doe@example.com"
-                    autoComplete="email"
-                  />
-                </fieldset>
-                <fieldset className="form-group">
-                  <label>Password</label>
-                  <Field
-                    name="input.password"
-                    className="form-control form-control-lg"
-                    type="password"
-                    placeholder="A strong password"
-                    autoComplete="current-password"
-                  />
-                </fieldset>
-                <FormikSubmitButton className="btn btn-lg btn-primary pull-xs-right">
-                  Sign in
-                </FormikSubmitButton>
-              </Form>
-            </Formik>
+                    .then(res => {
+                      if (res.data.signIn.errors.length) {
+                        setStatus(res.data.signIn.errors);
+                        setSubmitting(false);
+                      } else if (res.data.signIn.token) {
+                        fetch('/api/login', {
+                          method: 'POST',
+                          body: res.data.signIn.token
+                        }).then(() => {
+                          window.location = '/';
+                        });
+                      }
+                    })
+                    .catch(err => {
+                      console.error(err);
+                      setSubmitting(false);
+                    });
+                }}
+              >
+                <Form>
+                  <ul className="error-messages">
+                    <ErrorMessage component="li" name="input.email" />
+                    <ErrorMessage component="li" name="input.password" />
+                    <FormikStatusErrors />
+                  </ul>
+                  <fieldset className="form-group">
+                    <label>Email</label>
+                    <Field
+                      name="input.email"
+                      className="form-control form-control-lg"
+                      type="text"
+                      placeholder="john.doe@example.com"
+                      autoComplete="email"
+                    />
+                  </fieldset>
+                  <fieldset className="form-group">
+                    <label>Password</label>
+                    <Field
+                      name="input.password"
+                      className="form-control form-control-lg"
+                      type="password"
+                      placeholder="A strong password"
+                      autoComplete="current-password"
+                    />
+                  </fieldset>
+                  <FormikSubmitButton className="btn btn-lg btn-primary pull-xs-right">
+                    Sign in
+                  </FormikSubmitButton>
+                </Form>
+              </Formik>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }
 
-export default withApollo(withLayout(LoginPage));
+export default withApollo(LoginPage);

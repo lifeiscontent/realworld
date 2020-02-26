@@ -1,7 +1,7 @@
 import React from 'react';
 import { ArticleForm } from '../../components/article-form';
-import { withLayout } from '../../components/layout';
-import { useMutation } from '@apollo/react-hooks';
+import { Layout } from '../../components/layout';
+import { useMutation, useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
@@ -26,40 +26,43 @@ const validationSchema = Yup.object({
 
 function EditorPage() {
   const router = useRouter();
+  const editor = useQuery(EditorPageQuery);
   const [createArticle] = useMutation(EditorPageCreateArticleMutation);
   return (
-    <div className="editor-page">
-      <div className="container page">
-        <div className="row">
-          <div className="col-md-10 offset-md-1 col-xs-12">
-            <ArticleForm
-              validationSchema={validationSchema}
-              initialValues={{
-                input: { title: '', description: '', body: '', tagIds: [] }
-              }}
-              onSubmit={(values, { setSubmitting, setStatus }) => {
-                createArticle({ variables: values })
-                  .then(res => {
-                    if (res.data.createArticle.errors.length) {
-                      setStatus(res.data.createArticle.errors);
+    <Layout userId={editor.data.viewer?.id}>
+      <div className="editor-page">
+        <div className="container page">
+          <div className="row">
+            <div className="col-md-10 offset-md-1 col-xs-12">
+              <ArticleForm
+                validationSchema={validationSchema}
+                initialValues={{
+                  input: { title: '', description: '', body: '', tagIds: [] }
+                }}
+                onSubmit={(values, { setSubmitting, setStatus }) => {
+                  createArticle({ variables: values })
+                    .then(res => {
+                      if (res.data.createArticle.errors.length) {
+                        setStatus(res.data.createArticle.errors);
+                        setSubmitting(false);
+                      } else {
+                        router.push(
+                          '/article/[slug]',
+                          `/article/${res.data.createArticle.article.slug}`
+                        );
+                      }
+                    })
+                    .catch(err => {
+                      console.error(err);
                       setSubmitting(false);
-                    } else {
-                      router.push(
-                        '/article/[slug]',
-                        `/article/${res.data.createArticle.article.slug}`
-                      );
-                    }
-                  })
-                  .catch(err => {
-                    console.error(err);
-                    setSubmitting(false);
-                  });
-              }}
-            />
+                    });
+                }}
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }
 
@@ -74,4 +77,13 @@ const EditorPageCreateArticleMutation = gql`
   }
 `;
 
-export default withApollo(withLayout(EditorPage));
+const EditorPageQuery = gql`
+  query EditorPageQuery {
+    viewer {
+      ...LayoutUserFragment
+    }
+  }
+  ${Layout.fragments.user}
+`;
+
+export default withApollo(EditorPage);
