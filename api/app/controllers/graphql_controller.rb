@@ -31,15 +31,14 @@ class GraphqlController < ApplicationController
   def ensure_hash(ambiguous_param)
     case ambiguous_param
     when String
-      return {} unless ambiguous_param.present?
-
-      ensure_hash(JSON.parse(ambiguous_param))
+      ensure_hash(ambiguous_param.present? ? JSON.parse(ambiguous_param) : {})
     when Hash, ActionController::Parameters
       ambiguous_param
     when nil
       {}
+    else
+      raise ArgumentError, "Unexpected parameter: #{ambiguous_param}"
     end
-    raise ArgumentError, "Unexpected parameter: #{ambiguous_param}"
   end
 
   def handle_error_in_development(error)
