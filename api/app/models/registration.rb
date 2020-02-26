@@ -3,7 +3,7 @@
 class Registration
   include ActiveModel::Model
 
-  delegate :email, :email=, :pasword, :password=, to: :user
+  delegate :email, :email=, :password, :password=, to: :user
   delegate :username, :username=, to: :profile
 
   def user

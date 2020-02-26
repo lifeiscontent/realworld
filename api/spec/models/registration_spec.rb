@@ -16,14 +16,13 @@ RSpec.describe Registration, type: :model do
   end
 
   context 'when invalid?' do
-    subject { Registration.new }
-
     it 'should be invalid' do
       expect(subject).to be_invalid
     end
 
     it 'should not ba able to save' do
       expect(subject.save).to be false
+      expect(subject.errors.size).to be > 0
     end
   end
 
@@ -41,5 +40,29 @@ RSpec.describe Registration, type: :model do
 
   describe '#save' do
     it { is_expected.to respond_to(:save) }
+  end
+
+  describe '#email' do
+    it { is_expected.to delegate_method(:email).to(:user) }
+  end
+
+  describe '#email=' do
+    it { is_expected.to delegate_method(:email=).to(:user).with_arguments('test@example.com') }
+  end
+
+  describe '#username' do
+    it { is_expected.to delegate_method(:username).to(:profile) }
+  end
+
+  describe '#username=' do
+    it { is_expected.to delegate_method(:username=).to(:profile).with_arguments('tester') }
+  end
+
+  describe '#password' do
+    it { is_expected.to delegate_method(:password).to(:user) }
+  end
+
+  describe '#password=' do
+    it { is_expected.to delegate_method(:password=).to(:user).with_arguments('tester') }
   end
 end
