@@ -16,8 +16,6 @@ export function NavbarUserDropdown(props) {
 
   if (navbarUserDropdown.loading) return null;
 
-  console.log(navbarUserDropdown.data, props.userId);
-
   return (
     <li className={clsx('nav-item dropdown', { open })}>
       <a

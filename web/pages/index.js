@@ -72,8 +72,6 @@ function IndexPage() {
 
   if (index.networkStatus == NetworkStatus.loading) return null;
 
-  console.log(index.data);
-
   return (
     <Layout userId={index.data.viewer?.id}>
       <div className="home-page">
