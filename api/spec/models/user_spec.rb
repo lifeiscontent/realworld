@@ -7,8 +7,16 @@ RSpec.describe User, type: :model do
     it { is_expected.to have_one(:profile).autosave(true).dependent(:destroy) }
     it { is_expected.to have_many(:favorites).dependent(:destroy) }
     it { is_expected.to have_many(:favorite_articles).through(:favorites).source(:article) }
-    it { is_expected.to have_many(:active_relationships).class_name('Relationship').with_foreign_key('follower_id').dependent(:destroy) }
-    it { is_expected.to have_many(:passive_relationships).class_name('Relationship').with_foreign_key('followed_id').dependent(:destroy) }
+    it do
+      is_expected.to have_many(:active_relationships).class_name('Relationship')
+                                                     .with_foreign_key('follower_id')
+                                                     .dependent(:destroy)
+    end
+    it do
+      is_expected.to have_many(:passive_relationships).class_name('Relationship')
+                                                      .with_foreign_key('followed_id')
+                                                      .dependent(:destroy)
+    end
     it { is_expected.to have_many(:following).through(:active_relationships).source(:followed) }
     it { is_expected.to have_many(:followers).through(:passive_relationships).source(:follower) }
     it { is_expected.to have_many(:articles).with_foreign_key('author_id').dependent(:destroy) }

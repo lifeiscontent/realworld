@@ -1,6 +1,7 @@
 AllCops:
   Exclude:
     - db/schema.rb
+    - db/migrate/*.rb
 Style/HashEachMethods:
   Enabled: true
 Style/HashTransformKeys:
@@ -9,10 +10,6 @@ Style/HashTransformValues:
   Enabled: true
 Layout/LineLength:
   Max: 120
-  Exclude:
-    - config/initializers/*.rb
-    - spec/**/*.rb
-
 Style/Documentation:
   Enabled: false
 Style/ExpandPathArguments:
@@ -25,5 +22,4 @@ Style/MixinUsage:
   Exclude:
     - bin/**
 Metrics/BlockLength:
-  Exclude:
-    - spec/**/*.rb
+  ExcludedMethods: ["describe", "context"]

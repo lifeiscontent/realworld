@@ -12,7 +12,12 @@ end
 
 RSpec.shared_context 'GraphQL', shared_context: :metadata do
   let(:file_name) { self.class.top_level_description.underscore.parameterize(separator: '_') }
-  let(:result_file_name) { [self.class.top_level_description, self.class.description].join('_').underscore.parameterize(separator: '_') }
+  let(:result_file_name) do
+    [
+      self.class.top_level_description,
+      self.class.description
+    ].join('_').underscore.parameterize(separator: '_')
+  end
   let(:query_string) { file_fixture("graphql/#{file_name}.graphql").read }
   let(:variables) { {} }
   let(:context) { {} }
@@ -20,7 +25,9 @@ RSpec.shared_context 'GraphQL', shared_context: :metadata do
     if File.exist?("spec/fixtures/files/graphql/#{result_file_name}.json")
       JSON.parse(file_fixture("graphql/#{result_file_name}.json").read)
     else
-      File.open("spec/fixtures/files/graphql/#{result_file_name}.json", 'w') { |file| file.write(JSON.pretty_unparse(subject)) }
+      File.open("spec/fixtures/files/graphql/#{result_file_name}.json", 'w') do |file|
+        file.write(JSON.pretty_unparse(subject))
+      end
 
       subject
     end

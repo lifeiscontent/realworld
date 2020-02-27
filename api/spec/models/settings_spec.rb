@@ -16,7 +16,15 @@ RSpec.describe Settings, type: :model do
   context 'when persisted' do
     let(:user) { create(:user, profile: build(:profile)) }
 
-    subject { described_class.new(user: user, email: user.email, password: 'password', bio: 'this is my bio', image_url: '//placehold.it/400x400').tap(&:save) }
+    subject do
+      described_class.new(
+        user: user,
+        email: user.email,
+        password: 'password',
+        bio: 'this is my bio',
+        image_url: '//placehold.it/400x400'
+      ).tap(&:save)
+    end
 
     it 'is valid' do
       expect(subject).to be_valid
