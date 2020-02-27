@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :user, aliases: %i[author followed follower] do
-    email { Faker::Internet.safe_email }
+    sequence(:email) { |n| "person#{n}@example.com" }
     password { 'password' }
   end
 end

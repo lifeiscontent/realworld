@@ -1,0 +1,18 @@
+mutation DeleteCommentButtonDeleteCommentMutation($id: ID!) {
+  deleteComment(id: $id) {
+    comment {
+      ...DeleteCommentButtonCommentFragment
+      __typename
+    }
+    __typename
+  }
+}
+
+fragment DeleteCommentButtonCommentFragment on Comment {
+  id
+  canDelete {
+    value
+    __typename
+  }
+  __typename
+}

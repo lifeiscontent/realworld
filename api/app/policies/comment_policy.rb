@@ -9,11 +9,13 @@ class CommentPolicy < ApplicationPolicy
     owner? || article_author?
   end
 
+  private
+
   def owner?
     user? && record.author_id == user.id
   end
 
   def article_author?
-    user? && Article.where(comments: record, author: user).exists?
+    user? && record.article.author_id == user.id
   end
 end

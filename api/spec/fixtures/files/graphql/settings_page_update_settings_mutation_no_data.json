@@ -1,0 +1,44 @@
+{
+  "errors": [
+    {
+      "message": "Variable $id of type ID! was provided invalid value",
+      "locations": [
+        {
+          "line": 1,
+          "column": 45
+        }
+      ],
+      "extensions": {
+        "value": null,
+        "problems": [
+          {
+            "path": [
+
+            ],
+            "explanation": "Expected value to not be null"
+          }
+        ]
+      }
+    },
+    {
+      "message": "Variable $input of type UpdateSettingsInput! was provided invalid value",
+      "locations": [
+        {
+          "line": 1,
+          "column": 55
+        }
+      ],
+      "extensions": {
+        "value": null,
+        "problems": [
+          {
+            "path": [
+
+            ],
+            "explanation": "Expected value to not be null"
+          }
+        ]
+      }
+    }
+  ]
+}

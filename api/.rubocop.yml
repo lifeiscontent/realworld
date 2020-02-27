@@ -10,8 +10,8 @@ Style/HashTransformValues:
 Layout/LineLength:
   Max: 120
   Exclude:
-    - config/initializers/**
-    - spec/models/**
+    - config/initializers/*.rb
+    - spec/**/*.rb
 
 Style/Documentation:
   Enabled: false
@@ -26,4 +26,4 @@ Style/MixinUsage:
     - bin/**
 Metrics/BlockLength:
   Exclude:
-    - spec/models/**
+    - spec/**/*.rb

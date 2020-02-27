@@ -1,0 +1,175 @@
+query ArticlePageQuery($slug: String!) {
+  viewer {
+    ...CommentsListUserFragment
+    ...LayoutUserFragment
+    __typename
+  }
+  article: articleBySlug(slug: $slug) {
+    slug
+    body
+    ...ArticleMetaArticleFragment
+    ...BannerArticleFragment
+    ...CommentsListArticleFragment
+    __typename
+  }
+}
+
+fragment ArticleMetaArticleFragment on Article {
+  slug
+  createdAt
+  author {
+    id
+    profile {
+      imageUrl
+      username
+      ...FollowUserButtonProfileFragment
+      __typename
+    }
+    __typename
+  }
+  ...DeleteArticleButtonArticleFragment
+  ...FavoriteArticleButtonArticleFragment
+  ...UpdateArticleButtonArticleFragment
+  __typename
+}
+
+fragment DeleteArticleButtonArticleFragment on Article {
+  slug
+  canDelete {
+    value
+    __typename
+  }
+  __typename
+}
+
+fragment FavoriteArticleButtonArticleFragment on Article {
+  slug
+  favoritesCount
+  viewerDidFavorite
+  canFavorite {
+    value
+    __typename
+  }
+  canUnfavorite {
+    value
+    __typename
+  }
+  __typename
+}
+
+fragment FollowUserButtonProfileFragment on Profile {
+  username
+  user {
+    ...FollowUserButtonUserFragment
+    __typename
+  }
+  __typename
+}
+
+fragment FollowUserButtonUserFragment on User {
+  id
+  viewerIsFollowing
+  canFollow {
+    value
+    __typename
+  }
+  canUnfollow {
+    value
+    __typename
+  }
+  __typename
+}
+
+fragment UpdateArticleButtonArticleFragment on Article {
+  slug
+  canUpdate {
+    value
+    __typename
+  }
+  __typename
+}
+
+fragment BannerArticleFragment on Article {
+  slug
+  title
+  ...ArticleMetaArticleFragment
+  __typename
+}
+
+fragment CommentsListArticleFragment on Article {
+  slug
+  comments {
+    ...CommentCardCommentFragment
+    __typename
+  }
+  ...CommentFormArticleFragment
+  __typename
+}
+
+fragment CommentCardCommentFragment on Comment {
+  id
+  body
+  createdAt
+  author {
+    profile {
+      imageUrl
+      username
+      __typename
+    }
+    __typename
+  }
+  ...DeleteCommentButtonCommentFragment
+  __typename
+}
+
+fragment DeleteCommentButtonCommentFragment on Comment {
+  id
+  canDelete {
+    value
+    __typename
+  }
+  __typename
+}
+
+fragment CommentFormArticleFragment on Article {
+  slug
+  canCreateComment {
+    value
+    __typename
+  }
+  __typename
+}
+
+fragment CommentsListUserFragment on User {
+  ...CommentFormUserFragment
+  __typename
+}
+
+fragment CommentFormUserFragment on User {
+  id
+  profile {
+    username
+    imageUrl
+    __typename
+  }
+  __typename
+}
+
+fragment LayoutUserFragment on User {
+  ...NavbarUserFragment
+  __typename
+}
+
+fragment NavbarUserFragment on User {
+  ...NavbarUserDropdownUserFragment
+  __typename
+}
+
+fragment NavbarUserDropdownUserFragment on User {
+  id
+  profile {
+    username
+    __typename
+  }
+  __typename
+}

@@ -2,7 +2,7 @@
 
 module Types
   class QueryType < Types::BaseObject
-    field :feed_connection, ArticleType.connection_type, null: false, authorized_scope: true do
+    field :feed_connection, ArticleType.connection_type, null: false, authorized_scope: { with: ArticleFeedPolicy } do
       argument :tag_name, String, required: false
     end
 

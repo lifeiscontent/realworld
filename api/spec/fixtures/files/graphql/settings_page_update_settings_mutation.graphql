@@ -1,0 +1,22 @@
+mutation SettingsPageUpdateSettingsMutation($id: ID!, $input: UpdateSettingsInput!) {
+  updateSettings(id: $id, input: $input) {
+    errors
+    user {
+      ...SettingsPageUserFragment
+      __typename
+    }
+    __typename
+  }
+}
+
+fragment SettingsPageUserFragment on User {
+  id
+  email
+  profile {
+    username
+    bio
+    imageUrl
+    __typename
+  }
+  __typename
+}

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Article < ApplicationRecord
+  extend FriendlyId
+  friendly_id :title, use: :slugged
   before_validation :set_slug, only: %i[create update]
   belongs_to :author, class_name: 'User', validate: true
   has_many :comments, dependent: :destroy
@@ -22,13 +24,5 @@ class Article < ApplicationRecord
     return none unless name.present?
 
     joins(:taggings).where(taggings: { tag: Tag.where(name: name) })
-  end
-
-  private
-
-  def set_slug
-    return unless title_changed?
-
-    self.slug = "#{title.parameterize}-#{SecureRandom.hex(6)}"
   end
 end
