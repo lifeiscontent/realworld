@@ -25,8 +25,6 @@ export default (req, res) => {
       );
     }
 
-    console.log(req.body);
-
     return fetch('http://localhost:4000/graphql', {
       body: JSON.stringify(req.body),
       credentials: 'include',
