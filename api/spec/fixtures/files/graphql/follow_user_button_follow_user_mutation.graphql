@@ -1,0 +1,23 @@
+mutation FollowUserButtonFollowUserMutation($id: ID!) {
+  followUser(id: $id) {
+    user {
+      ...FollowUserButtonUserFragment
+      __typename
+    }
+    __typename
+  }
+}
+
+fragment FollowUserButtonUserFragment on User {
+  id
+  viewerIsFollowing
+  canFollow {
+    value
+    __typename
+  }
+  canUnfollow {
+    value
+    __typename
+  }
+  __typename
+}

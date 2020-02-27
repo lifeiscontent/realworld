@@ -1,0 +1,24 @@
+{
+  "errors": [
+    {
+      "message": "Variable $input of type SignUpInput! was provided invalid value",
+      "locations": [
+        {
+          "line": 1,
+          "column": 37
+        }
+      ],
+      "extensions": {
+        "value": null,
+        "problems": [
+          {
+            "path": [
+
+            ],
+            "explanation": "Expected value to not be null"
+          }
+        ]
+      }
+    }
+  ]
+}

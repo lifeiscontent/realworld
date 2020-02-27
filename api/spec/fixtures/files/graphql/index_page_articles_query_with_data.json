@@ -1,0 +1,358 @@
+{
+  "data": {
+    "viewer": {
+      "id": "1",
+      "__typename": "User",
+      "profile": {
+        "username": "user1",
+        "__typename": "Profile"
+      }
+    },
+    "articlesConnection": {
+      "pageInfo": {
+        "endCursor": "MTA",
+        "hasNextPage": true,
+        "hasPreviousPage": false,
+        "startCursor": "MQ",
+        "__typename": "PageInfo"
+      },
+      "edges": [
+        {
+          "cursor": "MQ",
+          "node": {
+            "createdAt": "1994-01-01T08:00:00Z",
+            "description": "There are five steps involved.",
+            "slug": "title-1",
+            "title": "Title 1",
+            "tags": [
+
+            ],
+            "canFavorite": {
+              "value": false,
+              "__typename": "AuthorizationResult"
+            },
+            "author": {
+              "id": "1",
+              "profile": {
+                "imageUrl": null,
+                "username": "user1",
+                "__typename": "Profile"
+              },
+              "__typename": "User"
+            },
+            "favoritesCount": 0,
+            "viewerDidFavorite": false,
+            "canUnfavorite": {
+              "value": false,
+              "__typename": "AuthorizationResult"
+            },
+            "__typename": "Article"
+          },
+          "__typename": "ArticleEdge"
+        },
+        {
+          "cursor": "Mg",
+          "node": {
+            "createdAt": "1994-01-01T08:00:00Z",
+            "description": "There are five steps involved.",
+            "slug": "title-2",
+            "title": "Title 2",
+            "tags": [
+
+            ],
+            "canFavorite": {
+              "value": false,
+              "__typename": "AuthorizationResult"
+            },
+            "author": {
+              "id": "1",
+              "profile": {
+                "imageUrl": null,
+                "username": "user1",
+                "__typename": "Profile"
+              },
+              "__typename": "User"
+            },
+            "favoritesCount": 0,
+            "viewerDidFavorite": false,
+            "canUnfavorite": {
+              "value": false,
+              "__typename": "AuthorizationResult"
+            },
+            "__typename": "Article"
+          },
+          "__typename": "ArticleEdge"
+        },
+        {
+          "cursor": "Mw",
+          "node": {
+            "createdAt": "1994-01-01T08:00:00Z",
+            "description": "There are five steps involved.",
+            "slug": "title-3",
+            "title": "Title 3",
+            "tags": [
+
+            ],
+            "canFavorite": {
+              "value": false,
+              "__typename": "AuthorizationResult"
+            },
+            "author": {
+              "id": "1",
+              "profile": {
+                "imageUrl": null,
+                "username": "user1",
+                "__typename": "Profile"
+              },
+              "__typename": "User"
+            },
+            "favoritesCount": 0,
+            "viewerDidFavorite": false,
+            "canUnfavorite": {
+              "value": false,
+              "__typename": "AuthorizationResult"
+            },
+            "__typename": "Article"
+          },
+          "__typename": "ArticleEdge"
+        },
+        {
+          "cursor": "NA",
+          "node": {
+            "createdAt": "1994-01-01T08:00:00Z",
+            "description": "There are five steps involved.",
+            "slug": "title-4",
+            "title": "Title 4",
+            "tags": [
+
+            ],
+            "canFavorite": {
+              "value": false,
+              "__typename": "AuthorizationResult"
+            },
+            "author": {
+              "id": "1",
+              "profile": {
+                "imageUrl": null,
+                "username": "user1",
+                "__typename": "Profile"
+              },
+              "__typename": "User"
+            },
+            "favoritesCount": 0,
+            "viewerDidFavorite": false,
+            "canUnfavorite": {
+              "value": false,
+              "__typename": "AuthorizationResult"
+            },
+            "__typename": "Article"
+          },
+          "__typename": "ArticleEdge"
+        },
+        {
+          "cursor": "NQ",
+          "node": {
+            "createdAt": "1994-01-01T08:00:00Z",
+            "description": "There are five steps involved.",
+            "slug": "title-5",
+            "title": "Title 5",
+            "tags": [
+
+            ],
+            "canFavorite": {
+              "value": false,
+              "__typename": "AuthorizationResult"
+            },
+            "author": {
+              "id": "1",
+              "profile": {
+                "imageUrl": null,
+                "username": "user1",
+                "__typename": "Profile"
+              },
+              "__typename": "User"
+            },
+            "favoritesCount": 0,
+            "viewerDidFavorite": false,
+            "canUnfavorite": {
+              "value": false,
+              "__typename": "AuthorizationResult"
+            },
+            "__typename": "Article"
+          },
+          "__typename": "ArticleEdge"
+        },
+        {
+          "cursor": "Ng",
+          "node": {
+            "createdAt": "1994-01-01T08:00:00Z",
+            "description": "There are five steps involved.",
+            "slug": "title-6",
+            "title": "Title 6",
+            "tags": [
+
+            ],
+            "canFavorite": {
+              "value": false,
+              "__typename": "AuthorizationResult"
+            },
+            "author": {
+              "id": "1",
+              "profile": {
+                "imageUrl": null,
+                "username": "user1",
+                "__typename": "Profile"
+              },
+              "__typename": "User"
+            },
+            "favoritesCount": 0,
+            "viewerDidFavorite": false,
+            "canUnfavorite": {
+              "value": false,
+              "__typename": "AuthorizationResult"
+            },
+            "__typename": "Article"
+          },
+          "__typename": "ArticleEdge"
+        },
+        {
+          "cursor": "Nw",
+          "node": {
+            "createdAt": "1994-01-01T08:00:00Z",
+            "description": "There are five steps involved.",
+            "slug": "title-7",
+            "title": "Title 7",
+            "tags": [
+
+            ],
+            "canFavorite": {
+              "value": false,
+              "__typename": "AuthorizationResult"
+            },
+            "author": {
+              "id": "1",
+              "profile": {
+                "imageUrl": null,
+                "username": "user1",
+                "__typename": "Profile"
+              },
+              "__typename": "User"
+            },
+            "favoritesCount": 0,
+            "viewerDidFavorite": false,
+            "canUnfavorite": {
+              "value": false,
+              "__typename": "AuthorizationResult"
+            },
+            "__typename": "Article"
+          },
+          "__typename": "ArticleEdge"
+        },
+        {
+          "cursor": "OA",
+          "node": {
+            "createdAt": "1994-01-01T08:00:00Z",
+            "description": "There are five steps involved.",
+            "slug": "title-8",
+            "title": "Title 8",
+            "tags": [
+
+            ],
+            "canFavorite": {
+              "value": false,
+              "__typename": "AuthorizationResult"
+            },
+            "author": {
+              "id": "1",
+              "profile": {
+                "imageUrl": null,
+                "username": "user1",
+                "__typename": "Profile"
+              },
+              "__typename": "User"
+            },
+            "favoritesCount": 0,
+            "viewerDidFavorite": false,
+            "canUnfavorite": {
+              "value": false,
+              "__typename": "AuthorizationResult"
+            },
+            "__typename": "Article"
+          },
+          "__typename": "ArticleEdge"
+        },
+        {
+          "cursor": "OQ",
+          "node": {
+            "createdAt": "1994-01-01T08:00:00Z",
+            "description": "There are five steps involved.",
+            "slug": "title-9",
+            "title": "Title 9",
+            "tags": [
+
+            ],
+            "canFavorite": {
+              "value": false,
+              "__typename": "AuthorizationResult"
+            },
+            "author": {
+              "id": "1",
+              "profile": {
+                "imageUrl": null,
+                "username": "user1",
+                "__typename": "Profile"
+              },
+              "__typename": "User"
+            },
+            "favoritesCount": 0,
+            "viewerDidFavorite": false,
+            "canUnfavorite": {
+              "value": false,
+              "__typename": "AuthorizationResult"
+            },
+            "__typename": "Article"
+          },
+          "__typename": "ArticleEdge"
+        },
+        {
+          "cursor": "MTA",
+          "node": {
+            "createdAt": "1994-01-01T08:00:00Z",
+            "description": "There are five steps involved.",
+            "slug": "title-10",
+            "title": "Title 10",
+            "tags": [
+
+            ],
+            "canFavorite": {
+              "value": false,
+              "__typename": "AuthorizationResult"
+            },
+            "author": {
+              "id": "1",
+              "profile": {
+                "imageUrl": null,
+                "username": "user1",
+                "__typename": "Profile"
+              },
+              "__typename": "User"
+            },
+            "favoritesCount": 0,
+            "viewerDidFavorite": false,
+            "canUnfavorite": {
+              "value": false,
+              "__typename": "AuthorizationResult"
+            },
+            "__typename": "Article"
+          },
+          "__typename": "ArticleEdge"
+        }
+      ],
+      "__typename": "ArticleConnection"
+    },
+    "popularTags": [
+
+    ],
+    "__typename": "Query"
+  }
+}

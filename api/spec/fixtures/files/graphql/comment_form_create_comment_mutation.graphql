@@ -1,0 +1,35 @@
+mutation CommentFormCreateCommentMutation($articleSlug: String!, $input: CreateCommentInput!) {
+  createComment(articleSlug: $articleSlug, input: $input) {
+    errors
+    comment {
+      ...CommentCardCommentFragment
+      __typename
+    }
+    __typename
+  }
+}
+
+fragment CommentCardCommentFragment on Comment {
+  id
+  body
+  createdAt
+  author {
+    profile {
+      imageUrl
+      username
+      __typename
+    }
+    __typename
+  }
+  ...DeleteCommentButtonCommentFragment
+  __typename
+}
+
+fragment DeleteCommentButtonCommentFragment on Comment {
+  id
+  canDelete {
+    value
+    __typename
+  }
+  __typename
+}

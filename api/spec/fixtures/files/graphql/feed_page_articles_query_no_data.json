@@ -1,0 +1,22 @@
+{
+  "data": {
+    "viewer": null,
+    "feedConnection": {
+      "pageInfo": {
+        "endCursor": null,
+        "hasNextPage": false,
+        "hasPreviousPage": false,
+        "startCursor": null,
+        "__typename": "PageInfo"
+      },
+      "edges": [
+
+      ],
+      "__typename": "ArticleConnection"
+    },
+    "popularTags": [
+
+    ],
+    "__typename": "Query"
+  }
+}

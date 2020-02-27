@@ -1,0 +1,131 @@
+query ProfilePageQuery($username: String!) {
+  viewer {
+    ...LayoutUserFragment
+    __typename
+  }
+  profile: profileByUsername(username: $username) {
+    username
+    bio
+    ...UserInfoProfileFragment
+    user {
+      id
+      articlesConnection {
+        edges {
+          node {
+            ...ArticlePreviewArticleFragment
+            __typename
+          }
+          __typename
+        }
+        __typename
+      }
+      __typename
+    }
+    __typename
+  }
+}
+
+fragment ArticlePreviewArticleFragment on Article {
+  createdAt
+  description
+  slug
+  title
+  tags {
+    ...ArticlePreviewTagTagFragment
+    __typename
+  }
+  canFavorite {
+    value
+    __typename
+  }
+  author {
+    id
+    profile {
+      imageUrl
+      username
+      __typename
+    }
+    __typename
+  }
+  ...ArticlePreviewFavoriteButtonArticleFragment
+  __typename
+}
+
+fragment ArticlePreviewTagTagFragment on Tag {
+  id
+  name
+  __typename
+}
+
+fragment ArticlePreviewFavoriteButtonArticleFragment on Article {
+  favoritesCount
+  slug
+  viewerDidFavorite
+  canFavorite {
+    value
+    __typename
+  }
+  canUnfavorite {
+    value
+    __typename
+  }
+  __typename
+}
+
+fragment UserInfoProfileFragment on Profile {
+  ...FollowUserButtonProfileFragment
+  imageUrl
+  username
+  bio
+  user {
+    id
+    canUpdate {
+      value
+      __typename
+    }
+    __typename
+  }
+  __typename
+}
+
+fragment FollowUserButtonProfileFragment on Profile {
+  username
+  user {
+    ...FollowUserButtonUserFragment
+    __typename
+  }
+  __typename
+}
+
+fragment FollowUserButtonUserFragment on User {
+  id
+  viewerIsFollowing
+  canFollow {
+    value
+    __typename
+  }
+  canUnfollow {
+    value
+    __typename
+  }
+  __typename
+}
+
+fragment LayoutUserFragment on User {
+  ...NavbarUserFragment
+  __typename
+}
+
+fragment NavbarUserFragment on User {
+  ...NavbarUserDropdownUserFragment
+  __typename
+}
+
+fragment NavbarUserDropdownUserFragment on User {
+  id
+  profile {
+    username
+    __typename
+  }
+  __typename
+}

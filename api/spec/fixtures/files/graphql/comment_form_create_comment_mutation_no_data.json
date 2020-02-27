@@ -1,0 +1,44 @@
+{
+  "errors": [
+    {
+      "message": "Variable $articleSlug of type String! was provided invalid value",
+      "locations": [
+        {
+          "line": 1,
+          "column": 43
+        }
+      ],
+      "extensions": {
+        "value": null,
+        "problems": [
+          {
+            "path": [
+
+            ],
+            "explanation": "Expected value to not be null"
+          }
+        ]
+      }
+    },
+    {
+      "message": "Variable $input of type CreateCommentInput! was provided invalid value",
+      "locations": [
+        {
+          "line": 1,
+          "column": 66
+        }
+      ],
+      "extensions": {
+        "value": null,
+        "problems": [
+          {
+            "path": [
+
+            ],
+            "explanation": "Expected value to not be null"
+          }
+        ]
+      }
+    }
+  ]
+}

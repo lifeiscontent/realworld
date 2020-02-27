@@ -1,0 +1,12 @@
+query TagsInputQuery {
+  tags {
+    ...TagsInputTagTagFragment
+    __typename
+  }
+}
+
+fragment TagsInputTagTagFragment on Tag {
+  id
+  name
+  __typename
+}

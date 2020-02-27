@@ -2,18 +2,24 @@
 
 class UserPolicy < ApplicationPolicy
   def follow?
-    user? && user.id != record.id
+    another_user?
   end
 
   def unfollow?
-    user? && user.id != record.id
+    another_user?
   end
 
   def update?
     owner?
   end
 
+  private
+
   def owner?
     user? && user.id == record.id
+  end
+
+  def another_user?
+    user? && user.id != record.id
   end
 end

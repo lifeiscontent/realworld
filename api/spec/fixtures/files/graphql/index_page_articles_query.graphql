@@ -1,0 +1,111 @@
+query IndexPageArticlesQuery($after: String, $before: String, $first: Int, $last: Int, $tagName: String) {
+  viewer {
+    ...FeedToggleUserFragment
+    ...LayoutUserFragment
+    __typename
+  }
+  articlesConnection(after: $after, before: $before, first: $first, last: $last, tagName: $tagName) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      __typename
+    }
+    edges {
+      cursor
+      node {
+        ...ArticlePreviewArticleFragment
+        __typename
+      }
+      __typename
+    }
+    __typename
+  }
+  ...SidebarQueryFragment
+}
+
+fragment ArticlePreviewArticleFragment on Article {
+  createdAt
+  description
+  slug
+  title
+  tags {
+    ...ArticlePreviewTagTagFragment
+    __typename
+  }
+  canFavorite {
+    value
+    __typename
+  }
+  author {
+    id
+    profile {
+      imageUrl
+      username
+      __typename
+    }
+    __typename
+  }
+  ...ArticlePreviewFavoriteButtonArticleFragment
+  __typename
+}
+
+fragment ArticlePreviewTagTagFragment on Tag {
+  id
+  name
+  __typename
+}
+
+fragment ArticlePreviewFavoriteButtonArticleFragment on Article {
+  favoritesCount
+  slug
+  viewerDidFavorite
+  canFavorite {
+    value
+    __typename
+  }
+  canUnfavorite {
+    value
+    __typename
+  }
+  __typename
+}
+
+fragment FeedToggleUserFragment on User {
+  id
+  __typename
+}
+
+fragment LayoutUserFragment on User {
+  ...NavbarUserFragment
+  __typename
+}
+
+fragment NavbarUserFragment on User {
+  ...NavbarUserDropdownUserFragment
+  __typename
+}
+
+fragment NavbarUserDropdownUserFragment on User {
+  id
+  profile {
+    username
+    __typename
+  }
+  __typename
+}
+
+fragment SidebarQueryFragment on Query {
+  popularTags {
+    ...SidebarTagTagFragment
+    __typename
+  }
+  __typename
+}
+
+fragment SidebarTagTagFragment on Tag {
+  id
+  name
+  __typename
+}

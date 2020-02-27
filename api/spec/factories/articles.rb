@@ -2,8 +2,8 @@
 
 FactoryBot.define do
   factory :article do
-    body { Faker::Lorem.paragraph(sentence_count: 10) }
-    description { Faker::Lorem.sentence }
-    title { Faker::Lorem.sentence }
+    body { 'There are five steps involved.' }
+    description { 'There are five steps involved.' }
+    sequence(:title) { |n| "Title #{n}" }
   end
 end

@@ -1,0 +1,38 @@
+query SettingsPageQuery {
+  viewer {
+    ...LayoutUserFragment
+    ...SettingsPageUserFragment
+    __typename
+  }
+}
+
+fragment LayoutUserFragment on User {
+  ...NavbarUserFragment
+  __typename
+}
+
+fragment NavbarUserFragment on User {
+  ...NavbarUserDropdownUserFragment
+  __typename
+}
+
+fragment NavbarUserDropdownUserFragment on User {
+  id
+  profile {
+    username
+    __typename
+  }
+  __typename
+}
+
+fragment SettingsPageUserFragment on User {
+  id
+  email
+  profile {
+    username
+    bio
+    imageUrl
+    __typename
+  }
+  __typename
+}

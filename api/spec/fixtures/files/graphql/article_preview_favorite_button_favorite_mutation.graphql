@@ -1,0 +1,24 @@
+mutation ArticlePreviewFavoriteButtonFavoriteMutation($slug: String!) {
+  favoriteArticle(slug: $slug) {
+    article {
+      ...ArticlePreviewFavoriteButtonArticleFragment
+      __typename
+    }
+    __typename
+  }
+}
+
+fragment ArticlePreviewFavoriteButtonArticleFragment on Article {
+  favoritesCount
+  slug
+  viewerDidFavorite
+  canFavorite {
+    value
+    __typename
+  }
+  canUnfavorite {
+    value
+    __typename
+  }
+  __typename
+}

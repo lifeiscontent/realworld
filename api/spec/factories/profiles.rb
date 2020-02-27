@@ -2,6 +2,6 @@
 
 FactoryBot.define do
   factory :profile do
-    username { Faker::Internet.username }
+    sequence(:username) { |n| "user#{n}" }
   end
 end

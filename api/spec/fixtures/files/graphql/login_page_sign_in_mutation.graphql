@@ -1,0 +1,16 @@
+mutation LoginPageSignInMutation($input: SignInInput!) {
+  signIn(input: $input) {
+    errors
+    token
+    user {
+      id
+      email
+      profile {
+        username
+        __typename
+      }
+      __typename
+    }
+    __typename
+  }
+}
