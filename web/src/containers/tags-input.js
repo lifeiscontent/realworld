@@ -29,6 +29,7 @@ export function TagsInput(props) {
           className="form-control"
           placeholder="Press enter to add tag to list"
           list="tags"
+          id={props.id}
           name={field.name}
           onBlur={field.onBlur}
           value={value}
@@ -71,7 +72,8 @@ export function TagsInput(props) {
 }
 
 TagsInput.propTypes = {
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
+  id: PropTypes.string
 };
 
 const TagsInputQuery = gql`

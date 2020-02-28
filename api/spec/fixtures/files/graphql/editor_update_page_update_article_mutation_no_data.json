@@ -1,0 +1,44 @@
+{
+  "errors": [
+    {
+      "message": "Variable $slug of type String! was provided invalid value",
+      "locations": [
+        {
+          "line": 1,
+          "column": 48
+        }
+      ],
+      "extensions": {
+        "value": null,
+        "problems": [
+          {
+            "path": [
+
+            ],
+            "explanation": "Expected value to not be null"
+          }
+        ]
+      }
+    },
+    {
+      "message": "Variable $input of type UpdateArticleInput! was provided invalid value",
+      "locations": [
+        {
+          "line": 1,
+          "column": 64
+        }
+      ],
+      "extensions": {
+        "value": null,
+        "problems": [
+          {
+            "path": [
+
+            ],
+            "explanation": "Expected value to not be null"
+          }
+        ]
+      }
+    }
+  ]
+}

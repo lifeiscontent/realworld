@@ -1,0 +1,23 @@
+mutation EditorUpdatePageUpdateArticleMutation($slug: String!, $input: UpdateArticleInput!) {
+  updateArticle(slug: $slug, input: $input) {
+    errors
+    article {
+      ...EditorUpdatePageArticleFragment
+      __typename
+    }
+    __typename
+  }
+}
+
+fragment EditorUpdatePageArticleFragment on Article {
+  body
+  description
+  slug
+  title
+  tags {
+    id
+    name
+    __typename
+  }
+  __typename
+}

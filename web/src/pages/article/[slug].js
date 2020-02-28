@@ -18,6 +18,7 @@ const ArticlePageQuery = gql`
     article: articleBySlug(slug: $slug) {
       slug
       body
+      description
       ...ArticleMetaArticleFragment
       ...BannerArticleFragment
       ...CommentsListArticleFragment
@@ -47,6 +48,7 @@ function ArticlePage() {
         <div className="container page">
           <div className="row article-content">
             <div className="col-md-12">
+              <p>{article.data.article.description}</p>
               <Markdown source={article.data.article.body} />
             </div>
           </div>

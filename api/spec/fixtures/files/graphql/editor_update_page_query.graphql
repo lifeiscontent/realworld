@@ -1,0 +1,42 @@
+query EditorUpdatePageQuery($slug: String!) {
+  viewer {
+    ...LayoutUserFragment
+    __typename
+  }
+  article: articleBySlug(slug: $slug) {
+    ...EditorUpdatePageArticleFragment
+    __typename
+  }
+}
+
+fragment EditorUpdatePageArticleFragment on Article {
+  body
+  description
+  slug
+  title
+  tags {
+    id
+    name
+    __typename
+  }
+  __typename
+}
+
+fragment LayoutUserFragment on User {
+  ...NavbarUserFragment
+  __typename
+}
+
+fragment NavbarUserFragment on User {
+  ...NavbarUserDropdownUserFragment
+  __typename
+}
+
+fragment NavbarUserDropdownUserFragment on User {
+  id
+  profile {
+    username
+    __typename
+  }
+  __typename
+}

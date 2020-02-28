@@ -7,6 +7,7 @@ query ArticlePageQuery($slug: String!) {
   article: articleBySlug(slug: $slug) {
     slug
     body
+    description
     ...ArticleMetaArticleFragment
     ...BannerArticleFragment
     ...CommentsListArticleFragment
