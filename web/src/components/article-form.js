@@ -13,48 +13,51 @@ export function ArticleForm(props) {
       initialValues={props.initialValues}
       onSubmit={props.onSubmit}
     >
-      <Form>
+      <Form id="article-form">
         <ul className="error-messages">
           <ErrorMessage component="li" name="slug" />
           <ErrorMessage component="li" name="input.title" />
           <ErrorMessage component="li" name="input.description" />
           <ErrorMessage component="li" name="input.body" />
-          <ErrorMessage component="li" name="input.tagId" />
+          <ErrorMessage component="li" name="input.tagIds" />
           <FormikStatusErrors />
         </ul>
 
         <fieldset>
           <fieldset className="form-group">
-            <label>Article Title</label>
+            <label htmlFor="article-form-title-input">Title</label>
             <Field
               name="input.title"
               type="text"
+              id="article-form-title-input"
               className="form-control form-control-lg"
               placeholder="How to build webapps that scale"
             />
           </fieldset>
           <fieldset className="form-group">
-            <label>Description</label>
+            <label htmlFor="article-form-description-input">Description</label>
             <Field
               name="input.description"
               type="text"
+              id="article-form-description-input"
               className="form-control"
               placeholder="Rock solid process you can follow when building your apps"
             />
           </fieldset>
           <fieldset className="form-group">
-            <label>Body</label>
+            <label htmlFor="article-form-body-textarea">Body</label>
             <Field
               name="input.body"
               as="textarea"
               className="form-control"
+              id="article-form-body-textarea"
               rows={8}
               placeholder={`# Introducing RealWorld.\n\nIt's a great solution for learning how other frameworks work.`}
             />
           </fieldset>
           <fieldset className="form-group">
-            <label>Tags</label>
-            <TagsInput name="input.tagIds" />
+            <label htmlFor="article-form-tags-ids-input">Tags</label>
+            <TagsInput name="input.tagIds" id="article-form-tags-ids-input" />
           </fieldset>
           <FormikSubmitButton
             disabled={props.disabled}

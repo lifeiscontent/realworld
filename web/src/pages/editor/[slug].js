@@ -23,7 +23,7 @@ const validationSchema = Yup.object({
       .required(),
     tagIds: Yup.array(Yup.string())
       .label('Tags')
-      .required()
+      .test('', '${path} is a required field', value => Array.isArray(value))
   })
 });
 

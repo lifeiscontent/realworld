@@ -9,7 +9,7 @@
     "test": {
       "presets": [
         [
-          "env",
+          "@babel/env",
           {
             "modules": "commonjs"
           }
