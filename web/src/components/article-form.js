@@ -41,7 +41,7 @@ export function ArticleForm(props) {
               type="text"
               id="article-form-description-input"
               className="form-control"
-              placeholder="Rock solid process you can follow when building your apps"
+              placeholder="Web development technologies have evolved at an incredible clip over the past few years."
             />
           </fieldset>
           <fieldset className="form-group">
