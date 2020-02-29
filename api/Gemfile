@@ -17,7 +17,7 @@ gem 'friendly_id', '~> 5.3'
 gem 'graphql', '~> 1.10'
 gem 'jwt', '~> 2.2'
 gem 'listen', '>= 3.0.5', '< 3.2', group: :development
-gem 'puma', '~> 3.11'
+gem 'puma', '~> 3.12'
 gem 'rack-cors', '~> 1.1'
 gem 'rails', '~> 5.2.4', '>= 5.2.4.1'
 gem 'rspec-rails', '~> 3.9', group: :development
