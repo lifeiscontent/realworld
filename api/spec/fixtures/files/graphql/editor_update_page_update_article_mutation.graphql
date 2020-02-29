@@ -1,6 +1,5 @@
 mutation EditorUpdatePageUpdateArticleMutation($slug: String!, $input: UpdateArticleInput!) {
   updateArticle(slug: $slug, input: $input) {
-    errors
     article {
       ...EditorUpdatePageArticleFragment
       __typename

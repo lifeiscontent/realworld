@@ -7,11 +7,11 @@ import { Layout } from '../components/layout';
 import { useMutation } from '@apollo/react-hooks';
 import * as Yup from 'yup';
 import withApollo from '../lib/with-apollo';
+import { handleValidationError } from '../utils/graphql';
 
 const LoginPageSignInMutation = gql`
   mutation LoginPageSignInMutation($input: SignInInput!) {
     signIn(input: $input) {
-      errors
       token
       user {
         id
@@ -57,19 +57,15 @@ function LoginPage() {
                     variables: values
                   })
                     .then(res => {
-                      if (res.data.signIn.errors.length) {
-                        setStatus(res.data.signIn.errors);
-                        setSubmitting(false);
-                      } else if (res.data.signIn.token) {
-                        fetch('/api/login', {
-                          method: 'POST',
-                          body: res.data.signIn.token
-                        }).then(() => {
-                          window.location = '/';
-                        });
-                      }
+                      fetch('/api/login', {
+                        method: 'POST',
+                        body: res.data.signIn.token
+                      }).then(() => {
+                        window.location = '/';
+                      });
                     })
                     .catch(err => {
+                      handleValidationError(err, setStatus);
                       console.error(err);
                       setSubmitting(false);
                     });

@@ -8,6 +8,7 @@ import { useQuery, useMutation } from '@apollo/react-hooks';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
 import withApollo from '../lib/with-apollo';
+import { handleValidationError } from '../utils/graphql';
 
 const validationSchema = Yup.object({
   id: Yup.string().required(),
@@ -67,17 +68,13 @@ function SettingsPage() {
                 onSubmit={(values, { setSubmitting, setStatus }) => {
                   updateSettings({ variables: values })
                     .then(res => {
-                      if (res.data.updateSettings.errors.length) {
-                        setStatus(res.data.updateSettings.errors);
-                        setSubmitting(false);
-                      } else {
-                        router.push(
-                          '/[username]',
-                          `/${res.data.updateSettings.user.profile.username}`
-                        );
-                      }
+                      router.push(
+                        '/[username]',
+                        `/${res.data.updateSettings.user.profile.username}`
+                      );
                     })
                     .catch(err => {
+                      handleValidationError(err, setStatus);
                       console.error(err);
                       setSubmitting(false);
                     });
@@ -188,7 +185,6 @@ const SettingsPageUpdateSettingsMutation = gql`
     $input: UpdateSettingsInput!
   ) {
     updateSettings(id: $id, input: $input) {
-      errors
       user {
         ...SettingsPageUserFragment
       }

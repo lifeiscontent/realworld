@@ -17,18 +17,13 @@ module Mutations
     argument :input, UpdateArticleInput, required: true
 
     field :article, Types::ArticleType, null: true
-    field :errors, [String], null: false
 
     def resolve(slug:, input:)
       article = Article.find_by(slug: slug)
 
       authorize! article, to: :update?
 
-      if article.update(input)
-        { article: article, errors: [] }
-      else
-        { article: nil, errors: article.errors.full_messages }
-      end
+      { article: article } if article.update!(input)
     end
   end
 end

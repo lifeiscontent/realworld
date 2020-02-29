@@ -14,7 +14,6 @@ module Mutations
     argument :input, CreateCommentInput, required: true
 
     field :comment, Types::CommentType, null: true
-    field :errors, [String], null: false
 
     def resolve(article_slug:, input:)
       authorize! Comment, to: :create?
@@ -23,11 +22,7 @@ module Mutations
       comment.article = Article.find_by(slug: article_slug)
       comment.author = context[:current_user]
 
-      if comment.save
-        { comment: comment, errors: [] }
-      else
-        { comment: nil, errors: comment.errors.full_messages }
-      end
+      { comment: comment } if comment.save!
     end
   end
 end

@@ -9,6 +9,7 @@ import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import { useRouter } from 'next/router';
 import withApollo from '../lib/with-apollo';
+import { handleValidationError } from '../utils/graphql';
 
 const validationSchema = Yup.object({
   input: Yup.object({
@@ -34,7 +35,6 @@ const RegisterPageSignUpMutation = gql`
           username
         }
       }
-      errors
     }
   }
 `;
@@ -62,15 +62,11 @@ function RegisterPage() {
                 }}
                 onSubmit={(values, { setSubmitting, setStatus }) => {
                   signUp({ variables: values })
-                    .then(res => {
-                      if (res.data.signUp.errors.length) {
-                        setStatus(res.data.signUp.errors);
-                        setSubmitting(false);
-                      } else if (res.data.signUp.user) {
-                        router.push('/login', '/login');
-                      }
+                    .then(() => {
+                      router.push('/login', '/login');
                     })
                     .catch(err => {
+                      handleValidationError(err, setStatus);
                       console.error(err);
                       setSubmitting(false);
                     });

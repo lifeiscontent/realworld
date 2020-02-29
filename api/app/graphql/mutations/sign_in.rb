@@ -15,16 +15,11 @@ module Mutations
 
     field :user, Types::UserType, null: true
     field :token, String, null: true
-    field :errors, [String], null: false
 
     def resolve(input:)
       session = Session.new(input)
 
-      if session.save
-        { user: session.user, errors: [], token: session.token }
-      else
-        { user: nil, errors: session.errors.full_messages, token: nil }
-      end
+      { user: session.user, token: session.token } if session.save!
     end
   end
 end

@@ -6,6 +6,7 @@ import gql from 'graphql-tag';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
 import withApollo from '../../lib/with-apollo';
+import { handleValidationError } from '../../utils/graphql';
 
 const validationSchema = Yup.object({
   slug: Yup.string()
@@ -60,17 +61,13 @@ function EditorUpdatePage() {
                 onSubmit={(values, { setSubmitting, setStatus }) => {
                   updateArticle({ variables: values })
                     .then(res => {
-                      if (res.data.updateArticle.errors.length) {
-                        setStatus(res.data.updateArticle.errors);
-                        setSubmitting(false);
-                      } else {
-                        router.push(
-                          '/article/[slug]',
-                          `/article/${res.data.updateArticle.article.slug}`
-                        );
-                      }
+                      router.push(
+                        '/article/[slug]',
+                        `/article/${res.data.updateArticle.article.slug}`
+                      );
                     })
                     .catch(err => {
+                      handleValidationError(err, setStatus);
                       console.error(err);
                       setSubmitting(false);
                     });
@@ -105,7 +102,6 @@ const EditorUpdatePageUpdateArticleMutation = gql`
     $input: UpdateArticleInput!
   ) {
     updateArticle(slug: $slug, input: $input) {
-      errors
       article {
         ...EditorUpdatePageArticleFragment
       }

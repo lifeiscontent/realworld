@@ -16,7 +16,6 @@ module Mutations
     argument :input, CreateArticleInput, required: true
 
     field :article, Types::ArticleType, null: true
-    field :errors, [String], null: false
 
     def resolve(input:)
       article = Article.new(input)
@@ -25,11 +24,7 @@ module Mutations
 
       article.author = context[:current_user]
 
-      if article.save
-        { article: article, errors: [] }
-      else
-        { article: nil, errors: article.errors.full_messages }
-      end
+      { article: article } if article.save!
     end
   end
 end
