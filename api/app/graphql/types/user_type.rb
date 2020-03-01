@@ -12,7 +12,7 @@ module Types
     def viewer_is_following
       return false if context[:current_user].nil?
 
-      context[:current_user].following?(object)
+      context[:current_user].following.include?(object)
     end
 
     field :is_viewer, Boolean, null: false, method: :viewer?

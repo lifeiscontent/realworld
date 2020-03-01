@@ -8,6 +8,7 @@ import { useQuery, useMutation } from '@apollo/react-hooks';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
 import withApollo from '../lib/with-apollo';
+import { handleValidationError } from '../utils/graphql';
 
 const validationSchema = Yup.object({
   id: Yup.string().required(),
@@ -15,29 +16,29 @@ const validationSchema = Yup.object({
     email: Yup.string()
       .email()
       .required(),
-    username: Yup.string().required(),
     password: Yup.string(),
-    bio: Yup.string(),
-    imageUrl: Yup.string()
+    profile: Yup.object({
+      username: Yup.string().required(),
+      bio: Yup.string(),
+      imageUrl: Yup.string()
+    })
   })
 });
 
 function SettingsPage() {
   const router = useRouter();
   const settings = useQuery(SettingsPageQuery);
-  const [updateSettings] = useMutation(SettingsPageUpdateSettingsMutation, {
+  const [updateUser] = useMutation(SettingsPageUpdateUserMutation, {
     update(proxy, mutationResult) {
       proxy.writeData({
-        id: proxy.config.dataIdFromObject(
-          mutationResult.data.updateSettings.user
-        ),
-        data: mutationResult.data.updateSettings.user
+        id: proxy.config.dataIdFromObject(mutationResult.data.updateUser.user),
+        data: mutationResult.data.updateUser.user
       });
       proxy.writeData({
         id: proxy.config.dataIdFromObject(
-          mutationResult.data.updateSettings.user.profile
+          mutationResult.data.updateUser.user.profile
         ),
-        data: mutationResult.data.updateSettings.user.profile
+        data: mutationResult.data.updateUser.user.profile
       });
     }
   });
@@ -59,25 +60,24 @@ function SettingsPage() {
                   id: settings.data.viewer.id,
                   input: {
                     email: settings.data.viewer.email,
-                    username: settings.data.viewer.profile.username,
-                    bio: settings.data.viewer.profile.bio ?? '',
-                    imageUrl: settings.data.viewer.profile.imageUrl ?? ''
+                    password: '',
+                    profile: {
+                      username: settings.data.viewer.profile.username,
+                      bio: settings.data.viewer.profile.bio ?? '',
+                      imageUrl: settings.data.viewer.profile.imageUrl ?? ''
+                    }
                   }
                 }}
                 onSubmit={(values, { setSubmitting, setStatus }) => {
-                  updateSettings({ variables: values })
+                  updateUser({ variables: values })
                     .then(res => {
-                      if (res.data.updateSettings.errors.length) {
-                        setStatus(res.data.updateSettings.errors);
-                        setSubmitting(false);
-                      } else {
-                        router.push(
-                          '/[username]',
-                          `/${res.data.updateSettings.user.profile.username}`
-                        );
-                      }
+                      router.push(
+                        '/[username]',
+                        `/${res.data.updateUser.user.profile.username}`
+                      );
                     })
                     .catch(err => {
+                      handleValidationError(err, setStatus);
                       console.error(err);
                       setSubmitting(false);
                     });
@@ -85,24 +85,20 @@ function SettingsPage() {
               >
                 <Form>
                   <ul className="error-messages">
-                    <ErrorMessage component="li" name="input.username" />
                     <ErrorMessage component="li" name="input.email" />
                     <ErrorMessage component="li" name="input.password" />
-                    <ErrorMessage component="li" name="input.bio" />
-                    <ErrorMessage component="li" name="input.imageUrl" />
+                    <ErrorMessage
+                      component="li"
+                      name="input.profile.username"
+                    />
+                    <ErrorMessage component="li" name="input.profile.bio" />
+                    <ErrorMessage
+                      component="li"
+                      name="input.profile.imageUrl"
+                    />
                     <FormikStatusErrors />
                   </ul>
                   <fieldset>
-                    <fieldset className="form-group">
-                      <label>Username</label>
-                      <Field
-                        name="input.username"
-                        className="form-control form-control-lg"
-                        type="text"
-                        placeholder="john.doe"
-                        autoComplete="username"
-                      />
-                    </fieldset>
                     <fieldset className="form-group">
                       <label>Email</label>
                       <Field
@@ -123,11 +119,20 @@ function SettingsPage() {
                         autoComplete="new-password"
                       />
                     </fieldset>
-
+                    <fieldset className="form-group">
+                      <label>Username</label>
+                      <Field
+                        name="input.profile.username"
+                        className="form-control form-control-lg"
+                        type="text"
+                        placeholder="john.doe"
+                        autoComplete="username"
+                      />
+                    </fieldset>
                     <fieldset className="form-group">
                       <label>Bio</label>
                       <Field
-                        name="input.bio"
+                        name="input.profile.bio"
                         as="textarea"
                         className="form-control form-control-lg"
                         rows={8}
@@ -137,7 +142,7 @@ function SettingsPage() {
                     <fieldset className="form-group">
                       <label>Image Url</label>
                       <Field
-                        name="input.imageUrl"
+                        name="input.profile.imageUrl"
                         className="form-control"
                         type="text"
                         placeholder="http://example.com/your-photo.jpg"
@@ -182,13 +187,9 @@ const SettingsPageQuery = gql`
   ${SettingsPage.fragmants.user}
 `;
 
-const SettingsPageUpdateSettingsMutation = gql`
-  mutation SettingsPageUpdateSettingsMutation(
-    $id: ID!
-    $input: UpdateSettingsInput!
-  ) {
-    updateSettings(id: $id, input: $input) {
-      errors
+const SettingsPageUpdateUserMutation = gql`
+  mutation SettingsPageUpdateUserMutation($id: ID!, $input: UpdateUserInput!) {
+    updateUser(id: $id, input: $input) {
       user {
         ...SettingsPageUserFragment
       }

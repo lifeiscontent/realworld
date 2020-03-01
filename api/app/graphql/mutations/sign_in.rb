@@ -15,16 +15,12 @@ module Mutations
 
     field :user, Types::UserType, null: true
     field :token, String, null: true
-    field :errors, [String], null: false
 
     def resolve(input:)
-      session = Session.new(input)
+      user = User.find_for_authentication(email: input[:email])
+      user.authenticate!(input[:password])
 
-      if session.save
-        { user: session.user, errors: [], token: session.token }
-      else
-        { user: nil, errors: session.errors.full_messages, token: nil }
-      end
+      { user: user, token: user.generate_jwt }
     end
   end
 end

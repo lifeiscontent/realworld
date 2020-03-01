@@ -23,7 +23,7 @@ module Types
     def viewer_did_favorite
       return false if context[:current_user].nil?
 
-      context[:current_user].favorited?(object)
+      context[:current_user].favorite_articles.include?(object)
     end
 
     expose_authorization_rules :favorite?, :unfavorite?, :update?, :delete?,

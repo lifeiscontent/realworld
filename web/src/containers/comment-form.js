@@ -8,6 +8,7 @@ import * as Yup from 'yup';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { CommentCard } from './comment-card';
 import Link from 'next/link';
+import { handleValidationError } from '../utils/graphql';
 
 const validationSchema = Yup.object({
   articleSlug: Yup.string().required(),
@@ -46,13 +47,10 @@ export function CommentForm(props) {
           variables: values
         })
           .then(res => {
-            if (res.data.createComment.errors.length) {
-              setStatus(res.data.createComment.errors);
-            } else {
-              resetForm();
-            }
+            resetForm();
           })
           .catch(err => {
+            handleValidationError(err, setStatus);
             console.error(err);
           })
           .finally(() => {
@@ -60,12 +58,12 @@ export function CommentForm(props) {
           });
       }}
     >
-      <>
+      <Form>
         <ul className="error-messages">
           <ErrorMessage component="li" name="input.body" />
           <FormikStatusErrors />
         </ul>
-        <Form className="card comment-form">
+        <div className="card comment-form">
           <div className="card-block">
             <Field
               name="input.body"
@@ -97,8 +95,8 @@ export function CommentForm(props) {
               Post Comment
             </FormikSubmitButton>
           </div>
-        </Form>
-      </>
+        </div>
+      </Form>
     </Formik>
   );
 }
@@ -148,7 +146,6 @@ const CommentFormCreateCommentMutation = gql`
     $input: CreateCommentInput!
   ) {
     createComment(articleSlug: $articleSlug, input: $input) {
-      errors
       comment {
         ...CommentCardCommentFragment
       }

@@ -5,18 +5,14 @@ module Mutations
     argument :id, ID, required: true
 
     field :comment, Types::CommentType, null: true
-    field :errors, [String], null: false
 
     def resolve(id:)
       comment = Comment.find(id)
 
       authorize! comment, to: :delete?
+      comment.destroy!
 
-      if comment.destroy.destroyed?
-        { comment: comment, errors: [] }
-      else
-        { comment: nil, errors: comment.errors.full_messages }
-      end
+      { comment: comment }
     end
   end
 end

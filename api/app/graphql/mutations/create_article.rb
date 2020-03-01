@@ -16,20 +16,13 @@ module Mutations
     argument :input, CreateArticleInput, required: true
 
     field :article, Types::ArticleType, null: true
-    field :errors, [String], null: false
 
     def resolve(input:)
-      article = Article.new(input)
-
       authorize! Article, to: :create?
 
-      article.author = context[:current_user]
+      article = context[:current_user].articles.create!(input)
 
-      if article.save
-        { article: article, errors: [] }
-      else
-        { article: nil, errors: article.errors.full_messages }
-      end
+      { article: article }
     end
   end
 end

@@ -7,9 +7,11 @@ module Types
     end
 
     def feed_connection(tag_name: nil)
-      return Article.all if tag_name.nil?
+      scope = Article.all
+      scope = scope.tagged_with(tag_name) if tag_name.present?
+      scope = scope.order(created_at: :desc)
 
-      Article.tagged_with(tag_name)
+      scope
     end
 
     field :articles_connection, ArticleType.connection_type, null: false do

@@ -5,18 +5,16 @@ module Mutations
     argument :id, ID, required: true
 
     field :user, Types::UserType, null: true
-    field :errors, [String], null: false
 
     def resolve(id:)
       user = User.find_by(id: id)
 
       authorize! user, to: :unfollow?
 
-      if context[:current_user].unfollow(user)
-        { user: user, errors: [] }
-      else
-        { user: nil, errors: user.errors.full_messages }
-      end
+      relationship = Relationship.find_by(follower: context[:current_user], followed: user)
+      relationship.destroy!
+
+      { user: user.reload }
     end
   end
 end

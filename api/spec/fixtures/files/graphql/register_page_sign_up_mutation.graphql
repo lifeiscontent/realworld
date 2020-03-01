@@ -8,7 +8,6 @@ mutation RegisterPageSignUpMutation($input: SignUpInput!) {
       }
       __typename
     }
-    errors
     __typename
   }
 }

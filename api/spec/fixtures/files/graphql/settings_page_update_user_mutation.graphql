@@ -1,6 +1,5 @@
-mutation SettingsPageUpdateSettingsMutation($id: ID!, $input: UpdateSettingsInput!) {
-  updateSettings(id: $id, input: $input) {
-    errors
+mutation SettingsPageUpdateUserMutation($id: ID!, $input: UpdateUserInput!) {
+  updateUser(id: $id, input: $input) {
     user {
       ...SettingsPageUserFragment
       __typename

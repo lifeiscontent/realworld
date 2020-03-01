@@ -5,18 +5,14 @@ module Mutations
     argument :id, ID, required: true
 
     field :user, Types::UserType, null: true
-    field :errors, [String], null: false
 
     def resolve(id:)
       user = User.find_by(id: id)
 
       authorize! user, to: :follow?
+      context[:current_user].active_relationships.create!(followed: user)
 
-      if context[:current_user].follow(user)
-        { user: user, errors: [] }
-      else
-        { user: nil, errors: user.errors.full_messages }
-      end
+      { user: user.reload }
     end
   end
 end
