@@ -22,45 +22,6 @@ class User < ApplicationRecord
   has_many :favorite_articles, through: :favorites, source: :article
   accepts_nested_attributes_for :profile
 
-  def favorited?(article)
-    favorite_articles.include? article
-  end
-
-  def unfavorited?(article)
-    favorite_articles.exclude? article
-  end
-
-  def favorite(article)
-    favorite_articles << article
-    favorited? article.reload
-  rescue ActiveRecord::RecordInvalid
-    false
-  end
-
-  def unfavorite(article)
-    favorite_articles.destroy(article)
-
-    unfavorited? article.reload
-  end
-
-  def following?(user)
-    following.include? user
-  end
-
-  def unfollowing?(user)
-    following.exclude? user
-  end
-
-  def follow(user)
-    following << user
-    following? user.reload
-  end
-
-  def unfollow(user)
-    following.destroy(user)
-    unfollowing? user.reload
-  end
-
   def self.from_jwt(token)
     jwt_payload = JWT.decode(
       token,

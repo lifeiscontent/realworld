@@ -8,8 +8,8 @@ RSpec.describe ArticleFeedPolicy, type: :policy do
     let(:user) { create(:user) }
     let(:context) { { user: user } }
 
-    before do
-      user.follow(author)
+    before(:each) do
+      user.following << author
       create(:article, author: user)
       create(:article, author: author)
     end

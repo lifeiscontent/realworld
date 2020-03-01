@@ -45,12 +45,6 @@ RSpec.describe User, type: :model do
   end
 
   describe 'instance_methods' do
-    it { is_expected.to respond_to(:favorited?).with(1).argument }
-    it { is_expected.to respond_to(:favorite).with(1).argument }
-    it { is_expected.to respond_to(:unfavorite).with(1).argument }
-    it { is_expected.to respond_to(:following?).with(1).argument }
-    it { is_expected.to respond_to(:follow).with(1).argument }
-    it { is_expected.to respond_to(:unfollow).with(1).argument }
     it { is_expected.to respond_to(:generate_jwt).with(0).arguments }
   end
 
