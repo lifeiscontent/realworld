@@ -1,0 +1,68 @@
+{
+  "data": {
+    "viewer": {
+      "id": "1",
+      "profile": {
+        "username": "user1",
+        "imageUrl": null,
+        "__typename": "Profile"
+      },
+      "__typename": "User"
+    },
+    "article": {
+      "slug": "title-1",
+      "body": "There are five steps involved.",
+      "description": "There are five steps involved.",
+      "createdAt": "1994-01-01T08:00:00Z",
+      "author": {
+        "id": "1",
+        "profile": {
+          "imageUrl": null,
+          "username": "user1",
+          "user": {
+            "id": "1",
+            "viewerIsFollowing": false,
+            "canFollow": {
+              "value": false,
+              "__typename": "AuthorizationResult"
+            },
+            "canUnfollow": {
+              "value": false,
+              "__typename": "AuthorizationResult"
+            },
+            "__typename": "User"
+          },
+          "__typename": "Profile"
+        },
+        "__typename": "User"
+      },
+      "canDelete": {
+        "value": true,
+        "__typename": "AuthorizationResult"
+      },
+      "__typename": "Article",
+      "favoritesCount": 0,
+      "viewerDidFavorite": false,
+      "canFavorite": {
+        "value": false,
+        "__typename": "AuthorizationResult"
+      },
+      "canUnfavorite": {
+        "value": false,
+        "__typename": "AuthorizationResult"
+      },
+      "canUpdate": {
+        "value": true,
+        "__typename": "AuthorizationResult"
+      },
+      "title": "Title 1",
+      "comments": [
+
+      ],
+      "canCreateComment": {
+        "value": true,
+        "__typename": "AuthorizationResult"
+      }
+    }
+  }
+}
