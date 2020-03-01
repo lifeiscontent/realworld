@@ -10,8 +10,9 @@ module Mutations
       comment = Comment.find(id)
 
       authorize! comment, to: :delete?
+      comment.destroy!
 
-      { comment: comment } if comment.destroy!
+      { comment: comment }
     end
   end
 end

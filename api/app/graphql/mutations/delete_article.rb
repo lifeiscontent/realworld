@@ -10,8 +10,9 @@ module Mutations
       article = Article.find_by(slug: slug)
 
       authorize! article, to: :delete?
+      article.destroy!
 
-      { article: article } if article.destroy!
+      { article: article }
     end
   end
 end

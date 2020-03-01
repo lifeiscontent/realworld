@@ -1,0 +1,17 @@
+mutation DeleteArticleButtonDeleteArticleMutation($slug: String!) {
+  deleteArticle(slug: $slug) {
+    article {
+      slug
+      author {
+        id
+        profile {
+          username
+          __typename
+        }
+        __typename
+      }
+      __typename
+    }
+    __typename
+  }
+}

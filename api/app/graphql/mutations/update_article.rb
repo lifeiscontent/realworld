@@ -23,7 +23,9 @@ module Mutations
 
       authorize! article, to: :update?
 
-      { article: article } if article.update!(input)
+      article.update!(input)
+
+      { article: article }
     end
   end
 end

@@ -17,9 +17,11 @@ module Mutations
     field :user, Types::UserType, null: true
 
     def resolve(input:)
-      registration = Registration.new(input)
+      user = User.new(email: input[:email], password: input[:password])
+      user.build_profile(username: input[:username])
+      user.save!
 
-      { user: registration.user } if registration.save!
+      { user: user }
     end
   end
 end

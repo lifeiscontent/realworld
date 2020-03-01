@@ -10,8 +10,9 @@ module Mutations
       user = User.find_by(id: id)
 
       authorize! user, to: :follow?
+      context[:current_user].active_relationships.create!(followed: user)
 
-      { user: user } if context[:current_user].follow!(user)
+      { user: user.reload }
     end
   end
 end

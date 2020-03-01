@@ -17,9 +17,10 @@ module Mutations
     field :token, String, null: true
 
     def resolve(input:)
-      session = Session.new(input)
+      user = User.find_for_authentication(email: input[:email])
+      user.authenticate!(input[:password])
 
-      { user: session.user, token: session.token } if session.save!
+      { user: user, token: user.generate_jwt }
     end
   end
 end

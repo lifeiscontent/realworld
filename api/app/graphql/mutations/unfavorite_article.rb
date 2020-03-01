@@ -12,7 +12,10 @@ module Mutations
 
       authorize! article, to: :unfavorite?
 
-      { user: context[:current_user], article: article } if context[:current_user].unfavorite!(article)
+      favorite = Favorite.find_by(article: article, user: context[:current_user])
+      favorite.destroy!
+
+      { article: article.reload }
     end
   end
 end

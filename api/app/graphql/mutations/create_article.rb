@@ -18,13 +18,11 @@ module Mutations
     field :article, Types::ArticleType, null: true
 
     def resolve(input:)
-      article = Article.new(input)
-
       authorize! Article, to: :create?
 
-      article.author = context[:current_user]
+      article = context[:current_user].articles.create!(input)
 
-      { article: article } if article.save!
+      { article: article }
     end
   end
 end

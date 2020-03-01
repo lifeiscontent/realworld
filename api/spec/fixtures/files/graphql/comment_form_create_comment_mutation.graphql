@@ -1,6 +1,5 @@
 mutation CommentFormCreateCommentMutation($articleSlug: String!, $input: CreateCommentInput!) {
   createComment(articleSlug: $articleSlug, input: $input) {
-    errors
     comment {
       ...CommentCardCommentFragment
       __typename

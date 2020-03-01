@@ -1,6 +1,5 @@
 mutation LoginPageSignInMutation($input: SignInInput!) {
   signIn(input: $input) {
-    errors
     token
     user {
       id

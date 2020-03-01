@@ -11,7 +11,10 @@ module Mutations
 
       authorize! user, to: :unfollow?
 
-      { user: user } if context[:current_user].unfollow!(user)
+      relationship = Relationship.find_by(follower: context[:current_user], followed: user)
+      relationship.destroy!
+
+      { user: user.reload }
     end
   end
 end

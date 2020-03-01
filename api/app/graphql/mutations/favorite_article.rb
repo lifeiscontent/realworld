@@ -11,8 +11,9 @@ module Mutations
       article = Article.find_by(slug: slug)
 
       authorize! article, to: :favorite?
+      context[:current_user].favorites.create!(article: article)
 
-      { user: context[:current_user], article: article } if context[:current_user].favorite!(article)
+      { article: article.reload }
     end
   end
 end

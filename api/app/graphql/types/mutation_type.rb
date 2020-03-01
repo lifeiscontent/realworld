@@ -13,6 +13,6 @@ module Types
     field :unfavorite_article, mutation: Mutations::UnfavoriteArticle
     field :unfollow_user, mutation: Mutations::UnfollowUser
     field :update_article, mutation: Mutations::UpdateArticle
-    field :update_settings, mutation: Mutations::UpdateSettings
+    field :update_user, mutation: Mutations::UpdateUser
   end
 end

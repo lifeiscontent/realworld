@@ -20,6 +20,7 @@ class User < ApplicationRecord
   has_many :comments, foreign_key: 'author_id', dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many :favorite_articles, through: :favorites, source: :article
+  accepts_nested_attributes_for :profile
 
   def favorited?(article)
     favorite_articles.include? article
@@ -79,5 +80,13 @@ class User < ApplicationRecord
         exp: 24.hours.from_now.to_i
       }, Rails.application.secrets.secret_key_base
     )
+  end
+
+  def authenticate!(password)
+    errors.add(:base, 'Email or password is invalid') unless valid_password?(password)
+
+    raise ActiveModel::ValidationError, self if errors.any?
+
+    errors.none?
   end
 end

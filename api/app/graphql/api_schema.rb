@@ -22,6 +22,16 @@ class ApiSchema < GraphQL::Schema
     )
   end
 
+  rescue_from ActiveModel::ValidationError do |error|
+    raise GraphQL::ExecutionError.new(
+      error.message,
+      extensions: {
+        code: 'GRAPHQL_VALIDATION_FAILED',
+        errors: error.model.errors.full_messages
+      }
+    )
+  end
+
   rescue_from ActionPolicy::Unauthorized do |error|
     raise GraphQL::ExecutionError.new(
       # use result.message (backed by i18n) as an error message
