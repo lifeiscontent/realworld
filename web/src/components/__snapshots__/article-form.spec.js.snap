@@ -39,7 +39,7 @@ exports[`ArticleForm renders 1`] = `
           class="form-control"
           id="article-form-description-input"
           name="input.description"
-          placeholder="Rock solid process you can follow when building your apps"
+          placeholder="Web development technologies have evolved at an incredible clip over the past few years."
           type="text"
           value=""
         />
