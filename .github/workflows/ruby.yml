@@ -19,5 +19,5 @@ jobs:
       run: |
         gem install bundler
         bundle install
-        bundle exec rake
+        bundle exec rspec
       working-directory: ./api
