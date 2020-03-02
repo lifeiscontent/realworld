@@ -4,6 +4,6 @@ require 'rails_helper'
 
 RSpec.describe 'ProfileFavoritesPageQuery', type: :graphql do
   context 'no data' do
-    it { is_expected.to eq(result) }
+    it { is_expected.to eql(result) }
   end
 end

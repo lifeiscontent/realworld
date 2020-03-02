@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'ArticlePageQuery', type: :graphql do
   context 'no data' do
-    it { is_expected.to eq(result) }
+    it { is_expected.to eql(result) }
   end
 
   context 'with data' do
@@ -20,12 +20,12 @@ RSpec.describe 'ArticlePageQuery', type: :graphql do
       travel_back
     end
 
-    it { is_expected.to eq(result) }
+    it { is_expected.to eql(result) }
 
     context 'with viewer' do
       let(:context) { { current_user: author } }
 
-      it { is_expected.to eq(result) }
+      it { is_expected.to eql(result) }
     end
   end
 end

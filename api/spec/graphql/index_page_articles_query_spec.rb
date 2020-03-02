@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'IndexPageArticlesQuery', type: :graphql do
   context 'no data' do
-    it { is_expected.to eq(result) }
+    it { is_expected.to eql(result) }
   end
 
   context 'with data' do
@@ -21,7 +21,7 @@ RSpec.describe 'IndexPageArticlesQuery', type: :graphql do
       travel_back
     end
 
-    it { is_expected.to eq(result) }
+    it { is_expected.to eql(result) }
     it { expect(subject['data']['articlesConnection']['edges'].length).to eq(10) }
   end
 end
