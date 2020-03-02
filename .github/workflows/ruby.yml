@@ -18,3 +18,4 @@ jobs:
         gem install bundler
         bundle install
         bundle exec rake
+      working_directory: ./api
