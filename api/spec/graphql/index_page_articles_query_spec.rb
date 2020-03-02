@@ -9,7 +9,7 @@ RSpec.describe 'IndexPageArticlesQuery', type: :graphql do
 
   context 'with data' do
     before(:each) do
-      travel_to Time.local(1994)
+      travel_to Time.zone.local(1994)
       create_list(:article, 20, author: author)
     end
 

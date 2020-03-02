@@ -20,7 +20,7 @@
         {
           "cursor": "MQ",
           "node": {
-            "createdAt": "1994-01-01T08:00:00Z",
+            "createdAt": "1994-01-01T00:00:00Z",
             "description": "There are five steps involved.",
             "slug": "title-1",
             "title": "Title 1",
@@ -53,7 +53,7 @@
         {
           "cursor": "Mg",
           "node": {
-            "createdAt": "1994-01-01T08:00:00Z",
+            "createdAt": "1994-01-01T00:00:00Z",
             "description": "There are five steps involved.",
             "slug": "title-2",
             "title": "Title 2",
@@ -86,7 +86,7 @@
         {
           "cursor": "Mw",
           "node": {
-            "createdAt": "1994-01-01T08:00:00Z",
+            "createdAt": "1994-01-01T00:00:00Z",
             "description": "There are five steps involved.",
             "slug": "title-3",
             "title": "Title 3",
@@ -119,7 +119,7 @@
         {
           "cursor": "NA",
           "node": {
-            "createdAt": "1994-01-01T08:00:00Z",
+            "createdAt": "1994-01-01T00:00:00Z",
             "description": "There are five steps involved.",
             "slug": "title-4",
             "title": "Title 4",
@@ -152,7 +152,7 @@
         {
           "cursor": "NQ",
           "node": {
-            "createdAt": "1994-01-01T08:00:00Z",
+            "createdAt": "1994-01-01T00:00:00Z",
             "description": "There are five steps involved.",
             "slug": "title-5",
             "title": "Title 5",
@@ -185,7 +185,7 @@
         {
           "cursor": "Ng",
           "node": {
-            "createdAt": "1994-01-01T08:00:00Z",
+            "createdAt": "1994-01-01T00:00:00Z",
             "description": "There are five steps involved.",
             "slug": "title-6",
             "title": "Title 6",
@@ -218,7 +218,7 @@
         {
           "cursor": "Nw",
           "node": {
-            "createdAt": "1994-01-01T08:00:00Z",
+            "createdAt": "1994-01-01T00:00:00Z",
             "description": "There are five steps involved.",
             "slug": "title-7",
             "title": "Title 7",
@@ -251,7 +251,7 @@
         {
           "cursor": "OA",
           "node": {
-            "createdAt": "1994-01-01T08:00:00Z",
+            "createdAt": "1994-01-01T00:00:00Z",
             "description": "There are five steps involved.",
             "slug": "title-8",
             "title": "Title 8",
@@ -284,7 +284,7 @@
         {
           "cursor": "OQ",
           "node": {
-            "createdAt": "1994-01-01T08:00:00Z",
+            "createdAt": "1994-01-01T00:00:00Z",
             "description": "There are five steps involved.",
             "slug": "title-9",
             "title": "Title 9",
@@ -317,7 +317,7 @@
         {
           "cursor": "MTA",
           "node": {
-            "createdAt": "1994-01-01T08:00:00Z",
+            "createdAt": "1994-01-01T00:00:00Z",
             "description": "There are five steps involved.",
             "slug": "title-10",
             "title": "Title 10",

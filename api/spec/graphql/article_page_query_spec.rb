@@ -9,7 +9,7 @@ RSpec.describe 'ArticlePageQuery', type: :graphql do
 
   context 'with data' do
     before(:each) do
-      travel_to Time.local(1994)
+      travel_to Time.zone.local(1994)
     end
 
     let(:article) { create(:article, author: author) }
