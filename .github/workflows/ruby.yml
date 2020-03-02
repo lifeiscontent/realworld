@@ -13,6 +13,8 @@ jobs:
       uses: actions/setup-ruby@v1
       with:
         ruby-version: '2.4.x'
+    - name: Add SQLite native dependencies
+      run: apt-get install libsqlite3-dev
     - name: Build and test with Rake
       run: |
         gem install bundler
