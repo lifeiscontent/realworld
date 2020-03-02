@@ -4,20 +4,21 @@ on: [push]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Ruby 2.4
-      uses: actions/setup-ruby@v1
-      with:
-        ruby-version: '2.4.x'
-    - name: Add SQLite native dependencies
-      run: sudo apt-get install libsqlite3-dev
-    - name: Build and test with Rake
-      run: |
-        gem install bundler
-        bundle install
-        bundle exec rspec
-      working-directory: ./api
+      - uses: actions/checkout@v2
+      - name: Set up Ruby 2.4
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: "2.4.x"
+      - name: Build and test with Rake
+        env:
+          RAILS_ENV: test
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+        run: |
+          sudo apt-get -yqq install libsqlite3-dev
+          gem install bundler
+          bundle install --jobs 4 --retry 3
+          bundle exec rails spec
+        working-directory: ./api

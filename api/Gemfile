@@ -20,6 +20,7 @@ gem 'listen', '>= 3.0.5', '< 3.2', group: :development
 gem 'puma', '~> 3.12'
 gem 'rack-cors', '~> 1.1'
 gem 'rails', '~> 5.2.4', '>= 5.2.4.1'
+gem 'rails-erd', '~> 1.6', group: :development
 gem 'rspec-rails', '~> 3.9', group: :development
 gem 'rubocop', '~> 0.80.0', group: :development, require: false
 gem 'shoulda-matchers', '~> 4.3', group: :test
