@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Web
 
 on: [push]
 
@@ -11,11 +11,11 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "12.x"
-      - run: yarn
-        working-directory: ./web
-      - run: yarn build
-        working-directory: ./web
-      - run: yarn test
-        working-directory: ./web
+      - name: Run tests
         env:
           CI: true
+        run: |
+          yarn
+          yarn build
+          yarn test
+        working-directory: ./web

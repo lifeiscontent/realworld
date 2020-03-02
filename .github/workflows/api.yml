@@ -1,4 +1,4 @@
-name: Ruby
+name: Api
 
 on: [push]
 
@@ -8,11 +8,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Ruby 2.4
+      - name: Use Ruby 2.4.x
         uses: actions/setup-ruby@v1
         with:
           ruby-version: "2.4.x"
-      - name: Build and test with Rake
+      - name: Run tests
         env:
           RAILS_ENV: test
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
