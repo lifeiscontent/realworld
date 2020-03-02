@@ -1,0 +1,10 @@
+name: Todos
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: todo-actions
+        uses: dtinth/todo-actions@v0.2.0
