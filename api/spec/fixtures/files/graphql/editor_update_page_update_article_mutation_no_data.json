@@ -1,7 +1,7 @@
 {
   "errors": [
     {
-      "message": "Variable $slug of type String! was provided invalid value",
+      "message": "Variable $slug of type ID! was provided invalid value",
       "locations": [
         {
           "line": 1,
@@ -25,7 +25,7 @@
       "locations": [
         {
           "line": 1,
-          "column": 64
+          "column": 60
         }
       ],
       "extensions": {

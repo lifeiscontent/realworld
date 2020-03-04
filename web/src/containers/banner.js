@@ -40,7 +40,7 @@ Banner.fragments = {
 };
 
 const BannerQuery = gql`
-  query BannerQuery($slug: String!) {
+  query BannerQuery($slug: ID!) {
     article: articleBySlug(slug: $slug) {
       ...BannerArticleFragment
     }

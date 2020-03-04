@@ -1,4 +1,4 @@
-query EditorUpdatePageQuery($slug: String!) {
+query EditorUpdatePageQuery($slug: ID!) {
   viewer {
     ...LayoutUserFragment
     __typename

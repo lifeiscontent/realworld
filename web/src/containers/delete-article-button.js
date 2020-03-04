@@ -60,7 +60,7 @@ DeleteArticleButton.fragments = {
 };
 
 const DeleteArticleButtonQuery = gql`
-  query DeleteArticleButtonQuery($slug: String!) {
+  query DeleteArticleButtonQuery($slug: ID!) {
     article: articleBySlug(slug: $slug) {
       ...DeleteArticleButtonArticleFragment
     }
@@ -69,7 +69,7 @@ const DeleteArticleButtonQuery = gql`
 `;
 
 const DeleteArticleButtonDeleteArticleMutation = gql`
-  mutation DeleteArticleButtonDeleteArticleMutation($slug: String!) {
+  mutation DeleteArticleButtonDeleteArticleMutation($slug: ID!) {
     deleteArticle(slug: $slug) {
       article {
         slug

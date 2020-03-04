@@ -10,7 +10,7 @@ import withApollo from '../../lib/with-apollo';
 import { Layout } from '../../components/layout';
 
 const ArticlePageQuery = gql`
-  query ArticlePageQuery($slug: String!) {
+  query ArticlePageQuery($slug: ID!) {
     viewer {
       ...CommentsListUserFragment
       ...LayoutUserFragment

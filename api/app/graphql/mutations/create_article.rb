@@ -14,7 +14,6 @@ module Mutations
     end
 
     argument :input, CreateArticleInput, required: true
-
     field :article, Types::ArticleType, null: true
 
     def resolve(input:)

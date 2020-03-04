@@ -1,4 +1,4 @@
-mutation DeleteArticleButtonDeleteArticleMutation($slug: String!) {
+mutation DeleteArticleButtonDeleteArticleMutation($slug: ID!) {
   deleteArticle(slug: $slug) {
     article {
       slug

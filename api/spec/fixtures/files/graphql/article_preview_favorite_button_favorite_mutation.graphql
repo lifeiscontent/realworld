@@ -1,4 +1,4 @@
-mutation ArticlePreviewFavoriteButtonFavoriteMutation($slug: String!) {
+mutation ArticlePreviewFavoriteButtonFavoriteMutation($slug: ID!) {
   favoriteArticle(slug: $slug) {
     article {
       ...ArticlePreviewFavoriteButtonArticleFragment

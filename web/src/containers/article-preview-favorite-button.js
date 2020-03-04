@@ -87,7 +87,7 @@ ArticlePreviewFavoriteButton.fragments = {
 };
 
 const ArticlePreviewFavoriteButtonQuery = gql`
-  query ArticlePreviewFavoriteButtonQuery($slug: String!) {
+  query ArticlePreviewFavoriteButtonQuery($slug: ID!) {
     article: articleBySlug(slug: $slug) {
       ...ArticlePreviewFavoriteButtonArticleFragment
     }
@@ -96,7 +96,7 @@ const ArticlePreviewFavoriteButtonQuery = gql`
 `;
 
 const ArticlePreviewFavoriteButtonFavoriteMutation = gql`
-  mutation ArticlePreviewFavoriteButtonFavoriteMutation($slug: String!) {
+  mutation ArticlePreviewFavoriteButtonFavoriteMutation($slug: ID!) {
     favoriteArticle(slug: $slug) {
       article {
         ...ArticlePreviewFavoriteButtonArticleFragment
@@ -107,7 +107,7 @@ const ArticlePreviewFavoriteButtonFavoriteMutation = gql`
 `;
 
 const ArticlePreviewFavoriteButtonUnfavoriteMutation = gql`
-  mutation ArticlePreviewFavoriteButtonUnfavoriteMutation($slug: String!) {
+  mutation ArticlePreviewFavoriteButtonUnfavoriteMutation($slug: ID!) {
     unfavoriteArticle(slug: $slug) {
       article {
         ...ArticlePreviewFavoriteButtonArticleFragment

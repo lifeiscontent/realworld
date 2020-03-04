@@ -45,7 +45,7 @@ UpdateArticleButton.fragments = {
 };
 
 const UpdateArticleButtonQuery = gql`
-  query UpdateArticleButtonQuery($slug: String!) {
+  query UpdateArticleButtonQuery($slug: ID!) {
     article: articleBySlug(slug: $slug) {
       ...UpdateArticleButtonArticleFragment
     }

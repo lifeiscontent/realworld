@@ -84,7 +84,7 @@ UpdateArticleForm.fragments = {
 
 const UpdateArticleFormUpdateArticleMutation = gql`
   mutation UpdateArticleFormUpdateArticleMutation(
-    $slug: String!
+    $slug: ID!
     $input: UpdateArticleInput!
   ) {
     updateArticle(slug: $slug, input: $input) {
@@ -97,7 +97,7 @@ const UpdateArticleFormUpdateArticleMutation = gql`
 `;
 
 const UpdateArticleFormQuery = gql`
-  query UpdateArticleFormQuery($slug: String!) {
+  query UpdateArticleFormQuery($slug: ID!) {
     article: articleBySlug(slug: $slug) {
       ...UpdateArticleFormArticleFragment
     }

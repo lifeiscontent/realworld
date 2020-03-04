@@ -9,7 +9,7 @@ module Mutations
       end
     end
 
-    argument :article_slug, String, required: true
+    argument :article_slug, ID, required: true
     argument :input, CreateCommentInput, required: true
 
     field :comment, Types::CommentType, null: true
