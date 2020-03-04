@@ -9,28 +9,24 @@ import withApollo from '../lib/with-apollo';
 import { Layout } from '../components/layout';
 
 const ProfilePageQuery = gql`
-  query ProfilePageQuery($username: String!) {
+  query ProfilePageQuery($username: ID!) {
     viewer {
       ...LayoutUserFragment
     }
-    profile: profileByUsername(username: $username) {
+    user: userByUsername(username: $username) {
       username
-      bio
-      ...UserInfoProfileFragment
-      user {
-        id
-        articlesConnection {
-          edges {
-            node {
-              ...ArticlePreviewArticleFragment
-            }
+      articlesConnection {
+        edges {
+          node {
+            ...ArticlePreviewArticleFragment
           }
         }
       }
+      ...UserInfoUserFragment
     }
   }
   ${ArticlePreview.fragments.article}
-  ${UserInfo.fragments.profile}
+  ${UserInfo.fragments.user}
   ${Layout.fragments.user}
 `;
 
@@ -45,9 +41,9 @@ function ProfilePage() {
   if (profile.loading) return null;
 
   return (
-    <Layout userId={profile.data.viewer?.id}>
+    <Layout userUsername={profile.data.viewer?.username}>
       <div className="profile-page">
-        <UserInfo profileUsername={profile.data.profile.username} />
+        <UserInfo userUsername={profile.data.user.username} />
         <div className="container">
           <div className="row">
             <div className="col-xs-12 col-md-10 offset-md-1">
@@ -56,7 +52,7 @@ function ProfilePage() {
                   <li className="nav-item">
                     <Link
                       href="/[username]"
-                      as={`/${profile.data.profile.username}`}
+                      as={`/${profile.data.user.username}`}
                     >
                       <a className="nav-link active">My Articles</a>
                     </Link>
@@ -64,14 +60,14 @@ function ProfilePage() {
                   <li className="nav-item">
                     <Link
                       href="/[username]/favorites"
-                      as={`/${profile.data.profile.username}/favorites`}
+                      as={`/${profile.data.user.username}/favorites`}
                     >
                       <a className="nav-link">Favorited Articles</a>
                     </Link>
                   </li>
                 </ul>
               </div>
-              {profile.data.profile.user.articlesConnection.edges.map(edge => (
+              {profile.data.user.articlesConnection.edges.map(edge => (
                 <ArticlePreview
                   articleSlug={edge.node.slug}
                   key={edge.node.slug}

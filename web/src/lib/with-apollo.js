@@ -16,7 +16,7 @@ const cacheConfig = {
     switch (object.__typename) {
       case 'Article':
         return `${object.__typename}:${object.slug}`;
-      case 'Profile':
+      case 'User':
         return `${object.__typename}:${object.username}`;
       default:
         return defaultDataIdFromObject(object);
@@ -24,9 +24,6 @@ const cacheConfig = {
   },
   cacheRedirects: {
     Query: {
-      user(_root, args, context) {
-        return context.getCacheKey({ __typename: 'User', id: args.id });
-      },
       articleBySlug(_root, args, context) {
         return context.getCacheKey({
           __typename: 'Article',
@@ -39,9 +36,9 @@ const cacheConfig = {
           id: args.id
         });
       },
-      profileByUsername(_root, args, context) {
+      userByUsername(_root, args, context) {
         return context.getCacheKey({
-          __typename: 'Profile',
+          __typename: 'User',
           username: args.username
         });
       },

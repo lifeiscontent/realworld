@@ -1,7 +1,7 @@
 {
   "errors": [
     {
-      "message": "Variable $id of type ID! was provided invalid value",
+      "message": "Variable $username of type ID! was provided invalid value",
       "locations": [
         {
           "line": 1,

@@ -9,7 +9,7 @@ export function UserInfo(props) {
   const userInfo = useQuery(UserInfoQuery, {
     fetchPolicy: 'cache-only',
     variables: {
-      username: props.profileUsername
+      username: props.userUsername
     }
   });
 
@@ -21,14 +21,17 @@ export function UserInfo(props) {
         <div className="row">
           <div className="col-xs-12 col-md-10 offset-md-1">
             <img
-              src={userInfo.data.profile.imageUrl ?? '/images/smiley-cyrus.jpg'}
+              src={
+                userInfo.data.user.profile.imageUrl ??
+                '/images/smiley-cyrus.jpg'
+              }
               className="user-img"
-              alt={`Image of ${userInfo.data.profile.username}`}
+              alt={`Image of ${userInfo.data.user.username}`}
             />
-            <h4>{props.profileUsername}</h4>
-            <p>{userInfo.data.profile.bio}</p>
+            <h4>{props.userUsername}</h4>
+            <p>{userInfo.data.user.profile.bio}</p>
             <div className="btn-toolbar">
-              {userInfo.data.profile.user.canUpdate.value ? (
+              {userInfo.data.user.canUpdate.value ? (
                 <Link href="/settings" as="/settings">
                   <a className="btn btn-sm btn-outline-secondary action-btn">
                     <i className="ion-gear-a" />
@@ -36,7 +39,7 @@ export function UserInfo(props) {
                   </a>
                 </Link>
               ) : null}{' '}
-              <FollowUserButton profileUsername={props.profileUsername} />
+              <FollowUserButton userUsername={props.userUsername} />
             </div>
           </div>
         </div>
@@ -46,32 +49,31 @@ export function UserInfo(props) {
 }
 
 UserInfo.propTypes = {
-  profileUsername: PropTypes.string.isRequired
+  userUsername: PropTypes.string.isRequired
 };
 
 UserInfo.fragments = {
-  profile: gql`
-    fragment UserInfoProfileFragment on Profile {
-      ...FollowUserButtonProfileFragment
-      imageUrl
+  user: gql`
+    fragment UserInfoUserFragment on User {
+      ...FollowUserButtonUserFragment
       username
-      bio
-      user {
-        id
-        canUpdate {
-          value
-        }
+      canUpdate {
+        value
+      }
+      profile {
+        imageUrl
+        bio
       }
     }
-    ${FollowUserButton.fragments.profile}
+    ${FollowUserButton.fragments.user}
   `
 };
 
 const UserInfoQuery = gql`
-  query UserInfoQuery($username: String!) {
-    profile: profileByUsername(username: $username) {
-      ...UserInfoProfileFragment
+  query UserInfoQuery($username: ID!) {
+    user: userByUsername(username: $username) {
+      ...UserInfoUserFragment
     }
   }
-  ${UserInfo.fragments.profile}
+  ${UserInfo.fragments.user}
 `;

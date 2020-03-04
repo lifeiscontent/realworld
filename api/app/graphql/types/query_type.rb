@@ -62,20 +62,12 @@ module Types
       Comment.find(id)
     end
 
-    field :profile_by_username, ProfileType, null: false do
-      argument :username, String, required: true
+    field :user_by_username, UserType, null: false do
+      argument :username, ID, required: true
     end
 
-    def profile_by_username(username:)
-      Profile.find_by(username: username)
-    end
-
-    field :user, UserType, null: false do
-      argument :id, ID, required: true
-    end
-
-    def user(id:)
-      User.find(id)
+    def user_by_username(username:)
+      User.find_by(username: username)
     end
 
     field :viewer, UserType, null: true

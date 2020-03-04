@@ -13,9 +13,9 @@ fragment CommentCardCommentFragment on Comment {
   body
   createdAt
   author {
+    username
     profile {
       imageUrl
-      username
       __typename
     }
     __typename

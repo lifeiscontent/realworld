@@ -19,11 +19,10 @@ fragment ArticleMetaArticleFragment on Article {
   slug
   createdAt
   author {
-    id
+    username
+    ...FollowUserButtonUserFragment
     profile {
       imageUrl
-      username
-      ...FollowUserButtonProfileFragment
       __typename
     }
     __typename
@@ -58,17 +57,8 @@ fragment FavoriteArticleButtonArticleFragment on Article {
   __typename
 }
 
-fragment FollowUserButtonProfileFragment on Profile {
-  username
-  user {
-    ...FollowUserButtonUserFragment
-    __typename
-  }
-  __typename
-}
-
 fragment FollowUserButtonUserFragment on User {
-  id
+  username
   viewerIsFollowing
   canFollow {
     value
@@ -112,9 +102,9 @@ fragment CommentCardCommentFragment on Comment {
   body
   createdAt
   author {
+    username
     profile {
       imageUrl
-      username
       __typename
     }
     __typename
@@ -147,9 +137,8 @@ fragment CommentsListUserFragment on User {
 }
 
 fragment CommentFormUserFragment on User {
-  id
+  username
   profile {
-    username
     imageUrl
     __typename
   }
@@ -167,10 +156,6 @@ fragment NavbarUserFragment on User {
 }
 
 fragment NavbarUserDropdownUserFragment on User {
-  id
-  profile {
-    username
-    __typename
-  }
+  username
   __typename
 }

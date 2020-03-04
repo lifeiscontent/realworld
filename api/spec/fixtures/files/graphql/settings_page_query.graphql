@@ -17,19 +17,14 @@ fragment NavbarUserFragment on User {
 }
 
 fragment NavbarUserDropdownUserFragment on User {
-  id
-  profile {
-    username
-    __typename
-  }
+  username
   __typename
 }
 
 fragment SettingsPageUserFragment on User {
-  id
+  username
   email
   profile {
-    username
     bio
     imageUrl
     __typename

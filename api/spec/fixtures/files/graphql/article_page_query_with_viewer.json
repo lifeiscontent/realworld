@@ -1,9 +1,8 @@
 {
   "data": {
     "viewer": {
-      "id": "1",
+      "username": "user1",
       "profile": {
-        "username": "user1",
         "imageUrl": null,
         "__typename": "Profile"
       },
@@ -15,26 +14,21 @@
       "description": "There are five steps involved.",
       "createdAt": "1994-01-01T00:00:00Z",
       "author": {
-        "id": "1",
+        "username": "user1",
+        "viewerIsFollowing": false,
+        "canFollow": {
+          "value": false,
+          "__typename": "AuthorizationResult"
+        },
+        "canUnfollow": {
+          "value": false,
+          "__typename": "AuthorizationResult"
+        },
+        "__typename": "User",
         "profile": {
           "imageUrl": null,
-          "username": "user1",
-          "user": {
-            "id": "1",
-            "viewerIsFollowing": false,
-            "canFollow": {
-              "value": false,
-              "__typename": "AuthorizationResult"
-            },
-            "canUnfollow": {
-              "value": false,
-              "__typename": "AuthorizationResult"
-            },
-            "__typename": "User"
-          },
           "__typename": "Profile"
-        },
-        "__typename": "User"
+        }
       },
       "canDelete": {
         "value": true,

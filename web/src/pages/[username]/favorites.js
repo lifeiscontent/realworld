@@ -9,29 +9,25 @@ import withApollo from '../../lib/with-apollo';
 import { Layout } from '../../components/layout';
 
 const ProfileFavoritesPageQuery = gql`
-  query ProfileFavoritesPageQuery($username: String!) {
+  query ProfileFavoritesPageQuery($username: ID!) {
     viewer {
       ...LayoutUserFragment
     }
-    profile: profileByUsername(username: $username) {
+    user: userByUsername(username: $username) {
       username
-      bio
-      ...UserInfoProfileFragment
-      user {
-        id
-        favoriteArticlesConnection {
-          edges {
-            node {
-              ...ArticlePreviewArticleFragment
-            }
+      favoriteArticlesConnection {
+        edges {
+          node {
+            ...ArticlePreviewArticleFragment
           }
         }
       }
+      ...UserInfoUserFragment
     }
   }
   ${ArticlePreview.fragments.article}
   ${Layout.fragments.user}
-  ${UserInfo.fragments.profile}
+  ${UserInfo.fragments.user}
 `;
 
 function ProfileFavoritesPage() {
@@ -58,18 +54,15 @@ function ProfileFavoritesPage() {
         },
         data: {
           ...data,
-          profile: {
-            ...data.profile,
-            user: {
-              ...data.profile.user,
-              favoriteArticlesConnection: {
-                ...data.profile.user.favoriteArticlesConnection,
-                edges: data.profile.user.favoriteArticlesConnection.edges.filter(
-                  edge =>
-                    edge.node.slug !==
-                    mutationResult.data.unfavoriteArticle.article.slug
-                )
-              }
+          user: {
+            ...data.user,
+            favoriteArticlesConnection: {
+              ...data.user.favoriteArticlesConnection,
+              edges: data.user.favoriteArticlesConnection.edges.filter(
+                edge =>
+                  edge.node.slug !==
+                  mutationResult.data.unfavoriteArticle.article.slug
+              )
             }
           }
         }
@@ -81,9 +74,9 @@ function ProfileFavoritesPage() {
   if (favorites.loading) return null;
 
   return (
-    <Layout userId={favorites.data.viewer?.id}>
+    <Layout userUsername={favorites.data.viewer?.username}>
       <div className="profile-page">
-        <UserInfo profileUsername={favorites.data.profile.username} />
+        <UserInfo userUsername={favorites.data.user.username} />
         <div className="container">
           <div className="row">
             <div className="col-xs-12 col-md-10 offset-md-1">
@@ -92,7 +85,7 @@ function ProfileFavoritesPage() {
                   <li className="nav-item">
                     <Link
                       href="/[username]"
-                      as={`/${favorites.data.profile.username}`}
+                      as={`/${favorites.data.user.username}`}
                     >
                       <a className="nav-link">My Articles</a>
                     </Link>
@@ -100,14 +93,14 @@ function ProfileFavoritesPage() {
                   <li className="nav-item">
                     <Link
                       href="/[username]/favorites"
-                      as={`/${favorites.data.profile.username}/favorites`}
+                      as={`/${favorites.data.user.username}/favorites`}
                     >
                       <a className="nav-link active">Favorited Articles</a>
                     </Link>
                   </li>
                 </ul>
               </div>
-              {favorites.data.profile.user.favoriteArticlesConnection.edges.map(
+              {favorites.data.user.favoriteArticlesConnection.edges.map(
                 edge => (
                   <ArticlePreview
                     articleSlug={edge.node.slug}

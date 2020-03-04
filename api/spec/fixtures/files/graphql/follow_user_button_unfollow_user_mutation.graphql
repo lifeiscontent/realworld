@@ -1,5 +1,5 @@
-mutation FollowUserButtonUnfollowUserMutation($id: ID!) {
-  unfollowUser(id: $id) {
+mutation FollowUserButtonUnfollowUserMutation($username: ID!) {
+  unfollowUser(username: $username) {
     user {
       ...FollowUserButtonUserFragment
       __typename
@@ -9,7 +9,7 @@ mutation FollowUserButtonUnfollowUserMutation($id: ID!) {
 }
 
 fragment FollowUserButtonUserFragment on User {
-  id
+  username
   viewerIsFollowing
   canFollow {
     value

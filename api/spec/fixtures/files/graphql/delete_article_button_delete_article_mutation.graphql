@@ -3,11 +3,7 @@ mutation DeleteArticleButtonDeleteArticleMutation($slug: String!) {
     article {
       slug
       author {
-        id
-        profile {
-          username
-          __typename
-        }
+        username
         __typename
       }
       __typename

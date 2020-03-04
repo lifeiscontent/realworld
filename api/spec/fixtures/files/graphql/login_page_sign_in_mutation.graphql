@@ -2,12 +2,8 @@ mutation LoginPageSignInMutation($input: SignInInput!) {
   signIn(input: $input) {
     token
     user {
-      id
       email
-      profile {
-        username
-        __typename
-      }
+      username
       __typename
     }
     __typename

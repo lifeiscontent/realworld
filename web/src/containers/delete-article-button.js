@@ -34,7 +34,7 @@ export function DeleteArticleButton(props) {
         deleteArticle().then(value => {
           router.push(
             '/[username]',
-            `/${value.data.deleteArticle.article.author.profile.username}`
+            `/${value.data.deleteArticle.article.author.username}`
           );
         });
       }}
@@ -74,10 +74,7 @@ const DeleteArticleButtonDeleteArticleMutation = gql`
       article {
         slug
         author {
-          id
-          profile {
-            username
-          }
+          username
         }
       }
     }

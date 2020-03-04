@@ -1,11 +1,11 @@
 {
   "errors": [
     {
-      "message": "Variable $username of type ID! was provided invalid value",
+      "message": "Variable $slug of type String! was provided invalid value",
       "locations": [
         {
           "line": 1,
-          "column": 24
+          "column": 57
         }
       ],
       "extensions": {

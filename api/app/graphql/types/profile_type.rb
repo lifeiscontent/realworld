@@ -3,7 +3,6 @@
 module Types
   class ProfileType < Types::BaseObject
     field :id, ID, null: false
-    field :username, String, null: false
     field :bio, String, null: false
     field :image_url, String, null: true
     field :user, UserType, null: false

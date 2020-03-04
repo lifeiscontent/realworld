@@ -42,7 +42,7 @@ function ArticlePage() {
   if (article.loading) return null;
 
   return (
-    <Layout userId={article.data.viewer?.id}>
+    <Layout userUsername={article.data.viewer?.username}>
       <div className="article-page">
         <Banner articleSlug={router.query.slug} />
         <div className="container page">
@@ -59,7 +59,7 @@ function ArticlePage() {
           <div className="row">
             <div className="col-xs-12 col-md-8 offset-md-2">
               <CommentsList
-                userId={article.data.viewer?.id}
+                userUsername={article.data.viewer?.username}
                 articleSlug={router.query.slug}
               />
             </div>

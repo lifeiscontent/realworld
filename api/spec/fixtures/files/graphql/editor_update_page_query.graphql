@@ -33,10 +33,6 @@ fragment NavbarUserFragment on User {
 }
 
 fragment NavbarUserDropdownUserFragment on User {
-  id
-  profile {
-    username
-    __typename
-  }
+  username
   __typename
 }

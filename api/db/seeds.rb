@@ -26,10 +26,11 @@ end
 10.times do
   User.new(
     email: Faker::Internet.email,
-    password: 'password'
+    password: 'password',
+    username: Faker::Internet.unique.username(separators: [])
   ) do |user|
+    user.build_profile
     user.save!
-    user.create_profile(username: Faker::Internet.unique.username(separators: []))
     20.times do
       user.articles.build(
         body: Faker::Lorem.paragraph(sentence_count: 10),

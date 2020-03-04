@@ -1,5 +1,5 @@
-mutation SettingsPageUpdateUserMutation($id: ID!, $input: UpdateUserInput!) {
-  updateUser(id: $id, input: $input) {
+mutation SettingsPageUpdateUserMutation($username: ID!, $input: UpdateUserInput!) {
+  updateUser(username: $username, input: $input) {
     user {
       ...SettingsPageUserFragment
       __typename
@@ -9,10 +9,9 @@ mutation SettingsPageUpdateUserMutation($id: ID!, $input: UpdateUserInput!) {
 }
 
 fragment SettingsPageUserFragment on User {
-  id
+  username
   email
   profile {
-    username
     bio
     imageUrl
     __typename

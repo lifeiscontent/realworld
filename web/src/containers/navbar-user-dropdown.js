@@ -10,7 +10,7 @@ export function NavbarUserDropdown(props) {
   const navbarUserDropdown = useQuery(NavbarUserDropdownQuery, {
     fetchPolicy: 'cache-first',
     variables: {
-      id: props.userId
+      username: props.userUsername
     }
   });
 
@@ -31,12 +31,12 @@ export function NavbarUserDropdown(props) {
           setOpen(!open);
         }}
       >
-        {navbarUserDropdown.data.user.profile.username}
+        {navbarUserDropdown.data.user.username}
       </a>
       <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
         <Link
           href={`/[username]`}
-          as={`/${navbarUserDropdown.data.user.profile.username}`}
+          as={`/${navbarUserDropdown.data.user.username}`}
         >
           <a className="dropdown-item" onClick={() => setOpen(false)}>
             Profile
@@ -64,23 +64,20 @@ export function NavbarUserDropdown(props) {
 }
 
 NavbarUserDropdown.propTypes = {
-  userId: PropTypes.string.isRequired
+  userUsername: PropTypes.string.isRequired
 };
 
 NavbarUserDropdown.fragments = {
   user: gql`
     fragment NavbarUserDropdownUserFragment on User {
-      id
-      profile {
-        username
-      }
+      username
     }
   `
 };
 
 const NavbarUserDropdownQuery = gql`
-  query NavBarQuery($id: ID!) {
-    user(id: $id) {
+  query NavBarQuery($username: ID!) {
+    user: userByUsername(username: $username) {
       ...NavbarUserDropdownUserFragment
     }
   }
