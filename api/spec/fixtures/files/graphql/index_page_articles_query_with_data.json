@@ -18,12 +18,18 @@
           "node": {
             "createdAt": "1994-01-01T00:00:00Z",
             "description": "There are five steps involved.",
+            "favoritesCount": 0,
             "slug": "title-1",
             "title": "Title 1",
+            "viewerDidFavorite": false,
             "tags": [
 
             ],
             "canFavorite": {
+              "value": false,
+              "__typename": "AuthorizationResult"
+            },
+            "canUnfavorite": {
               "value": false,
               "__typename": "AuthorizationResult"
             },
@@ -34,12 +40,6 @@
                 "__typename": "Profile"
               },
               "__typename": "User"
-            },
-            "favoritesCount": 0,
-            "viewerDidFavorite": false,
-            "canUnfavorite": {
-              "value": false,
-              "__typename": "AuthorizationResult"
             },
             "__typename": "Article"
           },
@@ -50,12 +50,18 @@
           "node": {
             "createdAt": "1994-01-01T00:00:00Z",
             "description": "There are five steps involved.",
+            "favoritesCount": 0,
             "slug": "title-2",
             "title": "Title 2",
+            "viewerDidFavorite": false,
             "tags": [
 
             ],
             "canFavorite": {
+              "value": false,
+              "__typename": "AuthorizationResult"
+            },
+            "canUnfavorite": {
               "value": false,
               "__typename": "AuthorizationResult"
             },
@@ -66,12 +72,6 @@
                 "__typename": "Profile"
               },
               "__typename": "User"
-            },
-            "favoritesCount": 0,
-            "viewerDidFavorite": false,
-            "canUnfavorite": {
-              "value": false,
-              "__typename": "AuthorizationResult"
             },
             "__typename": "Article"
           },
@@ -82,12 +82,18 @@
           "node": {
             "createdAt": "1994-01-01T00:00:00Z",
             "description": "There are five steps involved.",
+            "favoritesCount": 0,
             "slug": "title-3",
             "title": "Title 3",
+            "viewerDidFavorite": false,
             "tags": [
 
             ],
             "canFavorite": {
+              "value": false,
+              "__typename": "AuthorizationResult"
+            },
+            "canUnfavorite": {
               "value": false,
               "__typename": "AuthorizationResult"
             },
@@ -98,12 +104,6 @@
                 "__typename": "Profile"
               },
               "__typename": "User"
-            },
-            "favoritesCount": 0,
-            "viewerDidFavorite": false,
-            "canUnfavorite": {
-              "value": false,
-              "__typename": "AuthorizationResult"
             },
             "__typename": "Article"
           },
@@ -114,12 +114,18 @@
           "node": {
             "createdAt": "1994-01-01T00:00:00Z",
             "description": "There are five steps involved.",
+            "favoritesCount": 0,
             "slug": "title-4",
             "title": "Title 4",
+            "viewerDidFavorite": false,
             "tags": [
 
             ],
             "canFavorite": {
+              "value": false,
+              "__typename": "AuthorizationResult"
+            },
+            "canUnfavorite": {
               "value": false,
               "__typename": "AuthorizationResult"
             },
@@ -130,12 +136,6 @@
                 "__typename": "Profile"
               },
               "__typename": "User"
-            },
-            "favoritesCount": 0,
-            "viewerDidFavorite": false,
-            "canUnfavorite": {
-              "value": false,
-              "__typename": "AuthorizationResult"
             },
             "__typename": "Article"
           },
@@ -146,12 +146,18 @@
           "node": {
             "createdAt": "1994-01-01T00:00:00Z",
             "description": "There are five steps involved.",
+            "favoritesCount": 0,
             "slug": "title-5",
             "title": "Title 5",
+            "viewerDidFavorite": false,
             "tags": [
 
             ],
             "canFavorite": {
+              "value": false,
+              "__typename": "AuthorizationResult"
+            },
+            "canUnfavorite": {
               "value": false,
               "__typename": "AuthorizationResult"
             },
@@ -162,12 +168,6 @@
                 "__typename": "Profile"
               },
               "__typename": "User"
-            },
-            "favoritesCount": 0,
-            "viewerDidFavorite": false,
-            "canUnfavorite": {
-              "value": false,
-              "__typename": "AuthorizationResult"
             },
             "__typename": "Article"
           },
@@ -178,12 +178,18 @@
           "node": {
             "createdAt": "1994-01-01T00:00:00Z",
             "description": "There are five steps involved.",
+            "favoritesCount": 0,
             "slug": "title-6",
             "title": "Title 6",
+            "viewerDidFavorite": false,
             "tags": [
 
             ],
             "canFavorite": {
+              "value": false,
+              "__typename": "AuthorizationResult"
+            },
+            "canUnfavorite": {
               "value": false,
               "__typename": "AuthorizationResult"
             },
@@ -194,12 +200,6 @@
                 "__typename": "Profile"
               },
               "__typename": "User"
-            },
-            "favoritesCount": 0,
-            "viewerDidFavorite": false,
-            "canUnfavorite": {
-              "value": false,
-              "__typename": "AuthorizationResult"
             },
             "__typename": "Article"
           },
@@ -210,12 +210,18 @@
           "node": {
             "createdAt": "1994-01-01T00:00:00Z",
             "description": "There are five steps involved.",
+            "favoritesCount": 0,
             "slug": "title-7",
             "title": "Title 7",
+            "viewerDidFavorite": false,
             "tags": [
 
             ],
             "canFavorite": {
+              "value": false,
+              "__typename": "AuthorizationResult"
+            },
+            "canUnfavorite": {
               "value": false,
               "__typename": "AuthorizationResult"
             },
@@ -226,12 +232,6 @@
                 "__typename": "Profile"
               },
               "__typename": "User"
-            },
-            "favoritesCount": 0,
-            "viewerDidFavorite": false,
-            "canUnfavorite": {
-              "value": false,
-              "__typename": "AuthorizationResult"
             },
             "__typename": "Article"
           },
@@ -242,12 +242,18 @@
           "node": {
             "createdAt": "1994-01-01T00:00:00Z",
             "description": "There are five steps involved.",
+            "favoritesCount": 0,
             "slug": "title-8",
             "title": "Title 8",
+            "viewerDidFavorite": false,
             "tags": [
 
             ],
             "canFavorite": {
+              "value": false,
+              "__typename": "AuthorizationResult"
+            },
+            "canUnfavorite": {
               "value": false,
               "__typename": "AuthorizationResult"
             },
@@ -258,12 +264,6 @@
                 "__typename": "Profile"
               },
               "__typename": "User"
-            },
-            "favoritesCount": 0,
-            "viewerDidFavorite": false,
-            "canUnfavorite": {
-              "value": false,
-              "__typename": "AuthorizationResult"
             },
             "__typename": "Article"
           },
@@ -274,12 +274,18 @@
           "node": {
             "createdAt": "1994-01-01T00:00:00Z",
             "description": "There are five steps involved.",
+            "favoritesCount": 0,
             "slug": "title-9",
             "title": "Title 9",
+            "viewerDidFavorite": false,
             "tags": [
 
             ],
             "canFavorite": {
+              "value": false,
+              "__typename": "AuthorizationResult"
+            },
+            "canUnfavorite": {
               "value": false,
               "__typename": "AuthorizationResult"
             },
@@ -290,12 +296,6 @@
                 "__typename": "Profile"
               },
               "__typename": "User"
-            },
-            "favoritesCount": 0,
-            "viewerDidFavorite": false,
-            "canUnfavorite": {
-              "value": false,
-              "__typename": "AuthorizationResult"
             },
             "__typename": "Article"
           },
@@ -306,12 +306,18 @@
           "node": {
             "createdAt": "1994-01-01T00:00:00Z",
             "description": "There are five steps involved.",
+            "favoritesCount": 0,
             "slug": "title-10",
             "title": "Title 10",
+            "viewerDidFavorite": false,
             "tags": [
 
             ],
             "canFavorite": {
+              "value": false,
+              "__typename": "AuthorizationResult"
+            },
+            "canUnfavorite": {
               "value": false,
               "__typename": "AuthorizationResult"
             },
@@ -322,12 +328,6 @@
                 "__typename": "Profile"
               },
               "__typename": "User"
-            },
-            "favoritesCount": 0,
-            "viewerDidFavorite": false,
-            "canUnfavorite": {
-              "value": false,
-              "__typename": "AuthorizationResult"
             },
             "__typename": "Article"
           },

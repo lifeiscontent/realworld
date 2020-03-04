@@ -25,9 +25,9 @@ export default (req, res) => {
       );
     }
 
-    return fetch('http://localhost:4000/graphql', {
+    return fetch(process.env.GRAPHQL_URL, {
       body: JSON.stringify(req.body),
-      credentials: 'include',
+      credentials: 'omit',
       headers,
       method: req.method
     })

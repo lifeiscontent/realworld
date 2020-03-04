@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import Link from 'next/link';
 import { ArticlePreviewTag } from './article-preview-tag';
-import { ArticlePreviewFavoriteButton } from './article-preview-favorite-button';
 import { format } from '../utils/date';
+import { FavoriteArticleButton } from '../components/favorite-article-button';
 
 export function ArticlePreview(props) {
   const articlePreview = useQuery(ArticlePreviewQuery, {
@@ -13,7 +13,44 @@ export function ArticlePreview(props) {
     variables: { slug: props.articleSlug }
   });
 
+  const [favoriteArticle] = useMutation(ArticlePreviewFavoriteArticleMutation, {
+    variables: {
+      slug: props.articleSlug
+    }
+  });
+
+  const [unfavoriteArticle] = useMutation(
+    ArticlePreviewUnfavoriteArticleMutation,
+    {
+      variables: {
+        slug: props.articleSlug
+      },
+      update: props.onUnfavoriteArticle
+    }
+  );
+
+  const handleFavoriting = useCallback(
+    event => {
+      event.preventDefault();
+      if (articlePreview.data.article.viewerDidFavorite) {
+        unfavoriteArticle();
+      } else {
+        favoriteArticle();
+      }
+    },
+    [
+      articlePreview.data.article.viewerDidFavorite,
+      favoriteArticle,
+      unfavoriteArticle
+    ]
+  );
+
   if (articlePreview.loading) return null;
+
+  const canChangeFavorite =
+    (articlePreview.data.article.canFavorite.value &&
+      articlePreview.data.article.canUnfavorite.value) ||
+    false;
 
   return (
     <div className="article-preview">
@@ -50,10 +87,16 @@ export function ArticlePreview(props) {
             {format(new Date(articlePreview.data.article.createdAt), 'MMMM Qo')}
           </time>
         </div>
-        <ArticlePreviewFavoriteButton
-          articleSlug={props.articleSlug}
-          onUnfavoriteArticle={props.onUnfavoriteArticle}
-        />
+        {canChangeFavorite ? (
+          <div className="pull-xs-right">
+            <FavoriteArticleButton
+              pressed={articlePreview.data.article.viewerDidFavorite ?? false}
+              onClick={handleFavoriting}
+            >
+              {articlePreview.data.article.favoritesCount ?? 0}
+            </FavoriteArticleButton>
+          </div>
+        ) : null}
       </div>
       <Link href="/article/[slug]" as={`/article/${props.articleSlug}`}>
         <a className="preview-link">
@@ -83,12 +126,17 @@ ArticlePreview.fragments = {
     fragment ArticlePreviewArticleFragment on Article {
       createdAt
       description
+      favoritesCount
       slug
       title
+      viewerDidFavorite
       tags {
         ...ArticlePreviewTagTagFragment
       }
       canFavorite {
+        value
+      }
+      canUnfavorite {
         value
       }
       author {
@@ -97,10 +145,8 @@ ArticlePreview.fragments = {
           imageUrl
         }
       }
-      ...ArticlePreviewFavoriteButtonArticleFragment
     }
     ${ArticlePreviewTag.fragments.tag}
-    ${ArticlePreviewFavoriteButton.fragments.article}
   `
 };
 
@@ -108,6 +154,28 @@ const ArticlePreviewQuery = gql`
   query ArticlePreviewQuery($slug: ID!) {
     article: articleBySlug(slug: $slug) {
       ...ArticlePreviewArticleFragment
+    }
+  }
+  ${ArticlePreview.fragments.article}
+`;
+
+const ArticlePreviewFavoriteArticleMutation = gql`
+  mutation ArticlePreviewFavoriteArticleMutation($slug: ID!) {
+    favoriteArticle(slug: $slug) {
+      article {
+        ...ArticlePreviewArticleFragment
+      }
+    }
+  }
+  ${ArticlePreview.fragments.article}
+`;
+
+const ArticlePreviewUnfavoriteArticleMutation = gql`
+  mutation ArticlePreviewUnfavoriteArticleMutation($slug: ID!) {
+    unfavoriteArticle(slug: $slug) {
+      article {
+        ...ArticlePreviewArticleFragment
+      }
     }
   }
   ${ArticlePreview.fragments.article}
