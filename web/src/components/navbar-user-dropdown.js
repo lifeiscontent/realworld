@@ -1,20 +1,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
 import Link from 'next/link';
 
 export function NavbarUserDropdown(props) {
   const [open, setOpen] = useState(false);
-  const navbarUserDropdown = useQuery(NavbarUserDropdownQuery, {
-    fetchPolicy: 'cache-first',
-    variables: {
-      username: props.userUsername
-    }
-  });
-
-  if (navbarUserDropdown.loading) return null;
 
   return (
     <li className={clsx('nav-item dropdown', { open })}>
@@ -31,13 +21,10 @@ export function NavbarUserDropdown(props) {
           setOpen(!open);
         }}
       >
-        {navbarUserDropdown.data.user.username}
+        {props.userUsername}
       </a>
       <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-        <Link
-          href="/[username]"
-          as={`/${navbarUserDropdown.data.user.username}`}
-        >
+        <Link href="/[username]" as={`/${props.userUsername}`}>
           <a className="dropdown-item" onClick={() => setOpen(false)}>
             Profile
           </a>
@@ -66,20 +53,3 @@ export function NavbarUserDropdown(props) {
 NavbarUserDropdown.propTypes = {
   userUsername: PropTypes.string.isRequired
 };
-
-NavbarUserDropdown.fragments = {
-  user: gql`
-    fragment NavbarUserDropdownUserFragment on User {
-      username
-    }
-  `
-};
-
-const NavbarUserDropdownQuery = gql`
-  query NavBarQuery($username: ID!) {
-    user: userByUsername(username: $username) {
-      ...NavbarUserDropdownUserFragment
-    }
-  }
-  ${NavbarUserDropdown.fragments.user}
-`;

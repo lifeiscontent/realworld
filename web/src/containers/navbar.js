@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import clsx from 'clsx';
-import { NavbarUserDropdown } from './navbar-user-dropdown';
+import { NavbarUserDropdown } from '../components/navbar-user-dropdown';
 import gql from 'graphql-tag';
 
 function NavLink(props) {
@@ -73,8 +73,7 @@ Navbar.propTypes = {
 Navbar.fragments = {
   user: gql`
     fragment NavbarUserFragment on User {
-      ...NavbarUserDropdownUserFragment
+      username
     }
-    ${NavbarUserDropdown.fragments.user}
   `
 };
