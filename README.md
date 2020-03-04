@@ -8,12 +8,18 @@
 
 ### Api
 
-1. `bundle`
-2. `bin/rails db:migrate`
-3. `bin/rails db:seed`
-4. `bin/rails s`
+```sh
+cd api
+bundle
+bin/rails db:migrate
+bin/rails db:seed
+bin/rails s
+```
 
 ### Web
 
-1. `yarn`
-2. `yarn dev`
+```sh
+cd web
+yarn
+yarn dev
+```
