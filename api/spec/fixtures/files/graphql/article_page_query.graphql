@@ -16,19 +16,28 @@ query ArticlePageQuery($slug: ID!) {
 }
 
 fragment ArticleMetaArticleFragment on Article {
-  slug
-  createdAt
   author {
     username
-    ...FollowUserButtonUserFragment
     profile {
       imageUrl
       __typename
     }
+    ...FollowUserButtonUserFragment
     __typename
   }
+  canFavorite {
+    value
+    __typename
+  }
+  canUnfavorite {
+    value
+    __typename
+  }
+  createdAt
+  favoritesCount
+  slug
+  viewerDidFavorite
   ...DeleteArticleButtonArticleFragment
-  ...FavoriteArticleButtonArticleFragment
   ...UpdateArticleButtonArticleFragment
   __typename
 }
@@ -42,24 +51,10 @@ fragment DeleteArticleButtonArticleFragment on Article {
   __typename
 }
 
-fragment FavoriteArticleButtonArticleFragment on Article {
-  slug
-  favoritesCount
-  viewerDidFavorite
-  canFavorite {
-    value
-    __typename
-  }
-  canUnfavorite {
-    value
-    __typename
-  }
-  __typename
-}
-
 fragment FollowUserButtonUserFragment on User {
   username
   viewerIsFollowing
+  followersCount
   canFollow {
     value
     __typename

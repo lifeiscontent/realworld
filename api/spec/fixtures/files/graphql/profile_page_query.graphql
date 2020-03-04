@@ -23,13 +23,19 @@ query ProfilePageQuery($username: ID!) {
 fragment ArticlePreviewArticleFragment on Article {
   createdAt
   description
+  favoritesCount
   slug
   title
+  viewerDidFavorite
   tags {
     ...ArticlePreviewTagTagFragment
     __typename
   }
   canFavorite {
+    value
+    __typename
+  }
+  canUnfavorite {
     value
     __typename
   }
@@ -41,28 +47,12 @@ fragment ArticlePreviewArticleFragment on Article {
     }
     __typename
   }
-  ...ArticlePreviewFavoriteButtonArticleFragment
   __typename
 }
 
 fragment ArticlePreviewTagTagFragment on Tag {
   id
   name
-  __typename
-}
-
-fragment ArticlePreviewFavoriteButtonArticleFragment on Article {
-  favoritesCount
-  slug
-  viewerDidFavorite
-  canFavorite {
-    value
-    __typename
-  }
-  canUnfavorite {
-    value
-    __typename
-  }
   __typename
 }
 
@@ -84,6 +74,7 @@ fragment UserInfoUserFragment on User {
 fragment FollowUserButtonUserFragment on User {
   username
   viewerIsFollowing
+  followersCount
   canFollow {
     value
     __typename

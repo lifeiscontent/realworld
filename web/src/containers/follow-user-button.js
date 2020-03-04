@@ -59,7 +59,7 @@ export function FollowUserButton(props) {
       }}
     >
       <i className="ion-plus-round" /> {actionName(viewerIsFollowing)}{' '}
-      {props.userUsername}
+      {props.userUsername} ({followButton.data.user.followersCount})
     </button>
   ) : null;
 }
@@ -73,6 +73,7 @@ FollowUserButton.fragments = {
     fragment FollowUserButtonUserFragment on User {
       username
       viewerIsFollowing
+      followersCount
       canFollow {
         value
       }

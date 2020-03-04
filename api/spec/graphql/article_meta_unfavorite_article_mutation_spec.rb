@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'FavoriteArticleButtonUnfavoriteMutation', type: :graphql do
+RSpec.describe 'ArticleMetaUnfavoriteArticleMutation', type: :graphql do
   context 'no data' do
     it { is_expected.to eql(result) }
   end

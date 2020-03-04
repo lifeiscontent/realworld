@@ -11,6 +11,7 @@ mutation FollowUserButtonUnfollowUserMutation($username: ID!) {
 fragment FollowUserButtonUserFragment on User {
   username
   viewerIsFollowing
+  followersCount
   canFollow {
     value
     __typename

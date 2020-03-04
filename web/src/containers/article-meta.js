@@ -1,13 +1,24 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import Link from 'next/link';
 import { format } from '../utils/date';
 import gql from 'graphql-tag';
 import { UpdateArticleButton } from './update-article-button';
 import { FollowUserButton } from './follow-user-button';
-import { FavoriteArticleButton } from './favorite-article-button';
+import { FavoriteArticleButton } from '../components/favorite-article-button';
 import { DeleteArticleButton } from './delete-article-button';
+
+function actionName(viewerDidFavorite) {
+  switch (viewerDidFavorite) {
+    case true:
+      return 'Unfavorite Article';
+    case false:
+      return 'Favorite Article';
+    default:
+      return '';
+  }
+}
 
 export function ArticleMeta(props) {
   const article = useQuery(ArticleMetaQuery, {
@@ -17,7 +28,49 @@ export function ArticleMeta(props) {
     }
   });
 
+  const [favoriteArticle] = useMutation(ArticleMetaFavoriteArticleMutation, {
+    variables: {
+      slug: props.articleSlug
+    }
+  });
+
+  const [unfavoriteArticle] = useMutation(
+    ArticleMetaUnfavoriteArticleMutation,
+    {
+      variables: {
+        slug: props.articleSlug
+      }
+    }
+  );
+
+  const handleFavoriting = useCallback(
+    event => {
+      event.preventDefault();
+      if (article.data.article.viewerDidFavorite) {
+        unfavoriteArticle();
+      } else {
+        favoriteArticle();
+      }
+    },
+    [article.data.article.viewerDidFavorite, favoriteArticle, unfavoriteArticle]
+  );
+
   if (article.loading) return null;
+
+  const canChangeFavorite =
+    (article.data.article.canFavorite.value &&
+      article.data.article.canUnfavorite.value) ||
+    false;
+
+  const favoriteButton = canChangeFavorite ? (
+    <FavoriteArticleButton
+      pressed={article.data.article.viewerDidFavorite ?? false}
+      onClick={handleFavoriting}
+    >
+      {actionName(article.data.article.viewerDidFavorite)} (
+      {article.data.article.favoritesCount ?? 0})
+    </FavoriteArticleButton>
+  ) : null;
 
   return (
     <div className="article-meta">
@@ -46,8 +99,7 @@ export function ArticleMeta(props) {
         </time>
       </div>
       <FollowUserButton userUsername={article.data.article.author.username} />{' '}
-      <FavoriteArticleButton articleSlug={props.articleSlug} />{' '}
-      <UpdateArticleButton articleSlug={props.articleSlug} />{' '}
+      {favoriteButton} <UpdateArticleButton articleSlug={props.articleSlug} />{' '}
       <DeleteArticleButton articleSlug={props.articleSlug} />
     </div>
   );
@@ -60,21 +112,27 @@ ArticleMeta.propTypes = {
 ArticleMeta.fragments = {
   article: gql`
     fragment ArticleMetaArticleFragment on Article {
-      slug
-      createdAt
       author {
         username
-        ...FollowUserButtonUserFragment
         profile {
           imageUrl
         }
+        ...FollowUserButtonUserFragment
       }
+      canFavorite {
+        value
+      }
+      canUnfavorite {
+        value
+      }
+      createdAt
+      favoritesCount
+      slug
+      viewerDidFavorite
       ...DeleteArticleButtonArticleFragment
-      ...FavoriteArticleButtonArticleFragment
       ...UpdateArticleButtonArticleFragment
     }
     ${DeleteArticleButton.fragments.article}
-    ${FavoriteArticleButton.fragments.article}
     ${FollowUserButton.fragments.user}
     ${UpdateArticleButton.fragments.article}
   `
@@ -84,6 +142,28 @@ const ArticleMetaQuery = gql`
   query ArticleMetaQuery($slug: ID!) {
     article: articleBySlug(slug: $slug) {
       ...ArticleMetaArticleFragment
+    }
+  }
+  ${ArticleMeta.fragments.article}
+`;
+
+const ArticleMetaFavoriteArticleMutation = gql`
+  mutation ArticleMetaFavoriteArticleMutation($slug: ID!) {
+    favoriteArticle(slug: $slug) {
+      article {
+        ...ArticleMetaArticleFragment
+      }
+    }
+  }
+  ${ArticleMeta.fragments.article}
+`;
+
+const ArticleMetaUnfavoriteArticleMutation = gql`
+  mutation ArticleMetaUnfavoriteArticleMutation($slug: ID!) {
+    unfavoriteArticle(slug: $slug) {
+      article {
+        ...ArticleMetaArticleFragment
+      }
     }
   }
   ${ArticleMeta.fragments.article}
