@@ -1,12 +1,8 @@
 {
   "data": {
     "viewer": {
-      "id": "1",
-      "__typename": "User",
-      "profile": {
-        "username": "user1",
-        "__typename": "Profile"
-      }
+      "username": "user1",
+      "__typename": "User"
     },
     "articlesConnection": {
       "pageInfo": {
@@ -32,10 +28,9 @@
               "__typename": "AuthorizationResult"
             },
             "author": {
-              "id": "1",
+              "username": "user1",
               "profile": {
                 "imageUrl": null,
-                "username": "user1",
                 "__typename": "Profile"
               },
               "__typename": "User"
@@ -65,10 +60,9 @@
               "__typename": "AuthorizationResult"
             },
             "author": {
-              "id": "1",
+              "username": "user1",
               "profile": {
                 "imageUrl": null,
-                "username": "user1",
                 "__typename": "Profile"
               },
               "__typename": "User"
@@ -98,10 +92,9 @@
               "__typename": "AuthorizationResult"
             },
             "author": {
-              "id": "1",
+              "username": "user1",
               "profile": {
                 "imageUrl": null,
-                "username": "user1",
                 "__typename": "Profile"
               },
               "__typename": "User"
@@ -131,10 +124,9 @@
               "__typename": "AuthorizationResult"
             },
             "author": {
-              "id": "1",
+              "username": "user1",
               "profile": {
                 "imageUrl": null,
-                "username": "user1",
                 "__typename": "Profile"
               },
               "__typename": "User"
@@ -164,10 +156,9 @@
               "__typename": "AuthorizationResult"
             },
             "author": {
-              "id": "1",
+              "username": "user1",
               "profile": {
                 "imageUrl": null,
-                "username": "user1",
                 "__typename": "Profile"
               },
               "__typename": "User"
@@ -197,10 +188,9 @@
               "__typename": "AuthorizationResult"
             },
             "author": {
-              "id": "1",
+              "username": "user1",
               "profile": {
                 "imageUrl": null,
-                "username": "user1",
                 "__typename": "Profile"
               },
               "__typename": "User"
@@ -230,10 +220,9 @@
               "__typename": "AuthorizationResult"
             },
             "author": {
-              "id": "1",
+              "username": "user1",
               "profile": {
                 "imageUrl": null,
-                "username": "user1",
                 "__typename": "Profile"
               },
               "__typename": "User"
@@ -263,10 +252,9 @@
               "__typename": "AuthorizationResult"
             },
             "author": {
-              "id": "1",
+              "username": "user1",
               "profile": {
                 "imageUrl": null,
-                "username": "user1",
                 "__typename": "Profile"
               },
               "__typename": "User"
@@ -296,10 +284,9 @@
               "__typename": "AuthorizationResult"
             },
             "author": {
-              "id": "1",
+              "username": "user1",
               "profile": {
                 "imageUrl": null,
-                "username": "user1",
                 "__typename": "Profile"
               },
               "__typename": "User"
@@ -329,10 +316,9 @@
               "__typename": "AuthorizationResult"
             },
             "author": {
-              "id": "1",
+              "username": "user1",
               "profile": {
                 "imageUrl": null,
-                "username": "user1",
                 "__typename": "Profile"
               },
               "__typename": "User"

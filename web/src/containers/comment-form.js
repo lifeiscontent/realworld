@@ -24,7 +24,7 @@ export function CommentForm(props) {
     fetchPolicy: 'cache-only',
     variables: {
       slug: props.articleSlug,
-      id: props.userId
+      username: props.userUsername
     }
   });
 
@@ -80,16 +80,11 @@ export function CommentForm(props) {
                 '/images/smiley-cyrus.jpg'
               }
               className="comment-author-img"
-              alt={`Image of ${commentForm.data.user.profile.username}`}
+              alt={`Image of ${commentForm.data.user.username}`}
             />
             &nbsp;&nbsp;
-            <Link
-              href="/[username]"
-              as={`/${commentForm.data.user.profile.username}`}
-            >
-              <a className="comment-author">
-                {commentForm.data.user.profile.username}
-              </a>
+            <Link href="/[username]" as={`/${commentForm.data.user.username}`}>
+              <a className="comment-author">{commentForm.data.user.username}</a>
             </Link>
             <FormikSubmitButton className="btn btn-sm btn-primary">
               Post Comment
@@ -103,16 +98,15 @@ export function CommentForm(props) {
 
 CommentForm.propTypes = {
   articleSlug: PropTypes.string.isRequired,
-  userId: PropTypes.string.isRequired,
+  userUsername: PropTypes.string.isRequired,
   onCreateComment: PropTypes.func.isRequired
 };
 
 CommentForm.fragments = {
   user: gql`
     fragment CommentFormUserFragment on User {
-      id
+      username
       profile {
-        username
         imageUrl
       }
     }
@@ -128,8 +122,8 @@ CommentForm.fragments = {
 };
 
 const CommentFormQuery = gql`
-  query CommentFormQuery($id: ID!, $slug: String!) {
-    user(id: $id) {
+  query CommentFormQuery($username: ID!, $slug: String!) {
+    user: userByUsername(username: $username) {
       ...CommentFormUserFragment
     }
     article: articleBySlug(slug: $slug) {

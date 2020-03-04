@@ -14,11 +14,8 @@ const LoginPageSignInMutation = gql`
     signIn(input: $input) {
       token
       user {
-        id
         email
-        profile {
-          username
-        }
+        username
       }
     }
   }

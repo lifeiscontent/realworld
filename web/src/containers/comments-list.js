@@ -71,7 +71,7 @@ export function CommentsList(props) {
     <>
       {commentsList.data.article.canCreateComment.value ? (
         <CommentForm
-          userId={props.userId}
+          userUsername={props.userUsername}
           articleSlug={props.articleSlug}
           onCreateComment={handleCreateComment}
         />
@@ -88,7 +88,7 @@ export function CommentsList(props) {
 }
 
 CommentsList.propTypes = {
-  userId: PropTypes.string,
+  userUsername: PropTypes.string,
   articleSlug: PropTypes.string.isRequired
 };
 

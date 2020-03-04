@@ -21,28 +21,23 @@ export function ArticleMeta(props) {
 
   return (
     <div className="article-meta">
-      <Link
-        href="/[username]"
-        as={`/${article.data.article.author.profile.username}`}
-      >
+      <Link href="/[username]" as={`/${article.data.article.author.username}`}>
         <a>
           <img
             src={
               article.data.article.author.profile.imageUrl ??
               '/images/smiley-cyrus.jpg'
             }
-            alt={`Image of ${article.data.article.author.profile.username}`}
+            alt={`Image of ${article.data.article.author.username}`}
           />
         </a>
       </Link>
       <div className="info">
         <Link
           href="/[username]"
-          as={`/${article.data.article.author.profile.username}`}
+          as={`/${article.data.article.author.username}`}
         >
-          <a className="author">
-            {article.data.article.author.profile.username}
-          </a>
+          <a className="author">{article.data.article.author.username}</a>
         </Link>
         <time dateTime={article.data.article.createdAt} className="date">
           {article.data.article.createdAt
@@ -50,9 +45,7 @@ export function ArticleMeta(props) {
             : null}
         </time>
       </div>
-      <FollowUserButton
-        profileUsername={article.data.article.author.profile.username}
-      />{' '}
+      <FollowUserButton userUsername={article.data.article.author.username} />{' '}
       <FavoriteArticleButton articleSlug={props.articleSlug} />{' '}
       <UpdateArticleButton articleSlug={props.articleSlug} />{' '}
       <DeleteArticleButton articleSlug={props.articleSlug} />
@@ -70,11 +63,10 @@ ArticleMeta.fragments = {
       slug
       createdAt
       author {
-        id
+        username
+        ...FollowUserButtonUserFragment
         profile {
           imageUrl
-          username
-          ...FollowUserButtonProfileFragment
         }
       }
       ...DeleteArticleButtonArticleFragment
@@ -83,7 +75,7 @@ ArticleMeta.fragments = {
     }
     ${DeleteArticleButton.fragments.article}
     ${FavoriteArticleButton.fragments.article}
-    ${FollowUserButton.fragments.profile}
+    ${FollowUserButton.fragments.user}
     ${UpdateArticleButton.fragments.article}
   `
 };

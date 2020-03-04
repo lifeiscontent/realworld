@@ -40,7 +40,7 @@ function EditorUpdatePage() {
   if (editorUpdate.loading) return null;
 
   return (
-    <Layout userId={editorUpdate.data.viewer?.id}>
+    <Layout userUsername={editorUpdate.data.viewer?.username}>
       <div className="editor-page">
         <div className="container page">
           <div className="row">

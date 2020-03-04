@@ -36,7 +36,7 @@ export function Navbar(props) {
           <a className="navbar-brand">conduit</a>
         </Link>
         <ul className="nav navbar-nav pull-xs-right">
-          {props.userId ? (
+          {props.userUsername ? (
             <>
               <li className="nav-item">
                 <NavLink href="/editor" as="/editor">
@@ -44,7 +44,7 @@ export function Navbar(props) {
                   &nbsp;New Post
                 </NavLink>
               </li>
-              <NavbarUserDropdown userId={props.userId} />
+              <NavbarUserDropdown userUsername={props.userUsername} />
             </>
           ) : (
             <>
@@ -67,7 +67,7 @@ export function Navbar(props) {
 }
 
 Navbar.propTypes = {
-  userId: PropTypes.string
+  userUsername: PropTypes.string
 };
 
 Navbar.fragments = {

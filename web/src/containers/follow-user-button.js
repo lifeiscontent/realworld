@@ -19,26 +19,26 @@ export function FollowUserButton(props) {
   const followButton = useQuery(FollowUserButtonQuery, {
     fetchPolicy: 'cache-only',
     variables: {
-      username: props.profileUsername
+      username: props.userUsername
     }
   });
 
   const [followUser] = useMutation(FollowUserButtonFollowUserMutation, {
-    variables: { id: followButton.data?.profile?.user?.id }
+    variables: { username: props.userUsername }
   });
 
   const [unfollowUser] = useMutation(FollowUserButtonUnfollowUserMutation, {
-    variables: { id: followButton.data?.profile?.user?.id }
+    variables: { username: props.userUsername }
   });
 
   if (followButton.loading) return null;
 
   const isActionable =
-    (followButton.data.profile.user.canFollow.value ||
-      followButton.data.profile.user.canUnfollow.value) ??
+    (followButton.data.user.canFollow.value ||
+      followButton.data.user.canUnfollow.value) ??
     false;
 
-  const viewerIsFollowing = followButton.data.profile.user.viewerIsFollowing;
+  const viewerIsFollowing = followButton.data.user.viewerIsFollowing;
 
   return isActionable ? (
     <button
@@ -59,67 +59,57 @@ export function FollowUserButton(props) {
       }}
     >
       <i className="ion-plus-round" /> {actionName(viewerIsFollowing)}{' '}
-      {props.profileUsername}
+      {props.userUsername}
     </button>
   ) : null;
 }
 
 FollowUserButton.propTypes = {
-  profileUsername: PropTypes.string.isRequired
+  userUsername: PropTypes.string.isRequired
 };
 
-const userFragment = gql`
-  fragment FollowUserButtonUserFragment on User {
-    id
-    viewerIsFollowing
-    canFollow {
-      value
-    }
-    canUnfollow {
-      value
-    }
-  }
-`;
-
 FollowUserButton.fragments = {
-  profile: gql`
-    fragment FollowUserButtonProfileFragment on Profile {
+  user: gql`
+    fragment FollowUserButtonUserFragment on User {
       username
-      user {
-        ...FollowUserButtonUserFragment
+      viewerIsFollowing
+      canFollow {
+        value
+      }
+      canUnfollow {
+        value
       }
     }
-    ${userFragment}
   `
 };
 
 const FollowUserButtonQuery = gql`
-  query FollowUserButtonQuery($username: String!) {
-    profile: profileByUsername(username: $username) {
-      ...FollowUserButtonProfileFragment
+  query FollowUserButtonQuery($username: ID!) {
+    user: userByUsername(username: $username) {
+      ...FollowUserButtonUserFragment
     }
   }
-  ${FollowUserButton.fragments.profile}
+  ${FollowUserButton.fragments.user}
 `;
 
 const FollowUserButtonFollowUserMutation = gql`
-  mutation FollowUserButtonFollowUserMutation($id: ID!) {
-    followUser(id: $id) {
+  mutation FollowUserButtonFollowUserMutation($username: ID!) {
+    followUser(username: $username) {
       user {
         ...FollowUserButtonUserFragment
       }
     }
   }
-  ${userFragment}
+  ${FollowUserButton.fragments.user}
 `;
 
 const FollowUserButtonUnfollowUserMutation = gql`
-  mutation FollowUserButtonUnfollowUserMutation($id: ID!) {
-    unfollowUser(id: $id) {
+  mutation FollowUserButtonUnfollowUserMutation($username: ID!) {
+    unfollowUser(username: $username) {
       user {
         ...FollowUserButtonUserFragment
       }
     }
   }
-  ${userFragment}
+  ${FollowUserButton.fragments.user}
 `;

@@ -27,7 +27,7 @@ export function CommentCard(props) {
       <div className="card-footer">
         <Link
           href="/[username]"
-          as={`/${comment.data.comment.author.profile.username}`}
+          as={`/${comment.data.comment.author.username}`}
         >
           <a className="comment-author">
             <img
@@ -36,17 +36,17 @@ export function CommentCard(props) {
                 '/images/smiley-cyrus.jpg'
               }
               className="comment-author-img"
-              alt={`Image of ${comment.data.comment.author.profile.username}`}
+              alt={`Image of ${comment.data.comment.author.username}`}
             />
           </a>
         </Link>
         &nbsp;&nbsp;
         <Link
           href="/[username]"
-          as={`/${comment.data.comment.author.profile.username}`}
+          as={`/${comment.data.comment.author.username}`}
         >
           <a className="comment-author">
-            {comment.data.comment.author.profile.username}
+            {comment.data.comment.author.username}
           </a>
         </Link>
         <time dateTime={comment.data.comment.createdAt} className="date-posted">
@@ -77,9 +77,9 @@ CommentCard.fragments = {
       body
       createdAt
       author {
+        username
         profile {
           imageUrl
-          username
         }
       }
       ...DeleteCommentButtonCommentFragment

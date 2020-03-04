@@ -2,12 +2,12 @@
 
 module Mutations
   class UnfollowUser < Mutations::BaseMutation
-    argument :id, ID, required: true
+    argument :username, ID, required: true
 
     field :user, Types::UserType, null: true
 
-    def resolve(id:)
-      user = User.find_by(id: id)
+    def resolve(username:)
+      user = User.find_by(username: username)
 
       authorize! user, to: :unfollow?
 

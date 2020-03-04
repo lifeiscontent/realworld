@@ -1,26 +1,21 @@
-query ProfileFavoritesPageQuery($username: String!) {
+query ProfileFavoritesPageQuery($username: ID!) {
   viewer {
     ...LayoutUserFragment
     __typename
   }
-  profile: profileByUsername(username: $username) {
+  user: userByUsername(username: $username) {
     username
-    bio
-    ...UserInfoProfileFragment
-    user {
-      id
-      favoriteArticlesConnection {
-        edges {
-          node {
-            ...ArticlePreviewArticleFragment
-            __typename
-          }
+    favoriteArticlesConnection {
+      edges {
+        node {
+          ...ArticlePreviewArticleFragment
           __typename
         }
         __typename
       }
       __typename
     }
+    ...UserInfoUserFragment
     __typename
   }
 }
@@ -39,10 +34,9 @@ fragment ArticlePreviewArticleFragment on Article {
     __typename
   }
   author {
-    id
+    username
     profile {
       imageUrl
-      username
       __typename
     }
     __typename
@@ -83,41 +77,27 @@ fragment NavbarUserFragment on User {
 }
 
 fragment NavbarUserDropdownUserFragment on User {
-  id
+  username
+  __typename
+}
+
+fragment UserInfoUserFragment on User {
+  ...FollowUserButtonUserFragment
+  username
+  canUpdate {
+    value
+    __typename
+  }
   profile {
-    username
-    __typename
-  }
-  __typename
-}
-
-fragment UserInfoProfileFragment on Profile {
-  ...FollowUserButtonProfileFragment
-  imageUrl
-  username
-  bio
-  user {
-    id
-    canUpdate {
-      value
-      __typename
-    }
-    __typename
-  }
-  __typename
-}
-
-fragment FollowUserButtonProfileFragment on Profile {
-  username
-  user {
-    ...FollowUserButtonUserFragment
+    imageUrl
+    bio
     __typename
   }
   __typename
 }
 
 fragment FollowUserButtonUserFragment on User {
-  id
+  username
   viewerIsFollowing
   canFollow {
     value

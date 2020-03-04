@@ -4,7 +4,7 @@ module Mutations
   class SignUp < Mutations::BaseMutation
     class SignUpInput < Types::BaseInputObject
       argument :email, String, required: true
-      argument :username, String, required: true
+      argument :username, ID, required: true
       argument :password, String, required: true
 
       def prepare
@@ -17,8 +17,8 @@ module Mutations
     field :user, Types::UserType, null: true
 
     def resolve(input:)
-      user = User.new(email: input[:email], password: input[:password])
-      user.build_profile(username: input[:username])
+      user = User.new(input)
+      user.build_profile
       user.save!
 
       { user: user }

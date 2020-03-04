@@ -73,7 +73,7 @@ function FeedPage() {
   if (feed.networkStatus === NetworkStatus.loading) return null;
 
   return (
-    <Layout userId={feed.data.viewer?.id}>
+    <Layout userUsername={feed.data.viewer?.username}>
       <div className="home-page">
         <div className="banner">
           <div className="container">
@@ -84,7 +84,7 @@ function FeedPage() {
         <div className="container page">
           <div className="row">
             <div className="col-xs-12 col-md-9">
-              <FeedToggle userId={feed.data.viewer?.id} />
+              <FeedToggle userUsername={feed.data.viewer?.username} />
               {feed.data.feedConnection.edges.map(edge => (
                 <ArticlePreview
                   articleSlug={edge.node.slug}

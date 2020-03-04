@@ -2,8 +2,8 @@
 
 module Mutations
   class UpdateUser < Mutations::BaseMutation
-    class UpdateUserProfileInput < Types::BaseInputObject
-      argument :username, String, required: false
+    class UpdateUserInput < Types::BaseInputObject
+      argument :username, ID, required: false
       argument :bio, String, required: false
       argument :image_url, String, required: false, prepare: :nil_if_empty
 
@@ -18,7 +18,7 @@ module Mutations
     class UpdateUserInput < Types::BaseInputObject
       argument :email, String, required: false
       argument :password, String, required: false, prepare: :nil_if_empty
-      argument :profile, UpdateUserProfileInput, required: false, as: :profile_attributes
+      argument :profile, UpdateUserInput, required: false, as: :profile_attributes
 
       def prepare
         to_h
@@ -29,14 +29,13 @@ module Mutations
       end
     end
 
-    argument :id, ID, required: true
+    argument :username, ID, required: true
     argument :input, UpdateUserInput, required: true
 
     field :user, Types::UserType, null: true
-    field :profile, Types::ProfileType, null: true
 
-    def resolve(id:, input:)
-      user = User.includes(:profile).find(id)
+    def resolve(username:, input:)
+      user = User.includes(:profile).find_by(username: username)
 
       authorize! user, to: :update?
       authorize! user.profile, to: :update?
@@ -44,8 +43,7 @@ module Mutations
       user.update!(input)
 
       {
-        user: user,
-        profile: user.profile
+        user: user
       }
     end
   end

@@ -31,7 +31,7 @@ export function Layout(props) {
         <link href="//fonts.googleapis.com" rel="preconnect" />
         <link href="//fonts.gstatic.com" rel="preconnect" />
       </Head>
-      <Navbar userId={props.userId} />
+      <Navbar userUsername={props.userUsername} />
       {props.children}
       <footer>
         <div className="container">
@@ -51,7 +51,7 @@ export function Layout(props) {
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
-  userId: PropTypes.string
+  userUsername: PropTypes.string
 };
 
 Layout.fragments = {

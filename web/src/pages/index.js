@@ -73,7 +73,7 @@ function IndexPage() {
   if (index.networkStatus == NetworkStatus.loading) return null;
 
   return (
-    <Layout userId={index.data.viewer?.id}>
+    <Layout userUsername={index.data.viewer?.username}>
       <div className="home-page">
         <div className="banner">
           <div className="container">
@@ -84,7 +84,7 @@ function IndexPage() {
         <div className="container page">
           <div className="row">
             <div className="col-xs-12 col-md-9">
-              <FeedToggle userId={index.data.viewer?.id} />
+              <FeedToggle userUsername={index.data.viewer?.username} />
               {index.data.articlesConnection.edges.map(edge => (
                 <ArticlePreview
                   articleSlug={edge.node.slug}

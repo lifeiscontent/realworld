@@ -20,7 +20,7 @@ export function ArticlePreview(props) {
       <div className="article-meta">
         <Link
           href="/[username]"
-          as={`/${articlePreview.data.article.author.profile.username}`}
+          as={`/${articlePreview.data.article.author.username}`}
           shallow
         >
           <a>
@@ -29,18 +29,18 @@ export function ArticlePreview(props) {
                 articlePreview.data.article.author.profile.imageUrl ??
                 '/images/smiley-cyrus.jpg'
               }
-              alt={`Image of ${articlePreview.data.article.author.profile.username}`}
+              alt={`Image of ${articlePreview.data.article.author.username}`}
             />
           </a>
         </Link>
         <div className="info">
           <Link
             href="/[username]"
-            as={`/${articlePreview.data.article.author.profile.username}`}
+            as={`/${articlePreview.data.article.author.username}`}
             shallow
           >
             <a className="author">
-              {articlePreview.data.article.author.profile.username}
+              {articlePreview.data.article.author.username}
             </a>
           </Link>
           <time
@@ -92,10 +92,9 @@ ArticlePreview.fragments = {
         value
       }
       author {
-        id
+        username
         profile {
           imageUrl
-          username
         }
       }
       ...ArticlePreviewFavoriteButtonArticleFragment

@@ -33,7 +33,7 @@ function EditorPage() {
   if (editor.loading) return null;
 
   return (
-    <Layout userId={editor.data.viewer?.id}>
+    <Layout userUsername={editor.data.viewer?.username}>
       <div className="editor-page">
         <div className="container page">
           <div className="row">

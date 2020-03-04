@@ -1,11 +1,11 @@
 {
   "errors": [
     {
-      "message": "Variable $username of type ID! was provided invalid value",
+      "message": "Variable $input of type CreateArticleInput! was provided invalid value",
       "locations": [
         {
           "line": 1,
-          "column": 24
+          "column": 42
         }
       ],
       "extensions": {

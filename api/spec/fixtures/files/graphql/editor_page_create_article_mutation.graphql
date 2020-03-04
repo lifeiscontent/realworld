@@ -1,6 +1,5 @@
 mutation EditorPageCreateArticleMutation($input: CreateArticleInput!) {
   createArticle(input: $input) {
-    errors
     article {
       slug
       __typename

@@ -11,14 +11,14 @@ import withApollo from '../lib/with-apollo';
 import { handleValidationError } from '../utils/graphql';
 
 const validationSchema = Yup.object({
-  id: Yup.string().required(),
+  username: Yup.string().required(),
   input: Yup.object({
     email: Yup.string()
       .email()
       .required(),
     password: Yup.string(),
+    username: Yup.string().required(),
     profile: Yup.object({
-      username: Yup.string().required(),
       bio: Yup.string(),
       imageUrl: Yup.string()
     })
@@ -46,7 +46,7 @@ function SettingsPage() {
   if (settings.loading) return null;
 
   return (
-    <Layout userId={settings.data.viewer?.id}>
+    <Layout userUsername={settings.data.viewer.username}>
       <div className="settings-page">
         <div className="container page">
           <div className="row">
@@ -57,12 +57,12 @@ function SettingsPage() {
                 initialStatus={[]}
                 enableReinitialize
                 initialValues={{
-                  id: settings.data.viewer.id,
+                  username: settings.data.viewer.username,
                   input: {
                     email: settings.data.viewer.email,
                     password: '',
+                    username: settings.data.viewer.username,
                     profile: {
-                      username: settings.data.viewer.profile.username,
                       bio: settings.data.viewer.profile.bio ?? '',
                       imageUrl: settings.data.viewer.profile.imageUrl ?? ''
                     }
@@ -73,7 +73,7 @@ function SettingsPage() {
                     .then(res => {
                       router.push(
                         '/[username]',
-                        `/${res.data.updateUser.user.profile.username}`
+                        `/${res.data.updateUser.user.username}`
                       );
                     })
                     .catch(err => {
@@ -87,10 +87,7 @@ function SettingsPage() {
                   <ul className="error-messages">
                     <ErrorMessage component="li" name="input.email" />
                     <ErrorMessage component="li" name="input.password" />
-                    <ErrorMessage
-                      component="li"
-                      name="input.profile.username"
-                    />
+                    <ErrorMessage component="li" name="input.username" />
                     <ErrorMessage component="li" name="input.profile.bio" />
                     <ErrorMessage
                       component="li"
@@ -122,7 +119,7 @@ function SettingsPage() {
                     <fieldset className="form-group">
                       <label>Username</label>
                       <Field
-                        name="input.profile.username"
+                        name="input.username"
                         className="form-control form-control-lg"
                         type="text"
                         placeholder="john.doe"
@@ -165,10 +162,9 @@ function SettingsPage() {
 SettingsPage.fragmants = {
   user: gql`
     fragment SettingsPageUserFragment on User {
-      id
+      username
       email
       profile {
-        username
         bio
         imageUrl
       }
@@ -188,8 +184,11 @@ const SettingsPageQuery = gql`
 `;
 
 const SettingsPageUpdateUserMutation = gql`
-  mutation SettingsPageUpdateUserMutation($id: ID!, $input: UpdateUserInput!) {
-    updateUser(id: $id, input: $input) {
+  mutation SettingsPageUpdateUserMutation(
+    $username: ID!
+    $input: UpdateUserInput!
+  ) {
+    updateUser(username: $username, input: $input) {
       user {
         ...SettingsPageUserFragment
       }

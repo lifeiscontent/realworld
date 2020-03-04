@@ -12,7 +12,7 @@ export function FeedToggle(props) {
     <div className="feed-toggle">
       <ul className="nav nav-pills outline-active">
         <li className="nav-item">
-          {props.userId ? (
+          {props.userUsername ? (
             <Link href="/feed" as="/feed">
               <a
                 className={clsx('nav-link', {
@@ -41,13 +41,13 @@ export function FeedToggle(props) {
 }
 
 FeedToggle.propTypes = {
-  userId: PropTypes.string
+  userUsername: PropTypes.string
 };
 
 FeedToggle.fragments = {
   user: gql`
     fragment FeedToggleUserFragment on User {
-      id
+      username
     }
   `
 };

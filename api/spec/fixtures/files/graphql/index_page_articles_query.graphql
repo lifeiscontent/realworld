@@ -39,10 +39,9 @@ fragment ArticlePreviewArticleFragment on Article {
     __typename
   }
   author {
-    id
+    username
     profile {
       imageUrl
-      username
       __typename
     }
     __typename
@@ -73,7 +72,7 @@ fragment ArticlePreviewFavoriteButtonArticleFragment on Article {
 }
 
 fragment FeedToggleUserFragment on User {
-  id
+  username
   __typename
 }
 
@@ -88,11 +87,7 @@ fragment NavbarUserFragment on User {
 }
 
 fragment NavbarUserDropdownUserFragment on User {
-  id
-  profile {
-    username
-    __typename
-  }
+  username
   __typename
 }
 
