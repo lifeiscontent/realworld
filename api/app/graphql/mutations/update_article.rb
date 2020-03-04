@@ -13,7 +13,7 @@ module Mutations
       end
     end
 
-    argument :slug, String, required: true
+    argument :slug, ID, required: true
     argument :input, UpdateArticleInput, required: true
 
     field :article, Types::ArticleType, null: true

@@ -98,7 +98,7 @@ EditorUpdatePage.fragments = {
 
 const EditorUpdatePageUpdateArticleMutation = gql`
   mutation EditorUpdatePageUpdateArticleMutation(
-    $slug: String!
+    $slug: ID!
     $input: UpdateArticleInput!
   ) {
     updateArticle(slug: $slug, input: $input) {
@@ -111,7 +111,7 @@ const EditorUpdatePageUpdateArticleMutation = gql`
 `;
 
 const EditorUpdatePageQuery = gql`
-  query EditorUpdatePageQuery($slug: String!) {
+  query EditorUpdatePageQuery($slug: ID!) {
     viewer {
       ...LayoutUserFragment
     }

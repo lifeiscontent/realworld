@@ -1,4 +1,4 @@
-mutation CommentFormCreateCommentMutation($articleSlug: String!, $input: CreateCommentInput!) {
+mutation CommentFormCreateCommentMutation($articleSlug: ID!, $input: CreateCommentInput!) {
   createComment(articleSlug: $articleSlug, input: $input) {
     comment {
       ...CommentCardCommentFragment

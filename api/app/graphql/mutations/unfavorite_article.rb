@@ -2,8 +2,7 @@
 
 module Mutations
   class UnfavoriteArticle < Mutations::BaseMutation
-    argument :slug, String, required: true
-
+    argument :slug, ID, required: true
     field :article, Types::ArticleType, null: true
     field :user, Types::UserType, null: true
 

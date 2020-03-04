@@ -122,7 +122,7 @@ CommentForm.fragments = {
 };
 
 const CommentFormQuery = gql`
-  query CommentFormQuery($username: ID!, $slug: String!) {
+  query CommentFormQuery($username: ID!, $slug: ID!) {
     user: userByUsername(username: $username) {
       ...CommentFormUserFragment
     }
@@ -136,7 +136,7 @@ const CommentFormQuery = gql`
 
 const CommentFormCreateCommentMutation = gql`
   mutation CommentFormCreateCommentMutation(
-    $articleSlug: String!
+    $articleSlug: ID!
     $input: CreateCommentInput!
   ) {
     createComment(articleSlug: $articleSlug, input: $input) {

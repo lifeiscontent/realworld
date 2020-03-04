@@ -81,7 +81,7 @@ ArticleMeta.fragments = {
 };
 
 const ArticleMetaQuery = gql`
-  query ArticleMetaQuery($slug: String!) {
+  query ArticleMetaQuery($slug: ID!) {
     article: articleBySlug(slug: $slug) {
       ...ArticleMetaArticleFragment
     }

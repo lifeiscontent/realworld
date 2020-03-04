@@ -113,7 +113,7 @@ CommentsList.fragments = {
 };
 
 const CommentsListQuery = gql`
-  query CommentsListQuery($slug: String!) {
+  query CommentsListQuery($slug: ID!) {
     article: articleBySlug(slug: $slug) {
       ...CommentsListArticleFragment
       canCreateComment {

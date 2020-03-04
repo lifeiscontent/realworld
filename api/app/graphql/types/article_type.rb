@@ -7,8 +7,7 @@ module Types
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :description, String, null: true
     field :favorites_count, Int, null: false
-    field :id, ID, null: false
-    field :slug, String, null: false
+    field :slug, ID, null: false
     field :tags, [TagType], null: false
     field :title, String, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false

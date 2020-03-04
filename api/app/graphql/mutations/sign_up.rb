@@ -13,7 +13,6 @@ module Mutations
     end
 
     argument :input, SignUpInput, required: true
-
     field :user, Types::UserType, null: true
 
     def resolve(input:)

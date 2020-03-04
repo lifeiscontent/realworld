@@ -1,4 +1,4 @@
-query ArticlePageQuery($slug: String!) {
+query ArticlePageQuery($slug: ID!) {
   viewer {
     ...CommentsListUserFragment
     ...LayoutUserFragment

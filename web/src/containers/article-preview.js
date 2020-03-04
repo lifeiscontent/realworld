@@ -105,7 +105,7 @@ ArticlePreview.fragments = {
 };
 
 const ArticlePreviewQuery = gql`
-  query ArticlePreviewQuery($slug: String!) {
+  query ArticlePreviewQuery($slug: ID!) {
     article: articleBySlug(slug: $slug) {
       ...ArticlePreviewArticleFragment
     }

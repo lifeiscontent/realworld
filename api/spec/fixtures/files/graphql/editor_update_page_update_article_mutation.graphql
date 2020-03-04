@@ -1,4 +1,4 @@
-mutation EditorUpdatePageUpdateArticleMutation($slug: String!, $input: UpdateArticleInput!) {
+mutation EditorUpdatePageUpdateArticleMutation($slug: ID!, $input: UpdateArticleInput!) {
   updateArticle(slug: $slug, input: $input) {
     article {
       ...EditorUpdatePageArticleFragment

@@ -12,7 +12,6 @@ module Mutations
     end
 
     argument :input, SignInInput, required: true
-
     field :user, Types::UserType, null: true
     field :token, String, null: true
 

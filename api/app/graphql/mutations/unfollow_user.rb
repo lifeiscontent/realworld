@@ -3,7 +3,6 @@
 module Mutations
   class UnfollowUser < Mutations::BaseMutation
     argument :username, ID, required: true
-
     field :user, Types::UserType, null: true
 
     def resolve(username:)

@@ -27,7 +27,7 @@ module Types
     end
 
     field :article_by_slug, ArticleType, null: false do
-      argument :slug, String, required: true
+      argument :slug, ID, required: true
     end
 
     def article_by_slug(slug:)

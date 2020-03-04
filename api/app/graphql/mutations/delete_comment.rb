@@ -3,7 +3,6 @@
 module Mutations
   class DeleteComment < Mutations::BaseMutation
     argument :id, ID, required: true
-
     field :comment, Types::CommentType, null: true
 
     def resolve(id:)
