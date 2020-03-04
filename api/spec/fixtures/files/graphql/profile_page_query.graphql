@@ -57,7 +57,6 @@ fragment ArticlePreviewTagTagFragment on Tag {
 }
 
 fragment UserInfoUserFragment on User {
-  ...FollowUserButtonUserFragment
   username
   canUpdate {
     value
@@ -68,6 +67,7 @@ fragment UserInfoUserFragment on User {
     bio
     __typename
   }
+  ...FollowUserButtonUserFragment
   __typename
 }
 

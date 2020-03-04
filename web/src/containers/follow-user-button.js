@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { useQuery, useMutation } from '@apollo/react-hooks';
@@ -31,6 +31,19 @@ export function FollowUserButton(props) {
     variables: { username: props.userUsername }
   });
 
+  const handleClick = useCallback(
+    event => {
+      event.preventDefault();
+
+      if (followButton.data.user.viewerIsFollowing) {
+        unfollowUser();
+      } else {
+        followUser();
+      }
+    },
+    [followButton.data, followUser, unfollowUser]
+  );
+
   if (followButton.loading) return null;
 
   const isActionable =
@@ -39,24 +52,15 @@ export function FollowUserButton(props) {
     false;
 
   const viewerIsFollowing = followButton.data.user.viewerIsFollowing;
+  const buttonIsPressed = viewerIsFollowing ?? false;
 
   return isActionable ? (
     <button
       className={clsx('btn btn-sm action-btn', {
-        'btn-outline-secondary': (viewerIsFollowing ?? false) === false,
-        'btn-secondary': viewerIsFollowing ?? false
+        'btn-outline-secondary': buttonIsPressed === false,
+        'btn-secondary': buttonIsPressed
       })}
-      onClick={event => {
-        event.preventDefault();
-
-        if (typeof viewerIsFollowing === 'boolean') {
-          if (viewerIsFollowing) {
-            unfollowUser();
-          } else {
-            followUser();
-          }
-        }
-      }}
+      onClick={handleClick}
     >
       <i className="ion-plus-round" /> {actionName(viewerIsFollowing)}{' '}
       {props.userUsername} ({followButton.data.user.followersCount})

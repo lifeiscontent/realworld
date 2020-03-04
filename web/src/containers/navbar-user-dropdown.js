@@ -35,7 +35,7 @@ export function NavbarUserDropdown(props) {
       </a>
       <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
         <Link
-          href={`/[username]`}
+          href="/[username]"
           as={`/${navbarUserDropdown.data.user.username}`}
         >
           <a className="dropdown-item" onClick={() => setOpen(false)}>

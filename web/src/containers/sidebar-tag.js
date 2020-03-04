@@ -15,6 +15,8 @@ export function SidebarTag(props) {
 
   if (tag.loading) return null;
 
+  const active = router.query.tagName === tag.data.tag.name;
+
   return (
     <Link
       href={{
@@ -28,7 +30,7 @@ export function SidebarTag(props) {
     >
       <a
         className={clsx('tag-pill tag-default', {
-          'tag-outline': router.query.tagName !== tag.data.tag.name
+          'tag-outline': active === false
         })}
       >
         {tag.data.tag.name}

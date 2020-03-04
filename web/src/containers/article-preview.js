@@ -38,11 +38,7 @@ export function ArticlePreview(props) {
         favoriteArticle();
       }
     },
-    [
-      articlePreview.data.article.viewerDidFavorite,
-      favoriteArticle,
-      unfavoriteArticle
-    ]
+    [articlePreview.data, favoriteArticle, unfavoriteArticle]
   );
 
   if (articlePreview.loading) return null;

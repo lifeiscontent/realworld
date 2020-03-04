@@ -9,17 +9,6 @@ import { FollowUserButton } from './follow-user-button';
 import { FavoriteArticleButton } from '../components/favorite-article-button';
 import { DeleteArticleButton } from './delete-article-button';
 
-function actionName(viewerDidFavorite) {
-  switch (viewerDidFavorite) {
-    case true:
-      return 'Unfavorite Article';
-    case false:
-      return 'Favorite Article';
-    default:
-      return '';
-  }
-}
-
 export function ArticleMeta(props) {
   const article = useQuery(ArticleMetaQuery, {
     fetchPolicy: 'cache-only',
@@ -52,7 +41,7 @@ export function ArticleMeta(props) {
         favoriteArticle();
       }
     },
-    [article.data.article.viewerDidFavorite, favoriteArticle, unfavoriteArticle]
+    [article.data, favoriteArticle, unfavoriteArticle]
   );
 
   if (article.loading) return null;
@@ -137,6 +126,17 @@ ArticleMeta.fragments = {
     ${UpdateArticleButton.fragments.article}
   `
 };
+
+function actionName(viewerDidFavorite) {
+  switch (viewerDidFavorite) {
+    case true:
+      return 'Unfavorite Article';
+    case false:
+      return 'Favorite Article';
+    default:
+      return '';
+  }
+}
 
 const ArticleMetaQuery = gql`
   query ArticleMetaQuery($slug: ID!) {

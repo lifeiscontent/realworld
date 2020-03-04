@@ -55,7 +55,6 @@ UserInfo.propTypes = {
 UserInfo.fragments = {
   user: gql`
     fragment UserInfoUserFragment on User {
-      ...FollowUserButtonUserFragment
       username
       canUpdate {
         value
@@ -64,6 +63,7 @@ UserInfo.fragments = {
         imageUrl
         bio
       }
+      ...FollowUserButtonUserFragment
     }
     ${FollowUserButton.fragments.user}
   `
