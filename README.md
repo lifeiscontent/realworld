@@ -23,3 +23,19 @@ cd web
 yarn
 yarn dev
 ```
+
+## Testing
+
+### Api
+
+```sh
+cd api
+bin/rails spec
+```
+
+### Web
+
+```sh
+cd web
+yarn test
+```
