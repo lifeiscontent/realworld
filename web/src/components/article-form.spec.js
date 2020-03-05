@@ -44,7 +44,104 @@ describe('ArticleForm', () => {
   it('renders', async () => {
     const { asFragment } = setup();
     await wait(() => {
-      expect(asFragment()).toMatchSnapshot();
+      expect(asFragment()).toMatchInlineSnapshot(`
+        <DocumentFragment>
+          <form
+            action="#"
+            id="article-form"
+          >
+            <ul
+              class="error-messages"
+            />
+            <fieldset>
+              <fieldset
+                class="form-group"
+              >
+                <label
+                  for="article-form-title-input"
+                >
+                  Title
+                </label>
+                <input
+                  class="form-control form-control-lg"
+                  id="article-form-title-input"
+                  name="input.title"
+                  placeholder="How to build webapps that scale"
+                  type="text"
+                  value=""
+                />
+              </fieldset>
+              <fieldset
+                class="form-group"
+              >
+                <label
+                  for="article-form-description-input"
+                >
+                  Description
+                </label>
+                <input
+                  class="form-control"
+                  id="article-form-description-input"
+                  name="input.description"
+                  placeholder="Web development technologies have evolved at an incredible clip over the past few years."
+                  type="text"
+                  value=""
+                />
+              </fieldset>
+              <fieldset
+                class="form-group"
+              >
+                <label
+                  for="article-form-body-textarea"
+                >
+                  Body
+                </label>
+                <textarea
+                  class="form-control"
+                  id="article-form-body-textarea"
+                  name="input.body"
+                  placeholder="# Introducing RealWorld.
+
+        It's a great solution for learning how other frameworks work."
+                  rows="8"
+                />
+              </fieldset>
+              <fieldset
+                class="form-group"
+              >
+                <label
+                  for="article-form-tags-ids-input"
+                >
+                  Tags
+                </label>
+                <p>
+                  <input
+                    class="form-control"
+                    id="article-form-tags-ids-input"
+                    list="tags"
+                    name="input.tagIds"
+                    placeholder="Press enter to add tag to list"
+                    type="text"
+                    value=""
+                  />
+                  <datalist
+                    id="tags"
+                  />
+                </p>
+                <div
+                  class="tag-list"
+                />
+              </fieldset>
+              <button
+                class="btn btn-lg pull-xs-right btn-primary"
+                type="submit"
+              >
+                Publish Article
+              </button>
+            </fieldset>
+          </form>
+        </DocumentFragment>
+      `);
     });
   });
 
