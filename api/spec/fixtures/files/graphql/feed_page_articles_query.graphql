@@ -32,10 +32,6 @@ fragment ArticlePreviewArticleFragment on Article {
   slug
   title
   viewerDidFavorite
-  tags {
-    ...ArticlePreviewTagTagFragment
-    __typename
-  }
   canFavorite {
     value
     __typename
@@ -52,12 +48,16 @@ fragment ArticlePreviewArticleFragment on Article {
     }
     __typename
   }
+  ...ArticlePreviewTagListArticleFragment
   __typename
 }
 
-fragment ArticlePreviewTagTagFragment on Tag {
-  id
-  name
+fragment ArticlePreviewTagListArticleFragment on Article {
+  tags {
+    id
+    name
+    __typename
+  }
   __typename
 }
 
@@ -67,16 +67,6 @@ fragment FeedToggleUserFragment on User {
 }
 
 fragment LayoutUserFragment on User {
-  ...NavbarUserFragment
-  __typename
-}
-
-fragment NavbarUserFragment on User {
-  ...NavbarUserDropdownUserFragment
-  __typename
-}
-
-fragment NavbarUserDropdownUserFragment on User {
   username
   __typename
 }

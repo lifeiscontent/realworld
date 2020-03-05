@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import Link from 'next/link';
-import { ArticlePreviewTag } from './article-preview-tag';
-import { format } from '../utils/date';
+import { ArticlePreviewTagList } from './article-preview-tag-list';
 import { FavoriteArticleButton } from '../components/favorite-article-button';
 
+import { ArticleMetaInfo } from '../components/article-meta-info';
 export function ArticlePreview(props) {
   const articlePreview = useQuery(ArticlePreviewQuery, {
     fetchPolicy: 'cache-only',
@@ -66,23 +66,10 @@ export function ArticlePreview(props) {
             />
           </a>
         </Link>
-        <div className="info">
-          <Link
-            href="/[username]"
-            as={`/${articlePreview.data.article.author.username}`}
-            shallow
-          >
-            <a className="author">
-              {articlePreview.data.article.author.username}
-            </a>
-          </Link>
-          <time
-            dateTime={articlePreview.data.article.createdAt}
-            className="date"
-          >
-            {format(new Date(articlePreview.data.article.createdAt), 'MMMM Qo')}
-          </time>
-        </div>
+        <ArticleMetaInfo
+          userUsername={articlePreview.data.article.author.username}
+          articleCreatedAt={articlePreview.data.article.createdAt}
+        />
         {canChangeFavorite ? (
           <div className="pull-xs-right">
             <FavoriteArticleButton
@@ -99,13 +86,7 @@ export function ArticlePreview(props) {
           <h1>{articlePreview.data.article.title}</h1>
           <p>{articlePreview.data.article.description}</p>
           <span>Read more...</span>
-          {articlePreview.data.article.tags.length ? (
-            <ul className="tag-list">
-              {articlePreview.data.article.tags.map(tag => (
-                <ArticlePreviewTag key={tag.id} tagId={tag.id} />
-              ))}
-            </ul>
-          ) : null}
+          <ArticlePreviewTagList tags={articlePreview.data.article.tags} />
         </a>
       </Link>
     </div>
@@ -126,9 +107,6 @@ ArticlePreview.fragments = {
       slug
       title
       viewerDidFavorite
-      tags {
-        ...ArticlePreviewTagTagFragment
-      }
       canFavorite {
         value
       }
@@ -141,8 +119,9 @@ ArticlePreview.fragments = {
           imageUrl
         }
       }
+      ...ArticlePreviewTagListArticleFragment
     }
-    ${ArticlePreviewTag.fragments.tag}
+    ${ArticlePreviewTagList.fragments.article}
   `
 };
 

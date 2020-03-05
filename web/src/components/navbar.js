@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import clsx from 'clsx';
-import { NavbarUserDropdown } from '../components/navbar-user-dropdown';
-import gql from 'graphql-tag';
+import { NavbarUserDropdown } from './navbar-user-dropdown';
 
 function NavLink(props) {
   const router = useRouter();
@@ -68,12 +67,4 @@ export function Navbar(props) {
 
 Navbar.propTypes = {
   userUsername: PropTypes.string
-};
-
-Navbar.fragments = {
-  user: gql`
-    fragment NavbarUserFragment on User {
-      username
-    }
-  `
 };

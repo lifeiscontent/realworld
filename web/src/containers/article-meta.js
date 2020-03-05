@@ -2,12 +2,12 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import Link from 'next/link';
-import { format } from '../utils/date';
 import gql from 'graphql-tag';
 import { UpdateArticleButton } from './update-article-button';
 import { FollowUserButton } from './follow-user-button';
 import { FavoriteArticleButton } from '../components/favorite-article-button';
 import { DeleteArticleButton } from './delete-article-button';
+import { ArticleMetaInfo } from '../components/article-meta-info';
 
 export function ArticleMeta(props) {
   const article = useQuery(ArticleMetaQuery, {
@@ -74,19 +74,10 @@ export function ArticleMeta(props) {
           />
         </a>
       </Link>
-      <div className="info">
-        <Link
-          href="/[username]"
-          as={`/${article.data.article.author.username}`}
-        >
-          <a className="author">{article.data.article.author.username}</a>
-        </Link>
-        <time dateTime={article.data.article.createdAt} className="date">
-          {article.data.article.createdAt
-            ? format(new Date(article.data.article.createdAt), 'MMMM Qo')
-            : null}
-        </time>
-      </div>
+      <ArticleMetaInfo
+        userUsername={article.data.article.author.username}
+        articleCreatedAt={article.data.article.createdAt}
+      />
       <FollowUserButton userUsername={article.data.article.author.username} />{' '}
       {favoriteButton} <UpdateArticleButton articleSlug={props.articleSlug} />{' '}
       <DeleteArticleButton articleSlug={props.articleSlug} />

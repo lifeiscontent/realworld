@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
-import { Navbar } from '../containers/navbar';
+import { Navbar } from './navbar';
 import Link from 'next/link';
 import gql from 'graphql-tag';
 
@@ -57,8 +57,7 @@ Layout.propTypes = {
 Layout.fragments = {
   user: gql`
     fragment LayoutUserFragment on User {
-      ...NavbarUserFragment
+      username
     }
-    ${Navbar.fragments.user}
   `
 };
