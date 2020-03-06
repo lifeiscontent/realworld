@@ -4,9 +4,9 @@ import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { ArticlePreview } from '../components/article-preview';
-import { UserInfo } from '../containers/user-info';
 import withApollo from '../lib/with-apollo';
 import { Layout } from '../components/layout';
+import { ProfilePageBanner } from '../components/profile-page-banner';
 
 function ProfilePage() {
   const router = useRouter();
@@ -18,13 +18,19 @@ function ProfilePage() {
 
   const [favoriteArticle] = useMutation(ProfilePageFavoriteArticleMutation);
   const [unfavoriteArticle] = useMutation(ProfilePageUnfavoriteArticleMutation);
+  const [followUser] = useMutation(ProfilePageFollowUser);
+  const [unfollowUser] = useMutation(ProfilePageUnfollowUserMutation);
 
   if (profile.loading) return null;
 
   return (
     <Layout userUsername={profile.data.viewer?.username}>
       <div className="profile-page">
-        <UserInfo userUsername={profile.data.user.username} />
+        <ProfilePageBanner
+          onFollow={followUser}
+          onUnfollow={unfollowUser}
+          {...profile.data.user}
+        />
         <div className="container">
           <div className="row">
             <div className="col-xs-12 col-md-10 offset-md-1">
@@ -78,11 +84,11 @@ const ProfilePageQuery = gql`
           }
         }
       }
-      ...UserInfoUserFragment
+      ...ProfilePageBannerUserFragment
     }
   }
   ${ArticlePreview.fragments.article}
-  ${UserInfo.fragments.user}
+  ${ProfilePageBanner.fragments.user}
 `;
 
 const ProfilePageFavoriteArticleMutation = gql`
@@ -105,6 +111,28 @@ const ProfilePageUnfavoriteArticleMutation = gql`
     }
   }
   ${ArticlePreview.fragments.article}
+`;
+
+const ProfilePageFollowUser = gql`
+  mutation ProfilePageFollowUser($username: ID!) {
+    followUser(username: $username) {
+      user {
+        ...ProfilePageBannerUserFragment
+      }
+    }
+  }
+  ${ProfilePageBanner.fragments.user}
+`;
+
+const ProfilePageUnfollowUserMutation = gql`
+  mutation ProfilePageUnfollowUserMutation($username: ID!) {
+    unfollowUser(username: $username) {
+      user {
+        ...ProfilePageBannerUserFragment
+      }
+    }
+  }
+  ${ProfilePageBanner.fragments.user}
 `;
 
 export default withApollo(ProfilePage);

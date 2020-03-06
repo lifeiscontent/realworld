@@ -15,7 +15,7 @@ query ProfilePageQuery($username: ID!) {
       }
       __typename
     }
-    ...UserInfoUserFragment
+    ...ProfilePageBannerUserFragment
     __typename
   }
 }
@@ -51,25 +51,7 @@ fragment ArticlePreviewArticleFragment on Article {
   __typename
 }
 
-fragment UserInfoUserFragment on User {
-  username
-  canUpdate {
-    value
-    __typename
-  }
-  profile {
-    imageUrl
-    bio
-    __typename
-  }
-  ...FollowUserButtonUserFragment
-  __typename
-}
-
-fragment FollowUserButtonUserFragment on User {
-  username
-  viewerIsFollowing
-  followersCount
+fragment ProfilePageBannerUserFragment on User {
   canFollow {
     value
     __typename
@@ -78,5 +60,13 @@ fragment FollowUserButtonUserFragment on User {
     value
     __typename
   }
+  followersCount
+  isViewer
+  profile {
+    imageUrl
+    __typename
+  }
+  username
+  viewerIsFollowing
   __typename
 }

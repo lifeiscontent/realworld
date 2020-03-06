@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function HomePageBanner(props) {
+export function HomePageBanner() {
   return (
     <div className="banner">
       <div className="container">

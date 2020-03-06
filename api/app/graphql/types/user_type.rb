@@ -15,7 +15,7 @@ module Types
       context[:current_user].following.include?(object)
     end
 
-    field :is_viewer, Boolean, null: false, method: :viewer?
+    field :is_viewer, Boolean, null: false, resolver_method: :viewer?
 
     def viewer?
       object == context[:current_user]
