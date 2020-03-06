@@ -1,7 +1,7 @@
 query ArticlePageQuery($slug: ID!) {
   viewer {
     username
-    ...CommentsListUserFragment
+    ...ArticleCommentListUserFragment
     __typename
   }
   article: articleBySlug(slug: $slug) {
@@ -10,7 +10,7 @@ query ArticlePageQuery($slug: ID!) {
     description
     ...ArticleMetaArticleFragment
     ...ArticlePageBannerArticleFragment
-    ...CommentsListArticleFragment
+    ...ArticleCommentListArticleFragment
     __typename
   }
 }
@@ -100,20 +100,20 @@ fragment ArticlePageBannerArticleFragment on Article {
   __typename
 }
 
-fragment CommentsListArticleFragment on Article {
+fragment ArticleCommentListArticleFragment on Article {
   slug
+  canCreateComment {
+    value
+    __typename
+  }
   comments {
     ...CommentCardCommentFragment
     __typename
   }
-  ...CommentFormArticleFragment
   __typename
 }
 
 fragment CommentCardCommentFragment on Comment {
-  id
-  body
-  createdAt
   author {
     username
     profile {
@@ -122,29 +122,17 @@ fragment CommentCardCommentFragment on Comment {
     }
     __typename
   }
-  ...DeleteCommentButtonCommentFragment
-  __typename
-}
-
-fragment DeleteCommentButtonCommentFragment on Comment {
-  id
+  body
   canDelete {
     value
     __typename
   }
+  createdAt
+  id
   __typename
 }
 
-fragment CommentFormArticleFragment on Article {
-  slug
-  canCreateComment {
-    value
-    __typename
-  }
-  __typename
-}
-
-fragment CommentsListUserFragment on User {
+fragment ArticleCommentListUserFragment on User {
   ...CommentFormUserFragment
   __typename
 }

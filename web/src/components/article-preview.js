@@ -5,56 +5,69 @@ import clsx from 'clsx';
 import { format } from '../utils/date';
 import gql from 'graphql-tag';
 
-export function ArticlePreview(props) {
+export function ArticlePreview({
+  author,
+  canFavorite,
+  canUnfavorite,
+  createdAt,
+  description,
+  favoritesCount,
+  onFavorite,
+  onUnfavorite,
+  slug,
+  tags,
+  title,
+  viewerDidFavorite
+}) {
   return (
     <div className="article-preview">
       <div className="article-meta">
-        <Link href={`/${props.author.username}`}>
+        <Link href={`/${author.username}`}>
           <a>
             <img
               src={
-                typeof props.author.profile.imageUrl === 'string'
-                  ? props.author.profile.imageUrl
+                typeof author.profile.imageUrl === 'string'
+                  ? author.profile.imageUrl
                   : '/images/smiley-cyrus.jpg'
               }
-              alt={`Image of ${props.author.username}`}
+              alt={`Image of ${author.username}`}
             />
           </a>
         </Link>
         <div className="info">
-          <Link href={`/${props.author.username}`}>
-            <a className="author">{props.author.username}</a>
+          <Link href={`/${author.username}`}>
+            <a className="author">{author.username}</a>
           </Link>
-          <time dateTime={props.createdAt} className="date">
-            {format(new Date(props.createdAt), 'MMMM Qo')}
+          <time dateTime={createdAt} className="date">
+            {format(new Date(createdAt), 'MMMM Qo')}
           </time>
         </div>
-        {props.canFavorite.value || props.canUnfavorite.value ? (
+        {canFavorite.value || canUnfavorite.value ? (
           <div className="pull-xs-right">
             <button
               className={clsx('btn btn-sm', {
-                'btn-outline-primary': props.viewerDidFavorite,
-                'btn-primary': props.viewerDidFavorite === false
+                'btn-outline-primary': viewerDidFavorite,
+                'btn-primary': viewerDidFavorite === false
               })}
               onClick={() =>
-                props.viewerDidFavorite
-                  ? props.onUnfavorite({ variables: { slug: props.slug } })
-                  : props.onFavorite({ variables: { slug: props.slug } })
+                viewerDidFavorite
+                  ? onUnfavorite({ variables: { slug: slug } })
+                  : onFavorite({ variables: { slug: slug } })
               }
             >
-              <i className="ion-heart" /> {props.favoritesCount}
+              <i className="ion-heart" /> {favoritesCount}
             </button>
           </div>
         ) : null}
       </div>
-      <Link href={`/article/${props.slug}`}>
+      <Link href={`/article/${slug}`}>
         <a className="preview-link">
-          <h1>{props.title}</h1>
-          <p>{props.description}</p>
+          <h1>{title}</h1>
+          <p>{description}</p>
           <span>Read more...</span>
-          {props.tags.length > 0 ? (
+          {tags.length > 0 ? (
             <ul className="tag-list">
-              {props.tags.map(tag => (
+              {tags.map(tag => (
                 <li key={tag.id} className="tag-pill tag-default">
                   {tag.name}
                 </li>
