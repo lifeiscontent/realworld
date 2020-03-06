@@ -11,11 +11,30 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "12.x"
-      - name: Run tests
+      - uses: actions/cache@v1
+        with:
+          path: ./web/node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('web/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: Install Node Modules
+        run: yarn install
         env:
           CI: true
-        run: |
-          yarn
-          yarn build
-          yarn test
+        working-directory: ./web
+      - uses: actions/cache@v1
+        with:
+          path: ./web/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('web/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-
+      - name: Build Project
+        run: yarn build
+        env:
+          CI: true
+        working-directory: ./web
+      - name: Run Tests
+        run: yarn test
+        env:
+          CI: true
         working-directory: ./web
