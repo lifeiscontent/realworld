@@ -2,51 +2,14 @@ import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import gql from 'graphql-tag';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import clsx from 'clsx';
-import { ArticlePreview } from '../containers/article-preview';
-import { Sidebar } from '../containers/sidebar';
+import { ArticlePreview } from '../components/article-preview';
+import { Sidebar } from '../components/sidebar';
 import { FeedToggle } from '../components/feed-toggle';
 import withApollo from '../lib/with-apollo';
 import { Layout } from '../components/layout';
 import { NetworkStatus } from 'apollo-client';
-
-const FeedPageArticlesQuery = gql`
-  query FeedPageArticlesQuery(
-    $after: String
-    $before: String
-    $first: Int
-    $last: Int
-    $tagName: String
-  ) {
-    viewer {
-      username
-    }
-    feedConnection(
-      after: $after
-      before: $before
-      first: $first
-      last: $last
-      tagName: $tagName
-    ) {
-      pageInfo {
-        endCursor
-        hasNextPage
-        hasPreviousPage
-        startCursor
-      }
-      edges {
-        cursor
-        node {
-          ...ArticlePreviewArticleFragment
-        }
-      }
-    }
-    ...SidebarQueryFragment
-  }
-  ${ArticlePreview.fragments.article}
-  ${Sidebar.fragments.query}
-`;
 
 function FeedPage() {
   const router = useRouter();
@@ -62,10 +25,13 @@ function FeedPage() {
         }
       : { first: 10, tagName: router.query.tagName };
 
-  const feed = useQuery(FeedPageArticlesQuery, {
+  const feed = useQuery(FeedPageQuery, {
     variables,
     notifyOnNetworkStatusChange: true
   });
+
+  const [favoriteArticle] = useMutation(FeedPageFavoriteArticleMutation);
+  const [unfavoriteArticle] = useMutation(FeedPageUnfavoriteArticleMutation);
 
   if (feed.networkStatus === NetworkStatus.loading) return null;
 
@@ -81,14 +47,13 @@ function FeedPage() {
         <div className="container page">
           <div className="row">
             <div className="col-xs-12 col-md-9">
-              <FeedToggle
-                userUsername={feed.data.viewer?.username}
-                pathname={router.pathname}
-              />
+              <FeedToggle userUsername={feed.data.viewer?.username} />
               {feed.data.feedConnection.edges.map(edge => (
                 <ArticlePreview
-                  articleSlug={edge.node.slug}
                   key={edge.node.slug}
+                  onFavorite={favoriteArticle}
+                  onUnfavorite={unfavoriteArticle}
+                  {...edge.node}
                 />
               ))}
               <nav>
@@ -150,7 +115,7 @@ function FeedPage() {
               </nav>
             </div>
             <div className="col-xs-12 col-md-3">
-              <Sidebar />
+              <Sidebar popularTags={feed.data.popularTags} />
             </div>
           </div>
         </div>
@@ -158,5 +123,64 @@ function FeedPage() {
     </Layout>
   );
 }
+
+const FeedPageQuery = gql`
+  query FeedPageQuery(
+    $after: String
+    $before: String
+    $first: Int
+    $last: Int
+    $tagName: String
+  ) {
+    viewer {
+      username
+    }
+    feedConnection(
+      after: $after
+      before: $before
+      first: $first
+      last: $last
+      tagName: $tagName
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+      edges {
+        cursor
+        node {
+          ...ArticlePreviewArticleFragment
+        }
+      }
+    }
+    ...SidebarQueryFragment
+  }
+  ${ArticlePreview.fragments.article}
+  ${Sidebar.fragments.query}
+`;
+
+const FeedPageFavoriteArticleMutation = gql`
+  mutation FeedPageFavoriteArticleMutation($slug: ID!) {
+    favoriteArticle(slug: $slug) {
+      article {
+        ...ArticlePreviewArticleFragment
+      }
+    }
+  }
+  ${ArticlePreview.fragments.article}
+`;
+
+const FeedPageUnfavoriteArticleMutation = gql`
+  mutation FeedPageUnfavoriteArticleMutation($slug: ID!) {
+    unfavoriteArticle(slug: $slug) {
+      article {
+        ...ArticlePreviewArticleFragment
+      }
+    }
+  }
+  ${ArticlePreview.fragments.article}
+`;
 
 export default withApollo(FeedPage);

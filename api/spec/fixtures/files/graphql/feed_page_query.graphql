@@ -1,9 +1,9 @@
-query IndexPageArticlesQuery($after: String, $before: String, $first: Int, $last: Int, $tagName: String) {
+query FeedPageQuery($after: String, $before: String, $first: Int, $last: Int, $tagName: String) {
   viewer {
     username
     __typename
   }
-  articlesConnection(after: $after, before: $before, first: $first, last: $last, tagName: $tagName) {
+  feedConnection(after: $after, before: $before, first: $first, last: $last, tagName: $tagName) {
     pageInfo {
       endCursor
       hasNextPage

@@ -2,32 +2,11 @@ import React from 'react';
 import Link from 'next/link';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
-import { useQuery } from '@apollo/react-hooks';
-import { ArticlePreview } from '../containers/article-preview';
+import { useQuery, useMutation } from '@apollo/react-hooks';
+import { ArticlePreview } from '../components/article-preview';
 import { UserInfo } from '../containers/user-info';
 import withApollo from '../lib/with-apollo';
 import { Layout } from '../components/layout';
-
-const ProfilePageQuery = gql`
-  query ProfilePageQuery($username: ID!) {
-    viewer {
-      username
-    }
-    user: userByUsername(username: $username) {
-      username
-      articlesConnection {
-        edges {
-          node {
-            ...ArticlePreviewArticleFragment
-          }
-        }
-      }
-      ...UserInfoUserFragment
-    }
-  }
-  ${ArticlePreview.fragments.article}
-  ${UserInfo.fragments.user}
-`;
 
 function ProfilePage() {
   const router = useRouter();
@@ -36,6 +15,9 @@ function ProfilePage() {
       username: router.query.username
     }
   });
+
+  const [favoriteArticle] = useMutation(ProfilePageFavoriteArticleMutation);
+  const [unfavoriteArticle] = useMutation(ProfilePageUnfavoriteArticleMutation);
 
   if (profile.loading) return null;
 
@@ -68,8 +50,10 @@ function ProfilePage() {
               </div>
               {profile.data.user.articlesConnection.edges.map(edge => (
                 <ArticlePreview
-                  articleSlug={edge.node.slug}
                   key={edge.node.slug}
+                  onUnfavorite={unfavoriteArticle}
+                  onFavorite={favoriteArticle}
+                  {...edge.node}
                 />
               ))}
             </div>
@@ -79,5 +63,48 @@ function ProfilePage() {
     </Layout>
   );
 }
+
+const ProfilePageQuery = gql`
+  query ProfilePageQuery($username: ID!) {
+    viewer {
+      username
+    }
+    user: userByUsername(username: $username) {
+      username
+      articlesConnection {
+        edges {
+          node {
+            ...ArticlePreviewArticleFragment
+          }
+        }
+      }
+      ...UserInfoUserFragment
+    }
+  }
+  ${ArticlePreview.fragments.article}
+  ${UserInfo.fragments.user}
+`;
+
+const ProfilePageFavoriteArticleMutation = gql`
+  mutation ProfilePageFavoriteArticleMutation($slug: ID!) {
+    favoriteArticle(slug: $slug) {
+      article {
+        ...ArticlePreviewArticleFragment
+      }
+    }
+  }
+  ${ArticlePreview.fragments.article}
+`;
+
+const ProfilePageUnfavoriteArticleMutation = gql`
+  mutation ProfilePageUnfavoriteArticleMutation($slug: ID!) {
+    unfavoriteArticle(slug: $slug) {
+      article {
+        ...ArticlePreviewArticleFragment
+      }
+    }
+  }
+  ${ArticlePreview.fragments.article}
+`;
 
 export default withApollo(ProfilePage);

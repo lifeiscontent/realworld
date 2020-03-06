@@ -8,12 +8,32 @@ export default {
   decorators: [withRouter]
 };
 
-export const renders = () => <FeedToggle pathname="/" />;
+export const renders = () => <FeedToggle />;
 
-export const feedEnabled = () => (
-  <FeedToggle userUsername="lifeiscontent" pathname="/" />
-);
+renders.story = {
+  parameters: {
+    router: {
+      pathname: '/'
+    }
+  }
+};
 
-export const feedActive = () => (
-  <FeedToggle userUsername="lifeiscontent" pathname="/feed" />
-);
+export const feedEnabled = () => <FeedToggle userUsername="lifeiscontent" />;
+
+feedEnabled.story = {
+  parameters: {
+    router: {
+      pathname: '/'
+    }
+  }
+};
+
+export const feedActive = () => <FeedToggle userUsername="lifeiscontent" />;
+
+feedActive.story = {
+  parameters: {
+    router: {
+      pathname: '/feed'
+    }
+  }
+};
