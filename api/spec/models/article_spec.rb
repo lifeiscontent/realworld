@@ -43,4 +43,15 @@ RSpec.describe Article, type: :model do
     it { expect(subject.tagged_with(Tag.where(name: 'test'))).to be_a(ActiveRecord::Relation) }
     it { expect(subject.feed_for(User.first)).to be_a(ActiveRecord::Relation) }
   end
+
+  describe 'favorites_count' do
+    let(:user) { create(:user) }
+    let(:article) { create(:article, author: build(:author)) }
+
+    it 'will increase favorites_count when user favorites an article' do
+      expect do
+        Favorite.create!(user: user, article: article)
+      end .to change { article.favorites_count }.by(1)
+    end
+  end
 end

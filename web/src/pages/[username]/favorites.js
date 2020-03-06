@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
 import { useQuery, useMutation } from '@apollo/react-hooks';
@@ -7,6 +6,7 @@ import { ArticlePreview } from '../../components/article-preview';
 import withApollo from '../../lib/with-apollo';
 import { Layout } from '../../components/layout';
 import { ProfilePageBanner } from '../../components/profile-page-banner';
+import { ArticlesToggle } from '../../components/articles-toggle';
 
 function ProfileFavoritesPage() {
   const router = useRouter();
@@ -70,26 +70,7 @@ function ProfileFavoritesPage() {
         <div className="container">
           <div className="row">
             <div className="col-xs-12 col-md-10 offset-md-1">
-              <div className="articles-toggle">
-                <ul className="nav nav-pills outline-active">
-                  <li className="nav-item">
-                    <Link
-                      href="/[username]"
-                      as={`/${favorites.data.user.username}`}
-                    >
-                      <a className="nav-link">My Articles</a>
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link
-                      href="/[username]/favorites"
-                      as={`/${favorites.data.user.username}/favorites`}
-                    >
-                      <a className="nav-link active">Favorited Articles</a>
-                    </Link>
-                  </li>
-                </ul>
-              </div>
+              <ArticlesToggle username={favorites.data.user.username} />
               {favorites.data.user.favoriteArticlesConnection.edges.map(
                 edge => (
                   <ArticlePreview

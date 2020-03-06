@@ -1,3 +1,4 @@
+import { action } from '@storybook/addon-actions';
 import { makeDecorator } from '@storybook/addons';
 import { MockedProvider } from '@apollo/react-testing';
 import React from 'react';
@@ -15,12 +16,14 @@ export const withRouter = makeDecorator({
       pageLoader: { prefetched: {} },
       pathname: '/',
       prefetch() {},
-      push() {
+      push(...args) {
+        action('router.push')(...args);
         return Promise.resolve(true);
       },
       query: {},
       reload() {},
-      replace() {
+      replace(args) {
+        action('router.replace')(...args);
         return Promise.resolve(true);
       },
       ...settings.options,

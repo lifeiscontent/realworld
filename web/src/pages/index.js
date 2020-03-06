@@ -1,16 +1,15 @@
 import React from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
 import gql from 'graphql-tag';
-import { useQuery, useMutation } from '@apollo/react-hooks';
-import clsx from 'clsx';
-import { ArticlePreview } from '../components/article-preview';
-import { Sidebar } from '../components/sidebar';
-import { FeedToggle } from '../components/feed-toggle';
 import withApollo from '../lib/with-apollo';
-import { Layout } from '../components/layout';
+import { useRouter } from 'next/router';
+import { useQuery, useMutation } from '@apollo/react-hooks';
+import { Sidebar } from '../components/sidebar';
+import { Pagination } from '../components/pagination';
 import { NetworkStatus } from 'apollo-client';
+import { Layout } from '../components/layout';
 import { HomePageBanner } from '../components/home-page-banner';
+import { FeedToggle } from '../components/feed-toggle';
+import { ArticlePreview } from '../components/article-preview';
 
 function IndexPage() {
   const router = useRouter();
@@ -52,68 +51,7 @@ function IndexPage() {
                   {...edge.node}
                 />
               ))}
-              <nav>
-                <ul className="pagination">
-                  <li
-                    className={clsx('page-item', {
-                      disabled:
-                        index.data.articlesConnection.pageInfo
-                          .hasPreviousPage === false
-                    })}
-                  >
-                    <Link
-                      href={{
-                        pathname: '/',
-                        query: router.query.tagName
-                          ? {
-                              before:
-                                index.data.articlesConnection.pageInfo
-                                  .startCursor,
-                              last: 10,
-                              tagName: router.query.tagName
-                            }
-                          : {
-                              before:
-                                index.data.articlesConnection.pageInfo
-                                  .startCursor,
-                              last: 10
-                            }
-                      }}
-                    >
-                      <a className="page-link">Previous</a>
-                    </Link>
-                  </li>
-                  <li
-                    className={clsx('page-item', {
-                      disabled:
-                        index.data.articlesConnection.pageInfo.hasNextPage ===
-                        false
-                    })}
-                  >
-                    <Link
-                      href={{
-                        pathname: '/',
-                        query: router.query.tagName
-                          ? {
-                              after:
-                                index.data.articlesConnection.pageInfo
-                                  .endCursor,
-                              first: 10,
-                              tagName: router.query.tagName
-                            }
-                          : {
-                              after:
-                                index.data.articlesConnection.pageInfo
-                                  .endCursor,
-                              first: 10
-                            }
-                      }}
-                    >
-                      <a className="page-link">Next</a>
-                    </Link>
-                  </li>
-                </ul>
-              </nav>
+              <Pagination {...index.data.articlesConnection} />
             </div>
             <div className="col-xs-12 col-md-3">
               <Sidebar popularTags={index.data.popularTags} />

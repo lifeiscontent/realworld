@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { Footer } from './footer';
 import { Navbar } from './navbar';
 
-export function Layout(props) {
+export function Layout({ userUsername, children }) {
   return (
     <>
-      <Navbar userUsername={props.userUsername} />
-      {props.children}
+      <Navbar userUsername={userUsername} />
+      {children}
       <Footer />
     </>
   );

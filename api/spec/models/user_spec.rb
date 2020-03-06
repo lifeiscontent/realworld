@@ -56,4 +56,38 @@ RSpec.describe User, type: :model do
 
     it { is_expected.to respond_to(:from_jwt).with(1).argument }
   end
+
+  describe '#followers_count' do
+    let(:followed) { create(:followed, profile: build(:profile)) }
+    let(:follower) { create(:followed, profile: build(:profile)) }
+
+    it 'will increase for followed when a relationship is created' do
+      expect do
+        Relationship.create!(followed: followed, follower: follower)
+      end.to change { followed.followers_count }.by(1)
+    end
+
+    it 'will not increase for follower when a relationship is created' do
+      expect do
+        Relationship.create!(followed: followed, follower: follower)
+      end.to change { follower.followers_count }.by(0)
+    end
+  end
+
+  describe '#following_count' do
+    let(:followed) { create(:followed, profile: build(:profile)) }
+    let(:follower) { create(:followed, profile: build(:profile)) }
+
+    it 'will not increase for followed when a relationship is created' do
+      expect do
+        Relationship.create!(followed: followed, follower: follower)
+      end.to change { followed.following_count }.by(0)
+    end
+
+    it 'will increase for follower when a relationship is created' do
+      expect do
+        Relationship.create!(followed: followed, follower: follower)
+      end.to change { follower.following_count }.by(1)
+    end
+  end
 end

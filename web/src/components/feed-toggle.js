@@ -4,13 +4,13 @@ import Link from 'next/link';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 
-export function FeedToggle(props) {
+export function FeedToggle({ userUsername }) {
   const router = useRouter();
   return (
     <div className="feed-toggle">
       <ul className="nav nav-pills outline-active">
         <li className="nav-item">
-          {props.userUsername ? (
+          {userUsername ? (
             <Link href="/feed" as="/feed">
               <a
                 className={clsx('nav-link', {

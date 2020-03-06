@@ -5,17 +5,17 @@ import Link from 'next/link';
 import clsx from 'clsx';
 import { NavbarUserDropdown } from './navbar-user-dropdown';
 
-function NavLink(props) {
+function NavLink({ href, as, children }) {
   const router = useRouter();
 
   return (
-    <Link href={props.href} as={props.as}>
+    <Link href={href} as={as}>
       <a
         className={clsx('nav-link', {
-          active: router.pathname === props.href
+          active: router.pathname === href
         })}
       >
-        {props.children}
+        {children}
       </a>
     </Link>
   );
@@ -27,7 +27,7 @@ NavLink.propTypes = {
   children: PropTypes.node.isRequired
 };
 
-export function Navbar(props) {
+export function Navbar({ userUsername }) {
   return (
     <nav className="navbar navbar-light">
       <div className="container">
@@ -35,7 +35,7 @@ export function Navbar(props) {
           <a className="navbar-brand">conduit</a>
         </Link>
         <ul className="nav navbar-nav pull-xs-right">
-          {props.userUsername ? (
+          {userUsername ? (
             <>
               <li className="nav-item">
                 <NavLink href="/editor" as="/editor">
@@ -43,7 +43,7 @@ export function Navbar(props) {
                   &nbsp;New Post
                 </NavLink>
               </li>
-              <NavbarUserDropdown userUsername={props.userUsername} />
+              <NavbarUserDropdown userUsername={userUsername} />
             </>
           ) : (
             <>
