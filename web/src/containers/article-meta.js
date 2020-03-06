@@ -7,7 +7,7 @@ import { UpdateArticleButton } from './update-article-button';
 import { FollowUserButton } from './follow-user-button';
 import { FavoriteArticleButton } from '../components/favorite-article-button';
 import { DeleteArticleButton } from './delete-article-button';
-import { ArticleMetaInfo } from '../components/article-meta-info';
+import { format } from '../utils/date';
 
 export function ArticleMeta(props) {
   const article = useQuery(ArticleMetaQuery, {
@@ -74,10 +74,18 @@ export function ArticleMeta(props) {
           />
         </a>
       </Link>
-      <ArticleMetaInfo
-        userUsername={article.data.article.author.username}
-        articleCreatedAt={article.data.article.createdAt}
-      />
+      <div className="info">
+        <Link
+          href="/[username]"
+          as={`/${article.data.article.author.username}`}
+          shallow
+        >
+          <a className="author">{article.data.article.author.username}</a>
+        </Link>
+        <time dateTime={article.data.article.createdAt} className="date">
+          {format(new Date(article.data.article.createdAt), 'MMMM Qo')}
+        </time>
+      </div>
       <FollowUserButton userUsername={article.data.article.author.username} />{' '}
       {favoriteButton} <UpdateArticleButton articleSlug={props.articleSlug} />{' '}
       <DeleteArticleButton articleSlug={props.articleSlug} />

@@ -1,23 +1,27 @@
-query ProfilePageQuery($username: ID!) {
+query FeedPageQuery($after: String, $before: String, $first: Int, $last: Int, $tagName: String) {
   viewer {
     username
     __typename
   }
-  user: userByUsername(username: $username) {
-    username
-    articlesConnection {
-      edges {
-        node {
-          ...ArticlePreviewArticleFragment
-          __typename
-        }
+  feedConnection(after: $after, before: $before, first: $first, last: $last, tagName: $tagName) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      __typename
+    }
+    edges {
+      cursor
+      node {
+        ...ArticlePreviewArticleFragment
         __typename
       }
       __typename
     }
-    ...ProfilePageBannerUserFragment
     __typename
   }
+  ...SidebarQueryFragment
 }
 
 fragment ArticlePreviewArticleFragment on Article {
@@ -51,22 +55,11 @@ fragment ArticlePreviewArticleFragment on Article {
   __typename
 }
 
-fragment ProfilePageBannerUserFragment on User {
-  canFollow {
-    value
+fragment SidebarQueryFragment on Query {
+  popularTags {
+    id
+    name
     __typename
   }
-  canUnfollow {
-    value
-    __typename
-  }
-  followersCount
-  isViewer
-  profile {
-    imageUrl
-    __typename
-  }
-  username
-  viewerIsFollowing
   __typename
 }

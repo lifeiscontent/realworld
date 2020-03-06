@@ -1,6 +1,6 @@
 query ProfileFavoritesPageQuery($username: ID!) {
   viewer {
-    ...LayoutUserFragment
+    username
     __typename
   }
   user: userByUsername(username: $username) {
@@ -15,20 +15,18 @@ query ProfileFavoritesPageQuery($username: ID!) {
       }
       __typename
     }
-    ...UserInfoUserFragment
+    ...ProfilePageBannerUserFragment
     __typename
   }
 }
 
 fragment ArticlePreviewArticleFragment on Article {
-  createdAt
-  description
-  favoritesCount
-  slug
-  title
-  viewerDidFavorite
-  tags {
-    ...ArticlePreviewTagTagFragment
+  author {
+    username
+    profile {
+      imageUrl
+      __typename
+    }
     __typename
   }
   canFavorite {
@@ -39,57 +37,21 @@ fragment ArticlePreviewArticleFragment on Article {
     value
     __typename
   }
-  author {
-    username
-    profile {
-      imageUrl
-      __typename
-    }
+  createdAt
+  description
+  favoritesCount
+  slug
+  tags {
+    id
+    name
     __typename
   }
+  title
+  viewerDidFavorite
   __typename
 }
 
-fragment ArticlePreviewTagTagFragment on Tag {
-  id
-  name
-  __typename
-}
-
-fragment LayoutUserFragment on User {
-  ...NavbarUserFragment
-  __typename
-}
-
-fragment NavbarUserFragment on User {
-  ...NavbarUserDropdownUserFragment
-  __typename
-}
-
-fragment NavbarUserDropdownUserFragment on User {
-  username
-  __typename
-}
-
-fragment UserInfoUserFragment on User {
-  ...FollowUserButtonUserFragment
-  username
-  canUpdate {
-    value
-    __typename
-  }
-  profile {
-    imageUrl
-    bio
-    __typename
-  }
-  __typename
-}
-
-fragment FollowUserButtonUserFragment on User {
-  username
-  viewerIsFollowing
-  followersCount
+fragment ProfilePageBannerUserFragment on User {
   canFollow {
     value
     __typename
@@ -98,5 +60,13 @@ fragment FollowUserButtonUserFragment on User {
     value
     __typename
   }
+  followersCount
+  isViewer
+  profile {
+    imageUrl
+    __typename
+  }
+  username
+  viewerIsFollowing
   __typename
 }

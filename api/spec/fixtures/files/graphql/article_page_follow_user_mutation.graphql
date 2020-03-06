@@ -1,0 +1,28 @@
+mutation ArticlePageFollowUserMutation($username: ID!) {
+  followUser(username: $username) {
+    user {
+      ...ArticlePageBannerUserFragment
+      __typename
+    }
+    __typename
+  }
+}
+
+fragment ArticlePageBannerUserFragment on User {
+  canFollow {
+    value
+    __typename
+  }
+  canUnfollow {
+    value
+    __typename
+  }
+  followersCount
+  profile {
+    imageUrl
+    __typename
+  }
+  username
+  viewerIsFollowing
+  __typename
+}

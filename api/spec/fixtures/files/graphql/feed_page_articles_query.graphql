@@ -1,10 +1,22 @@
-query FeedPageArticlesQuery($after: String, $before: String, $first: Int, $last: Int, $tagName: String) {
+query FeedPageArticlesQuery(
+  $after: String
+  $before: String
+  $first: Int
+  $last: Int
+  $tagName: String
+) {
   viewer {
+    username
     ...FeedToggleUserFragment
-    ...LayoutUserFragment
     __typename
   }
-  feedConnection(after: $after, before: $before, first: $first, last: $last, tagName: $tagName) {
+  feedConnection(
+    after: $after
+    before: $before
+    first: $first
+    last: $last
+    tagName: $tagName
+  ) {
     pageInfo {
       endCursor
       hasNextPage
@@ -62,11 +74,6 @@ fragment ArticlePreviewTagListArticleFragment on Article {
 }
 
 fragment FeedToggleUserFragment on User {
-  username
-  __typename
-}
-
-fragment LayoutUserFragment on User {
   username
   __typename
 }

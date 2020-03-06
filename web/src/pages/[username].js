@@ -2,33 +2,11 @@ import React from 'react';
 import Link from 'next/link';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
-import { useQuery } from '@apollo/react-hooks';
-import { ArticlePreview } from '../containers/article-preview';
-import { UserInfo } from '../containers/user-info';
+import { useQuery, useMutation } from '@apollo/react-hooks';
+import { ArticlePreview } from '../components/article-preview';
 import withApollo from '../lib/with-apollo';
 import { Layout } from '../components/layout';
-
-const ProfilePageQuery = gql`
-  query ProfilePageQuery($username: ID!) {
-    viewer {
-      ...LayoutUserFragment
-    }
-    user: userByUsername(username: $username) {
-      username
-      articlesConnection {
-        edges {
-          node {
-            ...ArticlePreviewArticleFragment
-          }
-        }
-      }
-      ...UserInfoUserFragment
-    }
-  }
-  ${ArticlePreview.fragments.article}
-  ${UserInfo.fragments.user}
-  ${Layout.fragments.user}
-`;
+import { ProfilePageBanner } from '../components/profile-page-banner';
 
 function ProfilePage() {
   const router = useRouter();
@@ -38,12 +16,21 @@ function ProfilePage() {
     }
   });
 
+  const [favoriteArticle] = useMutation(ProfilePageFavoriteArticleMutation);
+  const [unfavoriteArticle] = useMutation(ProfilePageUnfavoriteArticleMutation);
+  const [followUser] = useMutation(ProfilePageFollowUser);
+  const [unfollowUser] = useMutation(ProfilePageUnfollowUserMutation);
+
   if (profile.loading) return null;
 
   return (
     <Layout userUsername={profile.data.viewer?.username}>
       <div className="profile-page">
-        <UserInfo userUsername={profile.data.user.username} />
+        <ProfilePageBanner
+          onFollow={followUser}
+          onUnfollow={unfollowUser}
+          {...profile.data.user}
+        />
         <div className="container">
           <div className="row">
             <div className="col-xs-12 col-md-10 offset-md-1">
@@ -69,8 +56,10 @@ function ProfilePage() {
               </div>
               {profile.data.user.articlesConnection.edges.map(edge => (
                 <ArticlePreview
-                  articleSlug={edge.node.slug}
                   key={edge.node.slug}
+                  onUnfavorite={unfavoriteArticle}
+                  onFavorite={favoriteArticle}
+                  {...edge.node}
                 />
               ))}
             </div>
@@ -80,5 +69,70 @@ function ProfilePage() {
     </Layout>
   );
 }
+
+const ProfilePageQuery = gql`
+  query ProfilePageQuery($username: ID!) {
+    viewer {
+      username
+    }
+    user: userByUsername(username: $username) {
+      username
+      articlesConnection {
+        edges {
+          node {
+            ...ArticlePreviewArticleFragment
+          }
+        }
+      }
+      ...ProfilePageBannerUserFragment
+    }
+  }
+  ${ArticlePreview.fragments.article}
+  ${ProfilePageBanner.fragments.user}
+`;
+
+const ProfilePageFavoriteArticleMutation = gql`
+  mutation ProfilePageFavoriteArticleMutation($slug: ID!) {
+    favoriteArticle(slug: $slug) {
+      article {
+        ...ArticlePreviewArticleFragment
+      }
+    }
+  }
+  ${ArticlePreview.fragments.article}
+`;
+
+const ProfilePageUnfavoriteArticleMutation = gql`
+  mutation ProfilePageUnfavoriteArticleMutation($slug: ID!) {
+    unfavoriteArticle(slug: $slug) {
+      article {
+        ...ArticlePreviewArticleFragment
+      }
+    }
+  }
+  ${ArticlePreview.fragments.article}
+`;
+
+const ProfilePageFollowUser = gql`
+  mutation ProfilePageFollowUser($username: ID!) {
+    followUser(username: $username) {
+      user {
+        ...ProfilePageBannerUserFragment
+      }
+    }
+  }
+  ${ProfilePageBanner.fragments.user}
+`;
+
+const ProfilePageUnfollowUserMutation = gql`
+  mutation ProfilePageUnfollowUserMutation($username: ID!) {
+    unfollowUser(username: $username) {
+      user {
+        ...ProfilePageBannerUserFragment
+      }
+    }
+  }
+  ${ProfilePageBanner.fragments.user}
+`;
 
 export default withApollo(ProfilePage);

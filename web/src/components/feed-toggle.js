@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import clsx from 'clsx';
-import gql from 'graphql-tag';
+import { useRouter } from 'next/router';
 
 export function FeedToggle(props) {
   const router = useRouter();
-
   return (
     <div className="feed-toggle">
       <ul className="nav nav-pills outline-active">
@@ -42,12 +40,4 @@ export function FeedToggle(props) {
 
 FeedToggle.propTypes = {
   userUsername: PropTypes.string
-};
-
-FeedToggle.fragments = {
-  user: gql`
-    fragment FeedToggleUserFragment on User {
-      username
-    }
-  `
 };

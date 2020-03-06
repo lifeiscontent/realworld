@@ -175,11 +175,10 @@ SettingsPage.fragmants = {
 const SettingsPageQuery = gql`
   query SettingsPageQuery {
     viewer {
-      ...LayoutUserFragment
+      username
       ...SettingsPageUserFragment
     }
   }
-  ${Layout.fragments.user}
   ${SettingsPage.fragmants.user}
 `;
 

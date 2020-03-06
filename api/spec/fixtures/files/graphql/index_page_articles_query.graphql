@@ -1,7 +1,6 @@
 query IndexPageArticlesQuery($after: String, $before: String, $first: Int, $last: Int, $tagName: String) {
   viewer {
-    ...FeedToggleUserFragment
-    ...LayoutUserFragment
+    username
     __typename
   }
   articlesConnection(after: $after, before: $before, first: $first, last: $last, tagName: $tagName) {
@@ -26,20 +25,6 @@ query IndexPageArticlesQuery($after: String, $before: String, $first: Int, $last
 }
 
 fragment ArticlePreviewArticleFragment on Article {
-  createdAt
-  description
-  favoritesCount
-  slug
-  title
-  viewerDidFavorite
-  canFavorite {
-    value
-    __typename
-  }
-  canUnfavorite {
-    value
-    __typename
-  }
   author {
     username
     profile {
@@ -48,39 +33,33 @@ fragment ArticlePreviewArticleFragment on Article {
     }
     __typename
   }
-  ...ArticlePreviewTagListArticleFragment
-  __typename
-}
-
-fragment ArticlePreviewTagListArticleFragment on Article {
+  canFavorite {
+    value
+    __typename
+  }
+  canUnfavorite {
+    value
+    __typename
+  }
+  createdAt
+  description
+  favoritesCount
+  slug
   tags {
     id
     name
     __typename
   }
-  __typename
-}
-
-fragment FeedToggleUserFragment on User {
-  username
-  __typename
-}
-
-fragment LayoutUserFragment on User {
-  username
+  title
+  viewerDidFavorite
   __typename
 }
 
 fragment SidebarQueryFragment on Query {
   popularTags {
-    ...SidebarTagTagFragment
+    id
+    name
     __typename
   }
-  __typename
-}
-
-fragment SidebarTagTagFragment on Tag {
-  id
-  name
   __typename
 }

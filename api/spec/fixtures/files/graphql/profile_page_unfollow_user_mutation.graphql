@@ -1,0 +1,29 @@
+mutation ProfilePageUnfollowUserMutation($username: ID!) {
+  unfollowUser(username: $username) {
+    user {
+      ...ProfilePageBannerUserFragment
+      __typename
+    }
+    __typename
+  }
+}
+
+fragment ProfilePageBannerUserFragment on User {
+  canFollow {
+    value
+    __typename
+  }
+  canUnfollow {
+    value
+    __typename
+  }
+  followersCount
+  isViewer
+  profile {
+    imageUrl
+    __typename
+  }
+  username
+  viewerIsFollowing
+  __typename
+}

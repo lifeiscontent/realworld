@@ -13,7 +13,7 @@ module Mutations
       relationship = Relationship.find_by(follower: context[:current_user], followed: user)
       relationship.destroy!
 
-      { user: user.reload }
+      { user: relationship.followed }
     end
   end
 end

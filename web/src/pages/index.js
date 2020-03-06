@@ -2,54 +2,15 @@ import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import gql from 'graphql-tag';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import clsx from 'clsx';
-import { ArticlePreview } from '../containers/article-preview';
-import { Sidebar } from '../containers/sidebar';
-import { FeedToggle } from '../containers/feed-toggle';
+import { ArticlePreview } from '../components/article-preview';
+import { Sidebar } from '../components/sidebar';
+import { FeedToggle } from '../components/feed-toggle';
 import withApollo from '../lib/with-apollo';
 import { Layout } from '../components/layout';
 import { NetworkStatus } from 'apollo-client';
-
-const IndexPageArticlesQuery = gql`
-  query IndexPageArticlesQuery(
-    $after: String
-    $before: String
-    $first: Int
-    $last: Int
-    $tagName: String
-  ) {
-    viewer {
-      ...FeedToggleUserFragment
-      ...LayoutUserFragment
-    }
-    articlesConnection(
-      after: $after
-      before: $before
-      first: $first
-      last: $last
-      tagName: $tagName
-    ) {
-      pageInfo {
-        endCursor
-        hasNextPage
-        hasPreviousPage
-        startCursor
-      }
-      edges {
-        cursor
-        node {
-          ...ArticlePreviewArticleFragment
-        }
-      }
-    }
-    ...SidebarQueryFragment
-  }
-  ${ArticlePreview.fragments.article}
-  ${FeedToggle.fragments.user}
-  ${Layout.fragments.user}
-  ${Sidebar.fragments.query}
-`;
+import { HomePageBanner } from '../components/home-page-banner';
 
 function IndexPage() {
   const router = useRouter();
@@ -70,25 +31,25 @@ function IndexPage() {
     notifyOnNetworkStatusChange: true
   });
 
+  const [favoriteArticle] = useMutation(IndexPageFavoriteArticleMutation);
+  const [unfavoriteArticle] = useMutation(IndexPageUnfavoriteArticleMutation);
+
   if (index.networkStatus == NetworkStatus.loading) return null;
 
   return (
     <Layout userUsername={index.data.viewer?.username}>
       <div className="home-page">
-        <div className="banner">
-          <div className="container">
-            <h1 className="logo-font">conduit</h1>
-            <p>A place to share your knowledge.</p>
-          </div>
-        </div>
+        <HomePageBanner />
         <div className="container page">
           <div className="row">
             <div className="col-xs-12 col-md-9">
               <FeedToggle userUsername={index.data.viewer?.username} />
               {index.data.articlesConnection.edges.map(edge => (
                 <ArticlePreview
-                  articleSlug={edge.node.slug}
                   key={edge.node.slug}
+                  onFavorite={favoriteArticle}
+                  onUnfavorite={unfavoriteArticle}
+                  {...edge.node}
                 />
               ))}
               <nav>
@@ -155,7 +116,7 @@ function IndexPage() {
               </nav>
             </div>
             <div className="col-xs-12 col-md-3">
-              <Sidebar />
+              <Sidebar popularTags={index.data.popularTags} />
             </div>
           </div>
         </div>
@@ -163,5 +124,64 @@ function IndexPage() {
     </Layout>
   );
 }
+
+const IndexPageArticlesQuery = gql`
+  query IndexPageArticlesQuery(
+    $after: String
+    $before: String
+    $first: Int
+    $last: Int
+    $tagName: String
+  ) {
+    viewer {
+      username
+    }
+    articlesConnection(
+      after: $after
+      before: $before
+      first: $first
+      last: $last
+      tagName: $tagName
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+      edges {
+        cursor
+        node {
+          ...ArticlePreviewArticleFragment
+        }
+      }
+    }
+    ...SidebarQueryFragment
+  }
+  ${ArticlePreview.fragments.article}
+  ${Sidebar.fragments.query}
+`;
+
+const IndexPageFavoriteArticleMutation = gql`
+  mutation IndexPageFavoriteArticleMutation($slug: ID!) {
+    favoriteArticle(slug: $slug) {
+      article {
+        ...ArticlePreviewArticleFragment
+      }
+    }
+  }
+  ${ArticlePreview.fragments.article}
+`;
+
+const IndexPageUnfavoriteArticleMutation = gql`
+  mutation IndexPageUnfavoriteArticleMutation($slug: ID!) {
+    unfavoriteArticle(slug: $slug) {
+      article {
+        ...ArticlePreviewArticleFragment
+      }
+    }
+  }
+  ${ArticlePreview.fragments.article}
+`;
 
 export default withApollo(IndexPage);
