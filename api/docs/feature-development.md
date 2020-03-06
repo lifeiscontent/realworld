@@ -17,7 +17,7 @@
 
 then, run `rails spec` and see it fail, you only should ever write just enough code to make your expectation of what should happen pass.
 
-Obviously, we can go and create the model now, because our intent is to have the model exist.
+We can go and create the model now, because our intent is to have the model exist.
 
 Only add columns for the model **after** you've added a test for the column/association.
 
