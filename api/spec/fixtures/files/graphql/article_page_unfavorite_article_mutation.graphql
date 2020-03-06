@@ -1,16 +1,14 @@
-query ArticlePageQuery($slug: ID!) {
-  viewer {
-    username
-    ...CommentsListUserFragment
-    __typename
-  }
-  article: articleBySlug(slug: $slug) {
-    slug
-    body
-    description
-    ...ArticleMetaArticleFragment
-    ...ArticlePageBannerArticleFragment
-    ...CommentsListArticleFragment
+mutation ArticlePageUnfavoriteArticleMutation($slug: ID!) {
+  unfavoriteArticle(slug: $slug) {
+    article {
+      slug
+      body
+      description
+      ...ArticleMetaArticleFragment
+      ...ArticlePageBannerArticleFragment
+      ...CommentsListArticleFragment
+      __typename
+    }
     __typename
   }
 }
@@ -139,20 +137,6 @@ fragment CommentFormArticleFragment on Article {
   slug
   canCreateComment {
     value
-    __typename
-  }
-  __typename
-}
-
-fragment CommentsListUserFragment on User {
-  ...CommentFormUserFragment
-  __typename
-}
-
-fragment CommentFormUserFragment on User {
-  username
-  profile {
-    imageUrl
     __typename
   }
   __typename

@@ -38,11 +38,11 @@ export function ProfilePageBanner(props) {
                   </a>
                 </Link>
               ) : null}
-              {props.canFollow.value && props.canUnfollow.value ? (
+              {props.canFollow.value || props.canUnfollow.value ? (
                 <button
                   className={clsx('btn btn-sm action-btn', {
-                    'btn-secondary': props.viewerIsFollowing === false,
-                    'btn-outline-secondary': props.viewerIsFollowing
+                    'btn-outline-secondary': props.viewerIsFollowing === false,
+                    'btn-secondary': props.viewerIsFollowing
                   })}
                   onClick={() =>
                     props.viewerIsFollowing

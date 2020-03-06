@@ -17,27 +17,26 @@ export const renders = () => (
   />
 );
 
-export const withFollow = () => (
+export const canFollow = () => (
   <ProfilePageBanner
     canFollow={{ value: true }}
-    canUnfollow={{ value: true }}
     onFollow={action('onFollow')}
     onUnfollow={action('onUnfollow')}
     username="lifeiscontent"
   />
 );
 
-export const withoutFollow = () => (
+export const canUnfollow = () => (
   <ProfilePageBanner
+    canUnfollow={{ value: true }}
+    followersCount={1}
+    onFollow={action('onFollow')}
+    onUnfollow={action('onUnfollow')}
+    username="lifeiscontent"
     viewerIsFollowing
-    canFollow={{ value: true }}
-    canUnfollow={{ value: true }}
-    onFollow={action('onFollow')}
-    onUnfollow={action('onUnfollow')}
-    username="lifeiscontent"
   />
 );
 
-export const withoutEdit = () => (
+export const canUpdate = () => (
   <ProfilePageBanner isViewer username="lifeiscontent" />
 );

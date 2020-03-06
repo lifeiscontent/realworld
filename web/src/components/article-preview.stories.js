@@ -30,7 +30,7 @@ renders.story = {
   }
 };
 
-export const withFavorite = () => (
+export const canFavorite = () => (
   <ArticlePreview
     author={{
       username: 'lifeiscontent',
@@ -43,13 +43,12 @@ export const withFavorite = () => (
     slug="some-cool-title"
     viewerDidFavorite
     canFavorite={{ value: true }}
-    canUnfavorite={{ value: true }}
     onFavorite={action('onFavorite')}
     onUnfavorite={action('onUnfavorite')}
   />
 );
 
-withFavorite.story = {
+canFavorite.story = {
   parameters: {
     router: {
       pathname: '/'
@@ -57,7 +56,7 @@ withFavorite.story = {
   }
 };
 
-export const withoutFavorite = () => (
+export const canUnfavorite = () => (
   <ArticlePreview
     author={{
       username: 'lifeiscontent',
@@ -68,14 +67,14 @@ export const withoutFavorite = () => (
     createdAt={new Date(2000, 2, 1).toISOString()}
     tags={[{ id: '1', name: 'programming' }]}
     slug="some-cool-title"
-    canFavorite={{ value: true }}
+    favoritesCount={1}
     canUnfavorite={{ value: true }}
     onFavorite={action('onFavorite')}
     onUnfavorite={action('onUnfavorite')}
   />
 );
 
-withoutFavorite.story = {
+canUnfavorite.story = {
   parameters: {
     router: {
       pathname: '/'

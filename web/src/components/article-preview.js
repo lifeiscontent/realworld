@@ -29,12 +29,12 @@ export function ArticlePreview(props) {
             {format(new Date(props.createdAt), 'MMMM Qo')}
           </time>
         </div>
-        {props.canFavorite.value && props.canUnfavorite.value ? (
+        {props.canFavorite.value || props.canUnfavorite.value ? (
           <div className="pull-xs-right">
             <button
               className={clsx('btn btn-sm', {
-                'btn-outline-primary': props.viewerDidFavorite === false,
-                'btn-primary': props.viewerDidFavorite
+                'btn-outline-primary': props.viewerDidFavorite,
+                'btn-primary': props.viewerDidFavorite === false
               })}
               onClick={() =>
                 props.viewerDidFavorite
