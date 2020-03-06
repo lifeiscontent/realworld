@@ -8,7 +8,7 @@ module Types
 
     def feed_connection(tag_name: nil)
       scope = Article.all
-      scope = scope.tagged_with(tag_name) if tag_name.present?
+      scope = scope.tagged_with(Tag.where(name: tag_name)) if tag_name.present?
       scope = scope.order(created_at: :desc)
 
       scope
@@ -20,7 +20,7 @@ module Types
 
     def articles_connection(tag_name: nil)
       scope = Article.all
-      scope = scope.tagged_with(tag_name) if tag_name.present?
+      scope = scope.tagged_with(Tag.where(name: tag_name)) if tag_name.present?
       scope = scope.order(created_at: :desc)
 
       scope

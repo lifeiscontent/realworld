@@ -40,7 +40,7 @@ RSpec.describe Article, type: :model do
   describe 'methods' do
     subject { described_class }
 
-    it { expect(subject.tagged_with('test')).to be_a(ActiveRecord::Relation) }
-    it { expect(subject.feed_for(User.new)).to be_a(ActiveRecord::Relation) }
+    it { expect(subject.tagged_with(Tag.where(name: 'test'))).to be_a(ActiveRecord::Relation) }
+    it { expect(subject.feed_for(User.first)).to be_a(ActiveRecord::Relation) }
   end
 end
