@@ -38,5 +38,10 @@ export const canUnfollow = () => (
 );
 
 export const canUpdate = () => (
-  <ProfilePageBanner isViewer username="lifeiscontent" />
+  <ProfilePageBanner
+    isViewer
+    username="lifeiscontent"
+    onFollow={action('onFollow')}
+    onUnfollow={action('onUnfollow')}
+  />
 );

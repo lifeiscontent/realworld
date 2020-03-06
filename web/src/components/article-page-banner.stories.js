@@ -107,6 +107,10 @@ export const canUpdate = () => (
     createdAt={new Date(2000, 2, 1).toISOString()}
     slug="some-cool-title"
     onDelete={action('onDelete')}
+    onFavorite={action('onFavorite')}
+    onFollow={action('onFollow')}
+    onUnfavorite={action('onUnfavorite')}
+    onUnfollow={action('onUnfollow')}
   />
 );
 
@@ -120,5 +124,9 @@ export const canDelete = () => (
     createdAt={new Date(2000, 2, 1).toISOString()}
     slug="some-cool-title"
     onDelete={action('onDelete')}
+    onFavorite={action('onFavorite')}
+    onFollow={action('onFollow')}
+    onUnfavorite={action('onUnfavorite')}
+    onUnfollow={action('onUnfollow')}
   />
 );

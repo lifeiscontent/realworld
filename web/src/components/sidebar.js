@@ -5,15 +5,15 @@ import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
 import clsx from 'clsx';
 
-export function Sidebar(props) {
+export function Sidebar({ popularTags }) {
   const router = useRouter();
 
   return (
     <div className="sidebar">
       <p>Popular Tags</p>
-      {props.popularTags.length > 0 ? (
+      {popularTags.length > 0 ? (
         <div className="tag-list">
-          {props.popularTags.map(tag => (
+          {popularTags.map(tag => (
             <Link
               href={{ pathname: router.pathname, query: { tagName: tag.name } }}
               as={{ pathname: router.asPath, query: { tagName: tag.name } }}

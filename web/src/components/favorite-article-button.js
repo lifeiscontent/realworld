@@ -2,16 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
-export function FavoriteArticleButton(props) {
+export function FavoriteArticleButton({ onClick, pressed, children }) {
   return (
     <button
-      onClick={props.onClick}
+      onClick={onClick}
       className={clsx('btn btn-sm', {
-        'btn-outline-primary': props.pressed === false,
-        'btn-primary': props.pressed
+        'btn-outline-primary': pressed === false,
+        'btn-primary': pressed
       })}
     >
-      <i className="ion-heart" /> {props.children}
+      <i className="ion-heart" /> {children}
     </button>
   );
 }

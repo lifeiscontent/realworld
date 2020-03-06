@@ -13,7 +13,17 @@ function actionName(viewerIsFollowing) {
   }
 }
 
-export function ProfilePageBanner(props) {
+export function ProfilePageBanner({
+  canFollow,
+  canUnfollow,
+  followersCount,
+  isViewer,
+  onFollow,
+  onUnfollow,
+  profile,
+  username,
+  viewerIsFollowing
+}) {
   return (
     <div className="user-info">
       <div className="container">
@@ -21,42 +31,41 @@ export function ProfilePageBanner(props) {
           <div className="col-xs-12 col-md-10 offset-md-1">
             <img
               src={
-                typeof props.profile.imageUrl === 'string'
-                  ? props.profile.imageUrl
+                typeof profile.imageUrl === 'string'
+                  ? profile.imageUrl
                   : '/images/smiley-cyrus.jpg'
               }
               className="user-img"
-              alt={`Image of ${props.username}`}
+              alt={`Image of ${username}`}
             />
-            <h4>{props.username}</h4>
+            <h4>{username}</h4>
             <p />
             <div className="btn-toolbar">
-              {props.isViewer ? (
+              {isViewer ? (
                 <Link href="/settings">
                   <a className="btn btn-sm btn-outline-secondary action-btn">
                     <i className="ion-gear-a" /> Edit Profile Settings
                   </a>
                 </Link>
               ) : null}
-              {props.canFollow.value || props.canUnfollow.value ? (
+              {canFollow.value || canUnfollow.value ? (
                 <button
                   className={clsx('btn btn-sm action-btn', {
-                    'btn-outline-secondary': props.viewerIsFollowing === false,
-                    'btn-secondary': props.viewerIsFollowing
+                    'btn-outline-secondary': viewerIsFollowing === false,
+                    'btn-secondary': viewerIsFollowing
                   })}
                   onClick={() =>
-                    props.viewerIsFollowing
-                      ? props.onUnfollow({
-                          variables: { username: props.username }
+                    viewerIsFollowing
+                      ? onUnfollow({
+                          variables: { username: username }
                         })
-                      : props.onFollow({
-                          variables: { username: props.username }
+                      : onFollow({
+                          variables: { username: username }
                         })
                   }
                 >
                   <i className="ion-plus-round" />{' '}
-                  {actionName(props.viewerIsFollowing)} {props.username} (
-                  {props.followersCount})
+                  {actionName(viewerIsFollowing)} {username} ({followersCount})
                 </button>
               ) : null}
             </div>

@@ -43,9 +43,9 @@ const updateValidationSchema = Yup.object({
   })
 });
 
-export function ArticleForm(props) {
+export function ArticleForm({ initialValues, onSubmit, disabled }) {
   const validationSchema = Object.prototype.hasOwnProperty.call(
-    props.initialValues,
+    initialValues,
     'slug'
   )
     ? updateValidationSchema
@@ -57,8 +57,8 @@ export function ArticleForm(props) {
           <Formik
             validationSchema={validationSchema}
             enableReinitialize
-            initialValues={props.initialValues}
-            onSubmit={props.onSubmit}
+            initialValues={initialValues}
+            onSubmit={onSubmit}
           >
             <Form id="article-form">
               <ul className="error-messages">
@@ -112,7 +112,7 @@ export function ArticleForm(props) {
                   />
                 </fieldset>
                 <FormikSubmitButton
-                  disabled={props.disabled}
+                  disabled={disabled}
                   className="btn btn-lg pull-xs-right btn-primary"
                 >
                   Publish Article

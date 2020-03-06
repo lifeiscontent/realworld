@@ -5,21 +5,37 @@ import { format } from '../utils/date';
 import gql from 'graphql-tag';
 import clsx from 'clsx';
 
-export function ArticlePageBanner(props) {
+export function ArticlePageBanner({
+  author,
+  canDelete,
+  canFavorite,
+  canUnfavorite,
+  canUpdate,
+  createdAt,
+  favoritesCount,
+  onDelete,
+  onFavorite,
+  onFollow,
+  onUnfavorite,
+  onUnfollow,
+  slug,
+  title,
+  viewerDidFavorite
+}) {
   const {
     followersCount = 0,
     profile = {},
     canFollow = { value: false },
     canUnfollow = { value: false },
     viewerIsFollowing = false
-  } = props.author;
+  } = author;
 
   return (
     <div className="banner">
       <div className="container">
-        <h1>{props.title}</h1>
+        <h1>{title}</h1>
         <div className="article-meta">
-          <Link href={`/${props.author.username}`}>
+          <Link href={`/${author.username}`}>
             <a>
               <img
                 src={
@@ -27,32 +43,32 @@ export function ArticlePageBanner(props) {
                     ? profile.imageUrl
                     : '/images/smiley-cyrus.jpg'
                 }
-                alt={`Image of ${props.author.username}`}
+                alt={`Image of ${author.username}`}
               />
             </a>
           </Link>
           <div className="info">
-            <a className="author" href={`/${props.author.username}`}>
-              {props.author.username}
+            <a className="author" href={`/${author.username}`}>
+              {author.username}
             </a>
-            <time dateTime={props.createdAt} className="date">
-              {format(new Date(props.createdAt), 'MMMM Qo')}
+            <time dateTime={createdAt} className="date">
+              {format(new Date(createdAt), 'MMMM Qo')}
             </time>
           </div>{' '}
-          {props.canFavorite.value || props.canUnfavorite.value ? (
+          {canFavorite.value || canUnfavorite.value ? (
             <button
               className={clsx('btn btn-sm', {
-                'btn-outline-primary': props.viewerDidFavorite === false,
-                'btn-primary': props.viewerDidFavorite
+                'btn-outline-primary': viewerDidFavorite === false,
+                'btn-primary': viewerDidFavorite
               })}
               onClick={() =>
-                props.viewerDidFavorite
-                  ? props.onUnfavorite({ variables: { slug: props.slug } })
-                  : props.onFavorite({ variables: { slug: props.slug } })
+                viewerDidFavorite
+                  ? onUnfavorite({ variables: { slug: slug } })
+                  : onFavorite({ variables: { slug: slug } })
               }
             >
-              <i className="ion-heart" />{' '}
-              {favoriteText(props.viewerDidFavorite)} ({props.favoritesCount})
+              <i className="ion-heart" /> {favoriteText(viewerDidFavorite)} (
+              {favoritesCount})
             </button>
           ) : null}{' '}
           {canFollow.value || canUnfollow.value ? (
@@ -63,31 +79,29 @@ export function ArticlePageBanner(props) {
               })}
               onClick={() =>
                 viewerIsFollowing
-                  ? props.onUnfollow({
-                      variables: { username: props.author.username }
+                  ? onUnfollow({
+                      variables: { username: author.username }
                     })
-                  : props.onFollow({
-                      variables: { username: props.author.username }
+                  : onFollow({
+                      variables: { username: author.username }
                     })
               }
             >
               <i className="ion-plus-round" /> {followText(viewerIsFollowing)}{' '}
-              {props.author.username} ({followersCount})
+              {author.username} ({followersCount})
             </button>
           ) : null}{' '}
-          {props.canUpdate.value ? (
-            <Link href={`/editor/${props.slug}`}>
+          {canUpdate.value ? (
+            <Link href={`/editor/${slug}`}>
               <a className="btn btn-outline-secondary btn-sm">
                 <i className="ion-edit" /> Edit Article
               </a>
             </Link>
           ) : null}{' '}
-          {props.canDelete.value ? (
+          {canDelete.value ? (
             <button
               className="btn btn-outline-danger btn-sm"
-              onClick={() =>
-                props.onDelete({ variables: { slug: props.slug } })
-              }
+              onClick={() => onDelete({ variables: { slug: slug } })}
             >
               <i className="ion-trash-a" /> Delete Article
             </button>
@@ -151,8 +165,8 @@ ArticlePageBanner.propTypes = {
   author: PropTypes.shape({
     canFollow: PropTypes.shape({ value: PropTypes.bool }),
     canUnfollow: PropTypes.shape({ value: PropTypes.bool }),
-    followersCount: PropTypes.number.isRequired,
-    profile: PropTypes.shape({ imageUrl: PropTypes.string }).isRequired,
+    followersCount: PropTypes.number,
+    profile: PropTypes.shape({ imageUrl: PropTypes.string }),
     username: PropTypes.string.isRequired,
     viewerIsFollowing: PropTypes.bool
   }).isRequired,
