@@ -345,4 +345,4 @@ Rails has built in support for incrementing/decrementing counts, so this is all 
 
 > You might be wondering, why did we test what rails provides us?
 >
-> Great question! The reason we wrote tests is because its apart of our business logic, these are expectations of what **should** happen, it doesn't matter that rails provides it to us, because if rails changed something, or we wanted to use something else in the future, the test will still stay the logic of what is supposed to happen, will stay the same.
+> Great question! The reason we wrote tests is because its a part of our business logic, these are expectations of what **should** happen, it doesn't matter that rails provides it to us, because if rails changed something, or we wanted to use something else in the future, the test will still stay the logic of what is supposed to happen, will stay the same.
