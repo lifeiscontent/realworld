@@ -1,6 +1,6 @@
 query ProfilePageQuery($username: ID!) {
   viewer {
-    ...LayoutUserFragment
+    username
     __typename
   }
   user: userByUsername(username: $username) {
@@ -27,10 +27,6 @@ fragment ArticlePreviewArticleFragment on Article {
   slug
   title
   viewerDidFavorite
-  tags {
-    ...ArticlePreviewTagTagFragment
-    __typename
-  }
   canFavorite {
     value
     __typename
@@ -47,12 +43,16 @@ fragment ArticlePreviewArticleFragment on Article {
     }
     __typename
   }
+  ...ArticlePreviewTagListArticleFragment
   __typename
 }
 
-fragment ArticlePreviewTagTagFragment on Tag {
-  id
-  name
+fragment ArticlePreviewTagListArticleFragment on Article {
+  tags {
+    id
+    name
+    __typename
+  }
   __typename
 }
 
@@ -83,15 +83,5 @@ fragment FollowUserButtonUserFragment on User {
     value
     __typename
   }
-  __typename
-}
-
-fragment LayoutUserFragment on User {
-  ...NavbarUserFragment
-  __typename
-}
-
-fragment NavbarUserFragment on User {
-  username
   __typename
 }

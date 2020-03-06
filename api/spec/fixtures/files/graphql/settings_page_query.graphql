@@ -1,24 +1,9 @@
 query SettingsPageQuery {
   viewer {
-    ...LayoutUserFragment
+    username
     ...SettingsPageUserFragment
     __typename
   }
-}
-
-fragment LayoutUserFragment on User {
-  ...NavbarUserFragment
-  __typename
-}
-
-fragment NavbarUserFragment on User {
-  ...NavbarUserDropdownUserFragment
-  __typename
-}
-
-fragment NavbarUserDropdownUserFragment on User {
-  username
-  __typename
 }
 
 fragment SettingsPageUserFragment on User {

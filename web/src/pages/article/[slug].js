@@ -12,8 +12,8 @@ import { Layout } from '../../components/layout';
 const ArticlePageQuery = gql`
   query ArticlePageQuery($slug: ID!) {
     viewer {
+      username
       ...CommentsListUserFragment
-      ...LayoutUserFragment
     }
     article: articleBySlug(slug: $slug) {
       slug
@@ -28,7 +28,6 @@ const ArticlePageQuery = gql`
   ${Banner.fragments.article}
   ${CommentsList.fragments.article}
   ${CommentsList.fragments.user}
-  ${Layout.fragments.user}
 `;
 
 function ArticlePage() {

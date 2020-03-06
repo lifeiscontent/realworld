@@ -1,13 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import clsx from 'clsx';
-import gql from 'graphql-tag';
 
 export function FeedToggle(props) {
-  const router = useRouter();
-
   return (
     <div className="feed-toggle">
       <ul className="nav nav-pills outline-active">
@@ -16,7 +12,7 @@ export function FeedToggle(props) {
             <Link href="/feed" as="/feed">
               <a
                 className={clsx('nav-link', {
-                  active: router.pathname === '/feed'
+                  active: props.pathname === '/feed'
                 })}
               >
                 Your Feed
@@ -28,9 +24,7 @@ export function FeedToggle(props) {
         </li>
         <li className="nav-item">
           <Link href="/" as="/">
-            <a
-              className={clsx('nav-link', { active: router.pathname === '/' })}
-            >
+            <a className={clsx('nav-link', { active: props.pathname === '/' })}>
               Global Feed
             </a>
           </Link>
@@ -41,13 +35,6 @@ export function FeedToggle(props) {
 }
 
 FeedToggle.propTypes = {
-  userUsername: PropTypes.string
-};
-
-FeedToggle.fragments = {
-  user: gql`
-    fragment FeedToggleUserFragment on User {
-      username
-    }
-  `
+  userUsername: PropTypes.string,
+  pathname: PropTypes.string.isRequired
 };

@@ -11,7 +11,7 @@ import { Layout } from '../components/layout';
 const ProfilePageQuery = gql`
   query ProfilePageQuery($username: ID!) {
     viewer {
-      ...LayoutUserFragment
+      username
     }
     user: userByUsername(username: $username) {
       username
@@ -27,7 +27,6 @@ const ProfilePageQuery = gql`
   }
   ${ArticlePreview.fragments.article}
   ${UserInfo.fragments.user}
-  ${Layout.fragments.user}
 `;
 
 function ProfilePage() {

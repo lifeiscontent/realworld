@@ -4,11 +4,55 @@ import { Formik, Form, ErrorMessage, Field } from 'formik';
 import { FormikStatusErrors } from './formik/formik-status-errors';
 import { FormikSubmitButton } from './formik/formik-submit-button';
 import { TagsInput } from '../containers/tags-input';
+import * as Yup from 'yup';
+
+const createValidationSchema = Yup.object({
+  input: Yup.object({
+    title: Yup.string()
+      .label('Title')
+      .required(),
+    description: Yup.string()
+      .label('Description')
+      .required(),
+    body: Yup.string()
+      .label('Body')
+      .required(),
+    tagIds: Yup.array(Yup.string())
+      .label('Tags')
+      .test('', '${path} is a required field', value => Array.isArray(value))
+  })
+});
+
+const updateValidationSchema = Yup.object({
+  slug: Yup.string()
+    .label('Slug')
+    .required(),
+  input: Yup.object({
+    title: Yup.string()
+      .label('Title')
+      .required(),
+    description: Yup.string()
+      .label('Description')
+      .required(),
+    body: Yup.string()
+      .label('Body')
+      .required(),
+    tagIds: Yup.array(Yup.string())
+      .label('Tags')
+      .test('', '${path} is a required field', value => Array.isArray(value))
+  })
+});
 
 export function ArticleForm(props) {
+  const validationSchema = Object.prototype.hasOwnProperty.call(
+    props.initialValues,
+    'slug'
+  )
+    ? updateValidationSchema
+    : createValidationSchema;
   return (
     <Formik
-      validationSchema={props.validationSchema}
+      validationSchema={validationSchema}
       enableReinitialize
       initialValues={props.initialValues}
       onSubmit={props.onSubmit}
@@ -73,7 +117,6 @@ export function ArticleForm(props) {
 
 ArticleForm.propTypes = {
   disabled: PropTypes.bool,
-  validationSchema: PropTypes.object.isRequired,
   initialValues: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired
 };

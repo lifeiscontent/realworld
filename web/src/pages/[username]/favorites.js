@@ -11,7 +11,7 @@ import { Layout } from '../../components/layout';
 const ProfileFavoritesPageQuery = gql`
   query ProfileFavoritesPageQuery($username: ID!) {
     viewer {
-      ...LayoutUserFragment
+      username
     }
     user: userByUsername(username: $username) {
       username
@@ -26,7 +26,6 @@ const ProfileFavoritesPageQuery = gql`
     }
   }
   ${ArticlePreview.fragments.article}
-  ${Layout.fragments.user}
   ${UserInfo.fragments.user}
 `;
 

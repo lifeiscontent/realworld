@@ -2,29 +2,8 @@ import React from 'react';
 import { ArticleForm } from '../../components/article-form';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
-import * as Yup from 'yup';
 import { useRouter } from 'next/router';
 import { handleValidationError } from '../utils/graphql';
-
-const validationSchema = Yup.object({
-  slug: Yup.string()
-    .label('Slug')
-    .required(),
-  input: Yup.object({
-    title: Yup.string()
-      .label('Title')
-      .required(),
-    description: Yup.string()
-      .label('Description')
-      .required(),
-    body: Yup.string()
-      .label('Body')
-      .required(),
-    tagIds: Yup.array(Yup.string())
-      .label('Tags')
-      .test('', '${path} is a required field', value => Array.isArray(value))
-  })
-});
 
 export function UpdateArticleForm(props) {
   const router = useRouter();
@@ -39,7 +18,6 @@ export function UpdateArticleForm(props) {
 
   return (
     <ArticleForm
-      validationSchema={validationSchema}
       initialValues={{
         slug: editorUpdate.data.article.slug ?? '',
         input: {

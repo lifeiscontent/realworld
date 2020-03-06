@@ -6,23 +6,6 @@ import { MockedProvider } from '@apollo/react-testing';
 
 import { ArticleForm } from './article-form';
 
-const validationSchema = Yup.object({
-  input: Yup.object({
-    title: Yup.string()
-      .label('Title')
-      .required(),
-    description: Yup.string()
-      .label('Description')
-      .required(),
-    body: Yup.string()
-      .label('Body')
-      .required(),
-    tagIds: Yup.array(Yup.string())
-      .label('Tags')
-      .test('', '${path} is a required field', value => Array.isArray(value))
-  })
-});
-
 describe('ArticleForm', () => {
   function setup({
     handleSubmit = () => undefined,
@@ -32,11 +15,7 @@ describe('ArticleForm', () => {
   } = {}) {
     return render(
       <MockedProvider>
-        <ArticleForm
-          validationSchema={validationSchema}
-          initialValues={initialValues}
-          onSubmit={handleSubmit}
-        />
+        <ArticleForm initialValues={initialValues} onSubmit={handleSubmit} />
       </MockedProvider>
     );
   }

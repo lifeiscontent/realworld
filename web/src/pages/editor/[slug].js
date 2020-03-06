@@ -113,14 +113,13 @@ const EditorUpdatePageUpdateArticleMutation = gql`
 const EditorUpdatePageQuery = gql`
   query EditorUpdatePageQuery($slug: ID!) {
     viewer {
-      ...LayoutUserFragment
+      username
     }
     article: articleBySlug(slug: $slug) {
       ...EditorUpdatePageArticleFragment
     }
   }
   ${EditorUpdatePage.fragments.article}
-  ${Layout.fragments.user}
 `;
 
 export default withApollo(EditorUpdatePage);

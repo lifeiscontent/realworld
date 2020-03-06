@@ -1,6 +1,6 @@
 query EditorUpdatePageQuery($slug: ID!) {
   viewer {
-    ...LayoutUserFragment
+    username
     __typename
   }
   article: articleBySlug(slug: $slug) {
@@ -19,20 +19,5 @@ fragment EditorUpdatePageArticleFragment on Article {
     name
     __typename
   }
-  __typename
-}
-
-fragment LayoutUserFragment on User {
-  ...NavbarUserFragment
-  __typename
-}
-
-fragment NavbarUserFragment on User {
-  ...NavbarUserDropdownUserFragment
-  __typename
-}
-
-fragment NavbarUserDropdownUserFragment on User {
-  username
   __typename
 }

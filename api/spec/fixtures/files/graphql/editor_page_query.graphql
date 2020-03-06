@@ -1,21 +1,6 @@
 query EditorPageQuery {
   viewer {
-    ...LayoutUserFragment
+    username
     __typename
   }
-}
-
-fragment LayoutUserFragment on User {
-  ...NavbarUserFragment
-  __typename
-}
-
-fragment NavbarUserFragment on User {
-  ...NavbarUserDropdownUserFragment
-  __typename
-}
-
-fragment NavbarUserDropdownUserFragment on User {
-  username
-  __typename
 }

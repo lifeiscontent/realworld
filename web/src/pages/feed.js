@@ -6,7 +6,7 @@ import { useQuery } from '@apollo/react-hooks';
 import clsx from 'clsx';
 import { ArticlePreview } from '../containers/article-preview';
 import { Sidebar } from '../containers/sidebar';
-import { FeedToggle } from '../containers/feed-toggle';
+import { FeedToggle } from '../components/feed-toggle';
 import withApollo from '../lib/with-apollo';
 import { Layout } from '../components/layout';
 import { NetworkStatus } from 'apollo-client';
@@ -20,8 +20,7 @@ const FeedPageArticlesQuery = gql`
     $tagName: String
   ) {
     viewer {
-      ...FeedToggleUserFragment
-      ...LayoutUserFragment
+      username
     }
     feedConnection(
       after: $after
@@ -46,8 +45,6 @@ const FeedPageArticlesQuery = gql`
     ...SidebarQueryFragment
   }
   ${ArticlePreview.fragments.article}
-  ${FeedToggle.fragments.user}
-  ${Layout.fragments.user}
   ${Sidebar.fragments.query}
 `;
 
@@ -84,7 +81,10 @@ function FeedPage() {
         <div className="container page">
           <div className="row">
             <div className="col-xs-12 col-md-9">
-              <FeedToggle userUsername={feed.data.viewer?.username} />
+              <FeedToggle
+                userUsername={feed.data.viewer?.username}
+                pathname={router.pathname}
+              />
               {feed.data.feedConnection.edges.map(edge => (
                 <ArticlePreview
                   articleSlug={edge.node.slug}

@@ -1,7 +1,7 @@
 query ArticlePageQuery($slug: ID!) {
   viewer {
+    username
     ...CommentsListUserFragment
-    ...LayoutUserFragment
     __typename
   }
   article: articleBySlug(slug: $slug) {
@@ -137,10 +137,5 @@ fragment CommentFormUserFragment on User {
     imageUrl
     __typename
   }
-  __typename
-}
-
-fragment LayoutUserFragment on User {
-  username
   __typename
 }

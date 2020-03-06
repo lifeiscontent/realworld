@@ -1,7 +1,6 @@
 query IndexPageArticlesQuery($after: String, $before: String, $first: Int, $last: Int, $tagName: String) {
   viewer {
-    ...FeedToggleUserFragment
-    ...LayoutUserFragment
+    username
     __typename
   }
   articlesConnection(after: $after, before: $before, first: $first, last: $last, tagName: $tagName) {
@@ -58,16 +57,6 @@ fragment ArticlePreviewTagListArticleFragment on Article {
     name
     __typename
   }
-  __typename
-}
-
-fragment FeedToggleUserFragment on User {
-  username
-  __typename
-}
-
-fragment LayoutUserFragment on User {
-  username
   __typename
 }
 
