@@ -42,40 +42,32 @@ function EditorUpdatePage() {
   return (
     <Layout userUsername={editorUpdate.data.viewer?.username}>
       <div className="editor-page">
-        <div className="container page">
-          <div className="row">
-            <div className="col-md-10 offset-md-1 col-xs-12">
-              <ArticleForm
-                validationSchema={validationSchema}
-                initialValues={{
-                  slug: editorUpdate.data.article.slug ?? '',
-                  input: {
-                    title: editorUpdate.data.article.title ?? '',
-                    description: editorUpdate.data.article.description ?? '',
-                    body: editorUpdate.data.article.body ?? '',
-                    tagIds: (editorUpdate.data.article.tags ?? []).map(
-                      tag => tag.id
-                    )
-                  }
-                }}
-                onSubmit={(values, { setSubmitting, setStatus }) => {
-                  updateArticle({ variables: values })
-                    .then(res => {
-                      router.push(
-                        '/article/[slug]',
-                        `/article/${res.data.updateArticle.article.slug}`
-                      );
-                    })
-                    .catch(err => {
-                      handleValidationError(err, setStatus);
-                      console.error(err);
-                      setSubmitting(false);
-                    });
-                }}
-              />
-            </div>
-          </div>
-        </div>
+        <ArticleForm
+          validationSchema={validationSchema}
+          initialValues={{
+            slug: editorUpdate.data.article.slug ?? '',
+            input: {
+              title: editorUpdate.data.article.title ?? '',
+              description: editorUpdate.data.article.description ?? '',
+              body: editorUpdate.data.article.body ?? '',
+              tagIds: (editorUpdate.data.article.tags ?? []).map(tag => tag.id)
+            }
+          }}
+          onSubmit={(values, { setSubmitting, setStatus }) => {
+            updateArticle({ variables: values })
+              .then(res => {
+                router.push(
+                  '/article/[slug]',
+                  `/article/${res.data.updateArticle.article.slug}`
+                );
+              })
+              .catch(err => {
+                handleValidationError(err, setStatus);
+                console.error(err);
+                setSubmitting(false);
+              });
+          }}
+        />
       </div>
     </Layout>
   );

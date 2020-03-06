@@ -17,31 +17,25 @@ function EditorPage() {
   return (
     <Layout userUsername={editor.data.viewer?.username}>
       <div className="editor-page">
-        <div className="container page">
-          <div className="row">
-            <div className="col-md-10 offset-md-1 col-xs-12">
-              <ArticleForm
-                initialValues={{
-                  input: { title: '', description: '', body: '', tagIds: [] }
-                }}
-                onSubmit={(values, { setSubmitting, setStatus }) => {
-                  createArticle({ variables: values })
-                    .then(res => {
-                      router.push(
-                        '/article/[slug]',
-                        `/article/${res.data.createArticle.article.slug}`
-                      );
-                    })
-                    .catch(err => {
-                      handleValidationError(err, setStatus);
-                      console.error(err);
-                      setSubmitting(false);
-                    });
-                }}
-              />
-            </div>
-          </div>
-        </div>
+        <ArticleForm
+          initialValues={{
+            input: { title: '', description: '', body: '', tagIds: [] }
+          }}
+          onSubmit={(values, { setSubmitting, setStatus }) => {
+            createArticle({ variables: values })
+              .then(res => {
+                router.push(
+                  '/article/[slug]',
+                  `/article/${res.data.createArticle.article.slug}`
+                );
+              })
+              .catch(err => {
+                handleValidationError(err, setStatus);
+                console.error(err);
+                setSubmitting(false);
+              });
+          }}
+        />
       </div>
     </Layout>
   );

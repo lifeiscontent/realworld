@@ -10,6 +10,7 @@ import { FeedToggle } from '../components/feed-toggle';
 import withApollo from '../lib/with-apollo';
 import { Layout } from '../components/layout';
 import { NetworkStatus } from 'apollo-client';
+import { HomePageBanner } from '../components/home-page-banner';
 
 function IndexPage() {
   const router = useRouter();
@@ -38,12 +39,7 @@ function IndexPage() {
   return (
     <Layout userUsername={index.data.viewer?.username}>
       <div className="home-page">
-        <div className="banner">
-          <div className="container">
-            <h1 className="logo-font">conduit</h1>
-            <p>A place to share your knowledge.</p>
-          </div>
-        </div>
+        <HomePageBanner />
         <div className="container page">
           <div className="row">
             <div className="col-xs-12 col-md-9">
