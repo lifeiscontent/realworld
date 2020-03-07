@@ -49,7 +49,7 @@ This might not make a ton of sense right now, but as the app changes, these test
 
 ### Table Schema
 
-let's take a look at the columns we'll need to support our Article.
+Let's take a look at the columns we'll need to support our Article.
 
 ```rb
 # frozen_string_literal: true
