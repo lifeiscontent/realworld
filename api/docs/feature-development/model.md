@@ -8,7 +8,7 @@ at a high level, theses are the features we want to support:
 
 1. We want users to navigate to articles by a unique `slug`.
    1. This is a required feature, so it can't be `null`.
-2. An Article must have a `title`.
+2. An `article` must have a `title`.
    1. This is a required feature, so it can't be `null`.
 3. As a preview of the article, we want to have a `description` for our articles.
    1. This is a required feature, so it can't be `null`.
@@ -16,7 +16,7 @@ at a high level, theses are the features we want to support:
    1. This is a required feature, so it can't be `null`.
 5. We want the user to be able to favorite the article, and show the article favorites as a `favorites_count`.
    1. This is a required feature, so it can't be `null`.
-   2. When you create the article it always starts out with `0` favorites.
+   2. When you create the article it always starts with `0` favorites.
 6. An article is always created by someone, so we need an `author` as well.
 
    1. This is a required feature, so it can't be `null`.
@@ -26,7 +26,7 @@ at a high level, theses are the features we want to support:
 
 ### Model tests
 
-First, let's start by writing a set of tests so we can guarantee the contract we've setup with the database.
+First, let's start by writing a set of tests so we can guarantee the contract we've set up with the database.
 
 ```rb
 RSpec.describe Article, type: :model do
@@ -72,7 +72,7 @@ end
 
 #### Validation tests
 
-In the database, we've already setup contracts about what columns are required, but in order to take advantage of what rails has to offer, we can set up validation logic to give us a nice abstraction when handling errors.
+In the database, we've already set up contracts about what columns are required, but to take advantage of what rails has to offer, we can set up validation logic to give us a nice abstraction when handling errors.
 
 ```rb
 # frozen_string_literal: true
@@ -90,7 +90,7 @@ RSpec.describe Article, type: :model do
 end
 ```
 
-these are all the fields we expect to be present, so now lets add the respective code to make these tests pass.
+these are all the fields we expect to be present, so now let's add the respective code to make these tests pass.
 
 ```rb
 # frozen_string_literal: true
@@ -105,9 +105,9 @@ end
 
 Great, we're done with presence validations.
 
-There's one thing left though, on our table schema we said slugs were unique, and as you can imagine, there's validatons for that.
+There's one thing left though, on our table schema we said slugs were unique, and as you can imagine, there are validations for that.
 
-So let's setup the test for that.
+So let's set up the test for that.
 
 ```rb
 # frozen_string_literal: true
@@ -123,7 +123,7 @@ RSpec.describe Article, type: :model do
 end
 ```
 
-> **Note:** I've chosen to create factory_bot factories without their respective associations here, this is a personal preference, but it's recommened that you only create things you need, and by doing so, I'm opting into what I need vs potentially creating extra data in my tests unknowingly (which can be very slow).
+> **Note:** I've chosen to create factory_bot factories without their respective associations here, this is a personal preference, but it's recommended that you only create things you need, and by doing so, I'm opting in to what I need vs potentially creating extra data in my tests unknowingly (which can be very slow).
 
 we need to test a `valid` article, so here I've switched my subject to one.
 
@@ -161,19 +161,19 @@ RSpec.describe Article, type: :model do
 end
 ```
 
-lets break this down.
+let's break this down.
 
-1. We setup the idea of an `author` in the table, but rails doesn't know how to map that to a model class. Here, we can tell rails the expectation that an `author` is a `User` model and for good measure, we want to make sure the `User` exists because you can't have an article without the person who created it!
+1. We need to tell rails that an `author` maps to a `User` model and for good measure, we want to make sure the `User` exists because you can't have an article without the person who created it!
 
 2. We want to allow `users` to be able to leave `comments` on an `article`, so we know the article will `have_many` `comments`.
-   1. When the `author` `destroy`s the `article` then the `comments` should be `destroy`ed as well.
+   1. When the `author` `destroys` the `article` then the `comments` should be `destroyed` as well.
 3. We want to allow `users` to be able to `favorite` an `article`, so we know the `article` will `have_many` `favorites`.
-   1. When the `author` deletes the `article` then the `favorites` should be `destroy`ed as well.
+   1. When the `author` deletes the `article` then the `favorites` should be `destroyed` as well.
 4. As an `author`, we want to be able to add multiple `tags` to an `article` and we can do that `through` `taggings`.
-   1. When the `author` delets the `aritcle` then the `taggings` should be `destroy`ed as well.
+   1. When the `author` `destroys` the `article` then the `taggings` should be `destroyed` as well.
 5. We already talked about this in 4.
 
-Phew! that was a lot, lets go ahead and update the article to have the correct associations.
+Phew! that was a lot, let's go ahead and update the article to have the correct associations.
 
 ```rb
 # frozen_string_literal: true
@@ -220,7 +220,7 @@ end
 
 So here, we've created 6 articles, 3 of which have tags.
 
-Our expectation is that we should only get the 3 tagged articles back.
+We expect that we should only get the 3 tagged articles back.
 
 Let's make that test pass!
 
@@ -238,7 +238,7 @@ end
 
 > You might be wondering why did we return `none` here?
 >
-> let's talk about that, generally speaking, its quite often you fiight `nil` in ruby, in this case, if we were to get `nil` back it would just be messy conditional logic where ever we used this method. So rather than dealing with that, we return an empty active record collection to cercumvent the need to deal with `nil`. This is a pretty good pattern to follow especiallywhen creating custom class methods in models.
+> let's talk about that, generally speaking, its quite often you fight `nil` in ruby, in this case, if we were to get `nil` back it would just be messy conditional logic where ever we used this method. So rather than dealing with that, we return an empty active record collection to circumvent the need to deal with `nil`. This is a pretty good pattern to follow especially when creating custom class methods in models.
 >
 > Next, we hook into our join table we mentioned earlier `taggings` and where we have `taggings` that have the tags we passed in, we return the articles, but again, only the `distinct` articles, if we didn't do that, we'd have a total of `9` coming back.
 >
@@ -272,7 +272,7 @@ end
 
 Here, we've created a `user`, `author`, `relationship` and 6 `articles`.
 
-Our expectation is that we should only see the 3 `articles`, for the `author` that we followed.
+We expect that we should only see the 3 `articles`, for the `author` that we followed.
 
 > You might be wondering why we are using the user from the relationship, it's just so we don't need to call `user.reload` after we've created the `relationship`.
 
@@ -324,7 +324,7 @@ RSpec.describe Article, type: :model do
 end
 ```
 
-we added a `favorites_count` field to our table, let's test the expection of what should happen to it:
+we added a `favorites_count` field to our table, let's test the expectation of what should happen to it:
 
 1. When a user favorites an article
    1. `favorites_count` should be incremented.
@@ -341,8 +341,8 @@ class Favorite < ApplicationRecord
 end
 ```
 
-Rails has built in support for incrementing/decrementing counts, so this is all we need to do!
+Rails provide built-in support for incrementing/decrementing counts, so this is all we need to do!
 
-> You might be wondering, why did we test what rails provides us?
+> You might be wondering, why did we test what rails provide us?
 >
-> Great question! The reason we wrote tests is because its a part of our business logic, these are expectations of what **should** happen, it doesn't matter that rails provides it to us, because if rails changed something, or we wanted to use something else in the future, the test will still stay the logic of what is supposed to happen, will stay the same.
+> Great question! The reason we wrote tests is because its a part of our business logic, these are expectations of what **should** happen, it doesn't matter that rails provide it to us, because if rails changed something, or we wanted to use something else in the future, the test will still stay the logic of what is supposed to happen, will stay the same.
