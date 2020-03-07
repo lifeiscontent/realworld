@@ -4,7 +4,7 @@ We'll be creating the first Model in this App: an Article.
 
 ### Table schema
 
-at a high level, theses are the features we want to support:
+At a high level, these are the features we want to support:
 
 1. We want users to navigate to articles by a unique `slug`.
    1. This is a required feature, so it can't be `null`.
