@@ -28,7 +28,7 @@ There are a few oddities around GraphQL in Ruby, but for the most part, things w
 
 ### Creating a Resolver
 
-When you're creating a resolver there are a few things you should consider before creating one. **CRUD** (Create, Read, Update, Delete)
+When creating a resolver, consider which type of **CRUD** (create, read, update, delete) operation you want. You typically want to keep these operations separate for clarity.
 
 #### Create Mutation (resolver)
 
