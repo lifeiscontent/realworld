@@ -17,14 +17,14 @@
 
 then, run `rails spec` and see it fail, you only should ever write just enough code to make your expectation of what should happen pass.
 
-We can go and create the model now, because our intent is to have the model exist.
+We can go and create the model now because we intend to have the model exist.
 
 Only add columns for the model **after** you've added a test for the column/association.
 
 ## Creating a resolver in GraphQL
 
 In GraphQL a resolver can be one of 2 types, a `query`, or a `mutation`.
-There are a few oddities around GraphQL in Ruby, but for the most part things will translate 1 to 1 in terms of how GraphQL works in other platforms.
+There are a few oddities around GraphQL in Ruby, but for the most part, things will translate 1 to 1 in terms of how GraphQL works in other platforms.
 
 ### Creating a Resolver
 
@@ -53,7 +53,7 @@ type Mutation {
 }
 ```
 
-this rougly translates to the following in ruby:
+this roughly translates to the following in ruby:
 
 ```ruby
 # frozen_string_literal: true
@@ -99,7 +99,7 @@ type Query {
 }
 ```
 
-this rougly translates to the following in ruby:
+this roughly translates to the following in ruby:
 
 ```ruby
 module Types
@@ -131,7 +131,7 @@ end
 
 #### Update Mutation (resolver)
 
-a update mutation should always follow this signature:
+an update mutation should always follow this signature:
 
 ```graphql
 type ModelName {
@@ -155,7 +155,7 @@ type Mutation {
 }
 ```
 
-this rougly translates to the following in ruby:
+this roughly translates to the following in ruby:
 
 ```ruby
 # frozen_string_literal: true
@@ -208,7 +208,7 @@ type Mutation {
 }
 ```
 
-this rougly translates to the following in ruby:
+this roughly translates to the following in ruby:
 
 ```ruby
 # frozen_string_literal: true
@@ -231,7 +231,7 @@ module Mutations
 end
 ```
 
-> After reading through the **CRUD** actions, you might be thinking this feels a lot like a rails controller, and you're not wrong, that's exactly how resolvers should be thought about. the thing GraphQL aims to solve is rather than having 20+ requests for each record in a complex application, you aggragate all of your data requirements in a single request via a GraphQL Query.
+> After reading through the **CRUD** actions, you might be thinking this feels a lot like a rails controller, and you're not wrong, that's exactly how resolvers should be thought about. the thing GraphQL aims to solve is rather than having 20+ requests for each record in a complex application, you aggregate all of your data requirements in a single request via a GraphQL Query.
 
 ### Testing GraphQL Endpoints
 
