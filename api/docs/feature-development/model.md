@@ -1,6 +1,6 @@
 ## Creating a Model
 
-We'll be creating the first Model in this App, the Article.
+We'll be creating the first Model in this App: an Article.
 
 ### Table schema
 
