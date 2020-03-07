@@ -72,7 +72,7 @@ end
 
 #### Validation tests
 
-In the database, we've already set up contracts about what columns are required, but to take advantage of what rails has to offer, we can set up validation logic to give us a nice abstraction when handling errors.
+In our database we setup contracts about which columns are required, but in order to take advantage of what rails has to offer, we should set up validation logic to give us a nice abstraction when handling errors.
 
 ```rb
 # frozen_string_literal: true
