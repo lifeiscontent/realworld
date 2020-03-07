@@ -235,4 +235,4 @@ end
 
 ### Testing GraphQL Endpoints
 
-There's still not a best practice around this, but in this repo, you'll see each query that is depended on in the web application is tested, so when you need a new query in the web app, just add a test in the backend with that query to make sure the backend can garentee it still works across each CI run.
+There's still not a best practice around this, but in this repo, you'll see each query that is depended on in the web application is tested, so when you need a new query in the web app, just add a test in the backend with that query to make sure the backend can guarantee it still works across each CI run.

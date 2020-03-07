@@ -26,7 +26,7 @@ at a high level, theses are the features we want to support:
 
 ### Model tests
 
-First, let's start by writing a set of tests so we can garentee the contract we've setup with the database.
+First, let's start by writing a set of tests so we can guarantee the contract we've setup with the database.
 
 ```rb
 RSpec.describe Article, type: :model do
@@ -45,7 +45,7 @@ RSpec.describe Article, type: :model do
 end
 ```
 
-This might not make a ton of sense right now, but as the app changes, these tests will protect you and coworkers from changes that happen to the database, whenever you add/remove functionality to the table, this section of tests should be updated as well so you can continue to garentee those expectations.
+This might not make a ton of sense right now, but as the app changes, these tests will protect you and coworkers from changes that happen to the database, whenever you add/remove functionality to the table, this section of tests should be updated as well so you can continue to guarantee those expectations.
 
 ### Table Schema
 
