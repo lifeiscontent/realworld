@@ -39,3 +39,14 @@ bin/rails spec
 cd web
 yarn test
 ```
+
+
+## Tooling
+
+### Api
+
+#### Generate ERD
+
+```sh
+bin/rails erd
+```
