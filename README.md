@@ -50,3 +50,11 @@ yarn test
 ```sh
 bin/rails erd
 ```
+
+### Web
+
+#### Storybook
+
+```sh
+yarn storybook
+```
