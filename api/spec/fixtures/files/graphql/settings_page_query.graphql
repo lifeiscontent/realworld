@@ -1,6 +1,5 @@
 query SettingsPageQuery {
   viewer {
-    username
     ...SettingsPageUserFragment
     __typename
   }

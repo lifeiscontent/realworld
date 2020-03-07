@@ -39,7 +39,8 @@ export function ProfilePageBanner({
               alt={`Image of ${username}`}
             />
             <h4>{username}</h4>
-            <p />
+
+            <p>{profile.bio}</p>
             <div className="btn-toolbar">
               {isViewer ? (
                 <Link href="/settings">
@@ -89,6 +90,7 @@ ProfilePageBanner.fragments = {
       isViewer
       profile {
         imageUrl
+        bio
       }
       username
       viewerIsFollowing
@@ -110,7 +112,10 @@ ProfilePageBanner.propTypes = {
   canUnfollow: PropTypes.shape({ value: PropTypes.bool }),
   followersCount: PropTypes.number,
   isViewer: PropTypes.bool,
-  profile: PropTypes.shape({ imageUrl: PropTypes.string }),
+  profile: PropTypes.shape({
+    imageUrl: PropTypes.string,
+    bio: PropTypes.string
+  }),
   username: PropTypes.string.isRequired,
   viewerIsFollowing: PropTypes.bool,
   onFollow: PropTypes.func.isRequired,
