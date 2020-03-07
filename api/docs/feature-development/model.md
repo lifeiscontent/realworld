@@ -238,7 +238,7 @@ end
 
 > You might be wondering why did we return `none` here?
 >
-> let's talk about that, generally speaking, its quite often you fight `nil` in ruby, in this case, if we were to get `nil` back it would just be messy conditional logic where ever we used this method. So rather than dealing with that, we return an empty active record collection to circumvent the need to deal with `nil`. This is a pretty good pattern to follow especially when creating custom class methods in models.
+> let's talk about that. its quite often you fight `nil` in ruby, in this case, if we were to get `nil` back it would just be messy conditional logic where ever we used this method. So rather than dealing with `nil`, we return an empty active record collection to circumvent it. This is a pretty good pattern to follow especially when creating custom class methods in models because it allows you to chain methods together on the class.
 >
 > Next, we hook into our join table we mentioned earlier `taggings` and where we have `taggings` that have the tags we passed in, we return the articles, but again, only the `distinct` articles, if we didn't do that, we'd have a total of `9` coming back.
 >
