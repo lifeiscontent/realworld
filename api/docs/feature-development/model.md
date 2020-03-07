@@ -12,7 +12,7 @@ at a high level, theses are the features we want to support:
    1. This is a required feature, so it can't be `null`.
 3. As a preview of the article, we want to have a `description` for our articles.
    1. This is a required feature, so it can't be `null`.
-4. We need a `body` so the user can actually read the article.
+4. We need a `body` so the user can read the article.
    1. This is a required feature, so it can't be `null`.
 5. We want the user to be able to favorite the article, and show the article favorites as a `favorites_count`.
    1. This is a required feature, so it can't be `null`.
@@ -20,7 +20,7 @@ at a high level, theses are the features we want to support:
 6. An article is always created by someone, so we need an `author` as well.
 
    1. This is a required feature, so it can't be `null`.
-   2. we use `author` here, but we're actually mapping to the `users` table, so our foreign key points back to the reference table.
+   2. we use `author` here, but we're mapping to the `users` table, so our foreign key points back to the reference table.
 
 7. We'll want timestamps to know when the article was updated or created.
 
@@ -123,7 +123,7 @@ RSpec.describe Article, type: :model do
 end
 ```
 
-> **Note:** I've chosen to create factory_bot factories without their respective associations here, this is a personal preference, but it's recommened that you only create things you need, and by doing so, I'm actively opting into what I need vs potentially unknowingly creating extra data in my tests (which can be very slow).
+> **Note:** I've chosen to create factory_bot factories without their respective associations here, this is a personal preference, but it's recommened that you only create things you need, and by doing so, I'm opting into what I need vs potentially creating extra data in my tests unknowingly (which can be very slow).
 
 we need to test a `valid` article, so here I've switched my subject to one.
 
@@ -163,7 +163,7 @@ end
 
 lets break this down.
 
-1. We setup the idea of an `author` in the table, but rails doesn't know how to map that to a model class. Here, we can tell rails the expectation that an `author` is actually a `User` model and for good measure, we want to make sure the `User` exists because you can't have an article without the person who created it!
+1. We setup the idea of an `author` in the table, but rails doesn't know how to map that to a model class. Here, we can tell rails the expectation that an `author` is a `User` model and for good measure, we want to make sure the `User` exists because you can't have an article without the person who created it!
 
 2. We want to allow `users` to be able to leave `comments` on an `article`, so we know the article will `have_many` `comments`.
    1. When the `author` `destroy`s the `article` then the `comments` should be `destroy`ed as well.

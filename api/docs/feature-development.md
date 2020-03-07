@@ -231,7 +231,7 @@ module Mutations
 end
 ```
 
-> After reading through the **CRUD** actions, you might be thinking this feels a lot like a rails controller, and you're not wrong, that's exactly how resolvers should be thought about, the thing GraphQL deals solves is rather than having 20+ requests for each record in a complex application, you aggragate all of your data requirements in a single request via a GraphQL Query.
+> After reading through the **CRUD** actions, you might be thinking this feels a lot like a rails controller, and you're not wrong, that's exactly how resolvers should be thought about. the thing GraphQL aims to solve is rather than having 20+ requests for each record in a complex application, you aggragate all of your data requirements in a single request via a GraphQL Query.
 
 ### Testing GraphQL Endpoints
 
