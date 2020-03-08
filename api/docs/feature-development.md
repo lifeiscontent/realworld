@@ -1,5 +1,7 @@
 # Feature Development in Rails
 
+Below are instructions to creating, updating, and deleting a model using GraphQL.
+
 ## Creating a Model
 
 1.  Take a look at the erd first by running `rails erd`.
