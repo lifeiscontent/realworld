@@ -2,5 +2,6 @@
 
 FactoryBot.define do
   factory :profile do
+    bio { 'There are five steps involved.' }
   end
 end

@@ -9,7 +9,7 @@ module Mutations
       user = User.find_by(username: username)
 
       authorize! user, to: :follow?
-      relationship = Relationship.create!(followed: user, follower: context[:current_user])
+      relationship = Relationship.create!(follower: context[:current_user], followed: user)
 
       { user: relationship.followed }
     end

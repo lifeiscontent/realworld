@@ -16,7 +16,7 @@ module Mutations
 
     def resolve(article_slug:, input:)
       authorize! Comment, to: :create?
-      article = Article.where(slug: article_slug).select(:id).first
+      article = Article.find_by(slug: article_slug)
       comment = Comment.create!(
         article: article,
         author: context[:current_user],
