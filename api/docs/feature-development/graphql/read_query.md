@@ -2,7 +2,7 @@
 
 First, we need to setup our GraphQL Type.
 
-**app/graphql/types/article_type.rb**
+[app/graphql/types/article_type.rb][article_type.rb]
 
 ```rb
 # frozen_string_literal: true
@@ -41,7 +41,7 @@ module Types
 end
 ```
 
-this will add the following changes to the GraphQL Schema
+the following changes will be added to the [GraphQL Schema][schema.graphql].
 
 ```graphql
 type Article {
@@ -67,7 +67,7 @@ type Article {
 
 Now that we've created the ArticleType, we need to expose it to the QueryType. Query is the root type which all queries initially come from.
 
-**app/graphql/types/query_type.rb**
+[app/graphql/types/query_type.rb][query_type.rb]
 
 ```rb
 # frozen_string_literal: true
@@ -86,7 +86,7 @@ module Types
 end
 ```
 
-this will add the following changes to the GraphQL Schema
+the following changes will be added to the [GraphQL Schema][schema.graphql].
 
 ```graphql
 type Query {
@@ -94,11 +94,11 @@ type Query {
 }
 ```
 
-So here, we're exposing a field on the QueryType called `article_by_slug` which takes 1 required argument `slug`. We then define a method to specify how that data will be resolved.
+So here, we're exposing a field on the [QueryType][query_type.rb] called `article_by_slug` which takes 1 required argument `slug`. We then define a method to specify how that data will be resolved.
 
 Let's go ahead and write our tests now.
 
-**spec/graphql/article_by_slug_spec.rb**
+[spec/graphql/article_by_slug_spec.rb][article_by_slug_spec.rb]
 
 ```rb
 # frozen_string_literal: true
@@ -160,8 +160,8 @@ end
 
 we've setup our query, but there are a few other things going on here.
 
-1. In order to maintain determinstic results, we freeze time using [ActiveSupport::TimeHelpers](https://api.rubyonrails.org/v5.2.4.1/classes/ActiveSupport/Testing/TimeHelpers.html).
-2. We're querying (almost) every value of an article (besides data from the associated models). We've chosen to make sure the associations exist by querying for the key of the associations and making sure they respond with the correct values.
+1. In order to maintain determinstic results, we freeze time using [ActiveSupport::TimeHelpers][activesupport::timehelpers].
+2. We're querying (almost) every value of an [article][article_type.rb] (besides data from the associated models). We've chosen to make sure the associations exist by querying for the key of the associations and making sure they respond with the correct values.
 
 Next, let's setup our result.
 
@@ -360,3 +360,18 @@ end
 Great! we've tested all the major cases for how someone could potentially view the data.
 
 We could go a few steps futher and test things like `comments` or `tags`, but I'll leave that as an exercise up to you.
+
+[activesupport::timehelpers]: https://api.rubyonrails.org/v5.2.4.1/classes/ActiveSupport/Testing/TimeHelpers.html
+[api_schema.rb]: ../../../app/graphql/api_schema.rb
+[article_by_slug_spec.rb]: ../../../spec/graphql/article_by_slug_spec.rb
+[article_policy.rb]: ../../../app/policies/article_policy.rb
+[article_type.rb]: ../../../app/graphql/types/article_type.rb
+[article.rb]: ../../../app/models/article.rb
+[create_article_spec.rb]: ../../../spec/graphql/create_article_spec.rb
+[create_article.rb]: ../../../app/graphql/mutations/create_article.rb
+[delete_article_spec.rb]: ../../../spec/graphql/delete_article_spec.rb
+[delete_article.rb]: ../../../app/graphql/mutations/delete_article.rb
+[mutation_type.rb]: ../../../app/graphql/types/mutation_type.rb
+[query_type.rb]: ../../../app/graphql/types/query_type.rb
+[schema.graphql]: ../../../schema.graphql
+[update_article.rb]: ../../../app/graphql/mutations/update_article.rb
