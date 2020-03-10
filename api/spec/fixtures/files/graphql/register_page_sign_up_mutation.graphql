@@ -1,9 +1,0 @@
-mutation RegisterPageSignUpMutation($input: SignUpInput!) {
-  signUp(input: $input) {
-    user {
-      username
-      __typename
-    }
-    __typename
-  }
-}

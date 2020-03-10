@@ -1,9 +1,0 @@
-mutation EditorPageCreateArticleMutation($input: CreateArticleInput!) {
-  createArticle(input: $input) {
-    article {
-      slug
-      __typename
-    }
-    __typename
-  }
-}

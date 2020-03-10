@@ -4,9 +4,9 @@ require 'rails_helper'
 
 RSpec.describe ArticlePolicy, type: :policy do
   let(:current_user) { nil }
-  let(:author) { build_stubbed(:author) }
-  let(:user) { build_stubbed(:user) }
-  let(:record) { build_stubbed(:article, author: author) }
+  let(:author) { create(:author) }
+  let(:user) { create(:user) }
+  let(:record) { create(:article, author: author) }
   let(:context) { { user: current_user } }
 
   describe_rule :create? do
@@ -30,15 +30,24 @@ RSpec.describe ArticlePolicy, type: :policy do
     end
   end
 
-  %i[favorite? unfavorite?].each do |rule|
-    describe_rule rule do
-      succeed 'when user is not author' do
-        let(:current_user) { user }
-      end
+  describe_rule :favorite? do
+    succeed 'when user is not author and has not favorited' do
+      let(:current_user) { user }
+    end
 
-      failed 'when user is author' do
-        let(:current_user) { author }
-      end
+    failed 'when user is author' do
+      let(:current_user) { author }
+    end
+  end
+
+  describe_rule :unfavorite? do
+    succeed 'when user is not author and has favorited' do
+      let(:favorite) { create(:favorite, article: record, user: user) }
+      let(:current_user) { favorite.user }
+    end
+
+    failed 'when user is author' do
+      let(:current_user) { author }
     end
   end
 end

@@ -4,6 +4,12 @@ module Types
   class ArticleType < Types::BaseObject
     field :author, UserType, null: false
     field :body, String, null: false
+    field :comments, [CommentType], null: false
+
+    def comments
+      object.comments.order(created_at: :desc)
+    end
+
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :description, String, null: true
     field :favorites_count, Int, null: false
@@ -11,11 +17,6 @@ module Types
     field :tags, [TagType], null: false
     field :title, String, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
-    field :comments, [CommentType], null: false
-
-    def comments
-      object.comments.order(created_at: :desc)
-    end
 
     field :viewer_did_favorite, Boolean, null: false
 
@@ -25,7 +26,7 @@ module Types
       context[:current_user].favorite_articles.include?(object)
     end
 
-    expose_authorization_rules :favorite?, :unfavorite?, :update?, :delete?,
+    expose_authorization_rules :favorite?, :unfavorite?, :update?, :delete?, :create?,
                                prefix: 'can_'
     expose_authorization_rules :create?, with: CommentPolicy,
                                          field_name: 'can_create_comment'

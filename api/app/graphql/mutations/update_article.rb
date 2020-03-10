@@ -16,7 +16,7 @@ module Mutations
     argument :slug, ID, required: true
     argument :input, UpdateArticleInput, required: true
 
-    field :article, Types::ArticleType, null: true
+    field :article, Types::ArticleType, null: false
 
     def resolve(slug:, input:)
       article = Article.find_by(slug: slug)

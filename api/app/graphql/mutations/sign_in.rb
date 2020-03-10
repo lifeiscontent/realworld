@@ -12,8 +12,8 @@ module Mutations
     end
 
     argument :input, SignInInput, required: true
-    field :user, Types::UserType, null: true
-    field :token, String, null: true
+    field :user, Types::UserType, null: false
+    field :token, String, null: false
 
     def resolve(input:)
       user = User.find_for_authentication(email: input[:email])

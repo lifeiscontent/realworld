@@ -11,29 +11,14 @@ RSpec.configure do |rspec|
 end
 
 RSpec.shared_context 'GraphQL', shared_context: :metadata do
-  let(:file_name) { self.class.top_level_description.underscore.parameterize(separator: '_') }
-  let(:result_file_name) do
-    [
-      self.class.top_level_description,
-      self.class.description
-    ].join('_').underscore.parameterize(separator: '_')
-  end
-  let(:query_string) { file_fixture("graphql/#{file_name}.graphql").read }
-  let(:variables) { {} }
-  let(:context) { {} }
-  let(:result) do
-    if File.exist?("spec/fixtures/files/graphql/#{result_file_name}.json")
-      JSON.parse(file_fixture("graphql/#{result_file_name}.json").read)
-    else
-      File.open("spec/fixtures/files/graphql/#{result_file_name}.json", 'w') do |file|
-        file.write(JSON.pretty_unparse(subject))
-      end
+  let(:current_user) { nil }
+  let(:operation_name) { nil }
+  let(:variables) { nil }
+  let(:context) { { current_user: current_user } }
+  let(:query) { nil }
+  let(:result) { {} }
 
-      subject
-    end
-  end
-
-  subject { ApiSchema.execute(query_string, variables: variables, context: context).to_h }
+  subject { ApiSchema.execute(query, variables: variables, context: context, operation_name: operation_name).to_h }
 end
 
 RSpec.configure do |config|

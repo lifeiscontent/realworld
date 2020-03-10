@@ -9,6 +9,7 @@ class Article < ApplicationRecord
   has_many :favorites, dependent: :destroy
   has_many :taggings, dependent: :destroy
   has_many :tags, through: :taggings
+  has_many :users_who_favorited, through: :favorites, source: :user
   validates :body, presence: true
   validates :description, presence: true
   validates :slug, presence: true, uniqueness: true

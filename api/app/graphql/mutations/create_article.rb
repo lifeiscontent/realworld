@@ -14,7 +14,7 @@ module Mutations
     end
 
     argument :input, CreateArticleInput, required: true
-    field :article, Types::ArticleType, null: true
+    field :article, Types::ArticleType, null: false
 
     def resolve(input:)
       authorize! Article, to: :create?

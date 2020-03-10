@@ -12,7 +12,7 @@ module Mutations
     argument :article_slug, ID, required: true
     argument :input, CreateCommentInput, required: true
 
-    field :comment, Types::CommentType, null: true
+    field :comment, Types::CommentType, null: false
 
     def resolve(article_slug:, input:)
       authorize! Comment, to: :create?

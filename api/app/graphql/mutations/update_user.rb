@@ -32,7 +32,7 @@ module Mutations
     argument :username, ID, required: true
     argument :input, UpdateUserInput, required: true
 
-    field :user, Types::UserType, null: true
+    field :user, Types::UserType, null: false
 
     def resolve(username:, input:)
       user = User.includes(:profile).find_by(username: username)

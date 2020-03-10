@@ -1,6 +1,0 @@
-query EditorPageQuery {
-  viewer {
-    username
-    __typename
-  }
-}
