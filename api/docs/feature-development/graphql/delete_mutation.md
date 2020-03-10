@@ -25,6 +25,14 @@ module Mutations
 end
 ```
 
+the following changes will be added to the GraphQL Schema
+
+```graphql
+type DeleteArticlePayload {
+  article: Article!
+}
+```
+
 There's a few things happening here, so lets break them down.
 
 1. We specify our `slug` argument as an `ID` and mark it required.
@@ -72,7 +80,14 @@ module Types
     field :delete_article, mutation: Mutations::DeleteArticle
   end
 end
+```
 
+The following changes will be added to the GraphQL Schema
+
+```graphql
+type Mutation {
+  deleteArticle(slug: ID!): DeleteArticlePayload
+}
 ```
 
 Next, let's create our first test.
