@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'DeleteArticle', type: :graphql do
+RSpec.describe 'deleteArticle', type: :graphql do
   let(:query) do
     <<-GRAPHQL
     mutation DeleteArticleMutation($slug: ID!) {

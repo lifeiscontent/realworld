@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'UpdateArticle', type: :graphql do
+RSpec.describe 'updateArticle', type: :graphql do
   let(:query) do
     <<-GRAPHQL
     mutation UpdateArticleMutation($slug: ID!, $input: UpdateArticleInput!) {
