@@ -1,4 +1,4 @@
-## Creating a Model
+## Creating a Model in Rails
 
 We'll be creating the first Model in this App: an Article.
 
