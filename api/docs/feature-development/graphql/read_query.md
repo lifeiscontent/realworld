@@ -41,6 +41,30 @@ module Types
 end
 ```
 
+this will add the following changes to the GraphQL Schema
+
+```graphql
+type Article {
+  author: User!
+  body: String!
+  canCreate: AuthorizationResult!
+  canCreateComment: AuthorizationResult!
+  canDelete: AuthorizationResult!
+  canFavorite: AuthorizationResult!
+  canUnfavorite: AuthorizationResult!
+  canUpdate: AuthorizationResult!
+  comments: [Comment!]!
+  createdAt: ISO8601DateTime!
+  description: String
+  favoritesCount: Int!
+  slug: ID!
+  tags: [Tag!]!
+  title: String!
+  updatedAt: ISO8601DateTime!
+  viewerDidFavorite: Boolean!
+}
+```
+
 Now that we've created the ArticleType, we need to expose it to the QueryType. Query is the root type which all queries initially come from.
 
 **app/graphql/types/query_type.rb**
@@ -60,6 +84,14 @@ module Types
     end
   end
 end
+```
+
+this will add the following changes to the GraphQL Schema
+
+```graphql
+type Query {
+  articleBySlug(slug: ID!): Article!
+}
 ```
 
 So here, we're exposing a field on the QueryType called `article_by_slug` which takes 1 required argument `slug`. We then define a method to specify how that data will be resolved.
