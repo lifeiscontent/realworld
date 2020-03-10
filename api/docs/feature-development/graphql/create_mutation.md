@@ -94,6 +94,21 @@ module Mutations
 end
 ```
 
+this will add the following changes to the GraphQL Schema
+
+```graphql
+input CreateArticleInput {
+  title: String!
+  description: String!
+  body: String!
+  tagIds: [ID!]!
+}
+
+type CreateArticlePayload {
+  article: Article!
+}
+```
+
 There's a few things happening here, so lets break them down.
 
 1. We create the Input class in GraphQL
@@ -143,7 +158,14 @@ module Types
     field :create_article, mutation: Mutations::CreateArticle
   end
 end
+```
 
+this will add the following changes to the GraphQL Changes.
+
+```graphql
+type Mutation {
+  createArticle(input: CreateArticleInput!): CreateArticlePayload
+}
 ```
 
 Next, let's create our first test.
