@@ -82,7 +82,7 @@ Next, let's create our first test.
 
 require 'rails_helper'
 
-RSpec.describe 'DeleteArticle', type: :graphql do
+RSpec.describe 'deleteArticle', type: :graphql do
   let(:query) do
     <<-GRAPHQL
     mutation DeleteArticleMutation($slug: ID!) {
@@ -142,7 +142,7 @@ Next, let's test that a random user cannot delete an article.
 
 require 'rails_helper'
 
-RSpec.describe 'DeleteArticle', type: :graphql do
+RSpec.describe 'deleteArticle', type: :graphql do
   # ...
   context 'current_user is a user' do
     let(:current_user) { create(:user) }
@@ -181,7 +181,7 @@ And finally, let's test that an author can delete their article.
 
 require 'rails_helper'
 
-RSpec.describe 'DeleteArticle', type: :graphql do
+RSpec.describe 'deleteArticle', type: :graphql do
   # ...
 
   context 'current_user is author' do

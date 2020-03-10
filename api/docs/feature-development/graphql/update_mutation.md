@@ -98,7 +98,7 @@ Next, let's create our first test.
 
 require 'rails_helper'
 
-RSpec.describe 'UpdateArticle', type: :graphql do
+RSpec.describe 'updateArticle', type: :graphql do
   let(:query) do
     <<-GRAPHQL
     mutation UpdateArticleMutation($slug: ID!, $input: UpdateArticleInput!) {
@@ -168,7 +168,7 @@ Next, let's test that a random user cannot update an article.
 
 require 'rails_helper'
 
-RSpec.describe 'UpdateArticle', type: :graphql do
+RSpec.describe 'updateArticle', type: :graphql do
   # ...
   context 'current_user is a user' do
     let(:current_user) { create(:user) }
@@ -207,7 +207,7 @@ And finally, let's test that an author can update their article.
 
 require 'rails_helper'
 
-RSpec.describe 'UpdateArticle', type: :graphql do
+RSpec.describe 'updateArticle', type: :graphql do
   # ...
   context 'current_user is author' do
     let(:current_user) { author }
