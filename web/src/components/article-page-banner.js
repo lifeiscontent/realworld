@@ -35,7 +35,7 @@ export function ArticlePageBanner({
       <div className="container">
         <h1>{title}</h1>
         <div className="article-meta">
-          <Link href={`/${author.username}`}>
+          <Link href="/[username]" as={`/${author.username}`}>
             <a>
               <img
                 src={
@@ -92,7 +92,7 @@ export function ArticlePageBanner({
             </button>
           ) : null}{' '}
           {canUpdate.value ? (
-            <Link href={`/editor/${slug}`}>
+            <Link href="/editor/[slug]" as={`/editor/${slug}`}>
               <a className="btn btn-outline-secondary btn-sm">
                 <i className="ion-edit" /> Edit Article
               </a>

@@ -78,7 +78,6 @@ export function ArticleMeta(props) {
         <Link
           href="/[username]"
           as={`/${article.data.article.author.username}`}
-          shallow
         >
           <a className="author">{article.data.article.author.username}</a>
         </Link>

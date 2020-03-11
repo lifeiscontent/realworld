@@ -22,7 +22,7 @@ export function ArticlePreview({
   return (
     <div className="article-preview">
       <div className="article-meta">
-        <Link href={`/${author.username}`}>
+        <Link href="/[username]" as={`/${author.username}`}>
           <a>
             <img
               src={
@@ -35,7 +35,7 @@ export function ArticlePreview({
           </a>
         </Link>
         <div className="info">
-          <Link href={`/${author.username}`}>
+          <Link href="/[username]" as={`/${author.username}`}>
             <a className="author">{author.username}</a>
           </Link>
           <time dateTime={createdAt} className="date">
@@ -46,8 +46,8 @@ export function ArticlePreview({
           <div className="pull-xs-right">
             <button
               className={clsx('btn btn-sm', {
-                'btn-outline-primary': viewerDidFavorite,
-                'btn-primary': viewerDidFavorite === false
+                'btn-outline-primary': viewerDidFavorite === false,
+                'btn-primary': viewerDidFavorite
               })}
               onClick={() =>
                 viewerDidFavorite
@@ -60,7 +60,7 @@ export function ArticlePreview({
           </div>
         ) : null}
       </div>
-      <Link href={`/article/${slug}`}>
+      <Link href="/article/[slug]" as={`/article/${slug}`}>
         <a className="preview-link">
           <h1>{title}</h1>
           <p>{description}</p>

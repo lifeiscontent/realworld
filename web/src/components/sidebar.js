@@ -16,7 +16,6 @@ export function Sidebar({ popularTags }) {
           {popularTags.map(tag => (
             <Link
               href={{ pathname: router.pathname, query: { tagName: tag.name } }}
-              as={{ pathname: router.asPath, query: { tagName: tag.name } }}
               key={tag.id}
             >
               <a

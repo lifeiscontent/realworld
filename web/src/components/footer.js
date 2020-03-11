@@ -5,7 +5,7 @@ export function Footer() {
   return (
     <footer>
       <div className="container">
-        <Link href="/" as="/">
+        <Link href="/">
           <a className="logo-font">conduit</a>
         </Link>
         <span className="attribution">

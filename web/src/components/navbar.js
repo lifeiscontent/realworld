@@ -23,7 +23,7 @@ function NavLink({ href, as, children }) {
 
 NavLink.propTypes = {
   href: PropTypes.string.isRequired,
-  as: PropTypes.string.isRequired,
+  as: PropTypes.string,
   children: PropTypes.node.isRequired
 };
 
@@ -31,14 +31,14 @@ export function Navbar({ userUsername }) {
   return (
     <nav className="navbar navbar-light">
       <div className="container">
-        <Link href="/" as="/">
+        <Link href="/">
           <a className="navbar-brand">conduit</a>
         </Link>
         <ul className="nav navbar-nav pull-xs-right">
           {userUsername ? (
             <>
               <li className="nav-item">
-                <NavLink href="/editor" as="/editor">
+                <NavLink href="/editor">
                   <i className="ion-compose" />
                   &nbsp;New Post
                 </NavLink>
@@ -48,14 +48,10 @@ export function Navbar({ userUsername }) {
           ) : (
             <>
               <li className="nav-item">
-                <NavLink href="/login" as="/login">
-                  Sign in
-                </NavLink>
+                <NavLink href="/login">Sign in</NavLink>
               </li>
               <li className="nav-item">
-                <NavLink href="/register" as="/register">
-                  Sign up
-                </NavLink>
+                <NavLink href="/register">Sign up</NavLink>
               </li>
             </>
           )}

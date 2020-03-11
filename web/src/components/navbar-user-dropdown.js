@@ -29,7 +29,7 @@ export function NavbarUserDropdown({ userUsername }) {
             Profile
           </a>
         </Link>
-        <Link href="/settings" as="/settings">
+        <Link href="/settings">
           <a className="dropdown-item" onClick={() => setOpen(false)}>
             Settings
           </a>

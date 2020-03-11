@@ -11,7 +11,7 @@ export function FeedToggle({ userUsername }) {
       <ul className="nav nav-pills outline-active">
         <li className="nav-item">
           {userUsername ? (
-            <Link href="/feed" as="/feed">
+            <Link href="/feed">
               <a
                 className={clsx('nav-link', {
                   active: router.pathname === '/feed'
@@ -25,7 +25,7 @@ export function FeedToggle({ userUsername }) {
           )}
         </li>
         <li className="nav-item">
-          <Link href="/" as="/">
+          <Link href="/">
             <a
               className={clsx('nav-link', { active: router.pathname === '/' })}
             >
