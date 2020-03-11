@@ -65,7 +65,7 @@ type Article {
 }
 ```
 
-Now that we've created the ArticleType, we need to expose it to the QueryType. Query is the root type which all queries initially come from.
+Now that we've created the [ArticleType][article_type.rb], we need to expose it to the [QueryType][query_type.rb]. Query is the root type which all queries initially come from.
 
 [app/graphql/types/query_type.rb][query_type.rb]
 
@@ -362,16 +362,16 @@ Great! we've tested all the major cases for how someone could potentially view t
 We could go a few steps futher and test things like `comments` or `tags`, but I'll leave that as an exercise up to you.
 
 [activesupport::timehelpers]: https://api.rubyonrails.org/v5.2.4.1/classes/ActiveSupport/Testing/TimeHelpers.html
-[api_schema.rb]: ../../../app/graphql/api_schema.rb
-[article_by_slug_spec.rb]: ../../../spec/graphql/article_by_slug_spec.rb
-[article_policy.rb]: ../../../app/policies/article_policy.rb
-[article_type.rb]: ../../../app/graphql/types/article_type.rb
-[article.rb]: ../../../app/models/article.rb
-[create_article_spec.rb]: ../../../spec/graphql/create_article_spec.rb
-[create_article.rb]: ../../../app/graphql/mutations/create_article.rb
-[delete_article_spec.rb]: ../../../spec/graphql/delete_article_spec.rb
-[delete_article.rb]: ../../../app/graphql/mutations/delete_article.rb
-[mutation_type.rb]: ../../../app/graphql/types/mutation_type.rb
-[query_type.rb]: ../../../app/graphql/types/query_type.rb
-[schema.graphql]: ../../../schema.graphql
-[update_article.rb]: ../../../app/graphql/mutations/update_article.rb
+[api_schema.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/app/graphql/api_schema.rb
+[article_by_slug_spec.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/spec/graphql/article_by_slug_spec.rb
+[article_policy.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/app/policies/article_policy.rb
+[article_type.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/app/graphql/types/article_type.rb
+[article.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/app/models/article.rb
+[create_article_spec.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/spec/graphql/create_article_spec.rb
+[create_article.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/app/graphql/mutations/create_article.rb
+[delete_article_spec.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/spec/graphql/delete_article_spec.rb
+[delete_article.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/app/graphql/mutations/delete_article.rb
+[mutation_type.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/app/graphql/types/mutation_type.rb
+[query_type.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/app/graphql/types/query_type.rb
+[schema.graphql]: https://github.com/lifeiscontent/realworld/blob/master/api/schema.graphql
+[update_article.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/app/graphql/mutations/update_article.rb
