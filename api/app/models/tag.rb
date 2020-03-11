@@ -6,6 +6,6 @@ class Tag < ApplicationRecord
   validates :name, presence: true
 
   def self.most_used(limit = 20)
-    order(taggings_count: :desc).limit(limit)
+    where.not(taggings_count: 0).order(taggings_count: :desc).limit(limit)
   end
 end

@@ -15,16 +15,13 @@ RSpec.describe 'unfollowUser', type: :graphql do
     }
     GRAPHQL
   end
-  let(:follower) { create(:follower) }
-  let(:followed) { create(:followed) }
+  let(:relationship) { create(:relationship, follower: create(:follower), followed: create(:followed)) }
+  let(:follower) { relationship.follower }
+  let(:followed) { relationship.followed }
   let(:variables) do
     {
       username: followed.username
     }
-  end
-
-  before(:each) do
-    Relationship.create(follower: follower, followed: followed)
   end
 
   context 'current_user is not defined' do

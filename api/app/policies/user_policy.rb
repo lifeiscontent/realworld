@@ -2,11 +2,11 @@
 
 class UserPolicy < ApplicationPolicy
   def follow?
-    another_user?
+    another_user? && user.following.exclude?(record)
   end
 
   def unfollow?
-    another_user?
+    another_user? && user.following.include?(record)
   end
 
   def update?
