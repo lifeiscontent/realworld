@@ -17,6 +17,7 @@ module Mutations
 
     def resolve(input:)
       user = User.find_for_authentication(email: input[:email])
+
       user.authenticate!(input[:password])
 
       { user: user, token: user.generate_jwt }

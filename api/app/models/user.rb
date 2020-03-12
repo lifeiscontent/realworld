@@ -45,6 +45,10 @@ class User < ApplicationRecord
     )
   end
 
+  def self.find_for_authentication(tainted_conditions)
+    super || new
+  end
+
   def authenticate!(password)
     errors.add(:base, 'Email or password is invalid') unless valid_password?(password)
 

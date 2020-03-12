@@ -7,7 +7,7 @@ import { ArticlePageBanner } from '../../components/article-page-banner';
 import { ArticleMeta } from '../../components/article-meta';
 import withApollo from '../../lib/with-apollo';
 import { Layout } from '../../components/layout';
-import { ArticleCommentList } from '../../containers/article-comment-list';
+import { ArticleComments } from '../../containers/article-comments';
 
 function ArticlePage() {
   const router = useRouter();
@@ -51,7 +51,7 @@ function ArticlePage() {
           </div>
           <div className="row">
             <div className="col-xs-12 col-md-8 offset-md-2">
-              <ArticleCommentList articleSlug={router.query.slug} />
+              <ArticleComments articleSlug={router.query.slug} />
             </div>
           </div>
         </div>
@@ -101,18 +101,18 @@ const ArticlePageArticleFragment = gql`
     slug
     title
     viewerDidFavorite
-    ...ArticleCommentListArticleFragment
+    ...ArticleCommentsArticleFragment
   }
   ${ArticlePageAuthorFragment}
-  ${ArticleCommentList.fragments.article}
+  ${ArticleComments.fragments.article}
 `;
 
 const ArticlePageViewerFragment = gql`
   fragment ArticlePageViewerFragment on User {
     username
-    ...ArticleCommentListViewerFragment
+    ...ArticleCommentsViewerFragment
   }
-  ${ArticleCommentList.fragments.viewer}
+  ${ArticleComments.fragments.viewer}
 `;
 
 const ArticlePageQuery = gql`

@@ -38,9 +38,9 @@ end
         title: Faker::Lorem.sentence
       ) do |article|
         article.save!
-        article.tags << Tag.order('random()').first
+        article.tags << Tag.offset(rand(Tag.count)).first
         5.times do
-          User.order('random()').first.comments.create(
+          User.offset(rand(User.count)).first.comments.create(
             article: article,
             body: Faker::Lorem.sentence
           )

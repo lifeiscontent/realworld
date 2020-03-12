@@ -16,3 +16,12 @@ export const renders = () => (
     onSubmit={action('onSubmit')}
   />
 );
+
+export const canCreateComment = () => (
+  <CommentForm
+    canCreateComment={{ value: true }}
+    username="lifeiscontent"
+    articleSlug="some-cool-title"
+    onSubmit={action('onSubmit')}
+  />
+);

@@ -15,7 +15,15 @@ const validationSchema = Yup.object({
   })
 });
 
-export function CommentForm({ articleSlug, onSubmit, username, profile }) {
+export function CommentForm({
+  articleSlug,
+  onSubmit,
+  username,
+  profile,
+  canCreateComment
+}) {
+  if (canCreateComment.value === false) return null;
+
   return (
     <Formik
       enableReinitialize
@@ -59,11 +67,13 @@ export function CommentForm({ articleSlug, onSubmit, username, profile }) {
 }
 
 CommentForm.defaultProps = {
-  profile: {}
+  profile: {},
+  canCreateComment: { value: false }
 };
 
 CommentForm.propTypes = {
   articleSlug: PropTypes.string.isRequired,
+  canCreateComment: PropTypes.shape({ value: PropTypes.bool }),
   onSubmit: PropTypes.func.isRequired,
   profile: PropTypes.shape({ imageUrl: PropTypes.string }),
   username: PropTypes.string.isRequired
