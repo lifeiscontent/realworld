@@ -84,10 +84,9 @@ export function ArticleComments({ articleSlug }) {
   return (
     <>
       <CommentForm
+        {...commentsList.data.viewer}
         articleSlug={articleSlug}
         canCreateComment={commentsList.data.article.canCreateComment}
-        profile={commentsList.data.viewer.profile}
-        username={commentsList.data.viewer.username}
         onSubmit={handleSubmit}
       />
       <CommentList
