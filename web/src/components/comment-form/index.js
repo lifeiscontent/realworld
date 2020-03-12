@@ -76,5 +76,8 @@ CommentForm.propTypes = {
   canCreateComment: PropTypes.shape({ value: PropTypes.bool }),
   onSubmit: PropTypes.func.isRequired,
   profile: PropTypes.shape({ imageUrl: PropTypes.string }),
-  username: PropTypes.string.isRequired
+  username: (props, ...rest) =>
+    props.canCreateComment.value
+      ? PropTypes.string.isRequired(props, ...rest)
+      : PropTypes.string(props, ...rest)
 };
