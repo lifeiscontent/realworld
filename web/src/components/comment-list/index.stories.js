@@ -4,7 +4,7 @@ import { withRouter } from '../../utils/storybook';
 import { action } from '@storybook/addon-actions';
 
 export default {
-  title: 'CommentList',
+  title: 'Lists/CommentList',
   component: CommentList,
   decorators: [withRouter]
 };

@@ -3,7 +3,7 @@ import { FeedToggle } from '.';
 import { withRouter } from '../../utils/storybook';
 
 export default {
-  title: 'FeedToggle',
+  title: 'Tabs/FeedToggle',
   component: FeedToggle,
   decorators: [withRouter]
 };

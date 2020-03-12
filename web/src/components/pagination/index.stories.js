@@ -3,7 +3,7 @@ import { Pagination } from '.';
 import { withRouter } from '../../utils/storybook';
 
 export default {
-  title: 'Pagination',
+  title: 'Main/Pagination',
   component: Pagination,
   decorators: [withRouter]
 };

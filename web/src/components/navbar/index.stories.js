@@ -3,7 +3,7 @@ import { Navbar } from '.';
 import { withRouter } from '../../utils/storybook';
 
 export default {
-  title: 'Navbar',
+  title: 'Main/Navbar',
   component: Navbar,
   decorators: [withRouter]
 };

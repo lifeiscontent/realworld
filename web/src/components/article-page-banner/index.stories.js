@@ -4,7 +4,7 @@ import { ArticlePageBanner } from '.';
 import { withRouter } from '../../utils/storybook';
 
 export default {
-  title: 'ArticlePageBanner',
+  title: 'Banners/ArticlePageBanner',
   component: ArticlePageBanner,
   decorators: [withRouter]
 };

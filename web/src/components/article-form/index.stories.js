@@ -4,7 +4,7 @@ import { MockedProvider } from '@apollo/react-testing';
 import { action } from '@storybook/addon-actions';
 
 export default {
-  title: 'ArticleForm',
+  title: 'Forms/ArticleForm',
   component: ArticleForm
 };
 

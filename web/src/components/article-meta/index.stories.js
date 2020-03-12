@@ -4,7 +4,7 @@ import { withRouter } from '../../utils/storybook';
 import { action } from '@storybook/addon-actions';
 
 export default {
-  title: 'ArticleMeta',
+  title: 'Content/ArticleMeta',
   component: ArticleMeta,
   decorators: [withRouter]
 };

@@ -3,7 +3,7 @@ import { RegisterForm } from '.';
 import { action } from '@storybook/addon-actions';
 
 export default {
-  title: 'RegisterForm',
+  title: 'Forms/RegisterForm',
   component: RegisterForm
 };
 

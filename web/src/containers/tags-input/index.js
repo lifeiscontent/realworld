@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useField } from 'formik';
-import { TagsInputTag } from './tags-input-tag';
+import { TagsInputTag } from './tag';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 

@@ -3,7 +3,7 @@ import { Sidebar } from '.';
 import { withRouter } from '../../utils/storybook';
 
 export default {
-  title: 'Sidebar',
+  title: 'Main/Sidebar',
   component: Sidebar,
   decorators: [withRouter]
 };

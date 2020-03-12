@@ -3,7 +3,7 @@ import { SettingsForm } from '.';
 import { action } from '@storybook/addon-actions';
 
 export default {
-  title: 'SettingsForm',
+  title: 'Forms/SettingsForm',
   component: SettingsForm
 };
 

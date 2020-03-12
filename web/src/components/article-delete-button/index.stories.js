@@ -3,7 +3,7 @@ import { ArticleDeleteButton } from '.';
 import { action } from '@storybook/addon-actions';
 
 export default {
-  title: 'ArticleDeleteButton',
+  title: 'Buttons/ArticleDeleteButton',
   component: ArticleDeleteButton
 };
 

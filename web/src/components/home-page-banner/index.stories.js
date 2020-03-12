@@ -3,7 +3,7 @@ import { HomePageBanner } from '.';
 import { withRouter } from '../../utils/storybook';
 
 export default {
-  title: 'HomePageBanner',
+  title: 'Banners/HomePageBanner',
   component: HomePageBanner,
   decorators: [withRouter]
 };

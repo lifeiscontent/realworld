@@ -4,7 +4,7 @@ import { withRouter } from '../../utils/storybook';
 import { action } from '@storybook/addon-actions';
 
 export default {
-  title: 'CommentForm',
+  title: 'Forms/CommentForm',
   component: CommentForm,
   decorators: [withRouter]
 };

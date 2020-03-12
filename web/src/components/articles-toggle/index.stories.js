@@ -3,7 +3,7 @@ import { ArticlesToggle } from '.';
 import { withRouter } from '../../utils/storybook';
 
 export default {
-  title: 'ArticlesToggle',
+  title: 'Tabs/ArticlesToggle',
   component: ArticlesToggle,
   decorators: [withRouter]
 };

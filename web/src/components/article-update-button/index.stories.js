@@ -3,7 +3,7 @@ import { ArticleUpdateButton } from '.';
 import { withRouter } from '../../utils/storybook';
 
 export default {
-  title: 'ArticleUpdateButton',
+  title: 'Buttons/ArticleUpdateButton',
   component: ArticleUpdateButton,
   decorators: [withRouter]
 };

@@ -3,7 +3,7 @@ import { ArticleContent } from '.';
 import { withRouter } from '../../utils/storybook';
 
 export default {
-  title: 'ArticleContent',
+  title: 'Content/ArticleContent',
   component: ArticleContent,
   decorators: [withRouter]
 };

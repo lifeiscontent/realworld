@@ -3,7 +3,7 @@ import { Footer } from '.';
 import { withRouter } from '../../utils/storybook';
 
 export default {
-  title: 'Footer',
+  title: 'Main/Footer',
   component: Footer,
   decorators: [withRouter]
 };

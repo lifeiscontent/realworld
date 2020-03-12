@@ -4,7 +4,7 @@ import { withRouter } from '../../utils/storybook';
 import { action } from '@storybook/addon-actions';
 
 export default {
-  title: 'UserFollowButton',
+  title: 'Buttons/UserFollowButton',
   component: UserFollowButton,
   decorators: [withRouter]
 };

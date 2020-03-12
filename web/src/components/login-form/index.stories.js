@@ -3,7 +3,7 @@ import { LoginForm } from '.';
 import { action } from '@storybook/addon-actions';
 
 export default {
-  title: 'LoginForm',
+  title: 'Forms/LoginForm',
   component: LoginForm
 };
 
