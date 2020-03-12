@@ -10,10 +10,8 @@ class Article < ApplicationRecord
   has_many :taggings, dependent: :destroy
   has_many :tags, through: :taggings
   has_many :users_who_favorited, through: :favorites, source: :user
-  validates :body, presence: true
-  validates :description, presence: true
-  validates :slug, presence: true, uniqueness: true
-  validates :title, presence: true
+  validates_presence_of :body, :description, :slug, :title, :favorites_count
+  validates_uniqueness_of :slug
 
   def self.feed_for(user)
     return none unless user.present?

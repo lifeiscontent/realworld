@@ -23,8 +23,6 @@ RSpec.describe Favorite, type: :model do
     it { is_expected.to have_db_column(:user_id).with_options(null: false) }
     it { is_expected.to have_db_column(:created_at).with_options(null: false) }
     it { is_expected.to have_db_column(:updated_at).with_options(null: false) }
-    it { is_expected.to have_db_index(:article_id) }
-    it { is_expected.to have_db_index(:user_id) }
-    it { is_expected.to have_db_index(%i[article_id user_id]) }
+    it { is_expected.to have_db_index(%i[article_id user_id]).unique }
   end
 end

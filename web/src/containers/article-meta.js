@@ -5,9 +5,9 @@ import Link from 'next/link';
 import gql from 'graphql-tag';
 import { UpdateArticleButton } from './update-article-button';
 import { FollowUserButton } from './follow-user-button';
-import { FavoriteArticleButton } from '../components/favorite-article-button';
 import { DeleteArticleButton } from './delete-article-button';
 import { format } from '../utils/date';
+import clsx from 'clsx';
 
 export function ArticleMeta(props) {
   const article = useQuery(ArticleMetaQuery, {
@@ -52,13 +52,18 @@ export function ArticleMeta(props) {
     false;
 
   const favoriteButton = canChangeFavorite ? (
-    <FavoriteArticleButton
-      pressed={article.data.article.viewerDidFavorite ?? false}
+    <button
       onClick={handleFavoriting}
+      className={clsx('btn btn-sm', {
+        'btn-outline-primary':
+          article.data.article.viewerDidFavorite ?? false === false,
+        'btn-primary': article.data.article.viewerDidFavorite ?? false
+      })}
     >
+      <i className="ion-heart" />{' '}
       {actionName(article.data.article.viewerDidFavorite)} (
       {article.data.article.favoritesCount ?? 0})
-    </FavoriteArticleButton>
+    </button>
   ) : null;
 
   return (

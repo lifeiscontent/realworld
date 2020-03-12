@@ -41,8 +41,6 @@ ActiveRecord::Schema.define(version: 2020_02_27_021112) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["article_id", "user_id"], name: "index_favorites_on_article_id_and_user_id", unique: true
-    t.index ["article_id"], name: "index_favorites_on_article_id"
-    t.index ["user_id"], name: "index_favorites_on_user_id"
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -71,8 +69,6 @@ ActiveRecord::Schema.define(version: 2020_02_27_021112) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["followed_id", "follower_id"], name: "index_relationships_on_followed_id_and_follower_id", unique: true
-    t.index ["followed_id"], name: "index_relationships_on_followed_id"
-    t.index ["follower_id"], name: "index_relationships_on_follower_id"
   end
 
   create_table "taggings", force: :cascade do |t|
@@ -81,8 +77,6 @@ ActiveRecord::Schema.define(version: 2020_02_27_021112) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["article_id", "tag_id"], name: "index_taggings_on_article_id_and_tag_id", unique: true
-    t.index ["article_id"], name: "index_taggings_on_article_id"
-    t.index ["tag_id"], name: "index_taggings_on_tag_id"
   end
 
   create_table "tags", force: :cascade do |t|

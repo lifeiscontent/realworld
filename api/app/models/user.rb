@@ -21,7 +21,8 @@ class User < ApplicationRecord
   has_many :favorites, dependent: :destroy
   has_many :favorite_articles, through: :favorites, source: :article
   accepts_nested_attributes_for :profile
-  validates :username, presence: true, uniqueness: true
+  validates_presence_of :username, :encrypted_password, :followers_count, :following_count
+  validates_uniqueness_of :username
 
   def self.from_jwt(token)
     jwt_payload = JWT.decode(
