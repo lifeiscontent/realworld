@@ -34,7 +34,8 @@ export function ArticleMeta({
 
   const followUserButton = (
     <UserFollowButton
-      disabled={!(canFollow.value || canUnfollow.value)}
+      canFollow={canFollow}
+      canUnfollow={canUnfollow}
       followersCount={followersCount}
       onFollow={onFollow}
       onUnfollow={onUnfollow}
@@ -45,22 +46,27 @@ export function ArticleMeta({
 
   const favoriteArticleButton = (
     <ArticleFavoriteButton
+      canFavorite={canFavorite}
+      canUnfavorite={canUnfavorite}
       favoritesCount={favoritesCount}
       onFavorite={onFavorite}
       onUnfavorite={onUnfavorite}
       slug={slug}
       viewerDidFavorite={viewerDidFavorite}
-      disabled={!(canFavorite.value || canUnfavorite.value)}
     />
   );
 
-  const articleUpdateButton = canUpdate.value ? (
-    <ArticleUpdateButton slug={slug} />
-  ) : null;
+  const articleUpdateButton = (
+    <ArticleUpdateButton canUpdate={canUpdate} slug={slug} />
+  );
 
-  const articleDeleteButton = canDelete.value ? (
-    <ArticleDeleteButton slug={slug} onDelete={onDelete} />
-  ) : null;
+  const articleDeleteButton = (
+    <ArticleDeleteButton
+      canDelete={canDelete}
+      onDelete={onDelete}
+      slug={slug}
+    />
+  );
 
   return (
     <div className="article-meta">

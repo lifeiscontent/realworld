@@ -6,8 +6,8 @@ import { UserUpdateButton } from '../user-update-button';
 export function ProfilePageBanner({
   canFollow,
   canUnfollow,
+  canUpdate,
   followersCount,
-  isViewer,
   onFollow,
   onUnfollow,
   profile,
@@ -31,15 +31,16 @@ export function ProfilePageBanner({
             <h4>{username}</h4>
             <p>{profile.bio}</p>
             <div className="btn-toolbar">
-              {isViewer ? <UserUpdateButton /> : null}
               <UserFollowButton
-                disabled={!(canFollow.value || canUnfollow.value)}
+                canFollow={canFollow}
+                canUnfollow={canUnfollow}
                 followersCount={followersCount}
                 onFollow={onFollow}
                 onUnfollow={onUnfollow}
                 username={username}
                 viewerIsFollowing={viewerIsFollowing}
               />
+              <UserUpdateButton canUpdate={canUpdate} />
             </div>
           </div>
         </div>
@@ -49,19 +50,19 @@ export function ProfilePageBanner({
 }
 
 ProfilePageBanner.defaultProps = {
-  profile: {},
   canFollow: { value: false },
   canUnfollow: { value: false },
+  canUpdate: { value: false },
   followersCount: 0,
-  viewerIsFollowing: false,
-  isViewer: false
+  profile: {},
+  viewerIsFollowing: false
 };
 
 ProfilePageBanner.propTypes = {
   canFollow: PropTypes.shape({ value: PropTypes.bool }),
   canUnfollow: PropTypes.shape({ value: PropTypes.bool }),
+  canUpdate: PropTypes.shape({ value: PropTypes.bool }),
   followersCount: PropTypes.number,
-  isViewer: PropTypes.bool,
   profile: PropTypes.shape({
     imageUrl: PropTypes.string,
     bio: PropTypes.string

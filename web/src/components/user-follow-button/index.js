@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
 export function UserFollowButton({
-  disabled,
+  canFollow,
+  canUnfollow,
   followersCount,
   onFollow,
   onUnfollow,
@@ -28,7 +29,7 @@ export function UserFollowButton({
         'btn-outline-secondary': viewerIsFollowing === false,
         'btn-secondary': viewerIsFollowing
       })}
-      disabled={disabled}
+      disabled={!(canFollow.value || canUnfollow.value)}
       onClick={handleClick}
     >
       <i className="ion-plus-round" />{' '}
@@ -40,11 +41,13 @@ export function UserFollowButton({
 UserFollowButton.defaultProps = {
   followersCount: 0,
   viewerIsFollowing: false,
-  disabled: false
+  canFollow: { value: false },
+  canUnfollow: { value: false }
 };
 
 UserFollowButton.propTypes = {
-  disabled: PropTypes.bool,
+  canFollow: PropTypes.shape({ value: PropTypes.bool }),
+  canUnfollow: PropTypes.shape({ value: PropTypes.bool }),
   followersCount: PropTypes.number,
   onFollow: PropTypes.func.isRequired,
   onUnfollow: PropTypes.func.isRequired,

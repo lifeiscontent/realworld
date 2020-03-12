@@ -63,7 +63,6 @@ const ProfilePageUserFragment = gql`
       value
     }
     followersCount
-    isViewer
     username
     viewerIsFollowing
   }

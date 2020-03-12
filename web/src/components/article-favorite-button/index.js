@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
 export function ArticleFavoriteButton({
-  disabled,
+  canFavorite,
+  canUnfavorite,
   favoritesCount,
   onFavorite,
   onUnfavorite,
@@ -27,7 +28,7 @@ export function ArticleFavoriteButton({
         'btn-outline-primary': viewerDidFavorite === false,
         'btn-primary': viewerDidFavorite
       })}
-      disabled={disabled}
+      disabled={!(canUnfavorite.value || canFavorite.value)}
       onClick={handleClick}
     >
       <i className="ion-heart" />{' '}
@@ -38,16 +39,18 @@ export function ArticleFavoriteButton({
 }
 
 ArticleFavoriteButton.defaultProps = {
-  disabled: false,
+  canFavorite: { value: false },
+  canUnfavorite: { value: false },
   favoritesCount: 0,
   viewerDidFavorite: false
 };
 
 ArticleFavoriteButton.propTypes = {
-  disabled: PropTypes.bool,
+  canFavorite: PropTypes.shape({ value: PropTypes.bool }),
+  canUnfavorite: PropTypes.shape({ value: PropTypes.bool }),
   favoritesCount: PropTypes.number,
-  onFavorite: PropTypes.func,
-  onUnfavorite: PropTypes.func,
+  onFavorite: PropTypes.func.isRequired,
+  onUnfavorite: PropTypes.func.isRequired,
   slug: PropTypes.string.isRequired,
   viewerDidFavorite: PropTypes.bool
 };
