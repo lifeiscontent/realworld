@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { format } from '../../utils/date';
 import Markdown from 'react-markdown';
-import gql from 'graphql-tag';
 
 export function CommentCard({
   author,
@@ -55,26 +54,8 @@ export function CommentCard({
 }
 
 CommentCard.defaultProps = {
-  canDelete: { value: false }
-};
-
-CommentCard.fragments = {
-  comment: gql`
-    fragment CommentCardCommentFragment on Comment {
-      author {
-        username
-        profile {
-          imageUrl
-        }
-      }
-      body
-      canDelete {
-        value
-      }
-      createdAt
-      id
-    }
-  `
+  canDelete: { value: false },
+  author: {}
 };
 
 CommentCard.propTypes = {

@@ -5,7 +5,6 @@ import { FormikSubmitButton } from '../formik-submit-button';
 import { FormikStatusErrors } from '../formik-status-errors';
 import * as Yup from 'yup';
 import Link from 'next/link';
-import gql from 'graphql-tag';
 
 const validationSchema = Yup.object({
   articleSlug: Yup.string().required(),
@@ -58,17 +57,6 @@ export function CommentForm({ articleSlug, onSubmit, username, profile }) {
     </Formik>
   );
 }
-
-CommentForm.fragments = {
-  viewer: gql`
-    fragment CommentFormUserFragment on User {
-      username
-      profile {
-        imageUrl
-      }
-    }
-  `
-};
 
 CommentForm.defaultProps = {
   profile: {}

@@ -89,69 +89,111 @@ function ProfileFavoritesPage() {
   );
 }
 
+const ProfileFavoritesViewerFragment = gql`
+  fragment ProfileFavoritesViewerFragment on User {
+    username
+    profile {
+      imageUrl
+    }
+  }
+`;
+
+const ProfileFavoritesArticleFragment = gql`
+  fragment ProfileFavoritesArticleFragment on Article {
+    author {
+      username
+      profile {
+        imageUrl
+      }
+    }
+    canFavorite {
+      value
+    }
+    canUnfavorite {
+      value
+    }
+    createdAt
+    description
+    favoritesCount
+    slug
+    tags {
+      id
+      name
+    }
+    title
+    viewerDidFavorite
+  }
+`;
+
+const ProfileFavoritesUserFragment = gql`
+  fragment ProfileFavoritesUserFragment on User {
+    username
+    favoriteArticlesConnection {
+      edges {
+        node {
+          ...ProfileFavoritesArticleFragment
+        }
+      }
+    }
+  }
+  ${ProfileFavoritesArticleFragment}
+`;
+
 const ProfileFavoritesPageQuery = gql`
   query ProfileFavoritesPageQuery($username: ID!) {
     viewer {
-      username
+      ...ProfileFavoritesViewerFragment
     }
     user: userByUsername(username: $username) {
-      username
-      favoriteArticlesConnection {
-        edges {
-          node {
-            ...ArticlePreviewArticleFragment
-          }
-        }
-      }
-      ...ProfilePageBannerUserFragment
+      ...ProfileFavoritesUserFragment
     }
   }
-  ${ArticlePreview.fragments.article}
-  ${ProfilePageBanner.fragments.user}
+  ${ProfileFavoritesViewerFragment}
+  ${ProfileFavoritesUserFragment}
 `;
 
 const ProfileFavoritesPageFavoriteArticleMutation = gql`
   mutation ProfileFavoritesPageFavoriteArticleMutation($slug: ID!) {
     favoriteArticle(slug: $slug) {
       article {
-        ...ArticlePreviewArticleFragment
+        ...ProfileFavoritesArticleFragment
       }
     }
   }
-  ${ArticlePreview.fragments.article}
+  ${ProfileFavoritesArticleFragment}
 `;
 
 const ProfileFavoritesPageUnfavoriteArticleMutation = gql`
   mutation ProfileFavoritesPageUnfavoriteArticleMutation($slug: ID!) {
     unfavoriteArticle(slug: $slug) {
       article {
-        ...ArticlePreviewArticleFragment
+        ...ProfileFavoritesArticleFragment
       }
     }
   }
-  ${ArticlePreview.fragments.article}
+  ${ProfileFavoritesArticleFragment}
 `;
 
 const ProfileFavoritesPageFollowUserMutation = gql`
   mutation ProfileFavoritesPageFollowUserMutation($username: ID!) {
     followUser(username: $username) {
       user {
-        ...ProfilePageBannerUserFragment
+        ...ProfileFavoritesUserFragment
       }
     }
   }
-  ${ProfilePageBanner.fragments.user}
+  ${ProfileFavoritesUserFragment}
 `;
 
 const ProfileFavortiesPageUnfollowUserMutation = gql`
   mutation ProfileFavortiesPageUnfollowUserMutation($username: ID!) {
     unfollowUser(username: $username) {
       user {
-        ...ProfilePageBannerUserFragment
+        ...ProfileFavoritesUserFragment
       }
     }
   }
-  ${ProfilePageBanner.fragments.user}
+  ${ProfileFavoritesUserFragment}
 `;
 
 export default withApollo(ProfileFavoritesPage);

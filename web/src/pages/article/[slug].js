@@ -4,7 +4,7 @@ import { useQuery, useMutation } from '@apollo/react-hooks';
 import { useRouter } from 'next/router';
 import { ArticleContent } from '../../components/article-content';
 import { ArticlePageBanner } from '../../components/article-page-banner';
-import { ArticleMeta } from '../../containers/article-meta';
+import { ArticleMeta } from '../../components/article-meta';
 import withApollo from '../../lib/with-apollo';
 import { Layout } from '../../components/layout';
 import { ArticleCommentList } from '../../containers/article-comment-list';
@@ -29,7 +29,6 @@ function ArticlePage() {
     <Layout userUsername={article.data.viewer?.username}>
       <div className="article-page">
         <ArticlePageBanner
-          author={article.data.article.author}
           onDelete={deleteArticle}
           onFavorite={favoriteArticle}
           onFollow={followUser}
@@ -41,15 +40,18 @@ function ArticlePage() {
           <ArticleContent {...article.data.article} />
           <hr />
           <div className="article-actions">
-            <ArticleMeta articleSlug={router.query.slug} />
+            <ArticleMeta
+              onDelete={deleteArticle}
+              onFavorite={favoriteArticle}
+              onFollow={followUser}
+              onUnfavorite={unfavoriteArticle}
+              onUnfollow={unfollowUser}
+              {...article.data.article}
+            />
           </div>
           <div className="row">
             <div className="col-xs-12 col-md-8 offset-md-2">
-              <ArticleCommentList
-                viewer={article.data.viewer}
-                articleSlug={router.query.slug}
-                {...article.data.article}
-              />
+              <ArticleCommentList articleSlug={router.query.slug} />
             </div>
           </div>
         </div>
@@ -58,105 +60,127 @@ function ArticlePage() {
   );
 }
 
+const ArticlePageAuthorFragment = gql`
+  fragment ArticlePageAuthorFragment on User {
+    username
+    profile {
+      imageUrl
+    }
+    canFollow {
+      value
+    }
+    canUnfollow {
+      value
+    }
+    viewerIsFollowing
+    followersCount
+  }
+`;
+
+const ArticlePageArticleFragment = gql`
+  fragment ArticlePageArticleFragment on Article {
+    author {
+      ...ArticlePageAuthorFragment
+    }
+    body
+    canFavorite {
+      value
+    }
+    canDelete {
+      value
+    }
+    canUnfavorite {
+      value
+    }
+    canUpdate {
+      value
+    }
+    createdAt
+    description
+    favoritesCount
+    slug
+    title
+    viewerDidFavorite
+    ...ArticleCommentListArticleFragment
+  }
+  ${ArticlePageAuthorFragment}
+  ${ArticleCommentList.fragments.article}
+`;
+
+const ArticlePageViewerFragment = gql`
+  fragment ArticlePageViewerFragment on User {
+    username
+    ...ArticleCommentListViewerFragment
+  }
+  ${ArticleCommentList.fragments.viewer}
+`;
+
 const ArticlePageQuery = gql`
   query ArticlePageQuery($slug: ID!) {
     viewer {
-      username
-      ...ArticleCommentListUserFragment
+      ...ArticlePageViewerFragment
     }
     article: articleBySlug(slug: $slug) {
-      slug
-      body
-      description
-      ...ArticleMetaArticleFragment
-      ...ArticlePageBannerArticleFragment
-      ...ArticleCommentListArticleFragment
+      ...ArticlePageArticleFragment
     }
   }
-  ${ArticleMeta.fragments.article}
-  ${ArticlePageBanner.fragments.article}
-  ${ArticleCommentList.fragments.article}
-  ${ArticleCommentList.fragments.viewer}
+  ${ArticlePageViewerFragment}
+  ${ArticlePageArticleFragment}
 `;
 
 const ArticlePageDeleteArticleMutation = gql`
   mutation ArticlePageDeleteArticleMutation($slug: ID!) {
     deleteArticle(slug: $slug) {
       article {
-        slug
-        body
-        description
-        ...ArticleMetaArticleFragment
-        ...ArticlePageBannerArticleFragment
-        ...ArticleCommentListArticleFragment
-        author {
-          ...ArticlePageBannerUserFragment
-        }
+        ...ArticlePageArticleFragment
       }
     }
   }
-  ${ArticleMeta.fragments.article}
-  ${ArticlePageBanner.fragments.article}
-  ${ArticlePageBanner.fragments.author}
-  ${ArticleCommentList.fragments.article}
+  ${ArticlePageArticleFragment}
 `;
 
 const ArticlePageFavoriteArticleMutation = gql`
   mutation ArticlePageFavoriteArticleMutation($slug: ID!) {
     favoriteArticle(slug: $slug) {
       article {
-        slug
-        body
-        description
-        ...ArticleMetaArticleFragment
-        ...ArticlePageBannerArticleFragment
-        ...ArticleCommentListArticleFragment
+        ...ArticlePageArticleFragment
       }
     }
   }
-  ${ArticleMeta.fragments.article}
-  ${ArticlePageBanner.fragments.article}
-  ${ArticleCommentList.fragments.article}
+  ${ArticlePageArticleFragment}
 `;
 
 const ArticlePageUnfavoriteArticleMutation = gql`
   mutation ArticlePageUnfavoriteArticleMutation($slug: ID!) {
     unfavoriteArticle(slug: $slug) {
       article {
-        slug
-        body
-        description
-        ...ArticleMetaArticleFragment
-        ...ArticlePageBannerArticleFragment
-        ...ArticleCommentListArticleFragment
+        ...ArticlePageArticleFragment
       }
     }
   }
-  ${ArticleMeta.fragments.article}
-  ${ArticlePageBanner.fragments.article}
-  ${ArticleCommentList.fragments.article}
+  ${ArticlePageArticleFragment}
 `;
 
 const ArticlePageFollowUserMutation = gql`
   mutation ArticlePageFollowUserMutation($username: ID!) {
     followUser(username: $username) {
       user {
-        ...ArticlePageBannerUserFragment
+        ...ArticlePageAuthorFragment
       }
     }
   }
-  ${ArticlePageBanner.fragments.author}
+  ${ArticlePageAuthorFragment}
 `;
 
 const ArticlePageUnfollowUserMutation = gql`
   mutation ArticlePageUnfollowUserMutation($username: ID!) {
     unfollowUser(username: $username) {
       user {
-        ...ArticlePageBannerUserFragment
+        ...ArticlePageAuthorFragment
       }
     }
   }
-  ${ArticlePageBanner.fragments.author}
+  ${ArticlePageAuthorFragment}
 `;
 
 export default withApollo(ArticlePage);

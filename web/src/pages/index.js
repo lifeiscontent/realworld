@@ -63,6 +63,33 @@ function IndexPage() {
   );
 }
 
+const IndexPageArticleFragment = gql`
+  fragment IndexPageArticleFragment on Article {
+    author {
+      username
+      profile {
+        imageUrl
+      }
+    }
+    canFavorite {
+      value
+    }
+    canUnfavorite {
+      value
+    }
+    createdAt
+    description
+    favoritesCount
+    slug
+    tags {
+      id
+      name
+    }
+    title
+    viewerDidFavorite
+  }
+`;
+
 const IndexPageArticlesQuery = gql`
   query IndexPageArticlesQuery(
     $after: String
@@ -90,36 +117,38 @@ const IndexPageArticlesQuery = gql`
       edges {
         cursor
         node {
-          ...ArticlePreviewArticleFragment
+          ...IndexPageArticleFragment
         }
       }
     }
-    ...SidebarQueryFragment
+    popularTags {
+      id
+      name
+    }
   }
-  ${ArticlePreview.fragments.article}
-  ${Sidebar.fragments.query}
+  ${IndexPageArticleFragment}
 `;
 
 const IndexPageFavoriteArticleMutation = gql`
   mutation IndexPageFavoriteArticleMutation($slug: ID!) {
     favoriteArticle(slug: $slug) {
       article {
-        ...ArticlePreviewArticleFragment
+        ...IndexPageArticleFragment
       }
     }
   }
-  ${ArticlePreview.fragments.article}
+  ${IndexPageArticleFragment}
 `;
 
 const IndexPageUnfavoriteArticleMutation = gql`
   mutation IndexPageUnfavoriteArticleMutation($slug: ID!) {
     unfavoriteArticle(slug: $slug) {
       article {
-        ...ArticlePreviewArticleFragment
+        ...IndexPageArticleFragment
       }
     }
   }
-  ${ArticlePreview.fragments.article}
+  ${IndexPageArticleFragment}
 `;
 
 export default withApollo(IndexPage);

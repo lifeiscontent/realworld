@@ -63,18 +63,16 @@ function SettingsPage() {
   );
 }
 
-SettingsPage.fragmants = {
-  user: gql`
-    fragment SettingsPageUserFragment on User {
-      username
-      email
-      profile {
-        bio
-        imageUrl
-      }
+const SettingsPageUserFragment = gql`
+  fragment SettingsPageUserFragment on User {
+    username
+    email
+    profile {
+      bio
+      imageUrl
     }
-  `
-};
+  }
+`;
 
 const SettingsPageQuery = gql`
   query SettingsPageQuery {
@@ -82,7 +80,7 @@ const SettingsPageQuery = gql`
       ...SettingsPageUserFragment
     }
   }
-  ${SettingsPage.fragmants.user}
+  ${SettingsPageUserFragment}
 `;
 
 const SettingsPageUpdateUserMutation = gql`
@@ -96,7 +94,7 @@ const SettingsPageUpdateUserMutation = gql`
       }
     }
   }
-  ${SettingsPage.fragmants.user}
+  ${SettingsPageUserFragment}
 `;
 
 export default withApollo(SettingsPage);

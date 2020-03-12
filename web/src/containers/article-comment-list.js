@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useQuery, useMutation } from '@apollo/react-hooks';
-import { CommentCard } from '../components/comment-card';
 import gql from 'graphql-tag';
-import { CommentForm } from '../components/comment-form';
 import { CommentList } from '../components/comment-list';
 
 export function ArticleCommentList(props) {
@@ -77,16 +75,34 @@ export function ArticleCommentList(props) {
 }
 
 ArticleCommentList.propTypes = {
-  userUsername: PropTypes.string,
   articleSlug: PropTypes.string.isRequired
 };
 
+const ArticleCommentListCommentFragment = gql`
+  fragment ArticleCommentListCommentFragment on Comment {
+    author {
+      username
+      profile {
+        imageUrl
+      }
+    }
+    body
+    canDelete {
+      value
+    }
+    createdAt
+    id
+  }
+`;
+
 ArticleCommentList.fragments = {
   viewer: gql`
-    fragment ArticleCommentListUserFragment on User {
-      ...CommentFormUserFragment
+    fragment ArticleCommentListViewerFragment on User {
+      username
+      profile {
+        imageUrl
+      }
     }
-    ${CommentForm.fragments.viewer}
   `,
   article: gql`
     fragment ArticleCommentListArticleFragment on Article {
@@ -95,24 +111,24 @@ ArticleCommentList.fragments = {
         value
       }
       comments {
-        ...CommentCardCommentFragment
+        ...ArticleCommentListCommentFragment
       }
     }
-    ${CommentCard.fragments.comment}
+    ${ArticleCommentListCommentFragment}
   `
 };
 
 const ArticleCommentListQuery = gql`
   query ArticleCommentListQuery($slug: ID!) {
     viewer {
-      ...CommentFormUserFragment
+      ...ArticleCommentListViewerFragment
     }
     article: articleBySlug(slug: $slug) {
       ...ArticleCommentListArticleFragment
     }
   }
+  ${ArticleCommentList.fragments.viewer}
   ${ArticleCommentList.fragments.article}
-  ${CommentForm.fragments.viewer}
 `;
 
 const ArticleCommentListCreateCommentMutation = gql`
@@ -122,20 +138,20 @@ const ArticleCommentListCreateCommentMutation = gql`
   ) {
     createComment(articleSlug: $articleSlug, input: $input) {
       comment {
-        ...CommentCardCommentFragment
+        ...ArticleCommentListCommentFragment
       }
     }
   }
-  ${CommentCard.fragments.comment}
+  ${ArticleCommentListCommentFragment}
 `;
 
 const ArticleCommentListDeleteCommentMutation = gql`
   mutation ArticleCommentListDeleteCommentMutation($id: ID!) {
     deleteComment(id: $id) {
       comment {
-        ...CommentCardCommentFragment
+        ...ArticleCommentListCommentFragment
       }
     }
   }
-  ${CommentCard.fragments.comment}
+  ${ArticleCommentListCommentFragment}
 `;

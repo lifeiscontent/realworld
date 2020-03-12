@@ -1,17 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import Link from 'next/link';
-import gql from 'graphql-tag';
-
-function actionName(viewerIsFollowing) {
-  switch (viewerIsFollowing) {
-    case true:
-      return 'Unfollow';
-    default:
-      return 'Follow';
-  }
-}
+import { UserFollowButton } from '../user-follow-button';
+import { UserUpdateButton } from '../user-update-button';
 
 export function ProfilePageBanner({
   canFollow,
@@ -39,36 +29,17 @@ export function ProfilePageBanner({
               alt={`Image of ${username}`}
             />
             <h4>{username}</h4>
-
             <p>{profile.bio}</p>
             <div className="btn-toolbar">
-              {isViewer ? (
-                <Link href="/settings">
-                  <a className="btn btn-sm btn-outline-secondary action-btn">
-                    <i className="ion-gear-a" /> Edit Profile Settings
-                  </a>
-                </Link>
-              ) : null}
-              {canFollow.value || canUnfollow.value ? (
-                <button
-                  className={clsx('btn btn-sm action-btn', {
-                    'btn-outline-secondary': viewerIsFollowing === false,
-                    'btn-secondary': viewerIsFollowing
-                  })}
-                  onClick={() =>
-                    viewerIsFollowing
-                      ? onUnfollow({
-                          variables: { username: username }
-                        })
-                      : onFollow({
-                          variables: { username: username }
-                        })
-                  }
-                >
-                  <i className="ion-plus-round" />{' '}
-                  {actionName(viewerIsFollowing)} {username} ({followersCount})
-                </button>
-              ) : null}
+              {isViewer ? <UserUpdateButton /> : null}
+              <UserFollowButton
+                disabled={!(canFollow.value || canUnfollow.value)}
+                followersCount={followersCount}
+                onFollow={onFollow}
+                onUnfollow={onUnfollow}
+                username={username}
+                viewerIsFollowing={viewerIsFollowing}
+              />
             </div>
           </div>
         </div>
@@ -76,27 +47,6 @@ export function ProfilePageBanner({
     </div>
   );
 }
-
-ProfilePageBanner.fragments = {
-  user: gql`
-    fragment ProfilePageBannerUserFragment on User {
-      canFollow {
-        value
-      }
-      canUnfollow {
-        value
-      }
-      followersCount
-      isViewer
-      profile {
-        imageUrl
-        bio
-      }
-      username
-      viewerIsFollowing
-    }
-  `
-};
 
 ProfilePageBanner.defaultProps = {
   profile: {},

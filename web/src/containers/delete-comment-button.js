@@ -42,17 +42,6 @@ DeleteCommentButton.propTypes = {
   onDeleteComment: PropTypes.func.isRequired
 };
 
-DeleteCommentButton.fragments = {
-  comment: gql`
-    fragment DeleteCommentButtonCommentFragment on Comment {
-      id
-      canDelete {
-        value
-      }
-    }
-  `
-};
-
 const DeleteCommentButtonQuery = gql`
   query DeleteCommentButtonQuery($id: ID!) {
     comment(id: $id) {

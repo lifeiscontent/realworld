@@ -51,69 +51,113 @@ function ProfilePage() {
   );
 }
 
+const ProfilePageUserFragment = gql`
+  fragment ProfilePageUserFragment on User {
+    canFollow {
+      value
+    }
+    canUnfollow {
+      value
+    }
+    canUpdate {
+      value
+    }
+    followersCount
+    isViewer
+    username
+    viewerIsFollowing
+  }
+`;
+
+const ProfilePageArticleFragment = gql`
+  fragment ProfilePageArticleFragment on Article {
+    author {
+      username
+      profile {
+        imageUrl
+      }
+    }
+    canFavorite {
+      value
+    }
+    canUnfavorite {
+      value
+    }
+    createdAt
+    description
+    favoritesCount
+    slug
+    tags {
+      id
+      name
+    }
+    title
+    viewerDidFavorite
+  }
+`;
+
 const ProfilePageQuery = gql`
   query ProfilePageQuery($username: ID!) {
     viewer {
       username
     }
     user: userByUsername(username: $username) {
-      username
+      ...ProfilePageUserFragment
       articlesConnection {
         edges {
           node {
-            ...ArticlePreviewArticleFragment
+            ...ProfilePageArticleFragment
           }
         }
       }
-      ...ProfilePageBannerUserFragment
     }
   }
-  ${ArticlePreview.fragments.article}
-  ${ProfilePageBanner.fragments.user}
+  ${ProfilePageUserFragment}
+  ${ProfilePageArticleFragment}
 `;
 
 const ProfilePageFavoriteArticleMutation = gql`
   mutation ProfilePageFavoriteArticleMutation($slug: ID!) {
     favoriteArticle(slug: $slug) {
       article {
-        ...ArticlePreviewArticleFragment
+        ...ProfilePageArticleFragment
       }
     }
   }
-  ${ArticlePreview.fragments.article}
+  ${ProfilePageArticleFragment}
 `;
 
 const ProfilePageUnfavoriteArticleMutation = gql`
   mutation ProfilePageUnfavoriteArticleMutation($slug: ID!) {
     unfavoriteArticle(slug: $slug) {
       article {
-        ...ArticlePreviewArticleFragment
+        ...ProfilePageArticleFragment
       }
     }
   }
-  ${ArticlePreview.fragments.article}
+  ${ProfilePageArticleFragment}
 `;
 
 const ProfilePageFollowUser = gql`
   mutation ProfilePageFollowUser($username: ID!) {
     followUser(username: $username) {
       user {
-        ...ProfilePageBannerUserFragment
+        ...ProfilePageUserFragment
       }
     }
   }
-  ${ProfilePageBanner.fragments.user}
+  ${ProfilePageUserFragment}
 `;
 
 const ProfilePageUnfollowUserMutation = gql`
   mutation ProfilePageUnfollowUserMutation($username: ID!) {
     unfollowUser(username: $username) {
       user {
-        ...ProfilePageBannerUserFragment
+        ...ProfilePageUserFragment
       }
     }
   }
-  ${ProfilePageBanner.fragments.user}
+  ${ProfilePageUserFragment}
 `;
 
 export default withApollo(ProfilePage);

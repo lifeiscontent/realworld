@@ -73,20 +73,18 @@ function EditorUpdatePage() {
   );
 }
 
-EditorUpdatePage.fragments = {
-  article: gql`
-    fragment EditorUpdatePageArticleFragment on Article {
-      body
-      description
-      slug
-      title
-      tags {
-        id
-        name
-      }
+const EditorUpdatePageArticleFragment = gql`
+  fragment EditorUpdatePageArticleFragment on Article {
+    body
+    description
+    slug
+    title
+    tags {
+      id
+      name
     }
-  `
-};
+  }
+`;
 
 const EditorUpdatePageUpdateArticleMutation = gql`
   mutation EditorUpdatePageUpdateArticleMutation(
@@ -99,7 +97,7 @@ const EditorUpdatePageUpdateArticleMutation = gql`
       }
     }
   }
-  ${EditorUpdatePage.fragments.article}
+  ${EditorUpdatePageArticleFragment}
 `;
 
 const EditorUpdatePageQuery = gql`
@@ -111,7 +109,7 @@ const EditorUpdatePageQuery = gql`
       ...EditorUpdatePageArticleFragment
     }
   }
-  ${EditorUpdatePage.fragments.article}
+  ${EditorUpdatePageArticleFragment}
 `;
 
 export default withApollo(EditorUpdatePage);

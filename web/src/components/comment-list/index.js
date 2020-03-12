@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CommentCard } from '../comment-card';
-import gql from 'graphql-tag';
 import { CommentForm } from '../comment-form';
 import { handleValidationError } from '../../utils/graphql';
 
@@ -41,7 +40,8 @@ export function CommentList({
 
 CommentList.defaultProps = {
   canCreateComment: { value: false },
-  comments: []
+  comments: [],
+  viewer: {}
 };
 
 CommentList.propTypes = {
@@ -50,32 +50,5 @@ CommentList.propTypes = {
   onCreate: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   slug: PropTypes.string.isRequired,
-  viewer: PropTypes.object.isRequired
-};
-
-CommentList.fragments = {
-  article: gql`
-    fragment CommentListArticleFragment on Article {
-      slug
-      canCreateComment {
-        value
-      }
-      comments {
-        ...CommentCardCommentFragment
-      }
-    }
-    ${CommentCard.fragments.comment}
-  `,
-  comment: gql`
-    fragment CommentListCommentFragment on Comment {
-      ...CommentCardCommentFragment
-    }
-    ${CommentCard.fragments.comment}
-  `,
-  viewer: gql`
-    fragment CommentListUserFragment on User {
-      ...CommentFormUserFragment
-    }
-    ${CommentForm.fragments.viewer}
-  `
+  viewer: PropTypes.object
 };

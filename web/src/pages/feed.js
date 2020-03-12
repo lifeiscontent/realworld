@@ -63,6 +63,33 @@ function FeedPage() {
   );
 }
 
+const FeedPageArticleFragment = gql`
+  fragment FeedPageArticleFragment on Article {
+    author {
+      username
+      profile {
+        imageUrl
+      }
+    }
+    canFavorite {
+      value
+    }
+    canUnfavorite {
+      value
+    }
+    createdAt
+    description
+    favoritesCount
+    slug
+    tags {
+      id
+      name
+    }
+    title
+    viewerDidFavorite
+  }
+`;
+
 const FeedPageQuery = gql`
   query FeedPageQuery(
     $after: String
@@ -90,36 +117,38 @@ const FeedPageQuery = gql`
       edges {
         cursor
         node {
-          ...ArticlePreviewArticleFragment
+          ...FeedPageArticleFragment
         }
       }
     }
-    ...SidebarQueryFragment
+    popularTags {
+      id
+      name
+    }
   }
-  ${ArticlePreview.fragments.article}
-  ${Sidebar.fragments.query}
+  ${FeedPageArticleFragment}
 `;
 
 const FeedPageFavoriteArticleMutation = gql`
   mutation FeedPageFavoriteArticleMutation($slug: ID!) {
     favoriteArticle(slug: $slug) {
       article {
-        ...ArticlePreviewArticleFragment
+        ...FeedPageArticleFragment
       }
     }
   }
-  ${ArticlePreview.fragments.article}
+  ${FeedPageArticleFragment}
 `;
 
 const FeedPageUnfavoriteArticleMutation = gql`
   mutation FeedPageUnfavoriteArticleMutation($slug: ID!) {
     unfavoriteArticle(slug: $slug) {
       article {
-        ...ArticlePreviewArticleFragment
+        ...FeedPageArticleFragment
       }
     }
   }
-  ${ArticlePreview.fragments.article}
+  ${FeedPageArticleFragment}
 `;
 
 export default withApollo(FeedPage);

@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import clsx from 'clsx';
-import { format } from '../../utils/date';
-import gql from 'graphql-tag';
+import { ArticleInfo } from '../article-info';
 
 export function ArticlePreview({
   author,
@@ -34,17 +33,11 @@ export function ArticlePreview({
             />
           </a>
         </Link>
-        <div className="info">
-          <Link href="/[username]" as={`/${author.username}`}>
-            <a className="author">{author.username}</a>
-          </Link>
-          <time dateTime={createdAt} className="date">
-            {format(new Date(createdAt), 'MMMM Qo')}
-          </time>
-        </div>
-        {canFavorite.value || canUnfavorite.value ? (
+        <ArticleInfo createdAt={createdAt} author={author} />
+        {
           <div className="pull-xs-right">
             <button
+              disabled={!(canFavorite.value || canUnfavorite.value)}
               className={clsx('btn btn-sm', {
                 'btn-outline-primary': viewerDidFavorite === false,
                 'btn-primary': viewerDidFavorite
@@ -58,7 +51,7 @@ export function ArticlePreview({
               <i className="ion-heart" /> {favoritesCount}
             </button>
           </div>
-        ) : null}
+        }
       </div>
       <Link href="/article/[slug]" as={`/article/${slug}`}>
         <a className="preview-link">
@@ -79,35 +72,6 @@ export function ArticlePreview({
     </div>
   );
 }
-
-ArticlePreview.fragments = {
-  article: gql`
-    fragment ArticlePreviewArticleFragment on Article {
-      author {
-        username
-        profile {
-          imageUrl
-        }
-      }
-      canFavorite {
-        value
-      }
-      canUnfavorite {
-        value
-      }
-      createdAt
-      description
-      favoritesCount
-      slug
-      tags {
-        id
-        name
-      }
-      title
-      viewerDidFavorite
-    }
-  `
-};
 
 ArticlePreview.defaultProps = {
   canFavorite: { value: false },

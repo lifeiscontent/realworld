@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
-import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
 import clsx from 'clsx';
 
@@ -32,17 +31,6 @@ export function Sidebar({ popularTags }) {
     </div>
   );
 }
-
-Sidebar.fragments = {
-  query: gql`
-    fragment SidebarQueryFragment on Query {
-      popularTags {
-        id
-        name
-      }
-    }
-  `
-};
 
 Sidebar.defaultProps = {
   popularTags: []
