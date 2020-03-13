@@ -1,6 +1,6 @@
 import React from 'react';
 import gql from 'graphql-tag';
-import withApollo from '../lib/with-apollo';
+import { withApollo } from '../lib/apollo';
 import { useRouter } from 'next/router';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { Sidebar } from '../components/sidebar';
@@ -133,4 +133,4 @@ const FeedPageUnfavoriteArticleMutation = gql`
   ${FeedPageArticleFragment}
 `;
 
-export default withApollo(FeedPage);
+export default withApollo()(FeedPage);

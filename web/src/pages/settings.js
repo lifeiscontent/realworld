@@ -3,7 +3,7 @@ import { Layout } from '../components/layout';
 import gql from 'graphql-tag';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { useRouter } from 'next/router';
-import withApollo from '../lib/with-apollo';
+import { withApollo } from '../lib/apollo';
 import { handleValidationError } from '../utils/graphql';
 import { UserSettingsForm } from '../components/user-settings-form';
 
@@ -69,4 +69,4 @@ const SettingsPageUpdateUserMutation = gql`
   ${SettingsPageUserFragment}
 `;
 
-export default withApollo(SettingsPage);
+export default withApollo()(SettingsPage);

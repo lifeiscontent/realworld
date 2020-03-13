@@ -3,7 +3,7 @@ import { Layout } from '../components/layout';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import { useRouter } from 'next/router';
-import withApollo from '../lib/with-apollo';
+import { withApollo } from '../lib/apollo';
 import { handleValidationError } from '../utils/graphql';
 import { RegisterForm } from '../components/register-form';
 
@@ -41,4 +41,4 @@ const RegisterPageSignUpMutation = gql`
   }
 `;
 
-export default withApollo(RegisterPage);
+export default withApollo()(RegisterPage);

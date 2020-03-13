@@ -4,7 +4,7 @@ import { Layout } from '../../components/layout';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
-import withApollo from '../../lib/with-apollo';
+import { withApollo } from '../../lib/apollo';
 import { handleValidationError } from '../../utils/graphql';
 
 function EditorUpdatePage() {
@@ -77,4 +77,4 @@ const EditorUpdatePageQuery = gql`
   ${Layout.fragments.viewer}
 `;
 
-export default withApollo(EditorUpdatePage);
+export default withApollo()(EditorUpdatePage);

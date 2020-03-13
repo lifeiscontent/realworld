@@ -2,7 +2,7 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { Layout } from '../components/layout';
 import { useMutation } from '@apollo/react-hooks';
-import withApollo from '../lib/with-apollo';
+import { withApollo } from '../lib/apollo';
 import { handleValidationError } from '../utils/graphql';
 import { LoginForm } from '../components/login-form';
 
@@ -48,4 +48,4 @@ const LoginPageSignInMutation = gql`
   }
 `;
 
-export default withApollo(LoginPage);
+export default withApollo()(LoginPage);

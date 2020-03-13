@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { ArticlePreview } from '../components/article-preview';
-import withApollo from '../lib/with-apollo';
+import { withApollo } from '../lib/apollo';
 import { Layout } from '../components/layout';
 import { UserPageBanner } from '../components/user-page-banner';
 import { UserArticlesToggle } from '../components/user-articles-toggle';
@@ -136,4 +136,4 @@ const ProfilePageUnfollowUserMutation = gql`
   ${ProfilePageUserFragment}
 `;
 
-export default withApollo(ProfilePage, { ssr: true });
+export default withApollo({ ssr: true })(ProfilePage);

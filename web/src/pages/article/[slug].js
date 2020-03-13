@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { ArticleContent } from '../../components/article-content';
 import { ArticlePageBanner } from '../../components/article-page-banner';
 import { ArticleMeta } from '../../components/article-meta';
-import withApollo from '../../lib/with-apollo';
+import { withApollo } from '../../lib/apollo';
 import { Layout } from '../../components/layout';
 import { ArticleComments } from '../../containers/article-comments';
 
@@ -164,4 +164,4 @@ const ArticlePageUnfollowUserMutation = gql`
   ${ArticlePageAuthorFragment}
 `;
 
-export default withApollo(ArticlePage, { ssr: true });
+export default withApollo({ ssr: true })(ArticlePage);
