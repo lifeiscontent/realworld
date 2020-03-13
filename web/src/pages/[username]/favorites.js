@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { ArticlePreview } from '../../components/article-preview';
 import { withApollo } from '../../hocs/with-apollo';
-import { withLayout } from '../hocs/with-layout';
+import { withLayout } from '../../hocs/with-layout';
 import { UserPageBanner } from '../../components/user-page-banner';
 import { UserArticlesToggle } from '../../components/user-articles-toggle';
 
