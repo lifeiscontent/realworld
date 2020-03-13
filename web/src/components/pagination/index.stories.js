@@ -10,10 +10,6 @@ export default {
 
 export const renders = () => <Pagination />;
 
-export const hasNextPage = () => (
-  <Pagination pageInfo={{ hasNextPage: true }} />
-);
+export const hasNextPage = () => <Pagination hasNextPage />;
 
-export const hasPreviousPage = () => (
-  <Pagination pageInfo={{ hasPreviousPage: true }} />
-);
+export const hasPreviousPage = () => <Pagination hasPreviousPage />;
