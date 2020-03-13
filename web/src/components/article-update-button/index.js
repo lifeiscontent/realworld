@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
+import gql from 'graphql-tag';
 
 export function ArticleUpdateButton({ canUpdate, slug }) {
   if (canUpdate.value === false) return null;
@@ -13,6 +14,17 @@ export function ArticleUpdateButton({ canUpdate, slug }) {
     </Link>
   );
 }
+
+ArticleUpdateButton.fragments = {
+  article: gql`
+    fragment ArticleUpdateButtonArticleFragment on Article {
+      canUpdate {
+        value
+      }
+      slug
+    }
+  `
+};
 
 ArticleUpdateButton.defaultProps = {
   canUpdate: { value: false }

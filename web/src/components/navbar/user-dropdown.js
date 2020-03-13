@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import Link from 'next/link';
 
-export function NavbarUserDropdown({ userUsername }) {
+export function NavbarUserDropdown({ username }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -21,10 +21,10 @@ export function NavbarUserDropdown({ userUsername }) {
           setOpen(!open);
         }}
       >
-        {userUsername}
+        {username}
       </a>
       <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-        <Link href="/[username]" as={`/${userUsername}`}>
+        <Link href="/[username]" as={`/${username}`}>
           <a className="dropdown-item" onClick={() => setOpen(false)}>
             Profile
           </a>
@@ -51,5 +51,5 @@ export function NavbarUserDropdown({ userUsername }) {
 }
 
 NavbarUserDropdown.propTypes = {
-  userUsername: PropTypes.string.isRequired
+  username: PropTypes.string.isRequired
 };

@@ -2,8 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { UserFollowButton } from '../user-follow-button';
 import { UserUpdateButton } from '../user-update-button';
+import { UserAvatar } from '../user-avatar';
+import gql from 'graphql-tag';
 
-export function ProfilePageBanner({
+export function UserPageBanner({
   canFollow,
   canUnfollow,
   canUpdate,
@@ -19,15 +21,7 @@ export function ProfilePageBanner({
       <div className="container">
         <div className="row">
           <div className="col-xs-12 col-md-10 offset-md-1">
-            <img
-              src={
-                typeof profile.imageUrl === 'string'
-                  ? profile.imageUrl
-                  : '/images/smiley-cyrus.jpg'
-              }
-              className="user-img"
-              alt={`Image of ${username}`}
-            />
+            <UserAvatar username={username} profile={profile} />
             <h4>{username}</h4>
             <p>{profile.bio}</p>
             <div className="btn-toolbar">
@@ -49,22 +43,33 @@ export function ProfilePageBanner({
   );
 }
 
-ProfilePageBanner.defaultProps = {
-  canFollow: { value: false },
-  canUnfollow: { value: false },
-  canUpdate: { value: false },
-  followersCount: 0,
-  profile: {},
-  viewerIsFollowing: false
+UserPageBanner.fragments = {
+  user: gql`
+    fragment UserPageBannerUserFragment on User {
+      username
+      profile {
+        bio
+      }
+      ...UserAvatarUserFragment
+      ...UserFollowButtonUserFragment
+      ...UserUpdateButtonUserFragment
+    }
+    ${UserAvatar.fragments.user}
+    ${UserFollowButton.fragments.user}
+    ${UserUpdateButton.fragments.user}
+  `
 };
 
-ProfilePageBanner.propTypes = {
-  canFollow: PropTypes.shape({ value: PropTypes.bool }),
-  canUnfollow: PropTypes.shape({ value: PropTypes.bool }),
-  canUpdate: PropTypes.shape({ value: PropTypes.bool }),
+UserPageBanner.defaultProps = {
+  profile: {}
+};
+
+UserPageBanner.propTypes = {
+  canFollow: PropTypes.object,
+  canUnfollow: PropTypes.object,
+  canUpdate: PropTypes.object,
   followersCount: PropTypes.number,
   profile: PropTypes.shape({
-    imageUrl: PropTypes.string,
     bio: PropTypes.string
   }),
   username: PropTypes.string.isRequired,

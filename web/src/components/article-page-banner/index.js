@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ArticleMeta } from '../article-meta';
+import gql from 'graphql-tag';
 
 export function ArticlePageBanner({
   author,
@@ -44,29 +45,28 @@ export function ArticlePageBanner({
   );
 }
 
-ArticlePageBanner.defaultProps = {
-  author: {},
-  favoritesCount: 0,
-  canFavorite: { value: false },
-  canUnfavorite: { value: false },
-  canUpdate: { value: false },
-  canDelete: { value: false },
-  viewerDidFavorite: false
+ArticlePageBanner.fragments = {
+  author: gql`
+    fragment ArticlePageBannerAuthorFragment on User {
+      ...ArticleMetaAuthorFragment
+    }
+    ${ArticleMeta.fragments.author}
+  `,
+  article: gql`
+    fragment ArticlePageBannerArticleFragment on Article {
+      title
+      ...ArticleMetaArticleFragment
+    }
+    ${ArticleMeta.fragments.article}
+  `
 };
 
 ArticlePageBanner.propTypes = {
-  author: PropTypes.shape({
-    canFollow: PropTypes.shape({ value: PropTypes.bool }),
-    canUnfollow: PropTypes.shape({ value: PropTypes.bool }),
-    followersCount: PropTypes.number,
-    profile: PropTypes.shape({ imageUrl: PropTypes.string }),
-    username: PropTypes.string.isRequired,
-    viewerIsFollowing: PropTypes.bool
-  }).isRequired,
-  canDelete: PropTypes.shape({ value: PropTypes.bool }),
-  canFavorite: PropTypes.shape({ value: PropTypes.bool }),
-  canUnfavorite: PropTypes.shape({ value: PropTypes.bool }),
-  canUpdate: PropTypes.shape({ value: PropTypes.bool }),
+  author: PropTypes.object.isRequired,
+  canDelete: PropTypes.object,
+  canFavorite: PropTypes.object,
+  canUnfavorite: PropTypes.object,
+  canUpdate: PropTypes.object,
   createdAt: PropTypes.string.isRequired,
   favoritesCount: PropTypes.number,
   onDelete: PropTypes.func.isRequired,

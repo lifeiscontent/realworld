@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import gql from 'graphql-tag';
 
 export function UserFollowButton({
   canFollow,
@@ -37,6 +38,22 @@ export function UserFollowButton({
     </button>
   );
 }
+
+UserFollowButton.fragments = {
+  user: gql`
+    fragment UserFollowButtonUserFragment on User {
+      canFollow {
+        value
+      }
+      canUnfollow {
+        value
+      }
+      followersCount
+      username
+      viewerIsFollowing
+    }
+  `
+};
 
 UserFollowButton.defaultProps = {
   followersCount: 0,

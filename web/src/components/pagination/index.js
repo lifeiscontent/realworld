@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import clsx from 'clsx';
 import Link from 'next/link';
+import gql from 'graphql-tag';
 
-export function Pagination({ pageInfo }) {
-  const {
-    hasNextPage = false,
-    hasPreviousPage = false,
-    startCursor = null,
-    endCursor = null
-  } = pageInfo;
+export function Pagination({
+  hasNextPage,
+  hasPreviousPage,
+  startCursor,
+  endCursor
+}) {
   const router = useRouter();
   return (
     <nav>
@@ -22,7 +22,7 @@ export function Pagination({ pageInfo }) {
         >
           <Link
             href={{
-              pathname: '/',
+              pathname: router.pathname,
               query: router.query.tagName
                 ? {
                     before: startCursor,
@@ -45,7 +45,7 @@ export function Pagination({ pageInfo }) {
         >
           <Link
             href={{
-              pathname: '/',
+              pathname: router.pathname,
               query: router.query.tagName
                 ? {
                     after: endCursor,
@@ -66,15 +66,27 @@ export function Pagination({ pageInfo }) {
   );
 }
 
+Pagination.fragments = {
+  pageInfo: gql`
+    fragment PaginationPageInfoFragment on PageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+    }
+  `
+};
+
 Pagination.defaultProps = {
-  pageInfo: {}
+  hasNextPage: false,
+  hasPreviousPage: false,
+  startCursor: null,
+  endCursor: null
 };
 
 Pagination.propTypes = {
-  pageInfo: PropTypes.shape({
-    endCursor: PropTypes.string,
-    hasNextPage: PropTypes.bool,
-    startCursor: PropTypes.string,
-    hasPreviousPage: PropTypes.bool
-  })
+  endCursor: PropTypes.string,
+  hasNextPage: PropTypes.bool,
+  startCursor: PropTypes.string,
+  hasPreviousPage: PropTypes.bool
 };

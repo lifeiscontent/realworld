@@ -8,7 +8,7 @@ import { Pagination } from '../components/pagination';
 import { NetworkStatus } from 'apollo-client';
 import { Layout } from '../components/layout';
 import { HomePageBanner } from '../components/home-page-banner';
-import { FeedToggle } from '../components/feed-toggle';
+import { ViewerFeedToggle } from '../components/viewer-feed-toggle';
 import { ArticlePreview } from '../components/article-preview';
 
 function IndexPage() {
@@ -36,13 +36,13 @@ function IndexPage() {
   if (index.networkStatus == NetworkStatus.loading) return null;
 
   return (
-    <Layout userUsername={index.data.viewer?.username}>
+    <Layout {...index.data.viewer}>
       <div className="home-page">
         <HomePageBanner />
         <div className="container page">
           <div className="row">
             <div className="col-xs-12 col-md-9">
-              <FeedToggle userUsername={index.data.viewer?.username} />
+              <ViewerFeedToggle {...index.data.viewer} />
               {index.data.articlesConnection.edges.map(edge => (
                 <ArticlePreview
                   key={edge.node.slug}
@@ -51,10 +51,10 @@ function IndexPage() {
                   {...edge.node}
                 />
               ))}
-              <Pagination {...index.data.articlesConnection} />
+              <Pagination {...index.data.articlesConnection.pageInfo} />
             </div>
             <div className="col-xs-12 col-md-3">
-              <Sidebar popularTags={index.data.popularTags} />
+              <Sidebar {...index.data} />
             </div>
           </div>
         </div>
@@ -66,28 +66,12 @@ function IndexPage() {
 const IndexPageArticleFragment = gql`
   fragment IndexPageArticleFragment on Article {
     author {
-      username
-      profile {
-        imageUrl
-      }
+      ...ArticlePreviewAuthorFragment
     }
-    canFavorite {
-      value
-    }
-    canUnfavorite {
-      value
-    }
-    createdAt
-    description
-    favoritesCount
-    slug
-    tags {
-      id
-      name
-    }
-    title
-    viewerDidFavorite
+    ...ArticlePreviewArticleFragment
   }
+  ${ArticlePreview.fragments.article}
+  ${ArticlePreview.fragments.author}
 `;
 
 const IndexPageArticlesQuery = gql`
@@ -99,7 +83,8 @@ const IndexPageArticlesQuery = gql`
     $tagName: String
   ) {
     viewer {
-      username
+      ...LayoutViewerFragment
+      ...ViewerFeedToggle
     }
     articlesConnection(
       after: $after
@@ -109,24 +94,21 @@ const IndexPageArticlesQuery = gql`
       tagName: $tagName
     ) {
       pageInfo {
-        endCursor
-        hasNextPage
-        hasPreviousPage
-        startCursor
+        ...PaginationPageInfoFragment
       }
       edges {
-        cursor
         node {
           ...IndexPageArticleFragment
         }
       }
     }
-    popularTags {
-      id
-      name
-    }
+    ...SidebarQueryFragment
   }
   ${IndexPageArticleFragment}
+  ${Layout.fragments.viewer}
+  ${Pagination.fragments.pageInfo}
+  ${Sidebar.fragments.query}
+  ${ViewerFeedToggle.fragments.viewer}
 `;
 
 const IndexPageFavoriteArticleMutation = gql`

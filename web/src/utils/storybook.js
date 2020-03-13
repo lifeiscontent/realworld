@@ -15,7 +15,9 @@ export const withRouter = makeDecorator({
       beforePopState() {},
       pageLoader: { prefetched: {} },
       pathname: '/',
-      prefetch() {},
+      prefetch() {
+        return Promise.resolve();
+      },
       push(...args) {
         action('router.push')(...args);
         return Promise.resolve(true);

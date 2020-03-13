@@ -5,6 +5,7 @@ import { FormikStatusErrors } from '../formik-status-errors';
 import { FormikSubmitButton } from '../formik-submit-button';
 import { TagsInput } from '../../containers/tags-input';
 import * as Yup from 'yup';
+import gql from 'graphql-tag';
 
 const createValidationSchema = Yup.object({
   input: Yup.object({
@@ -43,20 +44,35 @@ const updateValidationSchema = Yup.object({
   })
 });
 
-export function ArticleForm({ initialValues, onSubmit, disabled }) {
-  const validationSchema = Object.prototype.hasOwnProperty.call(
-    initialValues,
-    'slug'
-  )
-    ? updateValidationSchema
-    : createValidationSchema;
+export function ArticleForm({
+  slug,
+  title,
+  description,
+  body,
+  tags,
+  onSubmit
+}) {
+  const initialValues = {
+    input: {
+      title,
+      description,
+      body,
+      tagIds: tags.map(tag => tag.id)
+    }
+  };
+
+  if (slug) {
+    initialValues.slug = slug;
+  }
+
   return (
     <div className="container page">
       <div className="row">
         <div className="col-md-10 offset-md-1 col-xs-12">
           <Formik
-            validationSchema={validationSchema}
-            enableReinitialize
+            validationSchema={
+              slug ? updateValidationSchema : createValidationSchema
+            }
             initialValues={initialValues}
             onSubmit={onSubmit}
           >
@@ -111,10 +127,7 @@ export function ArticleForm({ initialValues, onSubmit, disabled }) {
                     id="article-form-tags-ids-input"
                   />
                 </fieldset>
-                <FormikSubmitButton
-                  disabled={disabled}
-                  className="btn btn-lg pull-xs-right btn-primary"
-                >
+                <FormikSubmitButton className="btn btn-lg pull-xs-right btn-primary">
                   Publish Article
                 </FormikSubmitButton>
               </fieldset>
@@ -126,8 +139,39 @@ export function ArticleForm({ initialValues, onSubmit, disabled }) {
   );
 }
 
+ArticleForm.fragments = {
+  article: gql`
+    fragment ArticleFormArticleFragment on Article {
+      body
+      description
+      slug
+      tags {
+        id
+        name
+      }
+      title
+    }
+  `
+};
+
+ArticleForm.defaultProps = {
+  body: '',
+  description: '',
+  slug: '',
+  tags: [],
+  title: ''
+};
+
 ArticleForm.propTypes = {
-  disabled: PropTypes.bool,
-  initialValues: PropTypes.object.isRequired,
-  onSubmit: PropTypes.func.isRequired
+  body: PropTypes.string,
+  description: PropTypes.string,
+  onSubmit: PropTypes.func.isRequired,
+  slug: PropTypes.string,
+  tags: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired
+    }).isRequired
+  ),
+  title: PropTypes.string
 };

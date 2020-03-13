@@ -1,17 +1,17 @@
 import React from 'react';
-import { ArticlesToggle } from '.';
+import { UserArticlesToggle } from '.';
 import { withRouter } from '../../utils/storybook';
 
 export default {
-  title: 'Tabs/ArticlesToggle',
-  component: ArticlesToggle,
+  title: 'Tabs/UserArticlesToggle',
+  component: UserArticlesToggle,
   decorators: [withRouter]
 };
 
-export const renders = () => <ArticlesToggle username="lifeiscontent" />;
+export const renders = () => <UserArticlesToggle username="lifeiscontent" />;
 
 export const myArticlesActive = () => (
-  <ArticlesToggle username="lifeiscontent" />
+  <UserArticlesToggle username="lifeiscontent" />
 );
 
 myArticlesActive.story = {
@@ -23,7 +23,7 @@ myArticlesActive.story = {
 };
 
 export const favoritedArticlesActive = () => (
-  <ArticlesToggle username="lifeiscontent" />
+  <UserArticlesToggle username="lifeiscontent" />
 );
 
 favoritedArticlesActive.story = {

@@ -4,6 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { FormikSubmitButton } from '../formik-submit-button';
 import { FormikStatusErrors } from '../formik-status-errors';
 import * as Yup from 'yup';
+import gql from 'graphql-tag';
 
 const validationSchema = Yup.object({
   username: Yup.string().required('You need to be logged in to do this'),
@@ -23,7 +24,8 @@ const validationSchema = Yup.object({
   })
 });
 
-export function SettingsForm({ initialValues, onSubmit }) {
+export function UserSettingsForm({ onSubmit, username, email, profile }) {
+  const { bio = '', imageUrl } = profile;
   return (
     <div className="container page">
       <div className="row">
@@ -33,7 +35,18 @@ export function SettingsForm({ initialValues, onSubmit }) {
             validationSchema={validationSchema}
             initialStatus={[]}
             enableReinitialize
-            initialValues={initialValues}
+            initialValues={{
+              username,
+              input: {
+                email,
+                password: '',
+                username,
+                profile: {
+                  bio,
+                  imageUrl: imageUrl ?? ''
+                }
+              }
+            }}
             onSubmit={onSubmit}
           >
             <Form>
@@ -108,7 +121,29 @@ export function SettingsForm({ initialValues, onSubmit }) {
   );
 }
 
-SettingsForm.propTypes = {
+UserSettingsForm.fragments = {
+  user: gql`
+    fragment UserSettingsFormUserFragment on User {
+      username
+      email
+      profile {
+        bio
+        imageUrl
+      }
+    }
+  `
+};
+
+UserSettingsForm.defaultProps = {
+  profile: {}
+};
+
+UserSettingsForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  initialValues: PropTypes.object.isRequired
+  username: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
+  profile: PropTypes.shape({
+    bio: PropTypes.string,
+    imageUrl: PropTypes.string
+  })
 };

@@ -5,6 +5,7 @@ import { FormikSubmitButton } from '../formik-submit-button';
 import { FormikStatusErrors } from '../formik-status-errors';
 import * as Yup from 'yup';
 import Link from 'next/link';
+import gql from 'graphql-tag';
 
 const validationSchema = Yup.object({
   articleSlug: Yup.string().required(),
@@ -15,7 +16,7 @@ const validationSchema = Yup.object({
   })
 });
 
-export function CommentForm({
+export function UserCommentForm({
   articleSlug,
   onSubmit,
   username,
@@ -28,7 +29,7 @@ export function CommentForm({
     <Formik
       enableReinitialize
       validationSchema={validationSchema}
-      initialValues={{ articleSlug: articleSlug, input: { body: '' } }}
+      initialValues={{ articleSlug, input: { body: '' } }}
       onSubmit={onSubmit}
     >
       <Form>
@@ -66,12 +67,30 @@ export function CommentForm({
   );
 }
 
-CommentForm.defaultProps = {
+UserCommentForm.fragments = {
+  article: gql`
+    fragment UserCommentFormArticleFragment on Article {
+      canCreateComment {
+        value
+      }
+    }
+  `,
+  user: gql`
+    fragment UserCommentFormUserFragment on User {
+      username
+      profile {
+        imageUrl
+      }
+    }
+  `
+};
+
+UserCommentForm.defaultProps = {
   profile: {},
   canCreateComment: { value: false }
 };
 
-CommentForm.propTypes = {
+UserCommentForm.propTypes = {
   articleSlug: PropTypes.string.isRequired,
   canCreateComment: PropTypes.shape({ value: PropTypes.bool }),
   onSubmit: PropTypes.func.isRequired,

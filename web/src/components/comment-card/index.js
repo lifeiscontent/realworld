@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { format } from '../../utils/date';
 import Markdown from 'react-markdown';
+import gql from 'graphql-tag';
 
 export function CommentCard({
   author,
@@ -35,8 +36,7 @@ export function CommentCard({
               alt={`Image of ${author.username}`}
             />
           </a>
-        </Link>
-        &nbsp;&nbsp;
+        </Link>{' '}
         <Link href="/[username]" as={`/${author.username}`}>
           <a className="comment-author">{author.username}</a>
         </Link>
@@ -52,6 +52,25 @@ export function CommentCard({
     </div>
   );
 }
+
+CommentCard.fragments = {
+  comment: gql`
+    fragment CommentCardCommentFragment on Comment {
+      author {
+        username
+        profile {
+          imageUrl
+        }
+      }
+      body
+      canDelete {
+        value
+      }
+      createdAt
+      id
+    }
+  `
+};
 
 CommentCard.defaultProps = {
   canDelete: { value: false },

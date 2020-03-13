@@ -15,12 +15,9 @@ function EditorPage() {
   if (editor.loading) return null;
 
   return (
-    <Layout userUsername={editor.data.viewer?.username}>
+    <Layout {...editor.data.viewer}>
       <div className="editor-page">
         <ArticleForm
-          initialValues={{
-            input: { title: '', description: '', body: '', tagIds: [] }
-          }}
           onSubmit={(values, { setSubmitting, setStatus }) => {
             createArticle({ variables: values })
               .then(res => {

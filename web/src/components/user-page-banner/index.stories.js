@@ -1,16 +1,16 @@
 import React from 'react';
-import { ProfilePageBanner } from '.';
+import { UserPageBanner } from '.';
 import { withRouter } from '../../utils/storybook';
 import { action } from '@storybook/addon-actions';
 
 export default {
-  title: 'Banners/ProfilePageBanner',
-  component: ProfilePageBanner,
+  title: 'Banners/UserPageBanner',
+  component: UserPageBanner,
   decorators: [withRouter]
 };
 
 export const renders = () => (
-  <ProfilePageBanner
+  <UserPageBanner
     onFollow={action('onFollow')}
     onUnfollow={action('onUnfollow')}
     username="lifeiscontent"
@@ -18,7 +18,7 @@ export const renders = () => (
 );
 
 export const canFollow = () => (
-  <ProfilePageBanner
+  <UserPageBanner
     canFollow={{ value: true }}
     onFollow={action('onFollow')}
     onUnfollow={action('onUnfollow')}
@@ -27,7 +27,7 @@ export const canFollow = () => (
 );
 
 export const canUnfollow = () => (
-  <ProfilePageBanner
+  <UserPageBanner
     canUnfollow={{ value: true }}
     followersCount={1}
     onFollow={action('onFollow')}
@@ -38,7 +38,7 @@ export const canUnfollow = () => (
 );
 
 export const canUpdate = () => (
-  <ProfilePageBanner
+  <UserPageBanner
     canUpdate={{ value: true }}
     onFollow={action('onFollow')}
     onUnfollow={action('onUnfollow')}

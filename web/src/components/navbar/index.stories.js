@@ -10,7 +10,7 @@ export default {
 
 export const renders = () => <Navbar />;
 
-export const loggedIn = () => <Navbar userUsername="lifeiscontent" />;
+export const loggedIn = () => <Navbar username="lifeiscontent" />;
 
 renders.story = {
   parameters: {

@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Link from 'next/link';
 import { ArticleUpdateButton } from '../article-update-button';
 import { ArticleDeleteButton } from '../article-delete-button';
 import { ArticleFavoriteButton } from '../article-favorite-button';
 import { UserFollowButton } from '../user-follow-button';
+import { UserAvatarLink } from '../user-avatar-link';
 import { ArticleInfo } from '../article-info';
+import gql from 'graphql-tag';
 
 export function ArticleMeta({
   author,
@@ -23,25 +24,8 @@ export function ArticleMeta({
   slug,
   viewerDidFavorite
 }) {
-  const {
-    canFollow = { value: false },
-    canUnfollow = { value: false },
-    followersCount = 0,
-    profile = {},
-    username,
-    viewerIsFollowing = false
-  } = author;
-
   const followUserButton = (
-    <UserFollowButton
-      canFollow={canFollow}
-      canUnfollow={canUnfollow}
-      followersCount={followersCount}
-      onFollow={onFollow}
-      onUnfollow={onUnfollow}
-      username={username}
-      viewerIsFollowing={viewerIsFollowing}
-    />
+    <UserFollowButton onFollow={onFollow} onUnfollow={onUnfollow} {...author} />
   );
 
   const favoriteArticleButton = (
@@ -70,14 +54,7 @@ export function ArticleMeta({
 
   return (
     <div className="article-meta">
-      <Link href="/[username]" as={`/${username}`}>
-        <a>
-          <img
-            src={profile.imageUrl ?? '/images/smiley-cyrus.jpg'}
-            alt={`Image of ${username}`}
-          />
-        </a>
-      </Link>
+      <UserAvatarLink {...author} />
       <ArticleInfo author={author} createdAt={createdAt} />
       {followUserButton} {favoriteArticleButton} {articleUpdateButton}{' '}
       {articleDeleteButton}
@@ -85,29 +62,38 @@ export function ArticleMeta({
   );
 }
 
-ArticleMeta.defaultProps = {
-  author: {},
-  favoritesCount: 0,
-  canFavorite: { value: false },
-  canUnfavorite: { value: false },
-  canUpdate: { value: false },
-  canDelete: { value: false },
-  viewerDidFavorite: false
+ArticleMeta.fragments = {
+  author: gql`
+    fragment ArticleMetaAuthorFragment on User {
+      ...UserAvatarLinkUserFragment
+      ...UserFollowButtonUserFragment
+    }
+    ${UserAvatarLink.fragments.user}
+    ${UserFollowButton.fragments.user}
+  `,
+  article: gql`
+    fragment ArticleMetaArticleFragment on Article {
+      favoritesCount
+      slug
+      viewerDidFavorite
+      ...ArticleDeleteButtonArticleFragment
+      ...ArticleFavoriteButtonArticleFragment
+      ...ArticleInfoArticleFragment
+      ...ArticleUpdateButtonArticleFragment
+    }
+    ${ArticleDeleteButton.fragments.article}
+    ${ArticleFavoriteButton.fragments.article}
+    ${ArticleInfo.fragments.article}
+    ${ArticleUpdateButton.fragments.article}
+  `
 };
 
 ArticleMeta.propTypes = {
-  author: PropTypes.shape({
-    canFollow: PropTypes.shape({ value: PropTypes.bool }),
-    canUnfollow: PropTypes.shape({ value: PropTypes.bool }),
-    followersCount: PropTypes.number,
-    profile: PropTypes.shape({ imageUrl: PropTypes.string }),
-    username: PropTypes.string.isRequired,
-    viewerIsFollowing: PropTypes.bool
-  }).isRequired,
-  canDelete: PropTypes.shape({ value: PropTypes.bool }),
-  canFavorite: PropTypes.shape({ value: PropTypes.bool }),
-  canUnfavorite: PropTypes.shape({ value: PropTypes.bool }),
-  canUpdate: PropTypes.shape({ value: PropTypes.bool }),
+  author: PropTypes.object.isRequired,
+  canDelete: PropTypes.object,
+  canFavorite: PropTypes.object,
+  canUnfavorite: PropTypes.object,
+  canUpdate: PropTypes.object,
   createdAt: PropTypes.string.isRequired,
   favoritesCount: PropTypes.number,
   onDelete: PropTypes.func.isRequired,

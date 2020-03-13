@@ -15,7 +15,6 @@ export const renders = () => (
     title="Some cool title"
     description="web stuff"
     createdAt={new Date(2000, 2, 1).toISOString()}
-    tags={[{ id: '1', name: 'programming' }]}
     slug="some-cool-title"
     onFavorite={action('onFavorite')}
     onUnfavorite={action('onUnfavorite')}
@@ -23,6 +22,27 @@ export const renders = () => (
 );
 
 renders.story = {
+  parameters: {
+    router: {
+      pathname: '/'
+    }
+  }
+};
+
+export const hasTags = () => (
+  <ArticlePreview
+    author={{ username: 'lifeiscontent', profile: {} }}
+    title="Some cool title"
+    description="web stuff"
+    createdAt={new Date(2000, 2, 1).toISOString()}
+    tags={[{ id: '1', name: 'programming' }]}
+    slug="some-cool-title"
+    onFavorite={action('onFavorite')}
+    onUnfavorite={action('onUnfavorite')}
+  />
+);
+
+hasTags.story = {
   parameters: {
     router: {
       pathname: '/'
@@ -39,7 +59,6 @@ export const canFavorite = () => (
     title="Some cool title"
     description="web stuff"
     createdAt={new Date(2000, 2, 1).toISOString()}
-    tags={[{ id: '1', name: 'programming' }]}
     slug="some-cool-title"
     viewerDidFavorite
     canFavorite={{ value: true }}
@@ -65,7 +84,6 @@ export const canUnfavorite = () => (
     title="Some cool title"
     description="web stuff"
     createdAt={new Date(2000, 2, 1).toISOString()}
-    tags={[{ id: '1', name: 'programming' }]}
     slug="some-cool-title"
     favoritesCount={1}
     canUnfavorite={{ value: true }}
@@ -93,7 +111,6 @@ export const withProfileImage = () => (
     title="Some cool title"
     description="web stuff"
     createdAt={new Date(2000, 2, 1).toISOString()}
-    tags={[{ id: '1', name: 'programming' }]}
     slug="some-cool-title"
     viewerDidFavorite
     onFavorite={action('onFavorite')}

@@ -1,36 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import clsx from 'clsx';
+import { SidebarTagList } from './tag-list';
+import gql from 'graphql-tag';
 
 export function Sidebar({ popularTags }) {
-  const router = useRouter();
-
   return (
     <div className="sidebar">
       <p>Popular Tags</p>
-      {popularTags.length > 0 ? (
-        <div className="tag-list">
-          {popularTags.map(tag => (
-            <Link
-              href={{ pathname: router.pathname, query: { tagName: tag.name } }}
-              key={tag.id}
-            >
-              <a
-                className={clsx('tag-pill tag-default', {
-                  'tag-outline': router.query.tagName !== tag.name
-                })}
-              >
-                {tag.name}
-              </a>
-            </Link>
-          ))}
-        </div>
-      ) : null}
+      <SidebarTagList popularTags={popularTags} />
     </div>
   );
 }
+
+Sidebar.fragments = {
+  query: gql`
+    fragment SidebarQueryFragment on Query {
+      popularTags {
+        ...SidebarTagListTagFragment
+      }
+    }
+    ${SidebarTagList.fragments.tag}
+  `
+};
 
 Sidebar.defaultProps = {
   popularTags: []

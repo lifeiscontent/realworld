@@ -5,44 +5,19 @@ import { useQuery, useMutation } from '@apollo/react-hooks';
 import { useRouter } from 'next/router';
 import withApollo from '../lib/with-apollo';
 import { handleValidationError } from '../utils/graphql';
-import { SettingsForm } from '../components/settings-form';
+import { UserSettingsForm } from '../components/user-settings-form';
 
 function SettingsPage() {
   const router = useRouter();
   const settings = useQuery(SettingsPageQuery);
-  const [updateUser] = useMutation(SettingsPageUpdateUserMutation, {
-    update(proxy, mutationResult) {
-      proxy.writeData({
-        id: proxy.config.dataIdFromObject(mutationResult.data.updateUser.user),
-        data: mutationResult.data.updateUser.user
-      });
-      proxy.writeData({
-        id: proxy.config.dataIdFromObject(
-          mutationResult.data.updateUser.user.profile
-        ),
-        data: mutationResult.data.updateUser.user.profile
-      });
-    }
-  });
+  const [updateUser] = useMutation(SettingsPageUpdateUserMutation);
 
   if (settings.loading) return null;
 
   return (
-    <Layout userUsername={settings.data.viewer.username}>
+    <Layout {...settings.data.viewer}>
       <div className="settings-page">
-        <SettingsForm
-          initialValues={{
-            username: settings.data.viewer.username,
-            input: {
-              email: settings.data.viewer.email,
-              password: '',
-              username: settings.data.viewer.username,
-              profile: {
-                bio: settings.data.viewer.profile.bio ?? '',
-                imageUrl: settings.data.viewer.profile.imageUrl ?? ''
-              }
-            }
-          }}
+        <UserSettingsForm
           onSubmit={(values, { setSubmitting, setStatus }) => {
             updateUser({ variables: values })
               .then(res => {
@@ -57,6 +32,7 @@ function SettingsPage() {
                 setSubmitting(false);
               });
           }}
+          {...settings.data.viewer}
         />
       </div>
     </Layout>
@@ -65,13 +41,9 @@ function SettingsPage() {
 
 const SettingsPageUserFragment = gql`
   fragment SettingsPageUserFragment on User {
-    username
-    email
-    profile {
-      bio
-      imageUrl
-    }
+    ...UserSettingsFormUserFragment
   }
+  ${UserSettingsForm.fragments.user}
 `;
 
 const SettingsPageQuery = gql`

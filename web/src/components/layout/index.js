@@ -2,18 +2,27 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Footer } from '../footer';
 import { Navbar } from '../navbar';
+import gql from 'graphql-tag';
 
-export function Layout({ userUsername, children }) {
+export function Layout({ username, children }) {
   return (
     <>
-      <Navbar userUsername={userUsername} />
+      <Navbar username={username} />
       {children}
       <Footer />
     </>
   );
 }
 
+Layout.fragments = {
+  viewer: gql`
+    fragment LayoutViewerFragment on User {
+      username
+    }
+  `
+};
+
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
-  userUsername: PropTypes.string
+  username: PropTypes.string
 };

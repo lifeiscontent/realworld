@@ -27,7 +27,7 @@ NavLink.propTypes = {
   children: PropTypes.node.isRequired
 };
 
-export function Navbar({ userUsername }) {
+export function Navbar({ username }) {
   return (
     <nav className="navbar navbar-light">
       <div className="container">
@@ -35,7 +35,7 @@ export function Navbar({ userUsername }) {
           <a className="navbar-brand">conduit</a>
         </Link>
         <ul className="nav navbar-nav pull-xs-right">
-          {userUsername ? (
+          {username ? (
             <>
               <li className="nav-item">
                 <NavLink href="/editor">
@@ -43,7 +43,7 @@ export function Navbar({ userUsername }) {
                   &nbsp;New Post
                 </NavLink>
               </li>
-              <NavbarUserDropdown userUsername={userUsername} />
+              <NavbarUserDropdown username={username} />
             </>
           ) : (
             <>
@@ -62,5 +62,5 @@ export function Navbar({ userUsername }) {
 }
 
 Navbar.propTypes = {
-  userUsername: PropTypes.string
+  username: PropTypes.string
 };

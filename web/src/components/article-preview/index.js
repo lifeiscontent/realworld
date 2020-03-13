@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
-import clsx from 'clsx';
 import { ArticleInfo } from '../article-info';
+import { ArticlePreviewFavoriteButton } from './favorite-button';
+import { ArticlePreviewTagsList } from './tags-list';
+import gql from 'graphql-tag';
+import { UserAvatarLink } from '../user-avatar-link';
 
 export function ArticlePreview({
   author,
@@ -21,86 +24,69 @@ export function ArticlePreview({
   return (
     <div className="article-preview">
       <div className="article-meta">
-        <Link href="/[username]" as={`/${author.username}`}>
-          <a>
-            <img
-              src={
-                typeof author.profile.imageUrl === 'string'
-                  ? author.profile.imageUrl
-                  : '/images/smiley-cyrus.jpg'
-              }
-              alt={`Image of ${author.username}`}
-            />
-          </a>
-        </Link>
+        <UserAvatarLink {...author} />
         <ArticleInfo createdAt={createdAt} author={author} />
-        {
-          <div className="pull-xs-right">
-            <button
-              disabled={!(canFavorite.value || canUnfavorite.value)}
-              className={clsx('btn btn-sm', {
-                'btn-outline-primary': viewerDidFavorite === false,
-                'btn-primary': viewerDidFavorite
-              })}
-              onClick={() =>
-                viewerDidFavorite
-                  ? onUnfavorite({ variables: { slug: slug } })
-                  : onFavorite({ variables: { slug: slug } })
-              }
-            >
-              <i className="ion-heart" /> {favoritesCount}
-            </button>
-          </div>
-        }
+        <div className="pull-xs-right">
+          <ArticlePreviewFavoriteButton
+            canFavorite={canFavorite}
+            canUnfavorite={canUnfavorite}
+            favoritesCount={favoritesCount}
+            onFavorite={onFavorite}
+            onUnfavorite={onUnfavorite}
+            slug={slug}
+            viewerDidFavorite={viewerDidFavorite}
+          />
+        </div>
       </div>
       <Link href="/article/[slug]" as={`/article/${slug}`}>
         <a className="preview-link">
           <h1>{title}</h1>
           <p>{description}</p>
           <span>Read more...</span>
-          {tags.length > 0 ? (
-            <ul className="tag-list">
-              {tags.map(tag => (
-                <li key={tag.id} className="tag-pill tag-default">
-                  {tag.name}
-                </li>
-              ))}
-            </ul>
-          ) : null}
+          <ArticlePreviewTagsList tags={tags} />
         </a>
       </Link>
     </div>
   );
 }
 
+ArticlePreview.fragments = {
+  author: gql`
+    fragment ArticlePreviewAuthorFragment on User {
+      ...UserAvatarLinkUserFragment
+    }
+    ${UserAvatarLink.fragments.user}
+  `,
+  article: gql`
+    fragment ArticlePreviewArticleFragment on Article {
+      title
+      description
+      ...ArticleInfoArticleFragment
+      ...ArticlePreviewFavoriteButtonArticleFragment
+      ...ArticlePreviewTagsListArticleFragment
+    }
+    ${ArticleInfo.fragments.article}
+    ${ArticlePreviewFavoriteButton.fragments.article}
+    ${ArticlePreviewTagsList.fragments.article}
+  `
+};
+
 ArticlePreview.defaultProps = {
-  canFavorite: { value: false },
-  canUnfavorite: { value: false },
   favoritesCount: 0,
   viewerDidFavorite: false
 };
 
 ArticlePreview.propTypes = {
-  author: PropTypes.shape({
-    username: PropTypes.string.isRequired,
-    profile: PropTypes.shape({
-      imageUrl: PropTypes.string
-    }).isRequired
-  }).isRequired,
-  canFavorite: PropTypes.shape({ value: PropTypes.bool.isRequired }),
-  canUnfavorite: PropTypes.shape({ value: PropTypes.bool.isRequired }),
+  author: PropTypes.object,
+  canFavorite: PropTypes.object,
+  canUnfavorite: PropTypes.object,
   createdAt: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   favoritesCount: PropTypes.number,
   onFavorite: PropTypes.func,
   onUnfavorite: PropTypes.func,
   slug: PropTypes.string.isRequired,
-  tags: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired
-    }).isRequired
-  ).isRequired,
+  tags: PropTypes.array,
   title: PropTypes.string.isRequired,
   viewerDidFavorite: PropTypes.bool
 };

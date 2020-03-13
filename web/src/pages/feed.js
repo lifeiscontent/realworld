@@ -8,7 +8,7 @@ import { Pagination } from '../components/pagination';
 import { NetworkStatus } from 'apollo-client';
 import { Layout } from '../components/layout';
 import { HomePageBanner } from '../components/home-page-banner';
-import { FeedToggle } from '../components/feed-toggle';
+import { ViewerFeedToggle } from '../components/viewer-feed-toggle';
 import { ArticlePreview } from '../components/article-preview';
 
 function FeedPage() {
@@ -36,13 +36,13 @@ function FeedPage() {
   if (feed.networkStatus === NetworkStatus.loading) return null;
 
   return (
-    <Layout userUsername={feed.data.viewer?.username}>
+    <Layout {...feed.data.viewer}>
       <div className="home-page">
         <HomePageBanner />
         <div className="container page">
           <div className="row">
             <div className="col-xs-12 col-md-9">
-              <FeedToggle userUsername={feed.data.viewer?.username} />
+              <ViewerFeedToggle {...feed.data.viewer} />
               {feed.data.feedConnection.edges.map(edge => (
                 <ArticlePreview
                   key={edge.node.slug}
@@ -51,10 +51,10 @@ function FeedPage() {
                   {...edge.node}
                 />
               ))}
-              <Pagination {...feed.data.feedConnection} />
+              <Pagination {...feed.data.feedConnection.pageInfo} />
             </div>
             <div className="col-xs-12 col-md-3">
-              <Sidebar popularTags={feed.data.popularTags} />
+              <Sidebar {...feed.data} />
             </div>
           </div>
         </div>
@@ -66,28 +66,12 @@ function FeedPage() {
 const FeedPageArticleFragment = gql`
   fragment FeedPageArticleFragment on Article {
     author {
-      username
-      profile {
-        imageUrl
-      }
+      ...ArticlePreviewAuthorFragment
     }
-    canFavorite {
-      value
-    }
-    canUnfavorite {
-      value
-    }
-    createdAt
-    description
-    favoritesCount
-    slug
-    tags {
-      id
-      name
-    }
-    title
-    viewerDidFavorite
+    ...ArticlePreviewArticleFragment
   }
+  ${ArticlePreview.fragments.article}
+  ${ArticlePreview.fragments.author}
 `;
 
 const FeedPageQuery = gql`
@@ -99,7 +83,8 @@ const FeedPageQuery = gql`
     $tagName: String
   ) {
     viewer {
-      username
+      ...LayoutViewerFragment
+      ...ViewerFeedToggleViewerFragment
     }
     feedConnection(
       after: $after
@@ -109,24 +94,21 @@ const FeedPageQuery = gql`
       tagName: $tagName
     ) {
       pageInfo {
-        endCursor
-        hasNextPage
-        hasPreviousPage
-        startCursor
+        ...PaginationPageInfoFragment
       }
       edges {
-        cursor
         node {
           ...FeedPageArticleFragment
         }
       }
     }
-    popularTags {
-      id
-      name
-    }
+    ...SidebarQueryFragment
   }
   ${FeedPageArticleFragment}
+  ${Layout.fragments.viewer}
+  ${Pagination.fragments.pageInfo}
+  ${Sidebar.fragments.query}
+  ${ViewerFeedToggle.fragments.viewer}
 `;
 
 const FeedPageFavoriteArticleMutation = gql`

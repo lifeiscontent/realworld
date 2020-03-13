@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import Link from 'next/link';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
+import gql from 'graphql-tag';
 
-export function ArticlesToggle({ username }) {
+export function UserArticlesToggle({ username }) {
   const router = useRouter();
   return (
     <div className="articles-toggle">
@@ -36,6 +37,14 @@ export function ArticlesToggle({ username }) {
   );
 }
 
-ArticlesToggle.propTypes = {
+UserArticlesToggle.fragments = {
+  user: gql`
+    fragment UserArticlesToggleUserFragment on User {
+      username
+    }
+  `
+};
+
+UserArticlesToggle.propTypes = {
   username: PropTypes.string.isRequired
 };

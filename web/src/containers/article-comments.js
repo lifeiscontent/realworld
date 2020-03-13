@@ -2,9 +2,9 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
-import { CommentList } from '../components/comment-list';
-import { CommentForm } from '../components/comment-form';
+import { UserCommentForm } from '../components/user-comment-form';
 import { handleValidationError } from '../utils/graphql';
+import { CommentCard } from '../components/comment-card';
 
 export function ArticleComments({ articleSlug }) {
   const commentsList = useQuery(ArticleCommentsQuery, {
@@ -83,16 +83,15 @@ export function ArticleComments({ articleSlug }) {
 
   return (
     <>
-      <CommentForm
-        {...commentsList.data.viewer}
+      <UserCommentForm
         articleSlug={articleSlug}
         canCreateComment={commentsList.data.article.canCreateComment}
         onSubmit={handleSubmit}
+        {...commentsList.data.viewer}
       />
-      <CommentList
-        comments={commentsList.data.article.comments}
-        onDelete={deleteComment}
-      />
+      {commentsList.data.article.comments.map(comment => (
+        <CommentCard key={comment.id} onDelete={deleteComment} {...comment} />
+      ))}
     </>
   );
 }
@@ -101,43 +100,22 @@ ArticleComments.propTypes = {
   articleSlug: PropTypes.string.isRequired
 };
 
-const ArticleCommentsCommentFragment = gql`
-  fragment ArticleCommentsCommentFragment on Comment {
-    author {
-      username
-      profile {
-        imageUrl
-      }
-    }
-    body
-    canDelete {
-      value
-    }
-    createdAt
-    id
-  }
-`;
-
 ArticleComments.fragments = {
   viewer: gql`
     fragment ArticleCommentsViewerFragment on User {
-      username
-      profile {
-        imageUrl
-      }
+      ...UserCommentFormUserFragment
     }
+    ${UserCommentForm.fragments.user}
   `,
   article: gql`
     fragment ArticleCommentsArticleFragment on Article {
-      slug
-      canCreateComment {
-        value
-      }
+      ...UserCommentFormArticleFragment
       comments {
-        ...ArticleCommentsCommentFragment
+        ...CommentCardCommentFragment
       }
     }
-    ${ArticleCommentsCommentFragment}
+    ${UserCommentForm.fragments.article}
+    ${CommentCard.fragments.comment}
   `
 };
 
@@ -161,20 +139,20 @@ const ArticleCommentsCreateCommentMutation = gql`
   ) {
     createComment(articleSlug: $articleSlug, input: $input) {
       comment {
-        ...ArticleCommentsCommentFragment
+        ...CommentCardCommentFragment
       }
     }
   }
-  ${ArticleCommentsCommentFragment}
+  ${CommentCard.fragments.comment}
 `;
 
 const ArticleCommentsDeleteCommentMutation = gql`
   mutation ArticleCommentsDeleteCommentMutation($id: ID!) {
     deleteComment(id: $id) {
       comment {
-        ...ArticleCommentsCommentFragment
+        ...CommentCardCommentFragment
       }
     }
   }
-  ${ArticleCommentsCommentFragment}
+  ${CommentCard.fragments.comment}
 `;

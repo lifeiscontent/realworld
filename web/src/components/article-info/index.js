@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { format } from '../../utils/date';
+import gql from 'graphql-tag';
 
 export function ArticleInfo(props) {
   return (
@@ -15,6 +16,17 @@ export function ArticleInfo(props) {
     </div>
   );
 }
+
+ArticleInfo.fragments = {
+  article: gql`
+    fragment ArticleInfoArticleFragment on Article {
+      author {
+        username
+      }
+      createdAt
+    }
+  `
+};
 
 ArticleInfo.propTypes = {
   author: PropTypes.shape({ username: PropTypes.string.isRequired }).isRequired,

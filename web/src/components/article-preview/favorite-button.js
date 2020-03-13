@@ -1,9 +1,9 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import gql from 'graphql-tag';
 
-export function ArticleFavoriteButton({
+export function ArticlePreviewFavoriteButton({
   canFavorite,
   canUnfavorite,
   favoritesCount,
@@ -12,36 +12,27 @@ export function ArticleFavoriteButton({
   slug,
   viewerDidFavorite
 }) {
-  const handleClick = useCallback(
-    event => {
-      event.preventDefault();
-      if (viewerDidFavorite) {
-        onUnfavorite({ variables: { slug } });
-      } else {
-        onFavorite({ variables: { slug } });
-      }
-    },
-    [onFavorite, onUnfavorite, slug, viewerDidFavorite]
-  );
   return (
     <button
+      disabled={!(canFavorite.value || canUnfavorite.value)}
       className={clsx('btn btn-sm', {
         'btn-outline-primary': viewerDidFavorite === false,
         'btn-primary': viewerDidFavorite
       })}
-      disabled={!(canUnfavorite.value || canFavorite.value)}
-      onClick={handleClick}
+      onClick={() =>
+        viewerDidFavorite
+          ? onUnfavorite({ variables: { slug: slug } })
+          : onFavorite({ variables: { slug: slug } })
+      }
     >
-      <i className="ion-heart" />{' '}
-      {viewerDidFavorite ? 'Unfavorite Article' : 'Favorite Article'} (
-      {favoritesCount})
+      <i className="ion-heart" /> {favoritesCount}
     </button>
   );
 }
 
-ArticleFavoriteButton.fragments = {
+ArticlePreviewFavoriteButton.fragments = {
   article: gql`
-    fragment ArticleFavoriteButtonArticleFragment on Article {
+    fragment ArticlePreviewFavoriteButtonArticleFragment on Article {
       canFavorite {
         value
       }
@@ -55,14 +46,14 @@ ArticleFavoriteButton.fragments = {
   `
 };
 
-ArticleFavoriteButton.defaultProps = {
+ArticlePreviewFavoriteButton.defaultProps = {
   canFavorite: { value: false },
   canUnfavorite: { value: false },
   favoritesCount: 0,
   viewerDidFavorite: false
 };
 
-ArticleFavoriteButton.propTypes = {
+ArticlePreviewFavoriteButton.propTypes = {
   canFavorite: PropTypes.shape({ value: PropTypes.bool }),
   canUnfavorite: PropTypes.shape({ value: PropTypes.bool }),
   favoritesCount: PropTypes.number,

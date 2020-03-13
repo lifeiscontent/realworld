@@ -5,8 +5,8 @@ import { useQuery, useMutation } from '@apollo/react-hooks';
 import { ArticlePreview } from '../../components/article-preview';
 import withApollo from '../../lib/with-apollo';
 import { Layout } from '../../components/layout';
-import { ProfilePageBanner } from '../../components/profile-page-banner';
-import { ArticlesToggle } from '../../components/articles-toggle';
+import { UserPageBanner } from '../../components/user-page-banner';
+import { UserArticlesToggle } from '../../components/user-articles-toggle';
 
 function ProfileFavoritesPage() {
   const router = useRouter();
@@ -60,9 +60,9 @@ function ProfileFavoritesPage() {
   if (favorites.loading) return null;
 
   return (
-    <Layout userUsername={favorites.data.viewer?.username}>
+    <Layout {...favorites.data.viewer}>
       <div className="profile-page">
-        <ProfilePageBanner
+        <UserPageBanner
           onFollow={followUser}
           onUnfollow={unfollowUser}
           {...favorites.data.user}
@@ -70,7 +70,7 @@ function ProfileFavoritesPage() {
         <div className="container">
           <div className="row">
             <div className="col-xs-12 col-md-10 offset-md-1">
-              <ArticlesToggle username={favorites.data.user.username} />
+              <UserArticlesToggle username={favorites.data.user.username} />
               {favorites.data.user.favoriteArticlesConnection.edges.map(
                 edge => (
                   <ArticlePreview

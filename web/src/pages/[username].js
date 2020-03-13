@@ -5,8 +5,8 @@ import { useQuery, useMutation } from '@apollo/react-hooks';
 import { ArticlePreview } from '../components/article-preview';
 import withApollo from '../lib/with-apollo';
 import { Layout } from '../components/layout';
-import { ProfilePageBanner } from '../components/profile-page-banner';
-import { ArticlesToggle } from '../components/articles-toggle';
+import { UserPageBanner } from '../components/user-page-banner';
+import { UserArticlesToggle } from '../components/user-articles-toggle';
 
 function ProfilePage() {
   const router = useRouter();
@@ -24,9 +24,9 @@ function ProfilePage() {
   if (profile.loading) return null;
 
   return (
-    <Layout userUsername={profile.data.viewer?.username}>
+    <Layout {...profile.data.viewer}>
       <div className="profile-page">
-        <ProfilePageBanner
+        <UserPageBanner
           onFollow={followUser}
           onUnfollow={unfollowUser}
           {...profile.data.user}
@@ -34,7 +34,7 @@ function ProfilePage() {
         <div className="container">
           <div className="row">
             <div className="col-xs-12 col-md-10 offset-md-1">
-              <ArticlesToggle username={profile.data.user.username} />
+              <UserArticlesToggle {...profile.data.user} />
               {profile.data.user.articlesConnection.edges.map(edge => (
                 <ArticlePreview
                   key={edge.node.slug}
@@ -53,52 +53,28 @@ function ProfilePage() {
 
 const ProfilePageUserFragment = gql`
   fragment ProfilePageUserFragment on User {
-    canFollow {
-      value
-    }
-    canUnfollow {
-      value
-    }
-    canUpdate {
-      value
-    }
-    followersCount
-    username
-    viewerIsFollowing
+    ...UserPageBannerUserFragment
+    ...UserArticlesToggleUserFragment
   }
+  ${UserPageBanner.fragments.user}
+  ${UserArticlesToggle.fragments.user}
 `;
 
 const ProfilePageArticleFragment = gql`
   fragment ProfilePageArticleFragment on Article {
     author {
-      username
-      profile {
-        imageUrl
-      }
+      ...ArticlePreviewAuthorFragment
     }
-    canFavorite {
-      value
-    }
-    canUnfavorite {
-      value
-    }
-    createdAt
-    description
-    favoritesCount
-    slug
-    tags {
-      id
-      name
-    }
-    title
-    viewerDidFavorite
+    ...ArticlePreviewArticleFragment
   }
+  ${ArticlePreview.fragments.article}
+  ${ArticlePreview.fragments.author}
 `;
 
 const ProfilePageQuery = gql`
   query ProfilePageQuery($username: ID!) {
     viewer {
-      username
+      ...LayoutViewerFragment
     }
     user: userByUsername(username: $username) {
       ...ProfilePageUserFragment
@@ -111,6 +87,7 @@ const ProfilePageQuery = gql`
       }
     }
   }
+  ${Layout.fragments.viewer}
   ${ProfilePageUserFragment}
   ${ProfilePageArticleFragment}
 `;

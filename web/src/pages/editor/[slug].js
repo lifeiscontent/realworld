@@ -3,30 +3,9 @@ import { ArticleForm } from '../../components/article-form';
 import { Layout } from '../../components/layout';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
-import * as Yup from 'yup';
 import { useRouter } from 'next/router';
 import withApollo from '../../lib/with-apollo';
 import { handleValidationError } from '../../utils/graphql';
-
-const validationSchema = Yup.object({
-  slug: Yup.string()
-    .label('Slug')
-    .required(),
-  input: Yup.object({
-    title: Yup.string()
-      .label('Title')
-      .required(),
-    description: Yup.string()
-      .label('Description')
-      .required(),
-    body: Yup.string()
-      .label('Body')
-      .required(),
-    tagIds: Yup.array(Yup.string())
-      .label('Tags')
-      .test('', '${path} is a required field', value => Array.isArray(value))
-  })
-});
 
 function EditorUpdatePage() {
   const router = useRouter();
@@ -40,19 +19,9 @@ function EditorUpdatePage() {
   if (editorUpdate.loading) return null;
 
   return (
-    <Layout userUsername={editorUpdate.data.viewer?.username}>
+    <Layout {...editorUpdate.data.viewer}>
       <div className="editor-page">
         <ArticleForm
-          validationSchema={validationSchema}
-          initialValues={{
-            slug: editorUpdate.data.article.slug ?? '',
-            input: {
-              title: editorUpdate.data.article.title ?? '',
-              description: editorUpdate.data.article.description ?? '',
-              body: editorUpdate.data.article.body ?? '',
-              tagIds: (editorUpdate.data.article.tags ?? []).map(tag => tag.id)
-            }
-          }}
           onSubmit={(values, { setSubmitting, setStatus }) => {
             updateArticle({ variables: values })
               .then(res => {
@@ -67,6 +36,7 @@ function EditorUpdatePage() {
                 setSubmitting(false);
               });
           }}
+          {...editorUpdate.data.article}
         />
       </div>
     </Layout>
@@ -75,15 +45,9 @@ function EditorUpdatePage() {
 
 const EditorUpdatePageArticleFragment = gql`
   fragment EditorUpdatePageArticleFragment on Article {
-    body
-    description
-    slug
-    title
-    tags {
-      id
-      name
-    }
+    ...ArticleFormArticleFragment
   }
+  ${ArticleForm.fragments.article}
 `;
 
 const EditorUpdatePageUpdateArticleMutation = gql`
@@ -103,13 +67,14 @@ const EditorUpdatePageUpdateArticleMutation = gql`
 const EditorUpdatePageQuery = gql`
   query EditorUpdatePageQuery($slug: ID!) {
     viewer {
-      username
+      ...LayoutViewerFragment
     }
     article: articleBySlug(slug: $slug) {
       ...EditorUpdatePageArticleFragment
     }
   }
   ${EditorUpdatePageArticleFragment}
+  ${Layout.fragments.viewer}
 `;
 
 export default withApollo(EditorUpdatePage);

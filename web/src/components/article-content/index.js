@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
+import gql from 'graphql-tag';
 
 export function ArticleContent({ description, body }) {
   return (
@@ -12,6 +13,15 @@ export function ArticleContent({ description, body }) {
     </div>
   );
 }
+
+ArticleContent.fragments = {
+  article: gql`
+    fragment ArticleContentArticleFragment on Article {
+      body
+      description
+    }
+  `
+};
 
 ArticleContent.propTypes = {
   description: PropTypes.string.isRequired,

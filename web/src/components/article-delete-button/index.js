@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import gql from 'graphql-tag';
 
 export function ArticleDeleteButton({ canDelete, onDelete, slug }) {
   const handleDelete = useCallback(
@@ -18,6 +19,17 @@ export function ArticleDeleteButton({ canDelete, onDelete, slug }) {
     </button>
   );
 }
+
+ArticleDeleteButton.fragments = {
+  article: gql`
+    fragment ArticleDeleteButtonArticleFragment on Article {
+      canDelete {
+        value
+      }
+      slug
+    }
+  `
+};
 
 ArticleDeleteButton.defaultProps = {
   canDelete: { value: false }

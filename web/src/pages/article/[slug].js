@@ -26,7 +26,7 @@ function ArticlePage() {
   if (article.loading) return null;
 
   return (
-    <Layout userUsername={article.data.viewer?.username}>
+    <Layout {...article.data.viewer}>
       <div className="article-page">
         <ArticlePageBanner
           onDelete={deleteArticle}
@@ -62,19 +62,12 @@ function ArticlePage() {
 
 const ArticlePageAuthorFragment = gql`
   fragment ArticlePageAuthorFragment on User {
-    username
-    profile {
-      imageUrl
-    }
-    canFollow {
-      value
-    }
-    canUnfollow {
-      value
-    }
-    viewerIsFollowing
-    followersCount
+    ...ArticlePageBannerAuthorFragment
+    ...ArticleMetaAuthorFragment
   }
+
+  ${ArticlePageBanner.fragments.author}
+  ${ArticleMeta.fragments.author}
 `;
 
 const ArticlePageArticleFragment = gql`
@@ -82,37 +75,25 @@ const ArticlePageArticleFragment = gql`
     author {
       ...ArticlePageAuthorFragment
     }
-    body
-    canFavorite {
-      value
-    }
-    canDelete {
-      value
-    }
-    canUnfavorite {
-      value
-    }
-    canUpdate {
-      value
-    }
-    createdAt
-    description
-    favoritesCount
-    slug
-    title
-    viewerDidFavorite
     ...ArticleCommentsArticleFragment
+    ...ArticleContentArticleFragment
+    ...ArticleMetaArticleFragment
+    ...ArticlePageBannerArticleFragment
   }
-  ${ArticlePageAuthorFragment}
   ${ArticleComments.fragments.article}
+  ${ArticleContent.fragments.article}
+  ${ArticlePageAuthorFragment}
+  ${ArticlePageBanner.fragments.article}
+  ${ArticleMeta.fragments.article}
 `;
 
 const ArticlePageViewerFragment = gql`
   fragment ArticlePageViewerFragment on User {
-    username
     ...ArticleCommentsViewerFragment
+    ...LayoutViewerFragment
   }
   ${ArticleComments.fragments.viewer}
+  ${Layout.fragments.viewer}
 `;
 
 const ArticlePageQuery = gql`
@@ -124,8 +105,8 @@ const ArticlePageQuery = gql`
       ...ArticlePageArticleFragment
     }
   }
-  ${ArticlePageViewerFragment}
   ${ArticlePageArticleFragment}
+  ${ArticlePageViewerFragment}
 `;
 
 const ArticlePageDeleteArticleMutation = gql`

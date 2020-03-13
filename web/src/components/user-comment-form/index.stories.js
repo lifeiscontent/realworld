@@ -1,16 +1,16 @@
 import React from 'react';
-import { CommentForm } from '.';
+import { UserCommentForm } from '.';
 import { withRouter } from '../../utils/storybook';
 import { action } from '@storybook/addon-actions';
 
 export default {
-  title: 'Forms/CommentForm',
-  component: CommentForm,
+  title: 'Forms/UserCommentForm',
+  component: UserCommentForm,
   decorators: [withRouter]
 };
 
 export const renders = () => (
-  <CommentForm
+  <UserCommentForm
     username="lifeiscontent"
     articleSlug="some-cool-title"
     onSubmit={action('onSubmit')}
@@ -18,7 +18,7 @@ export const renders = () => (
 );
 
 export const canCreateComment = () => (
-  <CommentForm
+  <UserCommentForm
     canCreateComment={{ value: true }}
     username="lifeiscontent"
     articleSlug="some-cool-title"

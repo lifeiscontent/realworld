@@ -8,12 +8,8 @@ export default {
   component: ArticleForm
 };
 
-const initialValues = {
-  input: { title: '', description: '', body: '', tagIds: [] }
-};
-
 export const renders = () => (
   <MockedProvider>
-    <ArticleForm initialValues={initialValues} onSubmit={action('onSubmit')} />
+    <ArticleForm onSubmit={action('onSubmit')} />
   </MockedProvider>
 );
