@@ -8,7 +8,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install Native Dependencies
-        run: sudo apt-get -yqq install libsqlite3-dev
+        run: |
+          sudo apt-get update -yqq
+          sudo apt-get -yqq install libsqlite3-dev
       - name: Use Ruby 2.4.x
         uses: actions/setup-ruby@v1
         with:
