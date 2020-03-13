@@ -5,8 +5,8 @@ import { useRouter } from 'next/router';
 import { ArticleContent } from '../../components/article-content';
 import { ArticlePageBanner } from '../../components/article-page-banner';
 import { ArticleMeta } from '../../components/article-meta';
-import { withApollo } from '../../lib/apollo';
-import { Layout } from '../../components/layout';
+import { withApollo } from '../../hocs/with-apollo';
+import { withLayout } from '../../hocs/with-layout';
 import { ArticleComments } from '../../containers/article-comments';
 
 function ArticlePage() {
@@ -26,37 +26,35 @@ function ArticlePage() {
   if (article.loading) return null;
 
   return (
-    <Layout {...article.data.viewer}>
-      <div className="article-page">
-        <ArticlePageBanner
-          onDelete={deleteArticle}
-          onFavorite={favoriteArticle}
-          onFollow={followUser}
-          onUnfavorite={unfavoriteArticle}
-          onUnfollow={unfollowUser}
-          {...article.data.article}
-        />
-        <div className="container page">
-          <ArticleContent {...article.data.article} />
-          <hr />
-          <div className="article-actions">
-            <ArticleMeta
-              onDelete={deleteArticle}
-              onFavorite={favoriteArticle}
-              onFollow={followUser}
-              onUnfavorite={unfavoriteArticle}
-              onUnfollow={unfollowUser}
-              {...article.data.article}
-            />
-          </div>
-          <div className="row">
-            <div className="col-xs-12 col-md-8 offset-md-2">
-              <ArticleComments articleSlug={router.query.slug} />
-            </div>
+    <div className="article-page">
+      <ArticlePageBanner
+        onDelete={deleteArticle}
+        onFavorite={favoriteArticle}
+        onFollow={followUser}
+        onUnfavorite={unfavoriteArticle}
+        onUnfollow={unfollowUser}
+        {...article.data.article}
+      />
+      <div className="container page">
+        <ArticleContent {...article.data.article} />
+        <hr />
+        <div className="article-actions">
+          <ArticleMeta
+            onDelete={deleteArticle}
+            onFavorite={favoriteArticle}
+            onFollow={followUser}
+            onUnfavorite={unfavoriteArticle}
+            onUnfollow={unfollowUser}
+            {...article.data.article}
+          />
+        </div>
+        <div className="row">
+          <div className="col-xs-12 col-md-8 offset-md-2">
+            <ArticleComments articleSlug={router.query.slug} />
           </div>
         </div>
       </div>
-    </Layout>
+    </div>
   );
 }
 
@@ -90,10 +88,8 @@ const ArticlePageArticleFragment = gql`
 const ArticlePageViewerFragment = gql`
   fragment ArticlePageViewerFragment on User {
     ...ArticleCommentsViewerFragment
-    ...LayoutViewerFragment
   }
   ${ArticleComments.fragments.viewer}
-  ${Layout.fragments.viewer}
 `;
 
 const ArticlePageQuery = gql`
@@ -164,4 +160,4 @@ const ArticlePageUnfollowUserMutation = gql`
   ${ArticlePageAuthorFragment}
 `;
 
-export default withApollo({ ssr: true })(ArticlePage);
+export default withApollo({ ssr: true })(withLayout(ArticlePage));

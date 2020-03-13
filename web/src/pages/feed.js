@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import gql from 'graphql-tag';
-import { withApollo } from '../lib/apollo';
+import { withApollo } from '../hocs/with-apollo';
+import { withLayout } from '../hocs/with-layout';
 import { useRouter } from 'next/router';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { Sidebar } from '../components/sidebar';
 import { Pagination } from '../components/pagination';
 import { NetworkStatus } from 'apollo-client';
-import { Layout } from '../components/layout';
 import { HomePageBanner } from '../components/home-page-banner';
 import { ViewerFeedToggle } from '../components/viewer-feed-toggle';
 import { ArticlePreview } from '../components/article-preview';
@@ -33,33 +33,36 @@ function FeedPage() {
   const [favoriteArticle] = useMutation(FeedPageFavoriteArticleMutation);
   const [unfavoriteArticle] = useMutation(FeedPageUnfavoriteArticleMutation);
 
+  useEffect(() => {
+    if (feed.loading || !!feed.data.viewer) return;
+    router.replace(router.asPath, '/login', { shallow: true });
+  }, [feed.data, feed.loading, router]);
+
   if (feed.networkStatus === NetworkStatus.loading) return null;
 
   return (
-    <Layout {...feed.data.viewer}>
-      <div className="home-page">
-        <HomePageBanner />
-        <div className="container page">
-          <div className="row">
-            <div className="col-xs-12 col-md-9">
-              <ViewerFeedToggle {...feed.data.viewer} />
-              {feed.data.feedConnection.edges.map(edge => (
-                <ArticlePreview
-                  key={edge.node.slug}
-                  onFavorite={favoriteArticle}
-                  onUnfavorite={unfavoriteArticle}
-                  {...edge.node}
-                />
-              ))}
-              <Pagination {...feed.data.feedConnection.pageInfo} />
-            </div>
-            <div className="col-xs-12 col-md-3">
-              <Sidebar {...feed.data} />
-            </div>
+    <div className="home-page">
+      <HomePageBanner />
+      <div className="container page">
+        <div className="row">
+          <div className="col-xs-12 col-md-9">
+            <ViewerFeedToggle {...feed.data.viewer} />
+            {feed.data.feedConnection.edges.map(edge => (
+              <ArticlePreview
+                key={edge.node.slug}
+                onFavorite={favoriteArticle}
+                onUnfavorite={unfavoriteArticle}
+                {...edge.node}
+              />
+            ))}
+            <Pagination {...feed.data.feedConnection.pageInfo} />
+          </div>
+          <div className="col-xs-12 col-md-3">
+            <Sidebar {...feed.data} />
           </div>
         </div>
       </div>
-    </Layout>
+    </div>
   );
 }
 
@@ -83,7 +86,6 @@ const FeedPageQuery = gql`
     $tagName: String
   ) {
     viewer {
-      ...LayoutViewerFragment
       ...ViewerFeedToggleViewerFragment
     }
     feedConnection(
@@ -105,7 +107,6 @@ const FeedPageQuery = gql`
     ...SidebarQueryFragment
   }
   ${FeedPageArticleFragment}
-  ${Layout.fragments.viewer}
   ${Pagination.fragments.pageInfo}
   ${Sidebar.fragments.query}
   ${ViewerFeedToggle.fragments.viewer}
@@ -133,4 +134,4 @@ const FeedPageUnfavoriteArticleMutation = gql`
   ${FeedPageArticleFragment}
 `;
 
-export default withApollo()(FeedPage);
+export default withApollo()(withLayout(FeedPage));

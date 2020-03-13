@@ -1,9 +1,9 @@
 import React from 'react';
-import { Layout } from '../components/layout';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import { useRouter } from 'next/router';
-import { withApollo } from '../lib/apollo';
+import { withApollo } from '../hocs/with-apollo';
+import { withLayout } from '../hocs/with-layout';
 import { handleValidationError } from '../utils/graphql';
 import { RegisterForm } from '../components/register-form';
 
@@ -11,23 +11,21 @@ function RegisterPage() {
   const router = useRouter();
   const [signUp] = useMutation(RegisterPageSignUpMutation);
   return (
-    <Layout>
-      <div className="auth-page">
-        <RegisterForm
-          onSubmit={(values, { setSubmitting, setStatus }) => {
-            signUp({ variables: values })
-              .then(() => {
-                router.push('/login', '/login');
-              })
-              .catch(err => {
-                handleValidationError(err, setStatus);
-                console.error(err);
-                setSubmitting(false);
-              });
-          }}
-        />
-      </div>
-    </Layout>
+    <div className="auth-page">
+      <RegisterForm
+        onSubmit={(values, { setSubmitting, setStatus }) => {
+          signUp({ variables: values })
+            .then(() => {
+              router.push('/login', '/login');
+            })
+            .catch(err => {
+              handleValidationError(err, setStatus);
+              console.error(err);
+              setSubmitting(false);
+            });
+        }}
+      />
+    </div>
   );
 }
 
@@ -41,4 +39,4 @@ const RegisterPageSignUpMutation = gql`
   }
 `;
 
-export default withApollo()(RegisterPage);
+export default withApollo()(withLayout(RegisterPage));

@@ -3,8 +3,8 @@ import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { ArticlePreview } from '../../components/article-preview';
-import { withApollo } from '../../lib/apollo';
-import { Layout } from '../../components/layout';
+import { withApollo } from '../../hocs/with-apollo';
+import { withLayout } from '../hocs/with-layout';
 import { UserPageBanner } from '../../components/user-page-banner';
 import { UserArticlesToggle } from '../../components/user-articles-toggle';
 
@@ -60,32 +60,28 @@ function ProfileFavoritesPage() {
   if (favorites.loading) return null;
 
   return (
-    <Layout {...favorites.data.viewer}>
-      <div className="profile-page">
-        <UserPageBanner
-          onFollow={followUser}
-          onUnfollow={unfollowUser}
-          {...favorites.data.user}
-        />
-        <div className="container">
-          <div className="row">
-            <div className="col-xs-12 col-md-10 offset-md-1">
-              <UserArticlesToggle username={favorites.data.user.username} />
-              {favorites.data.user.favoriteArticlesConnection.edges.map(
-                edge => (
-                  <ArticlePreview
-                    key={edge.node.slug}
-                    onFavorite={favoriteArticle}
-                    onUnfavorite={unfavoriteArticle}
-                    {...edge.node}
-                  />
-                )
-              )}
-            </div>
+    <div className="profile-page">
+      <UserPageBanner
+        onFollow={followUser}
+        onUnfollow={unfollowUser}
+        {...favorites.data.user}
+      />
+      <div className="container">
+        <div className="row">
+          <div className="col-xs-12 col-md-10 offset-md-1">
+            <UserArticlesToggle username={favorites.data.user.username} />
+            {favorites.data.user.favoriteArticlesConnection.edges.map(edge => (
+              <ArticlePreview
+                key={edge.node.slug}
+                onFavorite={favoriteArticle}
+                onUnfavorite={unfavoriteArticle}
+                {...edge.node}
+              />
+            ))}
           </div>
         </div>
       </div>
-    </Layout>
+    </div>
   );
 }
 
@@ -196,4 +192,4 @@ const ProfileFavortiesPageUnfollowUserMutation = gql`
   ${ProfileFavoritesUserFragment}
 `;
 
-export default withApollo()(ProfileFavoritesPage);
+export default withApollo()(withLayout(ProfileFavoritesPage));

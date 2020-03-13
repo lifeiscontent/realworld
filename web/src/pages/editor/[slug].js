@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ArticleForm } from '../../components/article-form';
-import { Layout } from '../../components/layout';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
-import { withApollo } from '../../lib/apollo';
+import { withApollo } from '../../hocs/with-apollo';
+import { withLayout } from '../../hocs/with-layout';
 import { handleValidationError } from '../../utils/graphql';
 
 function EditorUpdatePage() {
@@ -14,32 +14,37 @@ function EditorUpdatePage() {
       slug: router.query.slug
     }
   });
+
   const [updateArticle] = useMutation(EditorUpdatePageUpdateArticleMutation);
+
+  useEffect(() => {
+    if (editorUpdate.loading || editorUpdate.data.article.canUpdate.value)
+      return;
+    router.replace(router.asPath, '/', { shallow: true });
+  }, [editorUpdate.data, editorUpdate.loading, router]);
 
   if (editorUpdate.loading) return null;
 
   return (
-    <Layout {...editorUpdate.data.viewer}>
-      <div className="editor-page">
-        <ArticleForm
-          onSubmit={(values, { setSubmitting, setStatus }) => {
-            updateArticle({ variables: values })
-              .then(res => {
-                router.push(
-                  '/article/[slug]',
-                  `/article/${res.data.updateArticle.article.slug}`
-                );
-              })
-              .catch(err => {
-                handleValidationError(err, setStatus);
-                console.error(err);
-                setSubmitting(false);
-              });
-          }}
-          {...editorUpdate.data.article}
-        />
-      </div>
-    </Layout>
+    <div className="editor-page">
+      <ArticleForm
+        onSubmit={(values, { setSubmitting, setStatus }) => {
+          updateArticle({ variables: values })
+            .then(res => {
+              router.push(
+                '/article/[slug]',
+                `/article/${res.data.updateArticle.article.slug}`
+              );
+            })
+            .catch(err => {
+              handleValidationError(err, setStatus);
+              console.error(err);
+              setSubmitting(false);
+            });
+        }}
+        {...editorUpdate.data.article}
+      />
+    </div>
   );
 }
 
@@ -66,15 +71,14 @@ const EditorUpdatePageUpdateArticleMutation = gql`
 
 const EditorUpdatePageQuery = gql`
   query EditorUpdatePageQuery($slug: ID!) {
-    viewer {
-      ...LayoutViewerFragment
-    }
     article: articleBySlug(slug: $slug) {
+      canUpdate {
+        value
+      }
       ...EditorUpdatePageArticleFragment
     }
   }
   ${EditorUpdatePageArticleFragment}
-  ${Layout.fragments.viewer}
 `;
 
-export default withApollo()(EditorUpdatePage);
+export default withApollo()(withLayout(EditorUpdatePage));

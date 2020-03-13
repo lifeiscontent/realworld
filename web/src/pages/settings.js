@@ -1,9 +1,9 @@
-import React from 'react';
-import { Layout } from '../components/layout';
+import React, { useEffect } from 'react';
 import gql from 'graphql-tag';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { useRouter } from 'next/router';
-import { withApollo } from '../lib/apollo';
+import { withApollo } from '../hocs/with-apollo';
+import { withLayout } from '../hocs/with-layout';
 import { handleValidationError } from '../utils/graphql';
 import { UserSettingsForm } from '../components/user-settings-form';
 
@@ -12,30 +12,33 @@ function SettingsPage() {
   const settings = useQuery(SettingsPageQuery);
   const [updateUser] = useMutation(SettingsPageUpdateUserMutation);
 
+  useEffect(() => {
+    if (settings.loading || !!settings.data.viewer) return;
+    router.replace(router.asPath, '/login', { shallow: true });
+  }, [settings.data, settings.loading, router]);
+
   if (settings.loading) return null;
 
   return (
-    <Layout {...settings.data.viewer}>
-      <div className="settings-page">
-        <UserSettingsForm
-          onSubmit={(values, { setSubmitting, setStatus }) => {
-            updateUser({ variables: values })
-              .then(res => {
-                router.push(
-                  '/[username]',
-                  `/${res.data.updateUser.user.username}`
-                );
-              })
-              .catch(err => {
-                handleValidationError(err, setStatus);
-                console.error(err);
-                setSubmitting(false);
-              });
-          }}
-          {...settings.data.viewer}
-        />
-      </div>
-    </Layout>
+    <div className="settings-page">
+      <UserSettingsForm
+        onSubmit={(values, { setSubmitting, setStatus }) => {
+          updateUser({ variables: values })
+            .then(res => {
+              router.push(
+                '/[username]',
+                `/${res.data.updateUser.user.username}`
+              );
+            })
+            .catch(err => {
+              handleValidationError(err, setStatus);
+              console.error(err);
+              setSubmitting(false);
+            });
+        }}
+        {...settings.data.viewer}
+      />
+    </div>
   );
 }
 
@@ -69,4 +72,4 @@ const SettingsPageUpdateUserMutation = gql`
   ${SettingsPageUserFragment}
 `;
 
-export default withApollo()(SettingsPage);
+export default withApollo()(withLayout(SettingsPage));

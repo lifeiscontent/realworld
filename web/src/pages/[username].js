@@ -3,8 +3,8 @@ import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { ArticlePreview } from '../components/article-preview';
-import { withApollo } from '../lib/apollo';
-import { Layout } from '../components/layout';
+import { withApollo } from '../hocs/with-apollo';
+import { withLayout } from '../hocs/with-layout';
 import { UserPageBanner } from '../components/user-page-banner';
 import { UserArticlesToggle } from '../components/user-articles-toggle';
 
@@ -24,30 +24,28 @@ function ProfilePage() {
   if (profile.loading) return null;
 
   return (
-    <Layout {...profile.data.viewer}>
-      <div className="profile-page">
-        <UserPageBanner
-          onFollow={followUser}
-          onUnfollow={unfollowUser}
-          {...profile.data.user}
-        />
-        <div className="container">
-          <div className="row">
-            <div className="col-xs-12 col-md-10 offset-md-1">
-              <UserArticlesToggle {...profile.data.user} />
-              {profile.data.user.articlesConnection.edges.map(edge => (
-                <ArticlePreview
-                  key={edge.node.slug}
-                  onUnfavorite={unfavoriteArticle}
-                  onFavorite={favoriteArticle}
-                  {...edge.node}
-                />
-              ))}
-            </div>
+    <div className="profile-page">
+      <UserPageBanner
+        onFollow={followUser}
+        onUnfollow={unfollowUser}
+        {...profile.data.user}
+      />
+      <div className="container">
+        <div className="row">
+          <div className="col-xs-12 col-md-10 offset-md-1">
+            <UserArticlesToggle {...profile.data.user} />
+            {profile.data.user.articlesConnection.edges.map(edge => (
+              <ArticlePreview
+                key={edge.node.slug}
+                onUnfavorite={unfavoriteArticle}
+                onFavorite={favoriteArticle}
+                {...edge.node}
+              />
+            ))}
           </div>
         </div>
       </div>
-    </Layout>
+    </div>
   );
 }
 
@@ -73,9 +71,6 @@ const ProfilePageArticleFragment = gql`
 
 const ProfilePageQuery = gql`
   query ProfilePageQuery($username: ID!) {
-    viewer {
-      ...LayoutViewerFragment
-    }
     user: userByUsername(username: $username) {
       ...ProfilePageUserFragment
       articlesConnection {
@@ -87,7 +82,6 @@ const ProfilePageQuery = gql`
       }
     }
   }
-  ${Layout.fragments.viewer}
   ${ProfilePageUserFragment}
   ${ProfilePageArticleFragment}
 `;
@@ -136,4 +130,4 @@ const ProfilePageUnfollowUserMutation = gql`
   ${ProfilePageUserFragment}
 `;
 
-export default withApollo({ ssr: true })(ProfilePage);
+export default withApollo({ ssr: true })(withLayout(ProfilePage));

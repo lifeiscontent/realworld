@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ArticleForm } from '../../components/article-form';
-import { Layout } from '../../components/layout';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
-import { withApollo } from '../../lib/apollo';
+import { withApollo } from '../../hocs/with-apollo';
+import { withLayout } from '../../hocs/with-layout';
+
 import { handleValidationError } from '../../utils/graphql';
 
 function EditorPage() {
@@ -12,29 +13,32 @@ function EditorPage() {
   const editor = useQuery(EditorPageQuery);
   const [createArticle] = useMutation(EditorPageCreateArticleMutation);
 
+  useEffect(() => {
+    if (editor.loading || editor.data.canCreateArticle.value) return;
+    router.replace(router.asPath, '/', { shallow: true });
+  }, [editor.data, editor.loading, router]);
+
   if (editor.loading) return null;
 
   return (
-    <Layout {...editor.data.viewer}>
-      <div className="editor-page">
-        <ArticleForm
-          onSubmit={(values, { setSubmitting, setStatus }) => {
-            createArticle({ variables: values })
-              .then(res => {
-                router.push(
-                  '/article/[slug]',
-                  `/article/${res.data.createArticle.article.slug}`
-                );
-              })
-              .catch(err => {
-                handleValidationError(err, setStatus);
-                console.error(err);
-                setSubmitting(false);
-              });
-          }}
-        />
-      </div>
-    </Layout>
+    <div className="editor-page">
+      <ArticleForm
+        onSubmit={(values, { setSubmitting, setStatus }) => {
+          createArticle({ variables: values })
+            .then(res => {
+              router.push(
+                '/article/[slug]',
+                `/article/${res.data.createArticle.article.slug}`
+              );
+            })
+            .catch(err => {
+              handleValidationError(err, setStatus);
+              console.error(err);
+              setSubmitting(false);
+            });
+        }}
+      />
+    </div>
   );
 }
 
@@ -50,10 +54,10 @@ const EditorPageCreateArticleMutation = gql`
 
 const EditorPageQuery = gql`
   query EditorPageQuery {
-    viewer {
-      username
+    canCreateArticle {
+      value
     }
   }
 `;
 
-export default withApollo()(EditorPage);
+export default withApollo()(withLayout(EditorPage));
