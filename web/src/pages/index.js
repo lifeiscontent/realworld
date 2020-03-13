@@ -84,7 +84,7 @@ const IndexPageArticlesQuery = gql`
   ) {
     viewer {
       ...LayoutViewerFragment
-      ...ViewerFeedToggle
+      ...ViewerFeedToggleViewerFragment
     }
     articlesConnection(
       after: $after

@@ -164,4 +164,4 @@ const ArticlePageUnfollowUserMutation = gql`
   ${ArticlePageAuthorFragment}
 `;
 
-export default withApollo(ArticlePage);
+export default withApollo(ArticlePage, { ssr: true });

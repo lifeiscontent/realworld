@@ -35,6 +35,9 @@ jobs:
         env:
           CI: true
         working-directory: ./web
+      - name: Run Lint
+        run: yarn lint
+        working-directory: ./web
       - uses: actions/cache@v1
         with:
           path: ./web/.next/cache

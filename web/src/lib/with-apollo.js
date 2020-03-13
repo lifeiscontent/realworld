@@ -60,7 +60,7 @@ const cacheConfig = {
  * @param {Object} [config]
  * @param {Boolean} [config.ssr=true]
  */
-export default function withApollo(PageComponent, { ssr = true } = {}) {
+export default function withApollo(PageComponent, { ssr = false } = {}) {
   const WithApollo = ({ apolloClient, apolloState, ...pageProps }) => {
     const client = apolloClient || initApolloClient(undefined, apolloState);
     return (

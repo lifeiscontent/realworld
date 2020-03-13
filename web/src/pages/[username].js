@@ -136,4 +136,4 @@ const ProfilePageUnfollowUserMutation = gql`
   ${ProfilePageUserFragment}
 `;
 
-export default withApollo(ProfilePage);
+export default withApollo(ProfilePage, { ssr: true });
