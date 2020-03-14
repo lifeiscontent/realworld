@@ -17,7 +17,7 @@ gem 'faker', '~> 2.10.0'
 gem 'friendly_id', '~> 5.3.0'
 gem 'graphql', '~> 1.10.5'
 gem 'jwt', '~> 2.2.1'
-gem 'listen', '>= 3.0.5', '< 3.2', group: :development
+gem 'listen', '>= 3.0.5', '< 3.3', group: :development
 gem 'puma', '~> 4.3.3'
 gem 'rack-cors', '~> 1.1.0'
 gem 'rails', '~> 5.2.4', '>= 5.2.4.1'
