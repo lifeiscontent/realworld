@@ -4,14 +4,14 @@ import Link from 'next/link';
 import { format } from '../../utils/date';
 import gql from 'graphql-tag';
 
-export function ArticleInfo(props) {
+export function ArticleInfo({ author, createdAt }) {
   return (
     <div className="info">
-      <Link href="/[username]" as={`/${props.author.username}`}>
-        <a className="author">{props.author.username}</a>
+      <Link href="/[username]" as={`/${author.username}`}>
+        <a className="author">{author.username}</a>
       </Link>
-      <time dateTime={props.createdAt} className="date">
-        {format(new Date(props.createdAt), 'MMMM Qo')}
+      <time dateTime={createdAt} className="date">
+        {format(new Date(createdAt), 'MMMM Qo')}
       </time>
     </div>
   );

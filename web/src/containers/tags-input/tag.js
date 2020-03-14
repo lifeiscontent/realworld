@@ -1,32 +1,31 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 
-export function TagsInputTag(props) {
+export function TagsInputTag({ id, onRemoveTag }) {
   const tagInputTag = useQuery(TagsInputTagQuery, {
     fetchPolicy: 'cache-only',
     variables: {
-      id: props.tagId
+      id
     }
   });
-
-  const handleClick = useCallback(() => {
-    props.onRemoveTag(tagInputTag.data.tag);
-  }, [props, tagInputTag.data.tag]);
 
   if (tagInputTag.loading) return null;
 
   return (
     <span className="tag-default tag-pill">
-      <i className="ion-close-round" onClick={handleClick} />
+      <i
+        className="ion-close-round"
+        onClick={() => onRemoveTag(tagInputTag.data.tag)}
+      />
       {tagInputTag.data.tag.name}
     </span>
   );
 }
 
 TagsInputTag.propTypes = {
-  tagId: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   onRemoveTag: PropTypes.func.isRequired
 };
 
