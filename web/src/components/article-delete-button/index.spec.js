@@ -1,5 +1,4 @@
 import { render, fireEvent, wait } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
 import { action } from '@storybook/addon-actions';
 import { renders, canDelete } from './index.stories';
 

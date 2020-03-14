@@ -1,15 +1,12 @@
 import React from 'react';
 import { ArticleForm } from '.';
-import { MockedProvider } from '@apollo/react-testing';
 import { action } from '@storybook/addon-actions';
+import { withApolloClient } from '../../utils/storybook';
 
 export default {
   title: 'Forms/ArticleForm',
-  component: ArticleForm
+  component: ArticleForm,
+  decorators: [withApolloClient]
 };
 
-export const renders = () => (
-  <MockedProvider>
-    <ArticleForm onSubmit={action('onSubmit')} />
-  </MockedProvider>
-);
+export const renders = () => <ArticleForm onSubmit={action('onSubmit')} />;

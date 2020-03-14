@@ -1,6 +1,5 @@
 import React from 'react';
 import { render, fireEvent, wait } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
 import Router, { RouterContext } from 'next/router';
 import { renders, canUpdate } from './index.stories';
 

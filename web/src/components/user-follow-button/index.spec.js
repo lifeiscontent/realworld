@@ -1,10 +1,10 @@
 import { render, fireEvent, wait } from '@testing-library/react';
 import { action } from '@storybook/addon-actions';
-import { renders, canFavorite, canUnfavorite } from './index.stories';
+import { renders, canFollow, canUnfollow } from './index.stories';
 
 jest.mock('@storybook/addon-actions');
 
-describe('ArticleDeleteButton', () => {
+describe('UserFollowButton', () => {
   it('is disabled with insufficient access', async () => {
     const { getByRole } = render(renders());
     await wait(() => {
@@ -13,22 +13,22 @@ describe('ArticleDeleteButton', () => {
     });
   });
 
-  it('calls onFavorite when clicked', async () => {
-    const { getByRole } = render(canFavorite());
+  it('calls onFollow when clicked', async () => {
+    const { getByRole } = render(canFollow());
     await wait(() => {
       const button = getByRole('button');
       fireEvent.click(button);
-      expect(action('onFavorite')).toHaveBeenCalled();
+      expect(action('onFollow')).toHaveBeenCalled();
     });
   });
 
-  it('calls onUnfavorite when clicked', async () => {
-    const { getByRole } = render(canUnfavorite());
+  it('calls onUnfollow when clicked', async () => {
+    const { getByRole } = render(canUnfollow());
 
     await wait(() => {
       const button = getByRole('button');
       fireEvent.click(button);
-      expect(action('onUnfavorite')).toHaveBeenCalled();
+      expect(action('onUnfollow')).toHaveBeenCalled();
     });
   });
 });
