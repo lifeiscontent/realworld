@@ -5,12 +5,21 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:11
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
       - uses: actions/checkout@v2
       - name: Install Native Dependencies
         run: |
           sudo apt-get update -yqq
-          sudo apt-get -yqq install libsqlite3-dev
+          sudo apt-get -yqq install libpq-dev
       - name: Use Ruby 2.4.x
         uses: actions/setup-ruby@v1
         with:

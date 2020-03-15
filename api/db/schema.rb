@@ -12,13 +12,16 @@
 
 ActiveRecord::Schema.define(version: 2020_02_27_021112) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "articles", force: :cascade do |t|
     t.string "slug", null: false
     t.string "title", null: false
     t.string "description", null: false
     t.text "body", null: false
     t.integer "favorites_count", default: 0, null: false
-    t.integer "author_id", null: false
+    t.bigint "author_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["author_id"], name: "index_articles_on_author_id"
@@ -26,8 +29,8 @@ ActiveRecord::Schema.define(version: 2020_02_27_021112) do
   end
 
   create_table "comments", force: :cascade do |t|
-    t.integer "author_id", null: false
-    t.integer "article_id", null: false
+    t.bigint "author_id", null: false
+    t.bigint "article_id", null: false
     t.text "body", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -36,8 +39,8 @@ ActiveRecord::Schema.define(version: 2020_02_27_021112) do
   end
 
   create_table "favorites", force: :cascade do |t|
-    t.integer "article_id", null: false
-    t.integer "user_id", null: false
+    t.bigint "article_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["article_id", "user_id"], name: "index_favorites_on_article_id_and_user_id", unique: true
@@ -57,23 +60,23 @@ ActiveRecord::Schema.define(version: 2020_02_27_021112) do
   create_table "profiles", force: :cascade do |t|
     t.text "bio", default: "", null: false
     t.string "image_url"
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_profiles_on_user_id", unique: true
   end
 
   create_table "relationships", force: :cascade do |t|
-    t.integer "followed_id", null: false
-    t.integer "follower_id", null: false
+    t.bigint "followed_id", null: false
+    t.bigint "follower_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["followed_id", "follower_id"], name: "index_relationships_on_followed_id_and_follower_id", unique: true
   end
 
   create_table "taggings", force: :cascade do |t|
-    t.integer "article_id", null: false
-    t.integer "tag_id", null: false
+    t.bigint "article_id", null: false
+    t.bigint "tag_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["article_id", "tag_id"], name: "index_taggings_on_article_id_and_tag_id", unique: true
@@ -103,4 +106,14 @@ ActiveRecord::Schema.define(version: 2020_02_27_021112) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "articles", "users", column: "author_id"
+  add_foreign_key "comments", "articles"
+  add_foreign_key "comments", "users", column: "author_id"
+  add_foreign_key "favorites", "articles"
+  add_foreign_key "favorites", "users"
+  add_foreign_key "profiles", "users"
+  add_foreign_key "relationships", "users", column: "followed_id"
+  add_foreign_key "relationships", "users", column: "follower_id"
+  add_foreign_key "taggings", "articles"
+  add_foreign_key "taggings", "tags"
 end

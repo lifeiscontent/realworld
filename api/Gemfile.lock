@@ -115,6 +115,7 @@ GEM
     parallel (1.19.1)
     parser (2.7.0.4)
       ast (~> 2.4.0)
+    pg (1.2.2)
     puma (4.3.3)
       nio4r (~> 2.0)
     rack (2.2.2)
@@ -217,7 +218,6 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    sqlite3 (1.4.2)
     thor (1.0.1)
     thread_safe (0.3.6)
     tilt (2.0.10)
@@ -248,6 +248,7 @@ DEPENDENCIES
   graphql (~> 1.10.5)
   jwt (~> 2.2.1)
   listen (>= 3.0.5, < 3.3)
+  pg (~> 1.2.0)
   puma (~> 4.3.3)
   rack-cors (~> 1.1.0)
   rails (~> 5.2.4, >= 5.2.4.1)
@@ -258,7 +259,6 @@ DEPENDENCIES
   solargraph (~> 0.38.0)
   spring (~> 2.1.0)
   spring-watcher-listen (~> 2.0.0)
-  sqlite3 (~> 1.4.0)
   tzinfo-data (~> 1.2.0)
 
 RUBY VERSION

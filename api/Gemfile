@@ -18,6 +18,7 @@ gem 'friendly_id', '~> 5.3.0'
 gem 'graphql', '~> 1.10.5'
 gem 'jwt', '~> 2.2.1'
 gem 'listen', '>= 3.0.5', '< 3.3', group: :development
+gem 'pg', '~> 1.2.0'
 gem 'puma', '~> 4.3.3'
 gem 'rack-cors', '~> 1.1.0'
 gem 'rails', '~> 5.2.4', '>= 5.2.4.1'
@@ -28,5 +29,4 @@ gem 'shoulda-matchers', '~> 4.3.0', group: :test
 gem 'solargraph', '~> 0.38.0', group: :development
 gem 'spring', '~> 2.1.0', group: :development
 gem 'spring-watcher-listen', '~> 2.0.0', group: :development
-gem 'sqlite3', '~> 1.4.0'
 gem 'tzinfo-data', '~> 1.2.0', platforms: %i[mingw mswin x64_mingw jruby]
