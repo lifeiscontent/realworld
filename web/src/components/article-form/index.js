@@ -53,6 +53,7 @@ export function ArticleForm({
   onSubmit
 }) {
   const initialValues = {
+    slug,
     input: {
       title,
       description,
@@ -60,10 +61,6 @@ export function ArticleForm({
       tagIds: tags.map(tag => tag.id)
     }
   };
-
-  if (slug) {
-    initialValues.slug = slug;
-  }
 
   return (
     <div className="container page">

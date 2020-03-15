@@ -1,34 +1,31 @@
-import { render, fireEvent, wait } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { action } from '@storybook/addon-actions';
 import { renders, canFavorite, canUnfavorite } from './index.stories';
 
 jest.mock('@storybook/addon-actions');
 
-describe('ArticleDeleteButton', () => {
+describe('ArticleFavoriteButton', () => {
   it('is disabled with insufficient access', async () => {
-    const { getByRole } = render(renders());
-    await wait(() => {
-      const button = getByRole('button');
-      expect(button).toHaveAttribute('disabled');
-    });
+    render(renders());
+
+    const button = await screen.findByText('Favorite Article (0)');
+    expect(button).toHaveAttribute('disabled');
   });
 
   it('calls onFavorite when clicked', async () => {
-    const { getByRole } = render(canFavorite());
-    await wait(() => {
-      const button = getByRole('button');
-      fireEvent.click(button);
-      expect(action('onFavorite')).toHaveBeenCalled();
-    });
+    render(canFavorite());
+    const button = await screen.findByText('Favorite Article (0)');
+
+    fireEvent.click(button);
+    expect(action('onFavorite')).toHaveBeenCalled();
   });
 
   it('calls onUnfavorite when clicked', async () => {
-    const { getByRole } = render(canUnfavorite());
+    render(canUnfavorite());
 
-    await wait(() => {
-      const button = getByRole('button');
-      fireEvent.click(button);
-      expect(action('onUnfavorite')).toHaveBeenCalled();
-    });
+    const button = await screen.findByText('Unfavorite Article (1)');
+
+    fireEvent.click(button);
+    expect(action('onUnfavorite')).toHaveBeenCalled();
   });
 });
