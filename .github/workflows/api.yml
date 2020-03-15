@@ -40,7 +40,7 @@ jobs:
           RAILS_ENV: test
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
       - name: Run tests
-        run: bundle exec rails spec
+        run: bundle exec rspec
         working-directory: ./api
         env:
           RAILS_ENV: test
