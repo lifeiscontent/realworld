@@ -9,9 +9,10 @@ export default function createApolloClient(initialState, ctx) {
   // use it to extract auth headers (ctx.req) or similar.
   const ssrMode = Boolean(ctx);
 
-  const { authorization } = cookie.parse(
-    ssrMode ? req.headers.cookie ?? '' : document.cookie
-  );
+  const { authorization } =
+    typeof window !== 'undefined'
+      ? cookie.parse(document.cookie)
+      : cookie.parse(ctx?.req?.headers?.cookie ?? '');
 
   return new ApolloClient({
     assumeImmutableResults: true,
