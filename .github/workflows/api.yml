@@ -1,6 +1,6 @@
 name: Api
 
-on: [push]
+on: [pull_request]
 
 jobs:
   build:
@@ -11,38 +11,41 @@ jobs:
         ports:
           - 5432:5432
         env:
+          POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
       - uses: actions/checkout@v2
-      - name: Install Native Dependencies
-        run: |
-          sudo apt-get update -yqq
-          sudo apt-get -yqq install libpq-dev
-      - name: Use Ruby 2.4.x
-        uses: actions/setup-ruby@v1
+
+      - uses: actions/setup-ruby@v1
         with:
-          ruby-version: "2.4.x"
-      - uses: actions/cache@v1
-        with:
-          path: ./api/vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('api/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-gems-
-      - name: Install Ruby Gems
+          ruby-version: 2.4.x
+
+      - name: Install dependent libraries
+        run: sudo apt-get install libpq-dev
+
+      - name: Bundle install
         run: |
           gem install bundler
-          bundle config path vendor/bundle
           bundle install --jobs 4 --retry 3
         working-directory: ./api
-        env:
-          RAILS_ENV: test
-          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-      - name: Run tests
+      - name: Setup Database
         run: |
-          bundle exec rails db:setup
-          bundle exec rspec
+          cp config/database.yml.github-actions config/database.yml
+          bundle exec rake db:create
+          bundle exec rake db:schema:load
         working-directory: ./api
         env:
           RAILS_ENV: test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+
+      - name: Run RSpec
+        run: COVERAGE=true bundle exec rspec  --require rails_helper
+        working-directory: ./api
+        env:
+          RAILS_ENV: test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
