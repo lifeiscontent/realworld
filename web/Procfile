@@ -1,1 +1,0 @@
-web: PATH=$PATH:~/.heroku/node/bin:~/.heroku/yarn/bin && cd web && yarn start -p ${PORT:-3000}
