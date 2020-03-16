@@ -5,7 +5,6 @@ require 'rails_helper'
 RSpec.describe 'signIn', type: :graphql do
   before(:each) do
     travel_to Time.zone.local(1994)
-    puts Time.zone.local(1994)
   end
   after(:each) do
     travel_back
