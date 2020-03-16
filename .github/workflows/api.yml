@@ -11,7 +11,6 @@ jobs:
         ports:
           - 5432:5432
         env:
-          POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
@@ -40,7 +39,9 @@ jobs:
           RAILS_ENV: test
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
       - name: Run tests
-        run: bundle exec rspec
+        run: |
+          bundle exec rails db:setup
+          bundle exec rspec
         working-directory: ./api
         env:
           RAILS_ENV: test
