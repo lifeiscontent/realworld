@@ -1,12 +1,12 @@
 ### What is a Viewer in GraphQL
 
-A Viewer is the idea of a type of user who is viewing your site / api.
+A Viewer is the idea of a type of user who is viewing your site / API.
 
 - is it a guest?
 - is it a user?
 - is it an admin?
 
-depending on the context of who is looking (viewing) at your site / api, you might show a different experience, and this is what `viewer` means in GraphQL.
+depending on the context of who is looking (viewing) at your site / API, you might show a different experience, and this is what `viewer` means in GraphQL.
 
 depending on the complexity of your app, you might have one or many types of users, and you can deal with the varying types of users by creating a union type.
 
@@ -16,7 +16,7 @@ e.g.
 union Viewer = Guest | User | Admin
 ```
 
-this allows us to distingish the type of data we are getting back from the API, e.g. if the type is a user, it might have different fields than an admin user.
+this allows us to distinguish the type of data we are getting back from the API, e.g. if the type is a user, it might have different fields than an admin user.
 
 the way you'd distinguish which type you get back from the union would look something like this:
 

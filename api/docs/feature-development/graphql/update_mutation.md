@@ -1,8 +1,8 @@
 ### Update Article Mutation (resolver)
 
-First, let's setup the mutation.
+First, let's set up the mutation.
 
-[app/graphql/mutations/update_article.rb][update_article.rb]
+[app/graphql/mutations/update_article.rb][api/app/graphql/mutations/update_article.rb]
 
 ```rb
 # frozen_string_literal: true
@@ -38,7 +38,7 @@ module Mutations
 end
 ```
 
-the following changes will be added to the [GraphQL Schema][schema.graphql].
+the following changes will be added to the [GraphQL Schema][api/schema.graphql].
 
 ```graphql
 input UpdateArticleInput {
@@ -53,23 +53,23 @@ type UpdateArticlePayload {
 }
 ```
 
-There's a few things happening here, so lets break them down.
+A few things are happening here, so let's break them down.
 
 1. We create the Input class in GraphQL
    - We make the input easier to deal with in the resolver by transforming the input to a hash with the `prepare` method (this is a hook within GraphQL Ruby for Inputs).
 2. We specify our `slug` argument as an `ID` and mark it required.
 3. We specify our `input` argument as the `UpdateArticleInput` we created and mark it as required.
-4. We specify the return `field` as [article][article_type.rb] and say it won't be null. (more on this soon).
+4. We specify the return `field` as [article][api/app/graphql/types/article_type.rb] and say it won't be null. (more on this soon).
 5. We specify our `resolve` method and expose our `slug` and `input` parameter as a keyword argument.
 6. We use our ActionPolicy to make sure we're authorized to `update` an Article.
 7. Once we know we're authorized, we update the article on behalf of the authorized user.
-8. We return the updated [article][article_type.rb] as the response.
+8. We return the updated [article][api/app/graphql/types/article_type.rb] as the response.
 
 > Notes:
 >
 > One thing that is happening implicitly is our error handling. Let's demistify how that's working.
 >
-> 1. the article is being updated with the `update!` method so if the validation fails, it will throw an error. In which case we have a rescue block catching those errors in the `api_schema.rb` that look like this:
+> 1. the article is being updated with the `update!` method so if the validation fails, it will throw an error. In which case we have a rescue block catching those errors in the [api_schema.rb][api/app/graphql/api_schema.rb] that look like this:
 >
 > ```rb
 >  rescue_from ActiveRecord::RecordInvalid do |error|
@@ -105,7 +105,7 @@ module Types
 end
 ```
 
-the following changes will be added to the GraphQL Schema.
+the following changes will be added to the GraphQL schema.
 
 ```graphql
 type Mutation {
@@ -258,16 +258,7 @@ end
 ```
 
 [activesupport::timehelpers]: https://api.rubyonrails.org/v5.2.4.1/classes/ActiveSupport/Testing/TimeHelpers.html
-[api_schema.rb]: ../../../app/graphql/api_schema.rb
-[article_by_slug_spec.rb]: ../../../spec/graphql/article_by_slug_spec.rb
-[article_policy.rb]: ../../../app/policies/article_policy.rb
-[article_type.rb]: ../../../app/graphql/types/article_type.rb
-[article.rb]: ../../../app/models/article.rb
-[create_article_spec.rb]: ../../../spec/graphql/create_article_spec.rb
-[create_article.rb]: ../../../app/graphql/mutations/create_article.rb
-[delete_article_spec.rb]: ../../../spec/graphql/delete_article_spec.rb
-[delete_article.rb]: ../../../app/graphql/mutations/delete_article.rb
-[mutation_type.rb]: ../../../app/graphql/types/mutation_type.rb
-[query_type.rb]: ../../../app/graphql/types/query_type.rb
-[schema.graphql]: ../../../schema.graphql
-[update_article.rb]: ../../../app/graphql/mutations/update_article.rb
+[api/app/graphql/api_schema.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/app/graphql/api_schema.rb
+[api/app/graphql/types/article_type.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/app/graphql/types/article_type.rb
+[api/schema.graphql]: https://github.com/lifeiscontent/realworld/blob/master/api/schema.graphql
+[api/app/graphql/mutations/update_article.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/app/graphql/mutations/update_article.rb

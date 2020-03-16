@@ -1,8 +1,8 @@
 ### Read Article Query (resolver)
 
-First, we need to setup our GraphQL Type.
+First, we need to set up our GraphQL Type.
 
-[app/graphql/types/article_type.rb][article_type.rb]
+[app/graphql/types/article_type.rb][api/app/graphql/types/article_type.rb]
 
 ```rb
 # frozen_string_literal: true
@@ -41,7 +41,7 @@ module Types
 end
 ```
 
-the following changes will be added to the [GraphQL Schema][schema.graphql].
+the following changes will be added to the [GraphQL Schema][api/schema.graphql].
 
 ```graphql
 type Article {
@@ -65,9 +65,9 @@ type Article {
 }
 ```
 
-Now that we've created the [ArticleType][article_type.rb], we need to expose it to the [QueryType][query_type.rb]. Query is the root type which all queries initially come from.
+Now that we've created the [ArticleType][api/app/graphql/types/article_type.rb], we need to expose it to the [QueryType][api/app/graphql/types/query_type.rb]. Query is the root type which all queries initially come from.
 
-[app/graphql/types/query_type.rb][query_type.rb]
+[app/graphql/types/query_type.rb][api/app/graphql/types/query_type.rb]
 
 ```rb
 # frozen_string_literal: true
@@ -86,7 +86,7 @@ module Types
 end
 ```
 
-the following changes will be added to the [GraphQL Schema][schema.graphql].
+the following changes will be added to the [GraphQL Schema][api/schema.graphql].
 
 ```graphql
 type Query {
@@ -94,11 +94,11 @@ type Query {
 }
 ```
 
-So here, we're exposing a field on the [QueryType][query_type.rb] called `article_by_slug` which takes 1 required argument `slug`. We then define a method to specify how that data will be resolved.
+So here, we're exposing a field on the [QueryType][api/app/graphql/types/query_type.rb] called `article_by_slug` which takes 1 required argument `slug`. We then define a method to specify how that data will be resolved.
 
 Let's go ahead and write our tests now.
 
-[spec/graphql/article_by_slug_spec.rb][article_by_slug_spec.rb]
+[spec/graphql/article_by_slug_spec.rb][api/spec/graphql/article_by_slug_spec.rb]
 
 ```rb
 # frozen_string_literal: true
@@ -158,12 +158,12 @@ RSpec.describe 'articleBySlug', type: :graphql do
 end
 ```
 
-we've setup our query, but there are a few other things going on here.
+we've set up our query, but a few other things are happing here.
 
-1. In order to maintain determinstic results, we freeze time using [ActiveSupport::TimeHelpers][activesupport::timehelpers].
-2. We're querying (almost) every value of an [article][article_type.rb] (besides data from the associated models). We've chosen to make sure the associations exist by querying for the key of the associations and making sure they respond with the correct values.
+1. In order to maintain deterministic results, we freeze time using [ActiveSupport::TimeHelpers][activesupport::timehelpers].
+2. We're querying (almost) every value of an [article][api/app/graphql/types/article_type.rb] (besides data from the associated models). We've chosen to make sure the associations exist by querying for the key of the associations and making sure they respond with the correct values.
 
-Next, let's setup our result.
+Next, let's set up our results.
 
 ```rb
 # frozen_string_literal: true
@@ -214,15 +214,15 @@ end
 
 > Notes:
 >
-> Since we've frozen time, and have determinstic results from the factories of FactoryBot we now have a passing test, (this setup might be a bit different to your environment in which case you can pass the data from the created model as part of the result).
+> Since we've frozen time, and have deterministic results from the factories of FactoryBot we now have a passing test, (this setup might be a bit different from your environment in which case you can pass the data from the created model as part of the result).
 
-Next, lets test some edge cases. We have a few different perspectives on how a user might be looking at this data.
+Next, let's test some edge cases. We have a few different perspectives on how a user might be looking at this data.
 
 1. The Author of the article might be viewing the data.
 2. A User of the website might be viewing the data.
 3. A Guest might be viewing the data.
 
-Each of these viewers has different permissions, so lets make sure our tests cover those ideas.
+Each of these viewers has different permissions, so let's make sure our tests cover those ideas.
 
 We've already defined the test from the perspective of a guest, let's do the user next.
 
@@ -359,19 +359,10 @@ end
 
 Great! we've tested all the major cases for how someone could potentially view the data.
 
-We could go a few steps futher and test things like `comments` or `tags`, but I'll leave that as an exercise up to you.
+We could go a few steps further and test things like `comments` or `tags`, but I'll leave that as an exercise up to you.
 
 [activesupport::timehelpers]: https://api.rubyonrails.org/v5.2.4.1/classes/ActiveSupport/Testing/TimeHelpers.html
-[api_schema.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/app/graphql/api_schema.rb
-[article_by_slug_spec.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/spec/graphql/article_by_slug_spec.rb
-[article_policy.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/app/policies/article_policy.rb
-[article_type.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/app/graphql/types/article_type.rb
-[article.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/app/models/article.rb
-[create_article_spec.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/spec/graphql/create_article_spec.rb
-[create_article.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/app/graphql/mutations/create_article.rb
-[delete_article_spec.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/spec/graphql/delete_article_spec.rb
-[delete_article.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/app/graphql/mutations/delete_article.rb
-[mutation_type.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/app/graphql/types/mutation_type.rb
-[query_type.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/app/graphql/types/query_type.rb
-[schema.graphql]: https://github.com/lifeiscontent/realworld/blob/master/api/schema.graphql
-[update_article.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/app/graphql/mutations/update_article.rb
+[api/spec/graphql/article_by_slug_spec.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/spec/graphql/article_by_slug_spec.rb
+[api/app/graphql/types/article_type.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/app/graphql/types/article_type.rb
+[api/app/graphql/types/query_type.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/app/graphql/types/query_type.rb
+[api/schema.graphql]: https://github.com/lifeiscontent/realworld/blob/master/api/schema.graphql

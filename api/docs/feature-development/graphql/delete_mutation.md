@@ -1,8 +1,8 @@
 ### Update Article Mutation (resolver)
 
-First, let's setup the mutation.
+First, let's set up the mutation.
 
-[app/graphql/mutations/delete_article.rb][delete_article.rb]
+[app/graphql/mutations/delete_article.rb][api/app/graphql/mutations/delete_article.rb]
 
 ```rb
 # frozen_string_literal: true
@@ -25,7 +25,7 @@ module Mutations
 end
 ```
 
-the following changes will be added to the [GraphQL Schema][schema.graphql].
+the following changes will be added to the [GraphQL Schema][api/schema.graphql].
 
 ```graphql
 type DeleteArticlePayload {
@@ -33,22 +33,22 @@ type DeleteArticlePayload {
 }
 ```
 
-There's a few things happening here, so lets break them down.
+A few things are happening here, so let's break them down.
 
-1. the name of the mutation is [deleteArticle][delete_article.rb], because its a **Delete** Action followed by the name of the resource [Article][article.rb].
-2. The payload you return should always be a key of the type of resource you're modifying. E.g. [article][article_type.rb] in this case.
+1. the name of the mutation is [deleteArticle][api/app/graphql/mutations/delete_article.rb], because its a **Delete** Action followed by the name of the resource [Article][api/app/models/article.rb].
+2. The payload you return should always be a key to the type of resource you're modifying. E.g. [article][api/app/graphql/types/article_type.rb] in this case.
 3. We specify our `slug` argument as an `ID` and mark it required.
-4. We specify the return `field` as [article][article_type.rb] and say it won't be `null`. (more on this soon).
+4. We specify the return `field` as [article][api/app/graphql/types/article_type.rb] and say it won't be `null`. (more on this soon).
 5. We specify our `resolve` method and expose our `slug` parameter as a keyword argument.
-6. We use our [ActionPolicy][article_policy.rb] to make sure we're authorized to `delete` an Article.
+6. We use our [ActionPolicy][api/app/policies/article_policy.rb] to make sure we're authorized to `delete` an Article.
 7. Once we know we're authorized, we delete the article on behalf of the authorized user.
-8. We return the deleted [article][article_type.rb] as the response.
+8. We return the deleted [article][api/app/graphql/types/article_type.rb] as the response.
 
 > Notes:
 >
 > One thing that is happening implicitly is our error handling. Let's demistify how that's working.
 >
-> 1. the article is being updated with the `update!` method so if the validation fails, it will throw an error. In which case we have a rescue block catching those errors in the [api_schema.rb][api_schema.rb] that look like this:
+> 1. the article is being updated with the `update!` method so if the validation fails, it will throw an error. In which case we have a rescue block catching those errors in the [api_schema.rb][api/app/graphql/api_schema.rb] that look like this:
 >
 > ```rb
 >  rescue_from ActiveRecord::RecordInvalid do |error|
@@ -72,7 +72,7 @@ There's a few things happening here, so lets break them down.
 >  end
 > ```
 
-Next, let's expose it to the [MutationType][mutation_type.rb] which is the root type that mutations resolve through.
+Next, let's expose it to the [MutationType][api/app/graphql/types/mutation_type.rb] which is the root type that mutations resolve through.
 
 ```rb
 # frozen_string_literal: true
@@ -84,7 +84,7 @@ module Types
 end
 ```
 
-the following changes will be added to the [GraphQL Schema][schema.graphql].
+the following changes will be added to the [GraphQL Schema][api/schema.graphql].
 
 ```graphql
 type Mutation {
@@ -92,7 +92,7 @@ type Mutation {
 }
 ```
 
-Next, let's create our [first test][delete_article_spec.rb].
+Next, let's create our [first test][api/spec/graphql/delete_article_spec.rb].
 
 ```rb
 # frozen_string_literal: true
@@ -223,16 +223,11 @@ end
 ```
 
 [activesupport::timehelpers]: https://api.rubyonrails.org/v5.2.4.1/classes/ActiveSupport/Testing/TimeHelpers.html
-[api_schema.rb]: ../../../app/graphql/api_schema.rb
-[article_by_slug_spec.rb]: ../../../spec/graphql/article_by_slug_spec.rb
-[article_policy.rb]: ../../../app/policies/article_policy.rb
-[article_type.rb]: ../../../app/graphql/types/article_type.rb
-[article.rb]: ../../../app/models/article.rb
-[create_article_spec.rb]: ../../../spec/graphql/create_article_spec.rb
-[create_article.rb]: ../../../app/graphql/mutations/create_article.rb
-[delete_article_spec.rb]: ../../../spec/graphql/delete_article_spec.rb
-[delete_article.rb]: ../../../app/graphql/mutations/delete_article.rb
-[mutation_type.rb]: ../../../app/graphql/types/mutation_type.rb
-[query_type.rb]: ../../../app/graphql/types/query_type.rb
-[schema.graphql]: ../../../schema.graphql
-[update_article.rb]: ../../../app/graphql/mutations/update_article.rb
+[api/app/graphql/api_schema.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/app/graphql/api_schema.rb
+[api/app/policies/article_policy.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/app/policies/article_policy.rb
+[api/app/graphql/types/article_type.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/app/graphql/types/article_type.rb
+[api/app/models/article.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/app/models/article.rb
+[api/spec/graphql/delete_article_spec.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/spec/graphql/delete_article_spec.rb
+[api/app/graphql/mutations/delete_article.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/app/graphql/mutations/delete_article.rb
+[api/app/graphql/types/mutation_type.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/app/graphql/types/mutation_type.rb
+[api/schema.graphql]: https://github.com/lifeiscontent/realworld/blob/master/api/schema.graphql

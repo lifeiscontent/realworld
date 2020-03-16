@@ -72,7 +72,7 @@ end
 
 #### Validation tests
 
-In our database we setup contracts about which columns are required, but in order to take advantage of what rails has to offer, we should set up validation logic to give us a nice abstraction when handling errors.
+In our database, we set up contracts about which columns are required, but to take advantage of what Rails have to offer, we should set up validation logic to give us a nice abstraction when handling errors.
 
 ```rb
 # frozen_string_literal: true
@@ -123,7 +123,7 @@ RSpec.describe Article, type: :model do
 end
 ```
 
-> **Note:** I've chosen to create factory_bot factories without their respective associations here, this is a personal preference, but it's recommended that you only create things you need, and by doing so, I'm opting in to what I need vs potentially creating extra data in my tests unknowingly (which can be very slow).
+> **Note:** I've chosen to create factory_bot factories without their respective associations here, this is a personal preference, but it's recommended that you only create things you need, and by doing so, I'm opting into what I need vs potentially creating extra data in my tests unknowingly (which can be very slow).
 
 we need to test a `valid` article, so here I've switched my subject to one.
 
@@ -238,7 +238,7 @@ end
 
 > You might be wondering why did we return `none` here?
 >
-> let's talk about that. its quite often you fight `nil` in ruby, in this case, if we were to get `nil` back it would just be messy conditional logic where ever we used this method. So rather than dealing with `nil`, we return an empty active record collection to circumvent it. This is a pretty good pattern to follow especially when creating custom class methods in models because it allows you to chain methods together on the class.
+> let's talk about that. its quite often you fight `nil` in ruby, in this case, if we were to get `nil` back it would just be messy conditional logic where ever we used this method. So rather than dealing with `nil`, we return an empty active record collection to circumvent it. This is a pretty good pattern to follow especially when creating custom class methods in models because it allows you to chain methods together in the class.
 >
 > Next, we hook into our join table we mentioned earlier `taggings` and where we have `taggings` that have the tags we passed in, we return the articles, but again, only the `distinct` articles, if we didn't do that, we'd have a total of `9` coming back.
 >
@@ -345,4 +345,4 @@ Rails provide built-in support for incrementing/decrementing counts, so this is 
 
 > You might be wondering, why did we test what rails provide us?
 >
-> Great question! The reason we wrote tests is because its a part of our business logic, these are expectations of what **should** happen. Even though the functionality is something that rails provides to us, the tests help us preserve and communicate the business logic expectations.
+> Great question! The reason we wrote tests is that its a part of our business logic, these are expectations of what **should** happen. Even though the functionality is something that Rails gives us, the tests help us preserve and communicate the business logic expectations.

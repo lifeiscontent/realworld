@@ -1,6 +1,6 @@
 ### Create Article Mutation (resolver)
 
-[spec/graphql/create_article_spec.rb][create_article_spec.rb]
+[api/spec/graphql/create_article_spec.rb][api/spec/graphql/create_article_spec.rb]
 
 ```rb
 # frozen_string_literal: true
@@ -28,11 +28,11 @@ RSpec.describe 'createArticle', type: :graphql do
 end
 ```
 
-There's a few conventions you can follow here in GraphQL.
+There are a few conventions you can follow here in GraphQL.
 
-1. the name of the mutation is [createArticle][create_article.rb], because its a **Create** Action followed by the name of the resource [Article][article.rb].
+1. the name of the mutation is [createArticle][api/app/graphql/mutations/create_article.rb], because its a **Create** Action followed by the name of the resource [Article][api/app/models/article.rb].
 2. you should only need a single `input` variable<sup>1</sup> this can be thought of as the `params` object in Rails controllers.
-3. The payload you return should always be a key of the type of resource you're modifying. E.g. [article][article_type.rb] in this case.
+3. The payload you return should always be a key to the type of resource you're modifying. E.g. [article][api/app/graphql/types/article_type.rb] in this case.
 
 > Notes:
 >
@@ -62,7 +62,7 @@ RSpec.describe 'createArticle', type: :graphql do
 end
 ```
 
-Now lets write the mutation.
+Now let's write the mutation.
 
 ```rb
 # frozen_string_literal: true
@@ -94,7 +94,7 @@ module Mutations
 end
 ```
 
-the following changes will be added to the [GraphQL Schema][schema.graphql].
+the following changes will be added to the [GraphQL Schema][api/schema.graphql].
 
 ```graphql
 input CreateArticleInput {
@@ -109,22 +109,22 @@ type CreateArticlePayload {
 }
 ```
 
-There's a few things happening here, so lets break them down.
+A few things are happening here, so let's break them down.
 
 1. We create the Input class in GraphQL
    - We make the input easier to deal with in the resolver by transforming the input to a hash with the `prepare` method (this is a hook within GraphQL Ruby for Inputs).
 2. We specify our `input` argument as the `CreateArticleInput` we created and mark it as required.
-3. We specify the return `field` as [article][article_type.rb] and say it won't be `null`. (more on this soon).
+3. We specify the return `field` as [article][api/app/graphql/types/article_type.rb] and say it won't be `null`. (more on this soon).
 4. We specify our `resolve` method and expose our `input` parameter as a keyword argument.
-5. We use our [ActionPolicy][article_policy.rb] to make sure we're authorized to `create` an [Article][article.rb].
+5. We use our [ActionPolicy][api/app/policies/article_policy.rb] to make sure we're authorized to `create` an [Article][api/app/models/article.rb].
 6. Once we know we're authorized, we create the article on behalf of the authorized user.
-7. We return the created [article][article_type.rb] as the response.
+7. We return the created [article][api/app/graphql/types/article_type.rb] as the response.
 
 > Notes:
 >
 > One thing that is happening implicitly is our error handling. Let's demistify how that's working.
 >
-> 1. the article is being created with the `create!` method so if the validation fails, it will throw an error. In which case we have a rescue block catching those errors in the [api_schema.rb][api_schema.rb] that look like this:
+> 1. the article is being created with the `create!` method so if the validation fails, it will throw an error. In which case we have a rescue block catching those errors in the [api_schema.rb][api/app/graphql/api_schema.rb] that look like this:
 >
 > ```rb
 >  rescue_from ActiveRecord::RecordInvalid do |error|
@@ -148,7 +148,7 @@ There's a few things happening here, so lets break them down.
 >  end
 > ```
 
-Next, let's expose it to the [MutationType][mutation_type.rb] which is the root type that mutations resolve through.
+Next, let's expose it to the [MutationType][api/app/graphql/types/mutation_type.rb] which is the root type that mutations resolve through.
 
 ```rb
 # frozen_string_literal: true
@@ -160,7 +160,7 @@ module Types
 end
 ```
 
-the following changes will be added to the [GraphQL Schema][schema.graphql].
+the following changes will be added to the [GraphQL Schema][api/schema.graphql].
 
 ```graphql
 type Mutation {
@@ -168,7 +168,7 @@ type Mutation {
 }
 ```
 
-Next, let's create our [first test][create_article_spec.rb].
+Next, let's create our [first test][api/spec/graphql/create_article_spec.rb].
 
 ```rb
 # frozen_string_literal: true
@@ -241,19 +241,14 @@ Great, now we've tested our happy path and the expectations of how our authoriza
 
 > Notes:
 >
-> There's a caveat here, We're relying on the fact that our factories will always return the same data for our tests (this might not be the case for your codebase) ideally, you want your fixture data / factories to return sequenced data so your tests are reliable.
+> There's a caveat here, We're relying on the fact that our factories will always return the same data for our tests (this might not be the case for your codebase) ideally, you want your fixture data/factories to return sequenced data so your tests are reliable.
 
 [activesupport::timehelpers]: https://api.rubyonrails.org/v5.2.4.1/classes/ActiveSupport/Testing/TimeHelpers.html
-[api_schema.rb]: ../../../app/graphql/api_schema.rb
-[article_by_slug_spec.rb]: ../../../spec/graphql/article_by_slug_spec.rb
-[article_policy.rb]: ../../../app/policies/article_policy.rb
-[article_type.rb]: ../../../app/graphql/types/article_type.rb
-[article.rb]: ../../../app/models/article.rb
-[create_article_spec.rb]: ../../../spec/graphql/create_article_spec.rb
-[create_article.rb]: ../../../app/graphql/mutations/create_article.rb
-[delete_article_spec.rb]: ../../../spec/graphql/delete_article_spec.rb
-[delete_article.rb]: ../../../app/graphql/mutations/delete_article.rb
-[mutation_type.rb]: ../../../app/graphql/types/mutation_type.rb
-[query_type.rb]: ../../../app/graphql/types/query_type.rb
-[schema.graphql]: ../../../schema.graphql
-[update_article.rb]: ../../../app/graphql/mutations/update_article.rb
+[api/app/graphql/api_schema.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/app/graphql/api_schema.rb
+[api/app/policies/article_policy.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/app/policies/article_policy.rb
+[api/app/graphql/types/article_type.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/app/graphql/types/article_type.rb
+[api/app/models/article.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/app/models/article.rb
+[api/spec/graphql/create_article_spec.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/spec/graphql/create_article_spec.rb
+[api/app/graphql/mutations/create_article.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/app/graphql/mutations/create_article.rb
+[api/app/graphql/types/mutation_type.rb]: https://github.com/lifeiscontent/realworld/blob/master/api/app/graphql/types/mutation_type.rb
+[api/schema.graphql]: https://github.com/lifeiscontent/realworld/blob/master/api/schema.graphql
