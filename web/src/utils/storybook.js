@@ -3,7 +3,6 @@ import { makeDecorator } from '@storybook/addons';
 import { MockedProvider } from '@apollo/react-testing';
 import React from 'react';
 import Router from 'next/router';
-import { RouterContext } from 'next/dist/next-server/lib/router-context';
 
 export const withRouter = makeDecorator({
   name: 'Router',
@@ -32,11 +31,7 @@ export const withRouter = makeDecorator({
       ...settings.parameters
     };
 
-    return (
-      <RouterContext.Provider value={Router.router}>
-        {getStory(context)}
-      </RouterContext.Provider>
-    );
+    return getStory(context);
   }
 });
 

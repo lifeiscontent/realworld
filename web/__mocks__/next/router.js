@@ -1,21 +1,14 @@
 import Router from 'next/dist/client/router';
-export { RouterContext } from 'next/dist/next-server/lib/router-context';
 
-if (typeof window.scrollTo !== 'function') {
-  window.scrollTo = jest.fn();
-}
+const push = jest.fn().mockResolvedValue(false);
+const replace = jest.fn().mockResolvedValue(false);
+
+Router.push = push;
+Router.replace = replace;
 
 Router.router = {
-  asPath: '/',
-  back: jest.fn(),
-  beforePopState: jest.fn(),
-  pageLoader: { prefetched: {} },
-  pathname: '/',
-  prefetch: jest.fn(),
-  push: jest.fn().mockResolvedValue(false),
-  query: {},
-  reload: jest.fn(),
-  replace: jest.fn().mockResolvedValue(false)
+  push,
+  replace
 };
 
 export default Router;
