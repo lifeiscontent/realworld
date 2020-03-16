@@ -1,4 +1,5 @@
 import React from 'react';
+import cookie from 'cookie';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import { withApollo } from '../hocs/with-apollo';
@@ -16,12 +17,17 @@ function LoginPage() {
             variables: values
           })
             .then(res => {
-              fetch('/api/login', {
-                method: 'POST',
-                body: res.data.signIn.token
-              }).then(() => {
-                window.location = '/';
-              });
+              document.cookie = cookie.serialize(
+                'authorization',
+                `Bearer ${res.data.signIn.token}`,
+                {
+                  maxAge: 60 * 60 * 24,
+                  path: '/',
+                  sameSite: 'lax',
+                  secure: process.env.NODE_ENV === 'production'
+                }
+              );
+              window.location = '/';
             })
             .catch(err => {
               handleValidationError(err, setStatus);

@@ -34,17 +34,11 @@ export function NavbarUserDropdown({ username }) {
             Settings
           </a>
         </Link>
-        <button
-          className="dropdown-item"
-          onClick={async () => {
-            setOpen(false);
-            fetch('/api/logout', { method: 'POST' }).then(() => {
-              window.location = '/';
-            });
-          }}
-        >
-          Logout
-        </button>
+        <Link href="/logout">
+          <a className="dropdown-item" onClick={() => setOpen(false)}>
+            Logout
+          </a>
+        </Link>
       </div>
     </li>
   );
