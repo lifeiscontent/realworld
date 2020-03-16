@@ -2,18 +2,25 @@ import { ApolloClient } from 'apollo-client';
 import { InMemoryCache, defaultDataIdFromObject } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
 import fetch from 'isomorphic-unfetch';
+import cookie from 'cookie';
 
 export default function createApolloClient(initialState, ctx) {
   // The `ctx` (NextPageContext) will only be present on the server.
   // use it to extract auth headers (ctx.req) or similar.
+  const ssrMode = Boolean(ctx);
+
+  const { authorization } = cookie.parse(
+    ssrMode ? req.headers.cookie ?? '' : document.cookie
+  );
+
   return new ApolloClient({
     assumeImmutableResults: true,
-    connectToDevTools: Boolean(ctx),
-    ssrMode: typeof window === 'undefined',
+    connectToDevTools: !ssrMode && process.env.NODE_ENV !== 'production',
+    ssrMode,
     name: 'Conduit',
     version: '1.0.0',
     link: new HttpLink({
-      headers: ctx?.req?.headers,
+      headers: { authorization },
       fetch,
       credentials: 'omit',
       uri: process.env.GRAPHQL_URL
