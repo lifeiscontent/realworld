@@ -15,7 +15,6 @@ export default function createApolloClient(initialState, ctx) {
     link: new HttpLink({
       headers: ctx?.req?.headers,
       fetch,
-      credentials: 'include',
       uri: process.env.GRAPHQL_URL
     }),
     cache: new InMemoryCache(cacheConfig).restore(initialState)
