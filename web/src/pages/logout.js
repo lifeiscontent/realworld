@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
 import Router from 'next/router';
+import { useEffect } from 'react';
 
-export default () => {
+export default function Logout() {
   document.cookie = cookie.serialize('authorization', '', {
     maxAge: -1,
     path: '/',
@@ -14,4 +14,4 @@ export default () => {
   }, []);
 
   return null;
-};
+}
