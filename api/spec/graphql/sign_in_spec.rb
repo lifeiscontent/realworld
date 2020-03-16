@@ -34,11 +34,15 @@ RSpec.describe 'signIn', type: :graphql do
   end
 
   context 'current_user is nil' do
+    before(:each) do
+      allow_any_instance_of(User).to receive(:generate_jwt).and_return('token')
+    end
+
     let(:result) do
       {
         'data' => {
           'signIn' => {
-            'token' => 'eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZXhwIjo3NTc0Njg4MDB9.UUPAW1sH_uv3mY58FfCf_R3kZl-erkG_PmLYDYhqePQ',
+            'token' => 'token',
             'user' => {
               'email' => 'user1@example.com',
               'username' => 'user1'
