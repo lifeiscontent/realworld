@@ -16,7 +16,7 @@ export default function createApolloClient(initialState, ctx) {
       headers: ctx?.req?.headers,
       fetch,
       credentials: 'include',
-      uri: 'http://localhost:3000/api/graphql'
+      uri: process.env.GRAPHQL_URL_CLIENT
     }),
     cache: new InMemoryCache(cacheConfig).restore(initialState)
   });

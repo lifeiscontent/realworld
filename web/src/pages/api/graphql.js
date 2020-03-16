@@ -8,7 +8,7 @@ export default (req, res) => {
       headers['Authorization'] = `Bearer ${req.cookies.token}`;
     }
 
-    return fetch(process.env.GRAPHQL_URL, {
+    return fetch(process.env.GRAPHQL_URL_SERVER, {
       body: JSON.stringify(req.body),
       credentials: 'omit',
       headers,
