@@ -61,7 +61,9 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { action } from '@storybook/addon-actions';
 
 // we can reuse our storybook examples as fixtures
-import { renders, canFavorite, canUnfavorite } from './index.stories';
+import story, { renders, canFavorite, canUnfavorite } from './index.stories';
+// use a custom helper for using stories easier
+import { decorateStory } from '../../utils/storybook';
 
 // in order to test that our storybook actions get called, we can mock it.
 // checkout the `__mocks__` folder for more details.
@@ -69,14 +71,14 @@ jest.mock('@storybook/addon-actions');
 
 describe('ArticleFavoriteButton', () => {
   it('is disabled with insufficient access', async () => {
-    render(renders());
+    render(decorateStory(renders, story));
 
     const button = await screen.findByText('Favorite Article (0)');
     expect(button).toHaveAttribute('disabled');
   });
 
   it('calls onFavorite when clicked', async () => {
-    render(canFavorite());
+    render(decorateStory(canFavorite, story));
     const button = await screen.findByText('Favorite Article (0)');
 
     fireEvent.click(button);
@@ -84,7 +86,7 @@ describe('ArticleFavoriteButton', () => {
   });
 
   it('calls onUnfavorite when clicked', async () => {
-    render(canUnfavorite());
+    render(decorateStory(canUnfavorite, story));
 
     const button = await screen.findByText('Unfavorite Article (1)');
 

@@ -1,19 +1,20 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { action } from '@storybook/addon-actions';
-import { renders, canFavorite, canUnfavorite } from './index.stories';
+import story, { renders, canFavorite, canUnfavorite } from './index.stories';
+import { decorateStory } from '../../utils/storybook';
 
 jest.mock('@storybook/addon-actions');
 
 describe('ArticleFavoriteButton', () => {
   it('is disabled with insufficient access', async () => {
-    render(renders());
+    render(decorateStory(renders, story));
 
     const button = await screen.findByText('Favorite Article (0)');
     expect(button).toHaveAttribute('disabled');
   });
 
   it('calls onFavorite when clicked', async () => {
-    render(canFavorite());
+    render(decorateStory(canFavorite, story));
     const button = await screen.findByText('Favorite Article (0)');
 
     fireEvent.click(button);
@@ -21,7 +22,7 @@ describe('ArticleFavoriteButton', () => {
   });
 
   it('calls onUnfavorite when clicked', async () => {
-    render(canUnfavorite());
+    render(decorateStory(canUnfavorite, story));
 
     const button = await screen.findByText('Unfavorite Article (1)');
 

@@ -6,8 +6,10 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 
 // in order to test the onSubmit action in the fixture, we need to use the `action` function
 import { action } from '@storybook/addon-actions';
-import { renders } from './index.stories'; // we're going to use the fixture from storybook
-import { MockedProvider } from '@apollo/react-testing'; // we're using Apollo Client here so we need the MockedProvider
+// we're going to use the fixture from storybook
+import story, { renders } from './index.stories';
+// we're going to use a custom helper to make working with stories easier
+import { decorateStory } from '../../utils/storybook';
 
 // we mock the action function, checkout the __mocks__ folder for the code.
 jest.mock('@storybook/addon-actions');
@@ -16,10 +18,9 @@ describe('ArticleForm', () => {
   // we want to know that the validation errors work as expected.
   it('displays errors on submit', async () => {
     // render the fixture
+    render(decorateStory(renders, story));
 
-    render(<MockedProvider>{renders()}</MockedProvider>);
-
-    // grab the submitButton
+    // gather our fields
     const submitButton = await screen.findByText('Publish Article');
 
     // click the submit button
@@ -34,7 +35,8 @@ describe('ArticleForm', () => {
 
   // we want to know that the form will submit successfully once we pass our validation checks
   it('calls onSubmit when valid on submit', async () => {
-    render(<MockedProvider>{renders()}</MockedProvider>);
+    // render the fixture
+    render(decorateStory(renders, story));
 
     // gather our fields
     const title = await screen.findByLabelText(/title/i);

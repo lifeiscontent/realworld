@@ -4,6 +4,11 @@ import { MockedProvider } from '@apollo/react-testing';
 import React from 'react';
 import Router from 'next/router';
 import { RouterContext } from 'next/dist/next-server/lib/router-context';
+import { defaultDecorateStory } from '@storybook/client-api';
+
+export function decorateStory(example, story) {
+  return defaultDecorateStory(example, story.decorators ?? [])(example.story);
+}
 
 export const withRouter = makeDecorator({
   name: 'Router',

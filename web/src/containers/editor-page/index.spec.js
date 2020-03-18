@@ -1,6 +1,6 @@
 import { render, waitFor } from '@testing-library/react';
 import story, { renders, asUser } from './index.stories';
-import { defaultDecorateStory } from '@storybook/client-api';
+import { decorateStory } from '../../utils/storybook';
 import { action } from '@storybook/addon-actions';
 
 jest.mock('@storybook/addon-actions');
@@ -11,7 +11,7 @@ describe('EditorPage', () => {
       action('router.replace').mockClear();
     });
     it('redirects', async () => {
-      render(defaultDecorateStory(renders, story.decorators)(renders.story));
+      render(decorateStory(renders, story));
 
       await waitFor(() => {
         expect(action('router.replace')).toHaveBeenCalledWith('/editor', '/', {
@@ -23,7 +23,7 @@ describe('EditorPage', () => {
 
   describe('when logged in', () => {
     it('does not redirect', async () => {
-      render(defaultDecorateStory(asUser, story.decorators)(asUser.story));
+      render(decorateStory(asUser, story));
 
       await waitFor(() => {
         expect(action('router.replace')).not.toHaveBeenCalled();

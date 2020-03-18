@@ -1,13 +1,13 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import story, { renders } from './index.stories';
-import { defaultDecorateStory } from '@storybook/client-api';
+import { decorateStory } from '../../utils/storybook';
 import { action } from '@storybook/addon-actions';
 
 jest.mock('@storybook/addon-actions');
 
 describe('ArticleUpdateButton', () => {
   it('goes to link on click', async () => {
-    render(defaultDecorateStory(renders, story.decorators)());
+    render(decorateStory(renders, story));
     const link = await screen.findByRole('link');
 
     fireEvent.click(link);
