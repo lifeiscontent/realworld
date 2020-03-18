@@ -1,5 +1,5 @@
 module.exports = {
   env: {
-    GRAPHQL_URL: 'http://localhost:4000/graphql'
+    GRAPHQL_URL: 'https://realworld-api-production.herokuapp.com/graphql'
   }
 };
