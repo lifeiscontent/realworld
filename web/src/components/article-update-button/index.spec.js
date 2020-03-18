@@ -17,6 +17,7 @@ describe('ArticleUpdateButton', () => {
 
     const link = screen.getByRole('link');
     fireEvent.click(link);
+
     expect(action('router.push')).toHaveBeenCalledWith(
       '/editor/[slug]',
       '/editor/a-simple-title',
