@@ -9,7 +9,7 @@ import { NetworkStatus } from 'apollo-client';
 
 export function ArticleComments({ articleSlug }) {
   const commentsList = useQuery(ArticleCommentsQuery, {
-    fetchPolicy: 'cache-only',
+    fetchPolicy: 'cache-first',
     variables: {
       slug: articleSlug
     }
@@ -125,7 +125,7 @@ ArticleComments.fragments = {
   `
 };
 
-const ArticleCommentsQuery = gql`
+export const ArticleCommentsQuery = gql`
   query ArticleCommentsQuery($slug: ID!) {
     viewer {
       ...ArticleCommentsViewerFragment
