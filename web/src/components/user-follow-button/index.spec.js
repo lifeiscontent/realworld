@@ -9,7 +9,7 @@ describe('UserFollowButton', () => {
   it('is disabled with insufficient access', async () => {
     render(decorateStory(renders, story));
     const button = screen.getByRole('button');
-    expect(button).toHaveAttribute('disabled');
+    expect(button).toBeDisabled();
   });
 
   it('calls onFollow when clicked', async () => {

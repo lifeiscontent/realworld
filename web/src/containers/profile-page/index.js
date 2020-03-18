@@ -6,6 +6,7 @@ import { ArticlePreview } from '../../components/article-preview';
 import { withLayout } from '../../hocs/with-layout';
 import { UserPageBanner } from '../../components/user-page-banner';
 import { UserArticlesToggle } from '../../components/user-articles-toggle';
+import { NetworkStatus } from 'apollo-client';
 
 function ProfilePage() {
   const router = useRouter();
@@ -21,7 +22,11 @@ function ProfilePage() {
   const [followUser] = useMutation(ProfilePageFollowUser);
   const [unfollowUser] = useMutation(ProfilePageUnfollowUserMutation);
 
-  if (profile.loading) return null;
+  if (
+    profile.networkStatus === NetworkStatus.loading ||
+    profile.networkStatus === undefined
+  )
+    return null;
 
   return (
     <div className="profile-page">

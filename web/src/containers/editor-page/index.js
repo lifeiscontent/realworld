@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { withLayout } from '../../hocs/with-layout';
 
 import { handleValidationError } from '../../utils/graphql';
+import { NetworkStatus } from 'apollo-client';
 
 function EditorPage() {
   const router = useRouter();
@@ -13,11 +14,21 @@ function EditorPage() {
   const [createArticle] = useMutation(EditorPageCreateArticleMutation);
 
   useEffect(() => {
-    if (editor.loading || editor.data.canCreateArticle.value) return;
+    if (
+      editor.networkStatus === NetworkStatus.loading ||
+      editor.networkStatus === undefined ||
+      editor.data.canCreateArticle.value
+    )
+      return;
     router.replace(router.asPath, '/', { shallow: true });
-  }, [editor.data, editor.loading, router]);
+  }, [editor.data, editor.networkStatus, router]);
 
-  if (editor.loading || !editor.data.canCreateArticle.value) return null;
+  if (
+    editor.networkStatus === NetworkStatus.loading ||
+    editor.networkStatus === undefined ||
+    !editor.data.canCreateArticle.value
+  )
+    return null;
 
   return (
     <div className="editor-page">

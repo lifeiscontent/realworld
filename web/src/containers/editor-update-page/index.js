@@ -5,6 +5,7 @@ import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
 import { withLayout } from '../../hocs/with-layout';
 import { handleValidationError } from '../../utils/graphql';
+import { NetworkStatus } from 'apollo-client';
 
 function EditorUpdatePage() {
   const router = useRouter();
@@ -18,12 +19,21 @@ function EditorUpdatePage() {
   const [updateArticle] = useMutation(EditorUpdatePageUpdateArticleMutation);
 
   useEffect(() => {
-    if (editorUpdate.loading || editorUpdate.data.article.canUpdate.value)
+    if (
+      editorUpdate.networkStatus === NetworkStatus.loading ||
+      editorUpdate.networkStatus === undefined ||
+      editorUpdate.data.article.canUpdate.value
+    )
       return;
     router.replace(router.asPath, '/', { shallow: true });
-  }, [editorUpdate.data, editorUpdate.loading, router]);
+  }, [editorUpdate.data, editorUpdate.networkStatus, router]);
 
-  if (editorUpdate.loading) return null;
+  if (
+    editorUpdate.networkStatus === NetworkStatus.loading ||
+    editorUpdate.networkStatus === undefined ||
+    !editorUpdate.data.article.canUpdate.value
+  )
+    return null;
 
   return (
     <div className="editor-page">

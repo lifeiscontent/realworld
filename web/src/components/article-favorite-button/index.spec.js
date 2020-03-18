@@ -10,7 +10,7 @@ describe('ArticleFavoriteButton', () => {
     render(decorateStory(renders, story));
 
     const button = await screen.findByText('Favorite Article (0)');
-    expect(button).toHaveAttribute('disabled');
+    expect(button).toBeDisabled();
   });
 
   it('calls onFavorite when clicked', async () => {

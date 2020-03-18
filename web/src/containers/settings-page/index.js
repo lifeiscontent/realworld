@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { withLayout } from '../../hocs/with-layout';
 import { handleValidationError } from '../../utils/graphql';
 import { UserSettingsForm } from '../../components/user-settings-form';
+import { NetworkStatus } from 'apollo-client';
 
 function SettingsPage() {
   const router = useRouter();
@@ -12,11 +13,21 @@ function SettingsPage() {
   const [updateUser] = useMutation(SettingsPageUpdateUserMutation);
 
   useEffect(() => {
-    if (settings.loading || !!settings.data.viewer) return;
+    if (
+      settings.networkStatus === NetworkStatus.loading ||
+      settings.networkStatus === undefined ||
+      !!settings.data.viewer
+    )
+      return;
     router.replace(router.asPath, '/login', { shallow: true });
-  }, [settings.data, settings.loading, router]);
+  }, [settings.data, settings.networkStatus, router]);
 
-  if (settings.loading) return null;
+  if (
+    settings.networkStatus === NetworkStatus.loading ||
+    settings.networkStatus === undefined ||
+    !settings.data.viewer
+  )
+    return null;
 
   return (
     <div className="settings-page">

@@ -33,11 +33,21 @@ function FeedPage() {
   const [unfavoriteArticle] = useMutation(FeedPageUnfavoriteArticleMutation);
 
   useEffect(() => {
-    if (feed.loading || !!feed.data.viewer) return;
+    if (
+      feed.networkStatus === NetworkStatus.loading ||
+      feed.networkStatus === undefined ||
+      !!feed.data.viewer
+    )
+      return;
     router.replace(router.asPath, '/login', { shallow: true });
-  }, [feed.data, feed.loading, router]);
+  }, [feed.data, feed.networkStatus, router]);
 
-  if (feed.networkStatus === NetworkStatus.loading) return null;
+  if (
+    feed.networkStatus === NetworkStatus.loading ||
+    feed.networkStatus === undefined ||
+    !feed.data.viewer
+  )
+    return null;
 
   return (
     <div className="home-page">

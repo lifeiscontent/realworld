@@ -7,6 +7,7 @@ import { ArticlePageBanner } from '../../components/article-page-banner';
 import { ArticleMeta } from '../../components/article-meta';
 import { withLayout } from '../../hocs/with-layout';
 import { ArticleComments } from '../article-comments';
+import { NetworkStatus } from 'apollo-client';
 
 function ArticlePage() {
   const router = useRouter();
@@ -23,7 +24,12 @@ function ArticlePage() {
   const [unfavoriteArticle] = useMutation(ArticlePageUnfavoriteArticleMutation);
   const [unfollowUser] = useMutation(ArticlePageUnfollowUserMutation);
 
-  if (article.loading) return null;
+  if (
+    article.networkStatus === NetworkStatus.loading ||
+    article.networkStatus === undefined
+  ) {
+    return null;
+  }
 
   return (
     <div className="article-page">

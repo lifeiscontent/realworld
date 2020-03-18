@@ -6,6 +6,7 @@ import { ArticlePreview } from '../../components/article-preview';
 import { withLayout } from '../../hocs/with-layout';
 import { UserPageBanner } from '../../components/user-page-banner';
 import { UserArticlesToggle } from '../../components/user-articles-toggle';
+import { NetworkStatus } from 'apollo-client';
 
 function ProfileFavoritesPage() {
   const router = useRouter();
@@ -57,7 +58,11 @@ function ProfileFavoritesPage() {
   const [followUser] = useMutation(ProfileFavoritesPageFollowUserMutation);
   const [unfollowUser] = useMutation(ProfileFavortiesPageUnfollowUserMutation);
 
-  if (favorites.loading) return null;
+  if (
+    favorites.networkStatus === NetworkStatus.loading ||
+    favorites.networkStatus === undefined
+  )
+    return null;
 
   return (
     <div className="profile-page">

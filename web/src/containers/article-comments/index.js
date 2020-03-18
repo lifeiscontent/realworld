@@ -5,6 +5,7 @@ import gql from 'graphql-tag';
 import { UserCommentForm } from '../../components/user-comment-form';
 import { handleValidationError } from '../../utils/graphql';
 import { CommentCard } from '../../components/comment-card';
+import { NetworkStatus } from 'apollo-client';
 
 export function ArticleComments({ articleSlug }) {
   const commentsList = useQuery(ArticleCommentsQuery, {
@@ -79,7 +80,12 @@ export function ArticleComments({ articleSlug }) {
     [createComment]
   );
 
-  if (commentsList.loading) return null;
+  if (
+    commentsList.networkStatus === NetworkStatus.loading ||
+    commentsList.networkStatus === undefined
+  ) {
+    return null;
+  }
 
   return (
     <>
@@ -119,7 +125,7 @@ ArticleComments.fragments = {
   `
 };
 
-export const ArticleCommentsQuery = gql`
+const ArticleCommentsQuery = gql`
   query ArticleCommentsQuery($slug: ID!) {
     viewer {
       ...ArticleCommentsViewerFragment
@@ -132,7 +138,7 @@ export const ArticleCommentsQuery = gql`
   ${ArticleComments.fragments.article}
 `;
 
-const ArticleCommentsCreateCommentMutation = gql`
+export const ArticleCommentsCreateCommentMutation = gql`
   mutation ArticleCommentsCreateCommentMutation(
     $articleSlug: ID!
     $input: CreateCommentInput!

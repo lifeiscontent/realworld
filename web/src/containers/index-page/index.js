@@ -32,7 +32,11 @@ function IndexPage() {
   const [favoriteArticle] = useMutation(IndexPageFavoriteArticleMutation);
   const [unfavoriteArticle] = useMutation(IndexPageUnfavoriteArticleMutation);
 
-  if (index.networkStatus == NetworkStatus.loading) return null;
+  if (
+    index.networkStatus == NetworkStatus.loading ||
+    index.networkStatus === undefined
+  )
+    return null;
 
   return (
     <div className="home-page">
