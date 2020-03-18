@@ -54,7 +54,7 @@ export function UserCommentForm({
               alt={`Image of ${username}`}
             />
             &nbsp;&nbsp;
-            <Link href="/[username]" as={`/${username}`}>
+            <Link href="/user/[username]" as={`/user/${username}`}>
               <a className="comment-author">{username}</a>
             </Link>
             <FormikSubmitButton className="btn btn-sm btn-primary">

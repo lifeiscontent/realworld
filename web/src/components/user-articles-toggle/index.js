@@ -11,10 +11,10 @@ export function UserArticlesToggle({ username }) {
     <div className="articles-toggle">
       <ul className="nav nav-pills outline-active">
         <li className="nav-item">
-          <Link href="/[username]" as={`/${username}`}>
+          <Link href="/user/[username]" as={`/user/${username}`}>
             <a
               className={clsx('nav-link', {
-                active: router.pathname === '/[username]'
+                active: router.pathname === '/user/[username]'
               })}
             >
               My Articles
@@ -22,7 +22,10 @@ export function UserArticlesToggle({ username }) {
           </Link>
         </li>
         <li className="nav-item">
-          <Link href="/[username]/favorites" as={`/${username}/favorites`}>
+          <Link
+            href="/user/[username]/favorites"
+            as={`/user/${username}/favorites`}
+          >
             <a
               className={clsx('nav-link', {
                 active: router.pathname === '/[username]/favorites'

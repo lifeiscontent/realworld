@@ -25,8 +25,8 @@ function SettingsPage() {
           updateUser({ variables: values })
             .then(res => {
               router.push(
-                '/[username]',
-                `/${res.data.updateUser.user.username}`
+                '/user/[username]',
+                `/user/${res.data.updateUser.user.username}`
               );
             })
             .catch(err => {

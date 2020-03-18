@@ -24,7 +24,7 @@ export function NavbarUserDropdown({ username }) {
         {username}
       </a>
       <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-        <Link href="/[username]" as={`/${username}`}>
+        <Link href="/user/[username]" as={`/user/${username}`}>
           <a className="dropdown-item" onClick={() => setOpen(false)}>
             Profile
           </a>

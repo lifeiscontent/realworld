@@ -119,7 +119,7 @@ ArticleComments.fragments = {
   `
 };
 
-const ArticleCommentsQuery = gql`
+export const ArticleCommentsQuery = gql`
   query ArticleCommentsQuery($slug: ID!) {
     viewer {
       ...ArticleCommentsViewerFragment

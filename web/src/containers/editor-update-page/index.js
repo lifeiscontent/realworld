@@ -11,7 +11,8 @@ function EditorUpdatePage() {
   const editorUpdate = useQuery(EditorUpdatePageQuery, {
     variables: {
       slug: router.query.slug
-    }
+    },
+    skip: !router.query.slug
   });
 
   const [updateArticle] = useMutation(EditorUpdatePageUpdateArticleMutation);

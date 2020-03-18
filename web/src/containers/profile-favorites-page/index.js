@@ -12,7 +12,8 @@ function ProfileFavoritesPage() {
   const favorites = useQuery(ProfileFavoritesPageQuery, {
     variables: {
       username: router.query.username
-    }
+    },
+    skip: !router.query.username
   });
 
   const [favoriteArticle] = useMutation(

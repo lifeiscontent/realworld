@@ -13,8 +13,8 @@ describe('ArticleUpdateButton', () => {
     fireEvent.click(link);
 
     expect(action('router.push')).toHaveBeenCalledWith(
-      '/[username]',
-      '/lifeiscontent',
+      '/user/[username]',
+      '/user/lifeiscontent',
       {
         shallow: undefined
       }

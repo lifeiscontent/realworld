@@ -17,7 +17,7 @@ export const myArticlesActive = () => (
 myArticlesActive.story = {
   parameters: {
     router: {
-      pathname: '/[username]'
+      pathname: '/user/[username]'
     }
   }
 };
@@ -29,7 +29,7 @@ export const favoritedArticlesActive = () => (
 favoritedArticlesActive.story = {
   parameters: {
     router: {
-      pathname: '/[username]/favorites'
+      pathname: '/user/[username]/favorites'
     }
   }
 };

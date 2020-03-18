@@ -6,7 +6,7 @@ import gql from 'graphql-tag';
 
 export function UserAvatarLink({ profile, username }) {
   return (
-    <Link href="/[username]" as={`/${username}`}>
+    <Link href="/user/[username]" as={`/user/${username}`}>
       <a>
         <UserAvatar profile={profile} username={username} />
       </a>

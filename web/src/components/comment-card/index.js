@@ -28,7 +28,7 @@ export function CommentCard({
         </div>
       </div>
       <div className="card-footer">
-        <Link href="/[username]" as={`/${author.username}`}>
+        <Link href="/user/[username]" as={`/user/${author.username}`}>
           <a className="comment-author">
             <img
               src={profile.imageUrl ?? '/images/smiley-cyrus.jpg'}
@@ -37,7 +37,7 @@ export function CommentCard({
             />
           </a>
         </Link>{' '}
-        <Link href="/[username]" as={`/${author.username}`}>
+        <Link href="/user/[username]" as={`/user/${author.username}`}>
           <a className="comment-author">{author.username}</a>
         </Link>
         <time dateTime={createdAt} className="date-posted">

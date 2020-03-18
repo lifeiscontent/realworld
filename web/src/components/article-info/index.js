@@ -7,7 +7,7 @@ import gql from 'graphql-tag';
 export function ArticleInfo({ author, createdAt }) {
   return (
     <div className="info">
-      <Link href="/[username]" as={`/${author.username}`}>
+      <Link href="/user/[username]" as={`/user/${author.username}`}>
         <a className="author">{author.username}</a>
       </Link>
       <time dateTime={createdAt} className="date">
