@@ -3,6 +3,7 @@ import { makeDecorator } from '@storybook/addons';
 import { MockedProvider } from '@apollo/react-testing';
 import React from 'react';
 import Router from 'next/router';
+import { RouterContext } from 'next/dist/next-server/lib/router-context';
 
 export const withRouter = makeDecorator({
   name: 'Router',
@@ -15,23 +16,29 @@ export const withRouter = makeDecorator({
       pageLoader: { prefetched: {} },
       pathname: '/',
       prefetch() {
-        return Promise.resolve();
+        return Promise.resolve(true);
       },
       push(...args) {
         action('router.push')(...args);
+
         return Promise.resolve(true);
       },
       query: {},
       reload() {},
-      replace(args) {
+      replace(...args) {
         action('router.replace')(...args);
+
         return Promise.resolve(true);
       },
       ...settings.options,
       ...settings.parameters
     };
 
-    return getStory(context);
+    return (
+      <RouterContext.Provider value={Router.router}>
+        {getStory(context)}
+      </RouterContext.Provider>
+    );
   }
 });
 

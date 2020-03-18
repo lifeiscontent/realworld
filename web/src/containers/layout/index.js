@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Footer } from '../components/footer';
-import { Navbar } from '../components/navbar';
+import { Footer } from '../../components/footer';
+import { Navbar } from '../../components/navbar';
 import gql from 'graphql-tag';
 import Head from 'next/head';
 import { useQuery } from '@apollo/react-hooks';
 
 export function Layout({ children }) {
   const layout = useQuery(LayoutQuery);
+
   return (
     <>
       <Head>
@@ -48,7 +49,7 @@ Layout.fragments = {
   `
 };
 
-const LayoutQuery = gql`
+export const LayoutQuery = gql`
   query LayoutQuery {
     viewer {
       ...LayoutViewerFragment

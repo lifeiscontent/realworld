@@ -9,4 +9,10 @@ export default {
 
 const handleSubmit = action('onSubmit');
 
-export const renders = () => <UserSettingsForm onSubmit={handleSubmit} />;
+export const renders = () => (
+  <UserSettingsForm
+    onSubmit={handleSubmit}
+    username="john"
+    email="john@example.com"
+  />
+);

@@ -1,19 +1,4 @@
-import Router from 'next/router';
-import { useEffect } from 'react';
+import LogoutPage from '../containers/logout-page';
+import { withApollo } from '../hocs/with-apollo';
 
-export default function Logout() {
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      document.cookie = cookie.serialize('authorization', '', {
-        maxAge: -1,
-        path: '/',
-        sameSite: 'lax',
-        secure: process.env.NODE_ENV === 'production'
-      });
-
-      Router.replace('/', '/');
-    }
-  }, []);
-
-  return null;
-}
+export default withApollo()(LogoutPage);

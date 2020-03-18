@@ -11,4 +11,8 @@ Router.router = {
   replace
 };
 
+export function useRouter() {
+  return Router.router;
+}
+
 export default Router;

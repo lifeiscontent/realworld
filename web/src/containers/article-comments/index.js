@@ -2,9 +2,9 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
-import { UserCommentForm } from '../components/user-comment-form';
-import { handleValidationError } from '../utils/graphql';
-import { CommentCard } from '../components/comment-card';
+import { UserCommentForm } from '../../components/user-comment-form';
+import { handleValidationError } from '../../utils/graphql';
+import { CommentCard } from '../../components/comment-card';
 
 export function ArticleComments({ articleSlug }) {
   const commentsList = useQuery(ArticleCommentsQuery, {
