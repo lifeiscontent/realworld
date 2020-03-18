@@ -1,3 +1,4 @@
+import React from 'react';
 import EditorPage, { EditorPageQuery } from '.';
 import { withApolloClient, withRouter } from '../../utils/storybook';
 import { LayoutQuery } from '../layout';

@@ -1,24 +1,20 @@
-import React from 'react';
 import { render, waitFor } from '@testing-library/react';
-import { renders, asUser } from './index.stories';
-import { MockedProvider } from '@apollo/react-testing';
-import Router from 'next/router';
+import story, { renders, asUser } from './index.stories';
+import { defaultDecorateStory } from '@storybook/client-api';
+import { action } from '@storybook/addon-actions';
+
+jest.mock('@storybook/addon-actions');
 
 describe('EditorPage', () => {
-  beforeEach(() => {
-    Router.replace.mockClear();
-  });
-
   describe('when not logged in', () => {
+    afterEach(() => {
+      action('router.replace').mockClear();
+    });
     it('redirects', async () => {
-      render(
-        <MockedProvider {...renders.story.parameters.apolloClient}>
-          {renders()}
-        </MockedProvider>
-      );
+      render(defaultDecorateStory(renders, story.decorators)(renders.story));
 
       await waitFor(() => {
-        expect(Router.replace).toHaveBeenCalledWith(undefined, '/', {
+        expect(action('router.replace')).toHaveBeenCalledWith('/editor', '/', {
           shallow: true
         });
       });
@@ -27,14 +23,10 @@ describe('EditorPage', () => {
 
   describe('when logged in', () => {
     it('does not redirect', async () => {
-      render(
-        <MockedProvider mocks={asUser.story.parameters.apolloClient.mocks}>
-          {asUser()}
-        </MockedProvider>
-      );
+      render(defaultDecorateStory(asUser, story.decorators)(asUser.story));
 
       await waitFor(() => {
-        expect(Router.replace).not.toHaveBeenCalled();
+        expect(action('router.replace')).not.toHaveBeenCalled();
       });
     });
   });

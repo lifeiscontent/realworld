@@ -1,21 +1,23 @@
 import { render, fireEvent, screen } from '@testing-library/react';
-import Router from 'next/router';
-import { renders, canUpdate } from './index.stories';
+import story, { renders, canUpdate } from './index.stories';
+import { action } from '@storybook/addon-actions';
+import { defaultDecorateStory } from '@storybook/client-api';
 
-jest.mock('next/router');
+jest.mock('@storybook/addon-actions');
 
 describe('ArticleUpdateButton', () => {
   it('does not render with insufficient access', async () => {
-    const { container } = render(renders());
-    expect(container.children).toHaveLength(0);
+    render(defaultDecorateStory(renders, story.decorators)());
+
+    expect(screen.queryByRole('button')).toBeNull();
   });
 
   it('goes to link on click', () => {
-    render(canUpdate());
+    render(defaultDecorateStory(canUpdate, story.decorators)());
 
     const link = screen.getByRole('link');
     fireEvent.click(link);
-    expect(Router.push).toHaveBeenCalledWith(
+    expect(action('router.push')).toHaveBeenCalledWith(
       '/editor/[slug]',
       '/editor/a-simple-title',
       { shallow: undefined }

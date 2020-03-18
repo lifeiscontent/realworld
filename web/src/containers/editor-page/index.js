@@ -17,7 +17,7 @@ function EditorPage() {
     router.replace(router.asPath, '/', { shallow: true });
   }, [editor.data, editor.loading, router]);
 
-  if (editor.loading) return null;
+  if (editor.loading || !editor.data.canCreateArticle.value) return null;
 
   return (
     <div className="editor-page">

@@ -16,6 +16,7 @@ describe('ArticleForm', () => {
   // we want to know that the validation errors work as expected.
   it('displays errors on submit', async () => {
     // render the fixture
+
     render(<MockedProvider>{renders()}</MockedProvider>);
 
     // grab the submitButton

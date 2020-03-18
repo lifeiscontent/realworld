@@ -1,14 +1,13 @@
-import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { action } from '@storybook/addon-actions';
-import { renders } from './index.stories';
-import { MockedProvider } from '@apollo/react-testing';
+import story, { renders } from './index.stories';
+import { defaultDecorateStory } from '@storybook/client-api';
 
 jest.mock('@storybook/addon-actions');
 
 describe('ArticleForm', () => {
   it('displays errors on submit', async () => {
-    render(<MockedProvider>{renders()}</MockedProvider>);
+    render(defaultDecorateStory(renders, story.decorators)());
 
     const submitButton = await screen.findByText('Publish Article');
     fireEvent.click(submitButton);
@@ -17,7 +16,7 @@ describe('ArticleForm', () => {
   });
 
   it('calls onSubmit when valid on submit', async () => {
-    render(<MockedProvider>{renders()}</MockedProvider>);
+    render(defaultDecorateStory(renders, story.decorators)());
 
     const title = await screen.findByLabelText(/title/i);
     const description = await screen.findByLabelText(/description/i);

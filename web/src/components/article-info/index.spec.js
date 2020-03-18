@@ -1,16 +1,23 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import Router from 'next/router';
-import { renders } from './index.stories';
+import story, { renders } from './index.stories';
+import { defaultDecorateStory } from '@storybook/client-api';
+import { action } from '@storybook/addon-actions';
 
-jest.mock('next/router');
+jest.mock('@storybook/addon-actions');
 
 describe('ArticleUpdateButton', () => {
-  it('goes to link on click', () => {
-    render(renders());
-    const link = screen.getByRole('link');
+  it('goes to link on click', async () => {
+    render(defaultDecorateStory(renders, story.decorators)());
+    const link = await screen.findByRole('link');
+
     fireEvent.click(link);
-    expect(Router.push).toHaveBeenCalledWith('/[username]', '/lifeiscontent', {
-      shallow: undefined
-    });
+
+    expect(action('router.push')).toHaveBeenCalledWith(
+      '/[username]',
+      '/lifeiscontent',
+      {
+        shallow: undefined
+      }
+    );
   });
 });
