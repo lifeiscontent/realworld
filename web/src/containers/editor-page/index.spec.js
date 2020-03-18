@@ -13,7 +13,7 @@ describe('EditorPage', () => {
     it('redirects', async () => {
       render(decorateStory(renders, story));
 
-      await waitFor(() => {
+      waitFor(() => {
         expect(action('router.replace')).toHaveBeenCalledWith('/editor', '/', {
           shallow: true
         });
@@ -25,7 +25,7 @@ describe('EditorPage', () => {
     it('does not redirect', async () => {
       render(decorateStory(asUser, story));
 
-      await waitFor(() => {
+      waitFor(() => {
         expect(action('router.replace')).not.toHaveBeenCalled();
       });
     });
