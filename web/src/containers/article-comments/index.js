@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
@@ -65,20 +65,17 @@ export function ArticleComments({ articleSlug }) {
     }
   });
 
-  const handleSubmit = useCallback(
-    (values, { setSubmitting, setStatus, resetForm }) => {
-      createComment({
-        variables: values
+  const handleSubmit = (values, { setSubmitting, setStatus, resetForm }) => {
+    createComment({
+      variables: values
+    })
+      .then(() => resetForm())
+      .catch(err => {
+        handleValidationError(err, setStatus);
+        console.error(err);
       })
-        .then(() => resetForm())
-        .catch(err => {
-          handleValidationError(err, setStatus);
-          console.error(err);
-        })
-        .finally(() => setSubmitting(false));
-    },
-    [createComment]
-  );
+      .finally(() => setSubmitting(false));
+  };
 
   if (
     commentsList.networkStatus === NetworkStatus.loading ||

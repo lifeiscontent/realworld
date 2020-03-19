@@ -1,15 +1,12 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 
 export function ArticleDeleteButton({ canDelete, onDelete, slug }) {
-  const handleDelete = useCallback(
-    event => {
-      event.preventDefault();
-      onDelete({ variables: { slug } });
-    },
-    [onDelete, slug]
-  );
+  const handleDelete = event => {
+    event.preventDefault();
+    onDelete({ variables: { slug } });
+  };
 
   if (canDelete.value === false) return null;
 

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import gql from 'graphql-tag';
@@ -12,17 +12,15 @@ export function UserFollowButton({
   username,
   viewerIsFollowing
 }) {
-  const handleClick = useCallback(
-    event => {
-      event.preventDefault();
-      if (viewerIsFollowing) {
-        onUnfollow({ variables: { username } });
-      } else {
-        onFollow({ variables: { username } });
-      }
-    },
-    [onFollow, onUnfollow, username, viewerIsFollowing]
-  );
+  const disabled = !(canFollow.value || canUnfollow.value);
+  const handleClick = event => {
+    event.preventDefault();
+    if (viewerIsFollowing) {
+      onUnfollow({ variables: { username } });
+    } else {
+      onFollow({ variables: { username } });
+    }
+  };
 
   return (
     <button
@@ -30,7 +28,7 @@ export function UserFollowButton({
         'btn-outline-secondary': viewerIsFollowing === false,
         'btn-secondary': viewerIsFollowing
       })}
-      disabled={!(canFollow.value || canUnfollow.value)}
+      disabled={disabled}
       onClick={handleClick}
     >
       <i className="ion-plus-round" />{' '}

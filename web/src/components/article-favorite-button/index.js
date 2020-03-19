@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import gql from 'graphql-tag';
@@ -12,24 +12,23 @@ export function ArticleFavoriteButton({
   slug,
   viewerDidFavorite
 }) {
-  const handleClick = useCallback(
-    event => {
-      event.preventDefault();
-      if (viewerDidFavorite) {
-        onUnfavorite({ variables: { slug } });
-      } else {
-        onFavorite({ variables: { slug } });
-      }
-    },
-    [onFavorite, onUnfavorite, slug, viewerDidFavorite]
-  );
+  const disabled = !(canUnfavorite.value || canFavorite.value);
+  const handleClick = event => {
+    event.preventDefault();
+    if (viewerDidFavorite) {
+      onUnfavorite({ variables: { slug } });
+    } else {
+      onFavorite({ variables: { slug } });
+    }
+  };
+
   return (
     <button
       className={clsx('btn btn-sm', {
         'btn-outline-primary': viewerDidFavorite === false,
         'btn-primary': viewerDidFavorite
       })}
-      disabled={!(canUnfavorite.value || canFavorite.value)}
+      disabled={disabled}
       onClick={handleClick}
     >
       <i className="ion-heart" />{' '}

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { format } from '../../utils/date';
@@ -15,10 +15,10 @@ export function CommentCard({
 }) {
   const { profile = {} } = author;
 
-  const handleDelete = useCallback(() => onDelete({ variables: { id } }), [
-    id,
-    onDelete
-  ]);
+  const handleDelete = event => {
+    event.preventDefault();
+    onDelete({ variables: { id } });
+  };
 
   return (
     <div className="card">
