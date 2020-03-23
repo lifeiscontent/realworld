@@ -9,7 +9,7 @@ export function Pagination({
   hasNextPage,
   hasPreviousPage,
   startCursor,
-  endCursor
+  endCursor,
 }) {
   const router = useRouter();
   return (
@@ -17,7 +17,7 @@ export function Pagination({
       <ul className="pagination">
         <li
           className={clsx('page-item', {
-            disabled: hasPreviousPage === false
+            disabled: hasPreviousPage === false,
           })}
         >
           <Link
@@ -27,12 +27,12 @@ export function Pagination({
                 ? {
                     before: startCursor,
                     last: 10,
-                    tagName: router.query.tagName
+                    tagName: router.query.tagName,
                   }
                 : {
                     before: startCursor,
-                    last: 10
-                  }
+                    last: 10,
+                  },
             }}
           >
             <a className="page-link">Previous</a>
@@ -40,7 +40,7 @@ export function Pagination({
         </li>
         <li
           className={clsx('page-item', {
-            disabled: hasNextPage === false
+            disabled: hasNextPage === false,
           })}
         >
           <Link
@@ -50,12 +50,12 @@ export function Pagination({
                 ? {
                     after: endCursor,
                     first: 10,
-                    tagName: router.query.tagName
+                    tagName: router.query.tagName,
                   }
                 : {
                     after: endCursor,
-                    first: 10
-                  }
+                    first: 10,
+                  },
             }}
           >
             <a className="page-link">Next</a>
@@ -74,19 +74,19 @@ Pagination.fragments = {
       hasPreviousPage
       startCursor
     }
-  `
+  `,
 };
 
 Pagination.defaultProps = {
   hasNextPage: false,
   hasPreviousPage: false,
   startCursor: null,
-  endCursor: null
+  endCursor: null,
 };
 
 Pagination.propTypes = {
   endCursor: PropTypes.string,
   hasNextPage: PropTypes.bool,
   startCursor: PropTypes.string,
-  hasPreviousPage: PropTypes.bool
+  hasPreviousPage: PropTypes.bool,
 };

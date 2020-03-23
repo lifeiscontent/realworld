@@ -18,27 +18,27 @@ export default {
       articleBySlug(_root, args, context) {
         return context.getCacheKey({
           __typename: 'Article',
-          slug: args.slug
+          slug: args.slug,
         });
       },
       comment(_root, args, context) {
         return context.getCacheKey({
           __typename: 'Comment',
-          id: args.id
+          id: args.id,
         });
       },
       userByUsername(_root, args, context) {
         return context.getCacheKey({
           __typename: 'User',
-          username: args.username
+          username: args.username,
         });
       },
       tag(_root, args, context) {
         return context.getCacheKey({
           __typename: 'Tag',
-          id: args.id
+          id: args.id,
         });
-      }
-    }
-  }
+      },
+    },
+  },
 };

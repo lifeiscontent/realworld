@@ -16,7 +16,7 @@ describe('ArticleUpdateButton', () => {
       '/user/[username]',
       '/user/lifeiscontent',
       {
-        shallow: undefined
+        shallow: undefined,
       }
     );
   });

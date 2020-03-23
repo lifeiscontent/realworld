@@ -5,7 +5,7 @@ import { withRouter } from '../../utils/storybook';
 export default {
   title: 'Main/Footer',
   component: Footer,
-  decorators: [withRouter]
+  decorators: [withRouter],
 };
 
 export const renders = () => <Footer />;

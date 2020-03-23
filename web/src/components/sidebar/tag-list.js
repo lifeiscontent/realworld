@@ -12,14 +12,14 @@ export function SidebarTagList({ popularTags }) {
 
   return (
     <div className="tag-list">
-      {popularTags.map(tag => (
+      {popularTags.map((tag) => (
         <Link
           href={{ pathname: router.pathname, query: { tagName: tag.name } }}
           key={tag.id}
         >
           <a
             className={clsx('tag-pill tag-default', {
-              'tag-outline': router.query.tagName !== tag.name
+              'tag-outline': router.query.tagName !== tag.name,
             })}
           >
             {tag.name}
@@ -36,18 +36,18 @@ SidebarTagList.fragments = {
       id
       name
     }
-  `
+  `,
 };
 
 SidebarTagList.defaultProps = {
-  popularTags: []
+  popularTags: [],
 };
 
 SidebarTagList.propTypes = {
   popularTags: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired
+      name: PropTypes.string.isRequired,
     }).isRequired
-  )
+  ),
 };

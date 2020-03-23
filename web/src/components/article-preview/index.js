@@ -19,7 +19,7 @@ export function ArticlePreview({
   slug,
   tags,
   title,
-  viewerDidFavorite
+  viewerDidFavorite,
 }) {
   return (
     <div className="article-preview">
@@ -68,12 +68,12 @@ ArticlePreview.fragments = {
     ${ArticleInfo.fragments.article}
     ${ArticlePreviewFavoriteButton.fragments.article}
     ${ArticlePreviewTagsList.fragments.article}
-  `
+  `,
 };
 
 ArticlePreview.defaultProps = {
   favoritesCount: 0,
-  viewerDidFavorite: false
+  viewerDidFavorite: false,
 };
 
 ArticlePreview.propTypes = {
@@ -88,5 +88,5 @@ ArticlePreview.propTypes = {
   slug: PropTypes.string.isRequired,
   tags: PropTypes.array,
   title: PropTypes.string.isRequired,
-  viewerDidFavorite: PropTypes.bool
+  viewerDidFavorite: PropTypes.bool,
 };

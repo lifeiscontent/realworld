@@ -6,7 +6,7 @@ import { action } from '@storybook/addon-actions';
 export default {
   title: 'Buttons/UserFollowButton',
   component: UserFollowButton,
-  decorators: [withRouter]
+  decorators: [withRouter],
 };
 
 export const renders = () => (

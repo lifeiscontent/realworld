@@ -8,8 +8,8 @@ export function TagsInputTag({ id, onRemoveTag }) {
   const tagInputTag = useQuery(TagsInputTagQuery, {
     fetchPolicy: 'cache-only',
     variables: {
-      id
-    }
+      id,
+    },
   });
 
   if (
@@ -31,7 +31,7 @@ export function TagsInputTag({ id, onRemoveTag }) {
 
 TagsInputTag.propTypes = {
   id: PropTypes.string.isRequired,
-  onRemoveTag: PropTypes.func.isRequired
+  onRemoveTag: PropTypes.func.isRequired,
 };
 
 TagsInputTag.fragments = {
@@ -40,7 +40,7 @@ TagsInputTag.fragments = {
       id
       name
     }
-  `
+  `,
 };
 
 const TagsInputTagQuery = gql`

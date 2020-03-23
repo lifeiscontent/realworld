@@ -5,7 +5,7 @@ import { withRouter } from '../../utils/storybook';
 export default {
   title: 'Main/Sidebar',
   component: Sidebar,
-  decorators: [withRouter]
+  decorators: [withRouter],
 };
 
 export const renders = () => <Sidebar />;
@@ -13,16 +13,16 @@ export const renders = () => <Sidebar />;
 renders.story = {
   parameters: {
     router: {
-      pathname: '/'
-    }
-  }
+      pathname: '/',
+    },
+  },
 };
 
 export const withTags = () => (
   <Sidebar
     popularTags={[
       { id: '1', name: 'react' },
-      { id: '2', name: 'rails' }
+      { id: '2', name: 'rails' },
     ]}
   />
 );
@@ -30,16 +30,16 @@ export const withTags = () => (
 withTags.story = {
   parameters: {
     router: {
-      pathname: '/'
-    }
-  }
+      pathname: '/',
+    },
+  },
 };
 
 export const withActiveTag = () => (
   <Sidebar
     popularTags={[
       { id: '1', name: 'react' },
-      { id: '2', name: 'rails' }
+      { id: '2', name: 'rails' },
     ]}
   />
 );
@@ -49,7 +49,7 @@ withActiveTag.story = {
     router: {
       pathname: '/',
       asPath: '/',
-      query: { tagName: 'react' }
-    }
-  }
+      query: { tagName: 'react' },
+    },
+  },
 };

@@ -14,7 +14,7 @@ export function UserArticlesToggle({ username }) {
           <Link href="/user/[username]" as={`/user/${username}`}>
             <a
               className={clsx('nav-link', {
-                active: router.pathname === '/user/[username]'
+                active: router.pathname === '/user/[username]',
               })}
             >
               My Articles
@@ -28,7 +28,7 @@ export function UserArticlesToggle({ username }) {
           >
             <a
               className={clsx('nav-link', {
-                active: router.pathname === '/[username]/favorites'
+                active: router.pathname === '/[username]/favorites',
               })}
             >
               Favorited Articles
@@ -45,9 +45,9 @@ UserArticlesToggle.fragments = {
     fragment UserArticlesToggleUserFragment on User {
       username
     }
-  `
+  `,
 };
 
 UserArticlesToggle.propTypes = {
-  username: PropTypes.string.isRequired
+  username: PropTypes.string.isRequired,
 };

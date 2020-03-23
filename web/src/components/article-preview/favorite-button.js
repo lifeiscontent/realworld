@@ -10,14 +10,14 @@ export function ArticlePreviewFavoriteButton({
   onFavorite,
   onUnfavorite,
   slug,
-  viewerDidFavorite
+  viewerDidFavorite,
 }) {
   return (
     <button
       disabled={!(canFavorite.value || canUnfavorite.value)}
       className={clsx('btn btn-sm', {
         'btn-outline-primary': viewerDidFavorite === false,
-        'btn-primary': viewerDidFavorite
+        'btn-primary': viewerDidFavorite,
       })}
       onClick={() =>
         viewerDidFavorite
@@ -43,14 +43,14 @@ ArticlePreviewFavoriteButton.fragments = {
       slug
       viewerDidFavorite
     }
-  `
+  `,
 };
 
 ArticlePreviewFavoriteButton.defaultProps = {
   canFavorite: { value: false },
   canUnfavorite: { value: false },
   favoritesCount: 0,
-  viewerDidFavorite: false
+  viewerDidFavorite: false,
 };
 
 ArticlePreviewFavoriteButton.propTypes = {
@@ -60,5 +60,5 @@ ArticlePreviewFavoriteButton.propTypes = {
   onFavorite: PropTypes.func.isRequired,
   onUnfavorite: PropTypes.func.isRequired,
   slug: PropTypes.string.isRequired,
-  viewerDidFavorite: PropTypes.bool
+  viewerDidFavorite: PropTypes.bool,
 };

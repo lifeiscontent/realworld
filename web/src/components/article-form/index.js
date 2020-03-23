@@ -9,39 +9,25 @@ import gql from 'graphql-tag';
 
 const createValidationSchema = Yup.object({
   input: Yup.object({
-    title: Yup.string()
-      .label('Title')
-      .required(),
-    description: Yup.string()
-      .label('Description')
-      .required(),
-    body: Yup.string()
-      .label('Body')
-      .required(),
+    title: Yup.string().label('Title').required(),
+    description: Yup.string().label('Description').required(),
+    body: Yup.string().label('Body').required(),
     tagIds: Yup.array(Yup.string())
       .label('Tags')
-      .test('', '${path} is a required field', value => Array.isArray(value))
-  })
+      .test('', '${path} is a required field', (value) => Array.isArray(value)),
+  }),
 });
 
 const updateValidationSchema = Yup.object({
-  slug: Yup.string()
-    .label('Slug')
-    .required(),
+  slug: Yup.string().label('Slug').required(),
   input: Yup.object({
-    title: Yup.string()
-      .label('Title')
-      .required(),
-    description: Yup.string()
-      .label('Description')
-      .required(),
-    body: Yup.string()
-      .label('Body')
-      .required(),
+    title: Yup.string().label('Title').required(),
+    description: Yup.string().label('Description').required(),
+    body: Yup.string().label('Body').required(),
     tagIds: Yup.array(Yup.string())
       .label('Tags')
-      .test('', '${path} is a required field', value => Array.isArray(value))
-  })
+      .test('', '${path} is a required field', (value) => Array.isArray(value)),
+  }),
 });
 
 export function ArticleForm({
@@ -50,7 +36,7 @@ export function ArticleForm({
   description,
   body,
   tags,
-  onSubmit
+  onSubmit,
 }) {
   const initialValues = {
     slug,
@@ -58,8 +44,8 @@ export function ArticleForm({
       title,
       description,
       body,
-      tagIds: tags.map(tag => tag.id)
-    }
+      tagIds: tags.map((tag) => tag.id),
+    },
   };
 
   return (
@@ -148,7 +134,7 @@ ArticleForm.fragments = {
       }
       title
     }
-  `
+  `,
 };
 
 ArticleForm.defaultProps = {
@@ -156,7 +142,7 @@ ArticleForm.defaultProps = {
   description: '',
   slug: '',
   tags: [],
-  title: ''
+  title: '',
 };
 
 ArticleForm.propTypes = {
@@ -167,8 +153,8 @@ ArticleForm.propTypes = {
   tags: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired
+      name: PropTypes.string.isRequired,
     }).isRequired
   ),
-  title: PropTypes.string
+  title: PropTypes.string,
 };

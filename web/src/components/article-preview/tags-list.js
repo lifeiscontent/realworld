@@ -7,7 +7,7 @@ export function ArticlePreviewTagsList({ tags }) {
 
   return (
     <ul className="tag-list">
-      {tags.map(tag => (
+      {tags.map((tag) => (
         <li key={tag.id} className="tag-pill tag-default">
           {tag.name}
         </li>
@@ -24,18 +24,18 @@ ArticlePreviewTagsList.fragments = {
         name
       }
     }
-  `
+  `,
 };
 
 ArticlePreviewTagsList.defaultProps = {
-  tags: []
+  tags: [],
 };
 
 ArticlePreviewTagsList.propTypes = {
   tags: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired
+      name: PropTypes.string.isRequired,
     }).isRequired
-  )
+  ),
 };

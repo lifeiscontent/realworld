@@ -5,7 +5,7 @@ import { withRouter } from '../../utils/storybook';
 export default {
   title: 'Buttons/ArticleUpdateButton',
   component: ArticleUpdateButton,
-  decorators: [withRouter]
+  decorators: [withRouter],
 };
 
 export const renders = () => <ArticleUpdateButton slug="a-simple-title" />;

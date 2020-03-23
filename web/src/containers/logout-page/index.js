@@ -10,7 +10,7 @@ export default function LogoutPage() {
       maxAge: -1,
       path: '/',
       sameSite: 'lax',
-      secure: process.env.NODE_ENV === 'production'
+      secure: process.env.NODE_ENV === 'production',
     });
 
     client.resetStore().then(() => Router.push('/'));

@@ -22,7 +22,7 @@ export function ArticleMeta({
   onUnfavorite,
   onUnfollow,
   slug,
-  viewerDidFavorite
+  viewerDidFavorite,
 }) {
   const followUserButton = (
     <UserFollowButton onFollow={onFollow} onUnfollow={onUnfollow} {...author} />
@@ -85,7 +85,7 @@ ArticleMeta.fragments = {
     ${ArticleFavoriteButton.fragments.article}
     ${ArticleInfo.fragments.article}
     ${ArticleUpdateButton.fragments.article}
-  `
+  `,
 };
 
 ArticleMeta.propTypes = {
@@ -102,5 +102,5 @@ ArticleMeta.propTypes = {
   onUnfavorite: PropTypes.func.isRequired,
   onUnfollow: PropTypes.func.isRequired,
   slug: PropTypes.string.isRequired,
-  viewerDidFavorite: PropTypes.bool
+  viewerDidFavorite: PropTypes.bool,
 };

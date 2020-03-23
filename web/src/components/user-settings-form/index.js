@@ -9,19 +9,14 @@ import gql from 'graphql-tag';
 const validationSchema = Yup.object({
   username: Yup.string().required('You need to be logged in to do this'),
   input: Yup.object({
-    email: Yup.string()
-      .label('Email')
-      .email()
-      .required(),
+    email: Yup.string().label('Email').email().required(),
     password: Yup.string().label('Password'),
-    username: Yup.string()
-      .label('Username')
-      .required(),
+    username: Yup.string().label('Username').required(),
     profile: Yup.object({
       bio: Yup.string().label('Bio'),
-      imageUrl: Yup.string().label('Image Url')
-    })
-  })
+      imageUrl: Yup.string().label('Image Url'),
+    }),
+  }),
 });
 
 export function UserSettingsForm({ onSubmit, username, email, profile }) {
@@ -43,9 +38,9 @@ export function UserSettingsForm({ onSubmit, username, email, profile }) {
                 username,
                 profile: {
                   bio,
-                  imageUrl: imageUrl ?? ''
-                }
-              }
+                  imageUrl: imageUrl ?? '',
+                },
+              },
             }}
             onSubmit={onSubmit}
           >
@@ -131,11 +126,11 @@ UserSettingsForm.fragments = {
         imageUrl
       }
     }
-  `
+  `,
 };
 
 UserSettingsForm.defaultProps = {
-  profile: {}
+  profile: {},
 };
 
 UserSettingsForm.propTypes = {
@@ -144,6 +139,6 @@ UserSettingsForm.propTypes = {
   email: PropTypes.string.isRequired,
   profile: PropTypes.shape({
     bio: PropTypes.string,
-    imageUrl: PropTypes.string
-  })
+    imageUrl: PropTypes.string,
+  }),
 };

@@ -5,7 +5,7 @@ import { withRouter } from '../../utils/storybook';
 export default {
   title: 'Main/Pagination',
   component: Pagination,
-  decorators: [withRouter]
+  decorators: [withRouter],
 };
 
 export const renders = () => <Pagination />;

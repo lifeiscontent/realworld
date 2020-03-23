@@ -15,7 +15,7 @@ describe('EditorPage', () => {
 
       waitFor(() => {
         expect(action('router.replace')).toHaveBeenCalledWith('/editor', '/', {
-          shallow: true
+          shallow: true,
         });
       });
     });

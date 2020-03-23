@@ -12,7 +12,7 @@ function NavLink({ href, as, children }) {
     <Link href={href} as={as}>
       <a
         className={clsx('nav-link', {
-          active: router.pathname === href
+          active: router.pathname === href,
         })}
       >
         {children}
@@ -24,7 +24,7 @@ function NavLink({ href, as, children }) {
 NavLink.propTypes = {
   href: PropTypes.string.isRequired,
   as: PropTypes.string,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 export function Navbar({ username }) {
@@ -62,5 +62,5 @@ export function Navbar({ username }) {
 }
 
 Navbar.propTypes = {
-  username: PropTypes.string
+  username: PropTypes.string,
 };

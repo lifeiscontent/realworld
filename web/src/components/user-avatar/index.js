@@ -19,14 +19,14 @@ UserAvatar.fragments = {
         imageUrl
       }
     }
-  `
+  `,
 };
 
 UserAvatar.defaultProps = {
-  profile: {}
+  profile: {},
 };
 
 UserAvatar.propTypes = {
   profile: PropTypes.shape({ imageUrl: PropTypes.string }),
-  username: PropTypes.string.isRequired
+  username: PropTypes.string.isRequired,
 };

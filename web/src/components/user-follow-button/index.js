@@ -10,10 +10,10 @@ export function UserFollowButton({
   onFollow,
   onUnfollow,
   username,
-  viewerIsFollowing
+  viewerIsFollowing,
 }) {
   const disabled = !(canFollow.value || canUnfollow.value);
-  const handleClick = event => {
+  const handleClick = (event) => {
     event.preventDefault();
     if (viewerIsFollowing) {
       onUnfollow({ variables: { username } });
@@ -26,7 +26,7 @@ export function UserFollowButton({
     <button
       className={clsx('btn btn-sm action-btn', {
         'btn-outline-secondary': viewerIsFollowing === false,
-        'btn-secondary': viewerIsFollowing
+        'btn-secondary': viewerIsFollowing,
       })}
       disabled={disabled}
       onClick={handleClick}
@@ -50,14 +50,14 @@ UserFollowButton.fragments = {
       username
       viewerIsFollowing
     }
-  `
+  `,
 };
 
 UserFollowButton.defaultProps = {
   followersCount: 0,
   viewerIsFollowing: false,
   canFollow: { value: false },
-  canUnfollow: { value: false }
+  canUnfollow: { value: false },
 };
 
 UserFollowButton.propTypes = {
@@ -67,5 +67,5 @@ UserFollowButton.propTypes = {
   onFollow: PropTypes.func.isRequired,
   onUnfollow: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
-  viewerIsFollowing: PropTypes.bool
+  viewerIsFollowing: PropTypes.bool,
 };

@@ -34,13 +34,13 @@ function SettingsPage() {
       <UserSettingsForm
         onSubmit={(values, { setSubmitting, setStatus }) => {
           updateUser({ variables: values })
-            .then(res => {
+            .then((res) => {
               router.push(
                 '/user/[username]',
                 `/user/${res.data.updateUser.user.username}`
               );
             })
-            .catch(err => {
+            .catch((err) => {
               handleValidationError(err, setStatus);
               console.error(err);
               setSubmitting(false);

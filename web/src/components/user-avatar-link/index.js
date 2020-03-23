@@ -21,10 +21,10 @@ UserAvatarLink.fragments = {
       ...UserAvatarUserFragment
     }
     ${UserAvatar.fragments.user}
-  `
+  `,
 };
 
 UserAvatarLink.propTypes = {
   profile: PropTypes.object,
-  username: PropTypes.string.isRequired
+  username: PropTypes.string.isRequired,
 };

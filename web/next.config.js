@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 const env = [
   '.env',
   `.env.${process.env.NODE_ENV}`,
-  `.env.${process.env.NODE_ENV}.local`
+  `.env.${process.env.NODE_ENV}.local`,
 ].reduce(
   (env, file) => {
     if (fs.existsSync(file)) {
@@ -13,10 +13,10 @@ const env = [
     return env;
   },
   {
-    GRAPHQL_URL: 'https://realworld-api-production.herokuapp.com/graphql'
+    GRAPHQL_URL: 'https://realworld-api-production.herokuapp.com/graphql',
   }
 );
 
 module.exports = {
-  env
+  env,
 };

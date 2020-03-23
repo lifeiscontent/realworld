@@ -35,13 +35,13 @@ function EditorPage() {
       <ArticleForm
         onSubmit={(values, { setSubmitting, setStatus }) => {
           createArticle({ variables: values })
-            .then(res => {
+            .then((res) => {
               router.push(
                 '/article/[slug]',
                 `/article/${res.data.createArticle.article.slug}`
               );
             })
-            .catch(err => {
+            .catch((err) => {
               handleValidationError(err, setStatus);
               console.error(err);
               setSubmitting(false);

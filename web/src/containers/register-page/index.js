@@ -17,7 +17,7 @@ function RegisterPage() {
             .then(() => {
               router.push('/login', '/login');
             })
-            .catch(err => {
+            .catch((err) => {
               handleValidationError(err, setStatus);
               console.error(err);
               setSubmitting(false);

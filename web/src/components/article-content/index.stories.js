@@ -5,7 +5,7 @@ import { withRouter } from '../../utils/storybook';
 export default {
   title: 'Content/ArticleContent',
   component: ArticleContent,
-  decorators: [withRouter]
+  decorators: [withRouter],
 };
 
 export const renders = () => (

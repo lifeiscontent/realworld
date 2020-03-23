@@ -12,9 +12,9 @@ function ProfilePage() {
   const router = useRouter();
   const profile = useQuery(ProfilePageQuery, {
     variables: {
-      username: router.query.username
+      username: router.query.username,
     },
-    skip: !router.query.username
+    skip: !router.query.username,
   });
 
   const [favoriteArticle] = useMutation(ProfilePageFavoriteArticleMutation);
@@ -39,7 +39,7 @@ function ProfilePage() {
         <div className="row">
           <div className="col-xs-12 col-md-10 offset-md-1">
             <UserArticlesToggle {...profile.data.user} />
-            {profile.data.user.articlesConnection.edges.map(edge => (
+            {profile.data.user.articlesConnection.edges.map((edge) => (
               <ArticlePreview
                 key={edge.node.slug}
                 onUnfavorite={unfavoriteArticle}

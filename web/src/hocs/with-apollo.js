@@ -15,7 +15,7 @@ let globalApolloClient = null;
  * inside getStaticProps, getStaticPaths or getServerSideProps
  * @param {NextPageContext | NextAppContext} ctx
  */
-export const initOnContext = ctx => {
+export const initOnContext = (ctx) => {
   const inAppContext = Boolean(ctx.ctx);
 
   // We consider installing `withApollo({ ssr: true })` on global App level
@@ -80,7 +80,7 @@ const initApolloClient = (initialState, ctx) => {
  * @param  {Boolean} [withApolloOptions.ssr=false]
  * @returns {(PageComponent: ReactNode) => ReactNode}
  */
-export const withApollo = ({ ssr = false } = {}) => PageComponent => {
+export const withApollo = ({ ssr = false } = {}) => (PageComponent) => {
   const WithApollo = ({ apolloClient, apolloState, ...pageProps }) => {
     let client;
     if (apolloClient) {
@@ -100,7 +100,7 @@ export const withApollo = ({ ssr = false } = {}) => PageComponent => {
 
   WithApollo.propTypes = {
     apolloClient: PropTypes.object,
-    apolloState: PropTypes.object
+    apolloState: PropTypes.object,
   };
 
   // Set the correct displayName in development
@@ -111,7 +111,7 @@ export const withApollo = ({ ssr = false } = {}) => PageComponent => {
   }
 
   if (ssr || PageComponent.getInitialProps) {
-    WithApollo.getInitialProps = async ctx => {
+    WithApollo.getInitialProps = async (ctx) => {
       const inAppContext = Boolean(ctx.ctx);
       const { apolloClient } = initOnContext(ctx);
 
@@ -173,7 +173,7 @@ export const withApollo = ({ ssr = false } = {}) => PageComponent => {
         apolloState: apolloClient.cache.extract(),
         // Provide the client for ssr. As soon as this payload
         // gets JSON.stringified it will remove itself.
-        apolloClient: ctx.apolloClient
+        apolloClient: ctx.apolloClient,
       };
     };
   }

@@ -20,18 +20,18 @@ Sidebar.fragments = {
       }
     }
     ${SidebarTagList.fragments.tag}
-  `
+  `,
 };
 
 Sidebar.defaultProps = {
-  popularTags: []
+  popularTags: [],
 };
 
 Sidebar.propTypes = {
   popularTags: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired
+      name: PropTypes.string.isRequired,
     }).isRequired
-  )
+  ),
 };

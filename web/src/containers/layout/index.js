@@ -46,7 +46,7 @@ Layout.fragments = {
     fragment LayoutViewerFragment on User {
       username
     }
-  `
+  `,
 };
 
 export const LayoutQuery = gql`
@@ -59,5 +59,5 @@ export const LayoutQuery = gql`
 `;
 
 Layout.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };

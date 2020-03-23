@@ -12,9 +12,9 @@ function ProfileFavoritesPage() {
   const router = useRouter();
   const favorites = useQuery(ProfileFavoritesPageQuery, {
     variables: {
-      username: router.query.username
+      username: router.query.username,
     },
-    skip: !router.query.username
+    skip: !router.query.username,
   });
 
   const [favoriteArticle] = useMutation(
@@ -27,14 +27,14 @@ function ProfileFavoritesPage() {
         const data = proxy.readQuery({
           query: ProfileFavoritesPageQuery,
           variables: {
-            username: router.query.username
-          }
+            username: router.query.username,
+          },
         });
 
         proxy.writeQuery({
           query: ProfileFavoritesPageQuery,
           variables: {
-            username: router.query.username
+            username: router.query.username,
           },
           data: {
             ...data,
@@ -43,15 +43,15 @@ function ProfileFavoritesPage() {
               favoriteArticlesConnection: {
                 ...data.user.favoriteArticlesConnection,
                 edges: data.user.favoriteArticlesConnection.edges.filter(
-                  edge =>
+                  (edge) =>
                     edge.node.slug !==
                     mutationResult.data.unfavoriteArticle.article.slug
-                )
-              }
-            }
-          }
+                ),
+              },
+            },
+          },
         });
-      }
+      },
     }
   );
 
@@ -75,14 +75,16 @@ function ProfileFavoritesPage() {
         <div className="row">
           <div className="col-xs-12 col-md-10 offset-md-1">
             <UserArticlesToggle username={favorites.data.user.username} />
-            {favorites.data.user.favoriteArticlesConnection.edges.map(edge => (
-              <ArticlePreview
-                key={edge.node.slug}
-                onFavorite={favoriteArticle}
-                onUnfavorite={unfavoriteArticle}
-                {...edge.node}
-              />
-            ))}
+            {favorites.data.user.favoriteArticlesConnection.edges.map(
+              (edge) => (
+                <ArticlePreview
+                  key={edge.node.slug}
+                  onFavorite={favoriteArticle}
+                  onUnfavorite={unfavoriteArticle}
+                  {...edge.node}
+                />
+              )
+            )}
           </div>
         </div>
       </div>

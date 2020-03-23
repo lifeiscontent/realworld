@@ -7,7 +7,7 @@ import { LayoutQuery } from '../layout';
 export default {
   title: 'Pages/EditorPage',
   component: EditorPage,
-  decorators: [withRouter, withApolloClient]
+  decorators: [withRouter, withApolloClient],
 };
 
 export const renders = () => <EditorPage />;
@@ -19,35 +19,35 @@ renders.story = {
         {
           request: {
             query: LayoutQuery,
-            variables: {}
+            variables: {},
           },
           result: {
             data: {
-              viewer: null
-            }
-          }
+              viewer: null,
+            },
+          },
         },
         {
           request: {
             query: EditorPageQuery,
-            variables: {}
+            variables: {},
           },
           result: {
             data: {
               canCreateArticle: {
                 value: false,
-                __typename: 'AuthorizationResult'
-              }
-            }
-          }
-        }
-      ]
+                __typename: 'AuthorizationResult',
+              },
+            },
+          },
+        },
+      ],
     },
     router: {
       pathname: '/editor',
-      asPath: '/editor'
-    }
-  }
+      asPath: '/editor',
+    },
+  },
 };
 
 export const asUser = () => <EditorPage />;
@@ -59,36 +59,36 @@ asUser.story = {
         {
           request: {
             query: LayoutQuery,
-            variables: {}
+            variables: {},
           },
           result: {
             data: {
               viewer: {
                 username: 'jamie',
-                __typename: 'User'
-              }
-            }
-          }
+                __typename: 'User',
+              },
+            },
+          },
         },
         {
           request: {
             query: EditorPageQuery,
-            variables: {}
+            variables: {},
           },
           result: {
             data: {
               canCreateArticle: {
                 value: true,
-                __typename: 'AuthorizationResult'
-              }
-            }
-          }
-        }
-      ]
+                __typename: 'AuthorizationResult',
+              },
+            },
+          },
+        },
+      ],
     },
     router: {
       pathname: '/editor',
-      asPath: '/editor'
-    }
-  }
+      asPath: '/editor',
+    },
+  },
 };

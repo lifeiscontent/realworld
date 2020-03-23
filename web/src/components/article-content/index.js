@@ -20,10 +20,10 @@ ArticleContent.fragments = {
       body
       description
     }
-  `
+  `,
 };
 
 ArticleContent.propTypes = {
   description: PropTypes.string.isRequired,
-  body: PropTypes.string.isRequired
+  body: PropTypes.string.isRequired,
 };

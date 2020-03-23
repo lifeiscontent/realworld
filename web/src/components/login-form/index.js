@@ -7,14 +7,9 @@ import * as Yup from 'yup';
 
 const validationSchema = Yup.object({
   input: Yup.object({
-    email: Yup.string()
-      .label('Email')
-      .email()
-      .required(),
-    password: Yup.string()
-      .label('Password')
-      .required()
-  })
+    email: Yup.string().label('Email').email().required(),
+    password: Yup.string().label('Password').required(),
+  }),
 });
 
 export function LoginForm({ onSubmit }) {
@@ -70,5 +65,5 @@ export function LoginForm({ onSubmit }) {
 }
 
 LoginForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired,
 };

@@ -6,7 +6,7 @@ import { action } from '@storybook/addon-actions';
 export default {
   title: 'Forms/UserCommentForm',
   component: UserCommentForm,
-  decorators: [withRouter]
+  decorators: [withRouter],
 };
 
 export const renders = () => (

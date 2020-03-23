@@ -18,7 +18,7 @@ export function ArticlePageBanner({
   onUnfollow,
   slug,
   title,
-  viewerDidFavorite
+  viewerDidFavorite,
 }) {
   return (
     <div className="banner">
@@ -58,7 +58,7 @@ ArticlePageBanner.fragments = {
       ...ArticleMetaArticleFragment
     }
     ${ArticleMeta.fragments.article}
-  `
+  `,
 };
 
 ArticlePageBanner.propTypes = {
@@ -76,5 +76,5 @@ ArticlePageBanner.propTypes = {
   onUnfollow: PropTypes.func.isRequired,
   slug: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  viewerDidFavorite: PropTypes.bool
+  viewerDidFavorite: PropTypes.bool,
 };

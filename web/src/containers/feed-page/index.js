@@ -20,13 +20,13 @@ function FeedPage() {
           first: router.query.first ? parseInt(router.query.first) : null,
           before: router.query.before ? router.query.before : null,
           after: router.query.after ? router.query.after : null,
-          tagName: router.query.tagName
+          tagName: router.query.tagName,
         }
       : { first: 10, tagName: router.query.tagName };
 
   const feed = useQuery(FeedPageQuery, {
     variables,
-    notifyOnNetworkStatusChange: true
+    notifyOnNetworkStatusChange: true,
   });
 
   const [favoriteArticle] = useMutation(FeedPageFavoriteArticleMutation);
@@ -56,7 +56,7 @@ function FeedPage() {
         <div className="row">
           <div className="col-xs-12 col-md-9">
             <ViewerFeedToggle {...feed.data.viewer} />
-            {feed.data.feedConnection.edges.map(edge => (
+            {feed.data.feedConnection.edges.map((edge) => (
               <ArticlePreview
                 key={edge.node.slug}
                 onFavorite={favoriteArticle}

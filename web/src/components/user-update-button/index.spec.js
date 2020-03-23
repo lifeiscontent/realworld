@@ -20,7 +20,7 @@ describe('UserUpdateButton', () => {
       '/settings',
       '/settings',
       {
-        shallow: undefined
+        shallow: undefined,
       }
     );
   });

@@ -6,7 +6,7 @@ import { action } from '@storybook/addon-actions';
 export default {
   title: 'Banners/UserPageBanner',
   component: UserPageBanner,
-  decorators: [withRouter]
+  decorators: [withRouter],
 };
 
 export const renders = () => (

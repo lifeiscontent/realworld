@@ -9,13 +9,13 @@ export function TagsInput(props) {
   const [value, setValue] = useState('');
 
   const tags = useQuery(TagsInputQuery, {
-    returnPartialData: true
+    returnPartialData: true,
   });
 
   const [field, , helpers] = useField(props);
 
-  const handleRemove = tag => {
-    helpers.setValue(field.value.filter(id => id !== tag.id));
+  const handleRemove = (tag) => {
+    helpers.setValue(field.value.filter((id) => id !== tag.id));
   };
 
   return (
@@ -30,11 +30,11 @@ export function TagsInput(props) {
           name={field.name}
           onBlur={field.onBlur}
           value={value}
-          onKeyDown={event => {
+          onKeyDown={(event) => {
             if (event.key === 'Enter') {
               event.preventDefault();
               const tag = tags.data.tags.find(
-                tag => tag.name === event.target.value
+                (tag) => tag.name === event.target.value
               );
               if (tag?.id) {
                 if (field.value.includes(tag.id) === false) {
@@ -48,19 +48,19 @@ export function TagsInput(props) {
               }
             }
           }}
-          onChange={event => {
+          onChange={(event) => {
             event.preventDefault();
             setValue(event.target.value);
           }}
         />
         <datalist id="tags">
-          {(tags.data?.tags ?? []).map(tag => (
+          {(tags.data?.tags ?? []).map((tag) => (
             <option value={tag.name} key={tag.id} />
           ))}
         </datalist>
       </p>
       <div className="tag-list">
-        {field.value.map(id => (
+        {field.value.map((id) => (
           <TagsInputTag id={id} key={id} onRemoveTag={handleRemove} />
         ))}
       </div>
@@ -70,7 +70,7 @@ export function TagsInput(props) {
 
 TagsInput.propTypes = {
   name: PropTypes.string.isRequired,
-  id: PropTypes.string
+  id: PropTypes.string,
 };
 
 const TagsInputQuery = gql`

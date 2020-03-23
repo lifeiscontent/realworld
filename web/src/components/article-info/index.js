@@ -25,10 +25,10 @@ ArticleInfo.fragments = {
       }
       createdAt
     }
-  `
+  `,
 };
 
 ArticleInfo.propTypes = {
   author: PropTypes.shape({ username: PropTypes.string.isRequired }).isRequired,
-  createdAt: PropTypes.string.isRequired
+  createdAt: PropTypes.string.isRequired,
 };

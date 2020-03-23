@@ -11,15 +11,15 @@ export function ArticleComments({ articleSlug }) {
   const commentsList = useQuery(ArticleCommentsQuery, {
     fetchPolicy: 'cache-first',
     variables: {
-      slug: articleSlug
-    }
+      slug: articleSlug,
+    },
   });
 
   const [deleteComment] = useMutation(ArticleCommentsDeleteCommentMutation, {
     update(proxy, mutationResult) {
       const commentsList = proxy.readQuery({
         query: ArticleCommentsQuery,
-        variables: { slug: articleSlug }
+        variables: { slug: articleSlug },
       });
 
       proxy.writeQuery({
@@ -31,21 +31,21 @@ export function ArticleComments({ articleSlug }) {
             ...commentsList.article,
             comments: [
               ...commentsList.article.comments.filter(
-                comment =>
+                (comment) =>
                   comment.id !== mutationResult.data.deleteComment.comment.id
-              )
-            ]
-          }
-        }
+              ),
+            ],
+          },
+        },
       });
-    }
+    },
   });
 
   const [createComment] = useMutation(ArticleCommentsCreateCommentMutation, {
     update(proxy, mutationResult) {
       const commentsList = proxy.readQuery({
         query: ArticleCommentsQuery,
-        variables: { slug: articleSlug }
+        variables: { slug: articleSlug },
       });
 
       proxy.writeQuery({
@@ -57,20 +57,20 @@ export function ArticleComments({ articleSlug }) {
             ...commentsList.article,
             comments: [
               mutationResult.data.createComment.comment,
-              ...commentsList.article.comments
-            ]
-          }
-        }
+              ...commentsList.article.comments,
+            ],
+          },
+        },
       });
-    }
+    },
   });
 
   const handleSubmit = (values, { setSubmitting, setStatus, resetForm }) => {
     createComment({
-      variables: values
+      variables: values,
     })
       .then(() => resetForm())
-      .catch(err => {
+      .catch((err) => {
         handleValidationError(err, setStatus);
         console.error(err);
       })
@@ -92,7 +92,7 @@ export function ArticleComments({ articleSlug }) {
         onSubmit={handleSubmit}
         {...commentsList.data.viewer}
       />
-      {commentsList.data.article.comments.map(comment => (
+      {commentsList.data.article.comments.map((comment) => (
         <CommentCard key={comment.id} onDelete={deleteComment} {...comment} />
       ))}
     </>
@@ -100,7 +100,7 @@ export function ArticleComments({ articleSlug }) {
 }
 
 ArticleComments.propTypes = {
-  articleSlug: PropTypes.string.isRequired
+  articleSlug: PropTypes.string.isRequired,
 };
 
 ArticleComments.fragments = {
@@ -119,7 +119,7 @@ ArticleComments.fragments = {
     }
     ${UserCommentForm.fragments.article}
     ${CommentCard.fragments.comment}
-  `
+  `,
 };
 
 export const ArticleCommentsQuery = gql`

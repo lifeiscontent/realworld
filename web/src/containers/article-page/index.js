@@ -13,9 +13,9 @@ function ArticlePage() {
   const router = useRouter();
   const article = useQuery(ArticlePageQuery, {
     variables: {
-      slug: router.query.slug
+      slug: router.query.slug,
     },
-    skip: !router.query.slug
+    skip: !router.query.slug,
   });
 
   const [deleteArticle] = useMutation(ArticlePageDeleteArticleMutation);

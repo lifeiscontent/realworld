@@ -14,7 +14,7 @@ export function UserPageBanner({
   onUnfollow,
   profile,
   username,
-  viewerIsFollowing
+  viewerIsFollowing,
 }) {
   return (
     <div className="user-info">
@@ -57,11 +57,11 @@ UserPageBanner.fragments = {
     ${UserAvatar.fragments.user}
     ${UserFollowButton.fragments.user}
     ${UserUpdateButton.fragments.user}
-  `
+  `,
 };
 
 UserPageBanner.defaultProps = {
-  profile: {}
+  profile: {},
 };
 
 UserPageBanner.propTypes = {
@@ -70,10 +70,10 @@ UserPageBanner.propTypes = {
   canUpdate: PropTypes.object,
   followersCount: PropTypes.number,
   profile: PropTypes.shape({
-    bio: PropTypes.string
+    bio: PropTypes.string,
   }),
   username: PropTypes.string.isRequired,
   viewerIsFollowing: PropTypes.bool,
   onFollow: PropTypes.func.isRequired,
-  onUnfollow: PropTypes.func.isRequired
+  onUnfollow: PropTypes.func.isRequired,
 };

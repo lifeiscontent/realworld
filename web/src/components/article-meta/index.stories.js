@@ -6,7 +6,7 @@ import { action } from '@storybook/addon-actions';
 export default {
   title: 'Content/ArticleMeta',
   component: ArticleMeta,
-  decorators: [withRouter]
+  decorators: [withRouter],
 };
 
 export const renders = () => (
@@ -84,7 +84,7 @@ export const canUnfollow = () => (
       canUnfollow: { value: true },
       followersCount: 1,
       username: 'lifeiscontent',
-      viewerIsFollowing: true
+      viewerIsFollowing: true,
     }}
     createdAt={new Date(2000, 2, 1).toISOString()}
     onDelete={action('onDelete')}

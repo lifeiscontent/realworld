@@ -4,7 +4,7 @@ import { action } from '@storybook/addon-actions';
 
 export default {
   title: 'Buttons/ArticleFavoriteButton',
-  component: ArticleFavoriteButton
+  component: ArticleFavoriteButton,
 };
 
 export const renders = () => (

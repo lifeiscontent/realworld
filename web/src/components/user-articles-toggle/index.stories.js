@@ -5,7 +5,7 @@ import { withRouter } from '../../utils/storybook';
 export default {
   title: 'Tabs/UserArticlesToggle',
   component: UserArticlesToggle,
-  decorators: [withRouter]
+  decorators: [withRouter],
 };
 
 export const renders = () => <UserArticlesToggle username="lifeiscontent" />;
@@ -17,9 +17,9 @@ export const myArticlesActive = () => (
 myArticlesActive.story = {
   parameters: {
     router: {
-      pathname: '/user/[username]'
-    }
-  }
+      pathname: '/user/[username]',
+    },
+  },
 };
 
 export const favoritedArticlesActive = () => (
@@ -29,7 +29,7 @@ export const favoritedArticlesActive = () => (
 favoritedArticlesActive.story = {
   parameters: {
     router: {
-      pathname: '/user/[username]/favorites'
-    }
-  }
+      pathname: '/user/[username]/favorites',
+    },
+  },
 };

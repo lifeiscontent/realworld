@@ -11,11 +11,11 @@ export function CommentCard({
   createdAt,
   id,
   onDelete,
-  canDelete
+  canDelete,
 }) {
   const { profile = {} } = author;
 
-  const handleDelete = event => {
+  const handleDelete = (event) => {
     event.preventDefault();
     onDelete({ variables: { id } });
   };
@@ -69,22 +69,22 @@ CommentCard.fragments = {
       createdAt
       id
     }
-  `
+  `,
 };
 
 CommentCard.defaultProps = {
   canDelete: { value: false },
-  author: {}
+  author: {},
 };
 
 CommentCard.propTypes = {
   author: PropTypes.shape({
     username: PropTypes.string.isRequired,
-    profile: PropTypes.shape({ imageUrl: PropTypes.string })
+    profile: PropTypes.shape({ imageUrl: PropTypes.string }),
   }),
   body: PropTypes.string.isRequired,
   canDelete: PropTypes.shape({ value: PropTypes.bool }),
   createdAt: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  onDelete: PropTypes.func.isRequired
+  onDelete: PropTypes.func.isRequired,
 };

@@ -10,10 +10,10 @@ export function ArticleFavoriteButton({
   onFavorite,
   onUnfavorite,
   slug,
-  viewerDidFavorite
+  viewerDidFavorite,
 }) {
   const disabled = !(canUnfavorite.value || canFavorite.value);
-  const handleClick = event => {
+  const handleClick = (event) => {
     event.preventDefault();
     if (viewerDidFavorite) {
       onUnfavorite({ variables: { slug } });
@@ -26,7 +26,7 @@ export function ArticleFavoriteButton({
     <button
       className={clsx('btn btn-sm', {
         'btn-outline-primary': viewerDidFavorite === false,
-        'btn-primary': viewerDidFavorite
+        'btn-primary': viewerDidFavorite,
       })}
       disabled={disabled}
       onClick={handleClick}
@@ -51,14 +51,14 @@ ArticleFavoriteButton.fragments = {
       slug
       viewerDidFavorite
     }
-  `
+  `,
 };
 
 ArticleFavoriteButton.defaultProps = {
   canFavorite: { value: false },
   canUnfavorite: { value: false },
   favoritesCount: 0,
-  viewerDidFavorite: false
+  viewerDidFavorite: false,
 };
 
 ArticleFavoriteButton.propTypes = {
@@ -68,5 +68,5 @@ ArticleFavoriteButton.propTypes = {
   onFavorite: PropTypes.func.isRequired,
   onUnfavorite: PropTypes.func.isRequired,
   slug: PropTypes.string.isRequired,
-  viewerDidFavorite: PropTypes.bool
+  viewerDidFavorite: PropTypes.bool,
 };

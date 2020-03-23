@@ -11,9 +11,9 @@ function EditorUpdatePage() {
   const router = useRouter();
   const editorUpdate = useQuery(EditorUpdatePageQuery, {
     variables: {
-      slug: router.query.slug
+      slug: router.query.slug,
     },
-    skip: !router.query.slug
+    skip: !router.query.slug,
   });
 
   const [updateArticle] = useMutation(EditorUpdatePageUpdateArticleMutation);
@@ -40,13 +40,13 @@ function EditorUpdatePage() {
       <ArticleForm
         onSubmit={(values, { setSubmitting, setStatus }) => {
           updateArticle({ variables: values })
-            .then(res => {
+            .then((res) => {
               router.push(
                 '/article/[slug]',
                 `/article/${res.data.updateArticle.article.slug}`
               );
             })
-            .catch(err => {
+            .catch((err) => {
               handleValidationError(err, setStatus);
               console.error(err);
               setSubmitting(false);

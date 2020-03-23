@@ -6,13 +6,13 @@ import { withRouter } from '../../utils/storybook';
 export default {
   title: 'Banners/ArticlePageBanner',
   component: ArticlePageBanner,
-  decorators: [withRouter]
+  decorators: [withRouter],
 };
 
 export const renders = () => (
   <ArticlePageBanner
     author={{
-      username: 'lifeiscontent'
+      username: 'lifeiscontent',
     }}
     createdAt={new Date(2000, 2, 1).toISOString()}
     onDelete={action('onDelete')}
@@ -29,7 +29,7 @@ export const canFollow = () => (
   <ArticlePageBanner
     author={{
       username: 'lifeiscontent',
-      canFollow: { value: true }
+      canFollow: { value: true },
     }}
     createdAt={new Date(2000, 2, 1).toISOString()}
     onDelete={action('onDelete')}
@@ -48,7 +48,7 @@ export const canUnfollow = () => (
       username: 'lifeiscontent',
       canUnfollow: { value: true },
       viewerIsFollowing: true,
-      followersCount: 1
+      followersCount: 1,
     }}
     createdAt={new Date(2000, 2, 1).toISOString()}
     onDelete={action('onDelete')}
@@ -64,7 +64,7 @@ export const canUnfollow = () => (
 export const canFavorite = () => (
   <ArticlePageBanner
     author={{
-      username: 'lifeiscontent'
+      username: 'lifeiscontent',
     }}
     canFavorite={{ value: true }}
     createdAt={new Date(2000, 2, 1).toISOString()}
@@ -81,7 +81,7 @@ export const canFavorite = () => (
 export const canUnfavorite = () => (
   <ArticlePageBanner
     author={{
-      username: 'lifeiscontent'
+      username: 'lifeiscontent',
     }}
     canUnfavorite={{ value: true }}
     createdAt={new Date(2000, 2, 1).toISOString()}
@@ -101,7 +101,7 @@ export const canUpdate = () => (
   <ArticlePageBanner
     title="Some cool title"
     author={{
-      username: 'lifeiscontent'
+      username: 'lifeiscontent',
     }}
     canUpdate={{ value: true }}
     createdAt={new Date(2000, 2, 1).toISOString()}
@@ -118,7 +118,7 @@ export const canDelete = () => (
   <ArticlePageBanner
     title="Some cool title"
     author={{
-      username: 'lifeiscontent'
+      username: 'lifeiscontent',
     }}
     canDelete={{ value: true }}
     createdAt={new Date(2000, 2, 1).toISOString()}

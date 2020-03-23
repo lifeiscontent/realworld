@@ -13,9 +13,9 @@ function LoginPage() {
       <LoginForm
         onSubmit={(values, { setSubmitting, setStatus }) => {
           signIn({
-            variables: values
+            variables: values,
           })
-            .then(res => {
+            .then((res) => {
               document.cookie = cookie.serialize(
                 'authorization',
                 `Bearer ${res.data.signIn.token}`,
@@ -23,12 +23,12 @@ function LoginPage() {
                   maxAge: 60 * 60 * 24,
                   path: '/',
                   sameSite: 'lax',
-                  secure: process.env.NODE_ENV === 'production'
+                  secure: process.env.NODE_ENV === 'production',
                 }
               );
               window.location = '/';
             })
-            .catch(err => {
+            .catch((err) => {
               handleValidationError(err, setStatus);
               console.error(err);
               setSubmitting(false);

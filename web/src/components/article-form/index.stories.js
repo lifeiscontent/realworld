@@ -6,7 +6,7 @@ import { withApolloClient } from 'storybook-addon-apollo-client';
 export default {
   title: 'Forms/ArticleForm',
   component: ArticleForm,
-  decorators: [withApolloClient]
+  decorators: [withApolloClient],
 };
 
 export const renders = () => <ArticleForm onSubmit={action('onSubmit')} />;

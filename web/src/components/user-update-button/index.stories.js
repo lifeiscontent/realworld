@@ -5,7 +5,7 @@ import { withRouter } from '../../utils/storybook';
 export default {
   title: 'Buttons/UserUpdateButton',
   component: UserUpdateButton,
-  decorators: [withRouter]
+  decorators: [withRouter],
 };
 
 export const renders = () => <UserUpdateButton />;

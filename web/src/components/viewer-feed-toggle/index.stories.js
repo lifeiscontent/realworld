@@ -5,7 +5,7 @@ import { withRouter } from '../../utils/storybook';
 export default {
   title: 'Tabs/ViewerFeedToggle',
   component: ViewerFeedToggle,
-  decorators: [withRouter]
+  decorators: [withRouter],
 };
 
 export const renders = () => <ViewerFeedToggle />;
@@ -13,9 +13,9 @@ export const renders = () => <ViewerFeedToggle />;
 renders.story = {
   parameters: {
     router: {
-      pathname: '/'
-    }
-  }
+      pathname: '/',
+    },
+  },
 };
 
 export const feedEnabled = () => <ViewerFeedToggle username="lifeiscontent" />;
@@ -23,9 +23,9 @@ export const feedEnabled = () => <ViewerFeedToggle username="lifeiscontent" />;
 feedEnabled.story = {
   parameters: {
     router: {
-      pathname: '/'
-    }
-  }
+      pathname: '/',
+    },
+  },
 };
 
 export const feedActive = () => <ViewerFeedToggle username="lifeiscontent" />;
@@ -33,7 +33,7 @@ export const feedActive = () => <ViewerFeedToggle username="lifeiscontent" />;
 feedActive.story = {
   parameters: {
     router: {
-      pathname: '/feed'
-    }
-  }
+      pathname: '/feed',
+    },
+  },
 };

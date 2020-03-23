@@ -5,7 +5,7 @@ import { withRouter } from '../../utils/storybook';
 export default {
   title: 'Banners/HomePageBanner',
   component: HomePageBanner,
-  decorators: [withRouter]
+  decorators: [withRouter],
 };
 
 export const renders = () => <HomePageBanner />;

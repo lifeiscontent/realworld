@@ -6,7 +6,7 @@ import { action } from '@storybook/addon-actions';
 export default {
   title: 'Cards/CommentCard',
   component: CommentCard,
-  decorators: [withRouter]
+  decorators: [withRouter],
 };
 
 export const renders = () => (

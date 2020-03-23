@@ -10,10 +10,8 @@ import gql from 'graphql-tag';
 const validationSchema = Yup.object({
   articleSlug: Yup.string().required(),
   input: Yup.object({
-    body: Yup.string()
-      .label('Body')
-      .required()
-  })
+    body: Yup.string().label('Body').required(),
+  }),
 });
 
 export function UserCommentForm({
@@ -21,7 +19,7 @@ export function UserCommentForm({
   onSubmit,
   username,
   profile,
-  canCreateComment
+  canCreateComment,
 }) {
   if (canCreateComment.value === false) return null;
 
@@ -82,12 +80,12 @@ UserCommentForm.fragments = {
         imageUrl
       }
     }
-  `
+  `,
 };
 
 UserCommentForm.defaultProps = {
   profile: {},
-  canCreateComment: { value: false }
+  canCreateComment: { value: false },
 };
 
 UserCommentForm.propTypes = {
@@ -98,5 +96,5 @@ UserCommentForm.propTypes = {
   username: (props, ...rest) =>
     props.canCreateComment.value
       ? PropTypes.string.isRequired(props, ...rest)
-      : PropTypes.string(props, ...rest)
+      : PropTypes.string(props, ...rest),
 };

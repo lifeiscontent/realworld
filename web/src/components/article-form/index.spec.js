@@ -24,21 +24,21 @@ describe('ArticleForm', () => {
     const submitButton = await screen.findByText('Publish Article');
 
     fireEvent.change(title, {
-      target: { value: 'How to build webapps that scale' }
+      target: { value: 'How to build webapps that scale' },
     });
 
     fireEvent.change(description, {
       target: {
         value:
-          'Web development technologies have evolved at an incredible clip over the past few years.'
-      }
+          'Web development technologies have evolved at an incredible clip over the past few years.',
+      },
     });
 
     fireEvent.change(body, {
       target: {
         value:
-          "## Introducing RealWorld.\nIt's a great solution for learning how other frameworks work."
-      }
+          "## Introducing RealWorld.\nIt's a great solution for learning how other frameworks work.",
+      },
     });
 
     await waitFor(async () => {

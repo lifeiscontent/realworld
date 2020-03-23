@@ -22,13 +22,13 @@ UserUpdateButton.fragments = {
         value
       }
     }
-  `
+  `,
 };
 
 UserUpdateButton.defaultProps = {
-  canUpdate: { value: false }
+  canUpdate: { value: false },
 };
 
 UserUpdateButton.propTypes = {
-  canUpdate: PropTypes.shape({ value: PropTypes.bool })
+  canUpdate: PropTypes.shape({ value: PropTypes.bool }),
 };

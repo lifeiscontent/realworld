@@ -15,7 +15,7 @@ export function ViewerFeedToggle({ username }) {
             <Link href="/feed">
               <a
                 className={clsx('nav-link', {
-                  active: router.pathname === '/feed'
+                  active: router.pathname === '/feed',
                 })}
               >
                 Your Feed
@@ -44,9 +44,9 @@ ViewerFeedToggle.fragments = {
     fragment ViewerFeedToggleViewerFragment on User {
       username
     }
-  `
+  `,
 };
 
 ViewerFeedToggle.propTypes = {
-  username: PropTypes.string
+  username: PropTypes.string,
 };

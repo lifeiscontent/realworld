@@ -23,14 +23,14 @@ ArticleUpdateButton.fragments = {
       }
       slug
     }
-  `
+  `,
 };
 
 ArticleUpdateButton.defaultProps = {
-  canUpdate: { value: false }
+  canUpdate: { value: false },
 };
 
 ArticleUpdateButton.propTypes = {
   canUpdate: PropTypes.shape({ value: PropTypes.bool }),
-  slug: PropTypes.string.isRequired
+  slug: PropTypes.string.isRequired,
 };

@@ -19,7 +19,7 @@ describe('ArticleComments', () => {
     });
 
     const comment = await screen.findByText('Hello world', {
-      selector: '.card-text > p'
+      selector: '.card-text > p',
     });
 
     expect(comment).toHaveTextContent('Hello world');

@@ -6,7 +6,7 @@ import { action } from '@storybook/addon-actions';
 export default {
   title: 'Content/ArticlePreview',
   component: ArticlePreview,
-  decorators: [withRouter]
+  decorators: [withRouter],
 };
 
 export const renders = () => (
@@ -24,9 +24,9 @@ export const renders = () => (
 renders.story = {
   parameters: {
     router: {
-      pathname: '/'
-    }
-  }
+      pathname: '/',
+    },
+  },
 };
 
 export const hasTags = () => (
@@ -45,16 +45,16 @@ export const hasTags = () => (
 hasTags.story = {
   parameters: {
     router: {
-      pathname: '/'
-    }
-  }
+      pathname: '/',
+    },
+  },
 };
 
 export const canFavorite = () => (
   <ArticlePreview
     author={{
       username: 'lifeiscontent',
-      profile: {}
+      profile: {},
     }}
     title="Some cool title"
     description="web stuff"
@@ -70,16 +70,16 @@ export const canFavorite = () => (
 canFavorite.story = {
   parameters: {
     router: {
-      pathname: '/'
-    }
-  }
+      pathname: '/',
+    },
+  },
 };
 
 export const canUnfavorite = () => (
   <ArticlePreview
     author={{
       username: 'lifeiscontent',
-      profile: {}
+      profile: {},
     }}
     title="Some cool title"
     description="web stuff"
@@ -95,9 +95,9 @@ export const canUnfavorite = () => (
 canUnfavorite.story = {
   parameters: {
     router: {
-      pathname: '/'
-    }
-  }
+      pathname: '/',
+    },
+  },
 };
 
 export const withProfileImage = () => (
@@ -105,8 +105,8 @@ export const withProfileImage = () => (
     author={{
       username: 'lifeiscontent',
       profile: {
-        imageUrl: 'https://randomuser.me/api/portraits/men/1.jpg'
-      }
+        imageUrl: 'https://randomuser.me/api/portraits/men/1.jpg',
+      },
     }}
     title="Some cool title"
     description="web stuff"
@@ -121,7 +121,7 @@ export const withProfileImage = () => (
 withProfileImage.story = {
   parameters: {
     router: {
-      pathname: '/'
-    }
-  }
+      pathname: '/',
+    },
+  },
 };

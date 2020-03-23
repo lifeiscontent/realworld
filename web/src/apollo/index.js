@@ -19,14 +19,14 @@ export default function createApolloClient(initialState, ctx) {
           ? cookie.parse(document.cookie)
           : cookie.parse(ctx?.req?.headers?.cookie ?? '');
       return {
-        headers: { authorization }
+        headers: { authorization },
       };
     }),
     new HttpLink({
       fetch,
       credentials: 'omit',
-      uri: process.env.GRAPHQL_URL
-    })
+      uri: process.env.GRAPHQL_URL,
+    }),
   ]);
 
   const cache = new InMemoryCache(cacheConfig).restore(initialState);
@@ -38,7 +38,7 @@ export default function createApolloClient(initialState, ctx) {
     name: 'Conduit',
     version: '1.0.0',
     link,
-    cache
+    cache,
   });
 
   client.onResetStore(() => cache.restore(initialState));

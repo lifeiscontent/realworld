@@ -4,7 +4,7 @@ import { action } from '@storybook/addon-actions';
 
 export default {
   title: 'Forms/UserSettingsForm',
-  component: UserSettingsForm
+  component: UserSettingsForm,
 };
 
 const handleSubmit = action('onSubmit');

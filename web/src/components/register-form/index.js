@@ -8,17 +8,10 @@ import * as Yup from 'yup';
 
 const validationSchema = Yup.object({
   input: Yup.object({
-    username: Yup.string()
-      .label('Username')
-      .required(),
-    email: Yup.string()
-      .label('Email')
-      .required()
-      .email(),
-    password: Yup.string()
-      .label('Password')
-      .required()
-  })
+    username: Yup.string().label('Username').required(),
+    email: Yup.string().label('Email').required().email(),
+    password: Yup.string().label('Password').required(),
+  }),
 });
 
 export function RegisterForm({ onSubmit }) {
@@ -36,7 +29,7 @@ export function RegisterForm({ onSubmit }) {
             validationSchema={validationSchema}
             initialStatus={[]}
             initialValues={{
-              input: { email: '', username: '', password: '' }
+              input: { email: '', username: '', password: '' },
             }}
             onSubmit={onSubmit}
           >
@@ -89,5 +82,5 @@ export function RegisterForm({ onSubmit }) {
 }
 
 RegisterForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired,
 };

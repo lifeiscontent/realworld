@@ -1,6 +1,5 @@
 import { action } from '@storybook/addon-actions';
 import { makeDecorator } from '@storybook/addons';
-import { MockedProvider } from '@apollo/react-testing';
 import React from 'react';
 import Router from 'next/router';
 import { RouterContext } from 'next/dist/next-server/lib/router-context';
@@ -36,7 +35,7 @@ export const withRouter = makeDecorator({
         return Promise.resolve(true);
       },
       ...settings.options,
-      ...settings.parameters
+      ...settings.parameters,
     };
 
     return (
@@ -44,5 +43,5 @@ export const withRouter = makeDecorator({
         {getStory(context)}
       </RouterContext.Provider>
     );
-  }
+  },
 });
