@@ -56,7 +56,7 @@ function FeedPage() {
         <div className="row">
           <div className="col-xs-12 col-md-9">
             <ViewerFeedToggle {...feed.data.viewer} />
-            {feed.data.feedConnection.edges.map((edge) => (
+            {feed.data.feedConnection.edges.map(edge => (
               <ArticlePreview
                 key={edge.node.slug}
                 onFavorite={favoriteArticle}

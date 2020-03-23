@@ -45,7 +45,7 @@ function IndexPage() {
         <div className="row">
           <div className="col-xs-12 col-md-9">
             <ViewerFeedToggle {...index.data.viewer} />
-            {index.data.articlesConnection.edges.map((edge) => (
+            {index.data.articlesConnection.edges.map(edge => (
               <ArticlePreview
                 key={edge.node.slug}
                 onFavorite={favoriteArticle}

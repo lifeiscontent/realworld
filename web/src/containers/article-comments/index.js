@@ -31,7 +31,7 @@ export function ArticleComments({ articleSlug }) {
             ...commentsList.article,
             comments: [
               ...commentsList.article.comments.filter(
-                (comment) =>
+                comment =>
                   comment.id !== mutationResult.data.deleteComment.comment.id
               ),
             ],
@@ -70,7 +70,7 @@ export function ArticleComments({ articleSlug }) {
       variables: values,
     })
       .then(() => resetForm())
-      .catch((err) => {
+      .catch(err => {
         handleValidationError(err, setStatus);
         console.error(err);
       })
@@ -92,7 +92,7 @@ export function ArticleComments({ articleSlug }) {
         onSubmit={handleSubmit}
         {...commentsList.data.viewer}
       />
-      {commentsList.data.article.comments.map((comment) => (
+      {commentsList.data.article.comments.map(comment => (
         <CommentCard key={comment.id} onDelete={deleteComment} {...comment} />
       ))}
     </>

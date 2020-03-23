@@ -14,7 +14,7 @@ const createValidationSchema = Yup.object({
     body: Yup.string().label('Body').required(),
     tagIds: Yup.array(Yup.string())
       .label('Tags')
-      .test('', '${path} is a required field', (value) => Array.isArray(value)),
+      .test('', '${path} is a required field', value => Array.isArray(value)),
   }),
 });
 
@@ -26,7 +26,7 @@ const updateValidationSchema = Yup.object({
     body: Yup.string().label('Body').required(),
     tagIds: Yup.array(Yup.string())
       .label('Tags')
-      .test('', '${path} is a required field', (value) => Array.isArray(value)),
+      .test('', '${path} is a required field', value => Array.isArray(value)),
   }),
 });
 
@@ -44,7 +44,7 @@ export function ArticleForm({
       title,
       description,
       body,
-      tagIds: tags.map((tag) => tag.id),
+      tagIds: tags.map(tag => tag.id),
     },
   };
 

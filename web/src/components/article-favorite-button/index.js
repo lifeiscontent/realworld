@@ -13,7 +13,7 @@ export function ArticleFavoriteButton({
   viewerDidFavorite,
 }) {
   const disabled = !(canUnfavorite.value || canFavorite.value);
-  const handleClick = (event) => {
+  const handleClick = event => {
     event.preventDefault();
     if (viewerDidFavorite) {
       onUnfavorite({ variables: { slug } });

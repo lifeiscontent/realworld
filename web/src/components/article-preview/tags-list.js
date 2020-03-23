@@ -7,7 +7,7 @@ export function ArticlePreviewTagsList({ tags }) {
 
   return (
     <ul className="tag-list">
-      {tags.map((tag) => (
+      {tags.map(tag => (
         <li key={tag.id} className="tag-pill tag-default">
           {tag.name}
         </li>

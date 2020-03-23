@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 
 export function ArticleDeleteButton({ canDelete, onDelete, slug }) {
-  const handleDelete = (event) => {
+  const handleDelete = event => {
     event.preventDefault();
     onDelete({ variables: { slug } });
   };

@@ -12,7 +12,7 @@ export function SidebarTagList({ popularTags }) {
 
   return (
     <div className="tag-list">
-      {popularTags.map((tag) => (
+      {popularTags.map(tag => (
         <Link
           href={{ pathname: router.pathname, query: { tagName: tag.name } }}
           key={tag.id}

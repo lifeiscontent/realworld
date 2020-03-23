@@ -13,7 +13,7 @@ export function UserFollowButton({
   viewerIsFollowing,
 }) {
   const disabled = !(canFollow.value || canUnfollow.value);
-  const handleClick = (event) => {
+  const handleClick = event => {
     event.preventDefault();
     if (viewerIsFollowing) {
       onUnfollow({ variables: { username } });

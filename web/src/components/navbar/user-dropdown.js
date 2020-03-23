@@ -16,7 +16,7 @@ export function NavbarUserDropdown({ username }) {
         data-toggle="dropdown"
         aria-haspopup="true"
         aria-expanded={open}
-        onClick={(event) => {
+        onClick={event => {
           event.preventDefault();
           setOpen(!open);
         }}

@@ -15,7 +15,7 @@ function LoginPage() {
           signIn({
             variables: values,
           })
-            .then((res) => {
+            .then(res => {
               document.cookie = cookie.serialize(
                 'authorization',
                 `Bearer ${res.data.signIn.token}`,
@@ -28,7 +28,7 @@ function LoginPage() {
               );
               window.location = '/';
             })
-            .catch((err) => {
+            .catch(err => {
               handleValidationError(err, setStatus);
               console.error(err);
               setSubmitting(false);

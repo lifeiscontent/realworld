@@ -13,7 +13,7 @@ const months = [
   'December',
 ];
 
-const ordinalSuffixOf = (i) => {
+const ordinalSuffixOf = i => {
   const j = i % 10;
   const k = i % 100;
   if (j == 1 && k != 11) return `${i}st`;

@@ -15,7 +15,7 @@ export function CommentCard({
 }) {
   const { profile = {} } = author;
 
-  const handleDelete = (event) => {
+  const handleDelete = event => {
     event.preventDefault();
     onDelete({ variables: { id } });
   };
