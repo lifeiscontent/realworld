@@ -1,7 +1,7 @@
 import React from 'react';
 import { ArticleForm } from '.';
 import { action } from '@storybook/addon-actions';
-import { withApolloClient } from '../../utils/storybook';
+import { withApolloClient } from 'storybook-addon-apollo-client';
 
 export default {
   title: 'Forms/ArticleForm',

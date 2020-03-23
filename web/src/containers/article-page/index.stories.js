@@ -1,6 +1,8 @@
 import React from 'react';
+import { withApolloClient } from 'storybook-addon-apollo-client';
 import ArticlePage, { ArticlePageQuery } from '.';
-import { withApolloClient, withRouter } from '../../utils/storybook';
+
+import { withRouter } from '../../utils/storybook';
 import { LayoutQuery } from '../layout';
 
 export default {

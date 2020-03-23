@@ -46,15 +46,3 @@ export const withRouter = makeDecorator({
     );
   }
 });
-
-export const withApolloClient = makeDecorator({
-  name: 'ApolloClient',
-  parameterName: 'apolloClient',
-  wrapper(getStory, context, settings) {
-    return (
-      <MockedProvider {...settings.options} {...settings.parameters}>
-        {getStory(context)}
-      </MockedProvider>
-    );
-  }
-});

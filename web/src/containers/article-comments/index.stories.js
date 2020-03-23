@@ -4,7 +4,8 @@ import {
   ArticleCommentsCreateCommentMutation,
   ArticleCommentsQuery
 } from '.';
-import { withApolloClient, withRouter } from '../../utils/storybook';
+import { withApolloClient } from 'storybook-addon-apollo-client';
+import {  withRouter } from '../../utils/storybook';
 
 export default {
   title: 'Containers/ArticleComments',
