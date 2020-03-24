@@ -14,9 +14,13 @@ describe('EditorPage', () => {
       render(decorateStory(renders, story));
 
       waitFor(() => {
-        expect(action('nextRouter.replace')).toHaveBeenCalledWith('/editor', '/', {
-          shallow: true,
-        });
+        expect(action('nextRouter.replace')).toHaveBeenCalledWith(
+          '/editor',
+          '/',
+          {
+            shallow: true,
+          }
+        );
       });
     });
   });
