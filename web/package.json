@@ -64,7 +64,7 @@
     "eslint-plugin-react-hooks": "2.5.1",
     "identity-obj-proxy": "3.0.0",
     "jest": "25.1.0",
-    "prettier": "2.0.1",
+    "prettier": "2.0.2",
     "react-test-renderer": "16.13.1",
     "storybook-addon-apollo-client": "1.0.0",
     "storybook-addon-next-router": "1.0.0"
