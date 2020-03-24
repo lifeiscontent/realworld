@@ -12,6 +12,7 @@ import { ArticlePreview } from '../../components/article-preview';
 
 function IndexPage() {
   const router = useRouter();
+  console.log(router);
   const variables =
     typeof router.query.before !== 'undefined' ||
     typeof router.query.after !== 'undefined'

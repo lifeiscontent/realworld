@@ -24,7 +24,7 @@ describe('EditorPage', () => {
   describe('when not logged in', () => {
     // here, we reset our mock after its be called in the test
     afterEach(() => {
-      action('router.replace').mockClear();
+      action('nextRouter.replace').mockClear();
     });
 
     it('redirects', async () => {
@@ -35,9 +35,13 @@ describe('EditorPage', () => {
         // in storybook, we mock some parts of the router to add `action` events
         // so now in our tests, we can mock the `action`
         // and test that the router was called with the right method
-        expect(action('router.replace')).toHaveBeenCalledWith('/editor', '/', {
-          shallow: true
-        });
+        expect(action('nextRouter.replace')).toHaveBeenCalledWith(
+          '/editor',
+          '/',
+          {
+            shallow: true,
+          }
+        );
       });
     });
   });
@@ -48,7 +52,7 @@ describe('EditorPage', () => {
 
       await waitFor(() => {
         // we just want to make sure a user who has access doesn't get redirected as well.
-        expect(action('router.replace')).not.toHaveBeenCalled();
+        expect(action('nextRouter.replace')).not.toHaveBeenCalled();
 
         // we could add another test here that asserts something about the page markup
         // but that's a decision you can make.

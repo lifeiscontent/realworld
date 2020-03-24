@@ -1,11 +1,11 @@
 import React from 'react';
 import { ViewerFeedToggle } from '.';
-import { withRouter } from '../../utils/storybook';
+import { withNextRouter } from 'storybook-addon-next-router';
 
 export default {
   title: 'Tabs/ViewerFeedToggle',
   component: ViewerFeedToggle,
-  decorators: [withRouter],
+  decorators: [withNextRouter],
 };
 
 export const renders = () => <ViewerFeedToggle />;

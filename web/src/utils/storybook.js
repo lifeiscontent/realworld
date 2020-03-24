@@ -1,47 +1,5 @@
-import { action } from '@storybook/addon-actions';
-import { makeDecorator } from '@storybook/addons';
-import React from 'react';
-import Router from 'next/router';
-import { RouterContext } from 'next/dist/next-server/lib/router-context';
 import { defaultDecorateStory } from '@storybook/client-api';
 
 export function decorateStory(example, story) {
   return defaultDecorateStory(example, story.decorators ?? [])(example.story);
 }
-
-export const withRouter = makeDecorator({
-  name: 'Router',
-  parameterName: 'router',
-  wrapper(getStory, context, settings) {
-    Router.router = {
-      asPath: '/',
-      back() {},
-      beforePopState() {},
-      pageLoader: { prefetched: {} },
-      pathname: '/',
-      prefetch() {
-        return Promise.resolve(true);
-      },
-      push(...args) {
-        action('router.push')(...args);
-
-        return Promise.resolve(true);
-      },
-      query: {},
-      reload() {},
-      replace(...args) {
-        action('router.replace')(...args);
-
-        return Promise.resolve(true);
-      },
-      ...settings.options,
-      ...settings.parameters,
-    };
-
-    return (
-      <RouterContext.Provider value={Router.router}>
-        {getStory(context)}
-      </RouterContext.Provider>
-    );
-  },
-});

@@ -1,11 +1,11 @@
 import React from 'react';
 import { ArticleInfo } from '.';
-import { withRouter } from '../../utils/storybook';
+import { withNextRouter } from 'storybook-addon-next-router';
 
 export default {
   title: 'Content/ArticleInfo',
   component: ArticleInfo,
-  decorators: [withRouter],
+  decorators: [withNextRouter],
 };
 
 export const renders = () => (

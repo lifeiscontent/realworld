@@ -1,11 +1,11 @@
 import React from 'react';
 import { UserUpdateButton } from '.';
-import { withRouter } from '../../utils/storybook';
+import { withNextRouter } from 'storybook-addon-next-router';
 
 export default {
   title: 'Buttons/UserUpdateButton',
   component: UserUpdateButton,
-  decorators: [withRouter],
+  decorators: [withNextRouter],
 };
 
 export const renders = () => <UserUpdateButton />;

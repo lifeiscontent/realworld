@@ -2,13 +2,13 @@ import React from 'react';
 import { withApolloClient } from 'storybook-addon-apollo-client';
 import ArticlePage, { ArticlePageQuery } from '.';
 
-import { withRouter } from '../../utils/storybook';
+import { withNextRouter } from 'storybook-addon-next-router';
 import { LayoutQuery } from '../layout';
 
 export default {
   title: 'Pages/ArticlePage',
   component: ArticlePage,
-  decorators: [withRouter, withApolloClient],
+  decorators: [withNextRouter, withApolloClient],
 };
 
 export const renders = () => <ArticlePage />;

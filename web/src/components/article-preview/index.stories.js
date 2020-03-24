@@ -1,12 +1,12 @@
 import React from 'react';
 import { ArticlePreview } from '.';
-import { withRouter } from '../../utils/storybook';
+import { withNextRouter } from 'storybook-addon-next-router';
 import { action } from '@storybook/addon-actions';
 
 export default {
   title: 'Content/ArticlePreview',
   component: ArticlePreview,
-  decorators: [withRouter],
+  decorators: [withNextRouter],
 };
 
 export const renders = () => (

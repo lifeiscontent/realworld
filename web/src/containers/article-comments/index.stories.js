@@ -5,12 +5,12 @@ import {
   ArticleCommentsQuery,
 } from '.';
 import { withApolloClient } from 'storybook-addon-apollo-client';
-import { withRouter } from '../../utils/storybook';
+import { withNextRouter } from 'storybook-addon-next-router';
 
 export default {
   title: 'Containers/ArticleComments',
   component: ArticleComments,
-  decorators: [withApolloClient, withRouter],
+  decorators: [withNextRouter, withApolloClient],
 };
 
 export const canCreateComment = () => (

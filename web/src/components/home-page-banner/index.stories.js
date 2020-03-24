@@ -1,11 +1,11 @@
 import React from 'react';
 import { HomePageBanner } from '.';
-import { withRouter } from '../../utils/storybook';
+import { withNextRouter } from 'storybook-addon-next-router';
 
 export default {
   title: 'Banners/HomePageBanner',
   component: HomePageBanner,
-  decorators: [withRouter],
+  decorators: [withNextRouter],
 };
 
 export const renders = () => <HomePageBanner />;

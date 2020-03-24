@@ -1,12 +1,12 @@
 import React from 'react';
 import { UserCommentForm } from '.';
-import { withRouter } from '../../utils/storybook';
+import { withNextRouter } from 'storybook-addon-next-router';
 import { action } from '@storybook/addon-actions';
 
 export default {
   title: 'Forms/UserCommentForm',
   component: UserCommentForm,
-  decorators: [withRouter],
+  decorators: [withNextRouter],
 };
 
 export const renders = () => (

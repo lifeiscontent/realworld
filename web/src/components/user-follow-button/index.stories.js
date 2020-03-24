@@ -1,12 +1,12 @@
 import React from 'react';
 import { UserFollowButton } from '.';
-import { withRouter } from '../../utils/storybook';
+import { withNextRouter } from 'storybook-addon-next-router';
 import { action } from '@storybook/addon-actions';
 
 export default {
   title: 'Buttons/UserFollowButton',
   component: UserFollowButton,
-  decorators: [withRouter],
+  decorators: [withNextRouter],
 };
 
 export const renders = () => (

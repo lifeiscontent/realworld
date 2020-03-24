@@ -12,7 +12,7 @@ describe('ArticleUpdateButton', () => {
 
     fireEvent.click(link);
 
-    expect(action('router.push')).toHaveBeenCalledWith(
+    expect(action('nextRouter.push')).toHaveBeenCalledWith(
       '/user/[username]',
       '/user/lifeiscontent',
       {

@@ -16,7 +16,7 @@ describe('UserUpdateButton', () => {
     render(decorateStory(canUpdate, story));
     const link = screen.getByRole('link');
     fireEvent.click(link);
-    expect(action('router.push')).toHaveBeenCalledWith(
+    expect(action('nextRouter.push')).toHaveBeenCalledWith(
       '/settings',
       '/settings',
       {

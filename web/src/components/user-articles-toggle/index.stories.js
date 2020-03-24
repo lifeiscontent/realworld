@@ -1,11 +1,11 @@
 import React from 'react';
 import { UserArticlesToggle } from '.';
-import { withRouter } from '../../utils/storybook';
+import { withNextRouter } from 'storybook-addon-next-router';
 
 export default {
   title: 'Tabs/UserArticlesToggle',
   component: UserArticlesToggle,
-  decorators: [withRouter],
+  decorators: [withNextRouter],
 };
 
 export const renders = () => <UserArticlesToggle username="lifeiscontent" />;

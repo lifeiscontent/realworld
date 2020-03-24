@@ -1,11 +1,11 @@
 import React from 'react';
 import { Navbar } from '.';
-import { withRouter } from '../../utils/storybook';
+import { withNextRouter } from 'storybook-addon-next-router';
 
 export default {
   title: 'Main/Navbar',
   component: Navbar,
-  decorators: [withRouter],
+  decorators: [withNextRouter],
 };
 
 export const renders = () => <Navbar />;
