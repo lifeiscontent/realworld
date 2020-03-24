@@ -8,14 +8,10 @@ import Link from 'next/link';
 import gql from 'graphql-tag';
 
 const validationSchema = Yup.object({
-  articleSlug: Yup.string().required(),
-  input: Yup.object({
-    body: Yup.string().label('Body').required(),
-  }),
+  body: Yup.string().label('Body').required(),
 });
 
 export function UserCommentForm({
-  articleSlug,
   onSubmit,
   username,
   profile,
@@ -27,18 +23,18 @@ export function UserCommentForm({
     <Formik
       enableReinitialize
       validationSchema={validationSchema}
-      initialValues={{ articleSlug, input: { body: '' } }}
+      initialValues={{ body: '' }}
       onSubmit={onSubmit}
     >
       <Form>
         <ul className="error-messages">
-          <ErrorMessage component="li" name="input.body" />
+          <ErrorMessage component="li" name="body" />
           <FormikStatusErrors />
         </ul>
         <div className="card comment-form">
           <div className="card-block">
             <Field
-              name="input.body"
+              name="body"
               as="textarea"
               className="form-control"
               placeholder="Write a comment..."
@@ -89,7 +85,6 @@ UserCommentForm.defaultProps = {
 };
 
 UserCommentForm.propTypes = {
-  articleSlug: PropTypes.string.isRequired,
   canCreateComment: PropTypes.shape({ value: PropTypes.bool }),
   onSubmit: PropTypes.func.isRequired,
   profile: PropTypes.shape({ imageUrl: PropTypes.string }),

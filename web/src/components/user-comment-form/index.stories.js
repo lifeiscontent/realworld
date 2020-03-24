@@ -12,7 +12,6 @@ export default {
 export const renders = () => (
   <UserCommentForm
     username="lifeiscontent"
-    articleSlug="some-cool-title"
     onSubmit={action('onSubmit')}
   />
 );
@@ -21,7 +20,6 @@ export const canCreateComment = () => (
   <UserCommentForm
     canCreateComment={{ value: true }}
     username="lifeiscontent"
-    articleSlug="some-cool-title"
     onSubmit={action('onSubmit')}
   />
 );

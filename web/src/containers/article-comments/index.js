@@ -65,9 +65,12 @@ export function ArticleComments({ articleSlug }) {
     },
   });
 
-  const handleSubmit = (values, { setSubmitting, setStatus, resetForm }) => {
+  const handleSubmit = (input, { setSubmitting, setStatus, resetForm }) => {
     createComment({
-      variables: values,
+      variables: {
+        articleSlug,
+        input
+      },
     })
       .then(() => resetForm())
       .catch(err => {
@@ -87,7 +90,6 @@ export function ArticleComments({ articleSlug }) {
   return (
     <>
       <UserCommentForm
-        articleSlug={articleSlug}
         canCreateComment={commentsList.data.article.canCreateComment}
         onSubmit={handleSubmit}
         {...commentsList.data.viewer}
