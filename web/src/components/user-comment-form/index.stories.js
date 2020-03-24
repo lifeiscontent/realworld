@@ -10,10 +10,7 @@ export default {
 };
 
 export const renders = () => (
-  <UserCommentForm
-    username="lifeiscontent"
-    onSubmit={action('onSubmit')}
-  />
+  <UserCommentForm username="lifeiscontent" onSubmit={action('onSubmit')} />
 );
 
 export const canCreateComment = () => (

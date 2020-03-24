@@ -69,7 +69,7 @@ export function ArticleComments({ articleSlug }) {
     createComment({
       variables: {
         articleSlug,
-        input
+        input,
       },
     })
       .then(() => resetForm())
