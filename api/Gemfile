@@ -13,7 +13,7 @@ gem 'byebug', '~> 11.1.0', platforms: %i[mri mingw x64_mingw], groups: %i[develo
 gem 'database_cleaner-active_record', '~> 1.8.0', group: :test
 gem 'devise', '~> 4.7.0'
 gem 'factory_bot_rails', '~> 5.1.0', group: :test
-gem 'faker', '~> 2.10.0'
+gem 'faker', '~> 2.11.0'
 gem 'friendly_id', '~> 5.3.0'
 gem 'graphql', '~> 1.10.5'
 gem 'jwt', '~> 2.2.1'
