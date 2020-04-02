@@ -68,7 +68,7 @@
     "lint-staged": "10.1.1",
     "prettier": "2.0.2",
     "react-test-renderer": "16.13.1",
-    "storybook-addon-apollo-client": "1.0.0",
+    "storybook-addon-apollo-client": "1.0.1",
     "storybook-addon-next-router": "1.0.1"
   }
 }
