@@ -1,5 +1,8 @@
 # Testing Form components built with Formik
 
+
+[web/src/components/article-form/index.spec.js][web/src/components/article-form/index.spec.js]
+
 ```jsx
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
@@ -80,3 +83,4 @@ describe('ArticleForm', () => {
   });
 });
 ```
+[web/src/components/article-form/index.spec.js]: https://github.com/lifeiscontent/realworld/blob/master/web/src/components/article-form/index.spec.js

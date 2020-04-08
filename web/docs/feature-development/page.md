@@ -10,6 +10,8 @@ Let's write a test for the EditorPage
 
 We'll be using a mock for [next/router][web/__mocks__/next/router.js]
 
+[web/src/containers/editor-page/index.spec.js][web/src/containers/editor-page/index.spec.js]
+
 ```js
 import React from 'react';
 import { render, waitFor } from '@testing-library/react';
@@ -133,3 +135,4 @@ describe('EditorPage', () => {
 ```
 
 [web/__mocks__/next/router.js]: https://github.com/lifeiscontent/realworld/blob/master/web/__mocks__/next/router.js
+[web/src/containers/editor-page/index.spec.js]: https://github.com/lifeiscontent/realworld/blob/master/web/src/containers/editor-page/index.spec.js

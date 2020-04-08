@@ -58,6 +58,8 @@ Let try creating the `ArticleFavoriteButton` in the example app.
 
 This will serve as our starting template
 
+[web/src/components/article-favorite-button/index.js][web/src/components/article-favorite-button/index.js]
+
 ```jsx
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -181,6 +183,8 @@ Our UI Component is finished, but let's add some tests to make sure it doesn't b
 
 We'll use the `ArticleFavoriteButton` as an example.
 
+[web/src/components/article-favorite-button/index.stories.js][web/src/components/article-favorite-button/index.stories.js]
+
 ```jsx
 import React from 'react';
 import { ArticleFavoriteButton } from '.'; // import our UI Component
@@ -229,6 +233,8 @@ export const canUnfavorite = () => (
 ```
 
 since we have 2 actions (favorite/unfavorite) we can test them in jest, let's do that now.
+
+[web/src/components/article-favorite-button/index.spec.js][web/src/components/article-favorite-button/index.spec.js]
 
 ```jsx
 import React from 'react';
@@ -297,3 +303,7 @@ describe('ArticleFavoriteButton', () => {
   });
 });
 ```
+
+[web/src/components/article-favorite-button/index.js]: https://github.com/lifeiscontent/realworld/blob/master/web/src/components/article-favorite-button/index.js
+[web/src/components/article-favorite-button/index.stories.js]: https://github.com/lifeiscontent/realworld/blob/master/web/src/components/article-favorite-button/index.stories.js
+[web/src/components/article-favorite-button/index.spec.js]: https://github.com/lifeiscontent/realworld/blob/master/web/src/components/article-favorite-button/index.spec.js
