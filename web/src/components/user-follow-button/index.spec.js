@@ -1,29 +1,56 @@
+import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
-import { action } from '@storybook/addon-actions';
-import story, { renders, canFollow, canUnfollow } from './index.stories';
-import { decorateStory } from '../../utils/storybook';
-
-jest.mock('@storybook/addon-actions');
+import { UserFollowButton } from '.';
 
 describe('UserFollowButton', () => {
+  let onFollow;
+  let onUnfollow;
+
+  beforeEach(() => {
+    onFollow = jest.fn();
+    onUnfollow = jest.fn();
+  });
+
   it('is disabled with insufficient access', async () => {
-    render(decorateStory(renders, story));
+    render(
+      <UserFollowButton
+        onFollow={onFollow}
+        onUnfollow={onUnfollow}
+        username="lifeiscontent"
+      />
+    );
     const button = screen.getByRole('button');
     expect(button).toBeDisabled();
   });
 
   it('calls onFollow when clicked', async () => {
-    render(decorateStory(canFollow, story));
+    render(
+      <UserFollowButton
+        canFollow={{ value: true }}
+        onFollow={onFollow}
+        onUnfollow={onUnfollow}
+        username="lifeiscontent"
+      />
+    );
     const button = screen.getByRole('button');
     fireEvent.click(button);
-    expect(action('onFollow')).toHaveBeenCalled();
+    expect(onFollow).toHaveBeenCalled();
   });
 
   it('calls onUnfollow when clicked', async () => {
-    render(decorateStory(canUnfollow, story));
+    render(
+      <UserFollowButton
+        canUnfollow={{ value: true }}
+        followersCount={1}
+        onFollow={onFollow}
+        onUnfollow={onUnfollow}
+        username="lifeiscontent"
+        viewerIsFollowing
+      />
+    );
 
     const button = screen.getByRole('button');
     fireEvent.click(button);
-    expect(action('onUnfollow')).toHaveBeenCalled();
+    expect(onUnfollow).toHaveBeenCalled();
   });
 });

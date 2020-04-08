@@ -9,53 +9,121 @@
 Let's write a test for the EditorPage
 
 ```js
+import React from 'react';
 import { render, waitFor } from '@testing-library/react';
-// we use our storybook for our test fixture
-import story, { renders, asUser } from './index.stories';
-// we want to use a custom helper for working with storybook fixtures easier
-import { decorateStory } from '../../utils/storybook';
-import { action } from '@storybook/addon-actions';
+import EditorPage, { EditorPageQuery } from '.';
+// we use MockedProvider from Apollo because we have some data we need to fetch
+import { MockedProvider } from '@apollo/react-testing';
+import { LayoutQuery } from '../layout';
+import Router from 'next/router';
 
-jest.mock('@storybook/addon-actions');
+// we mock next/router look at the __mocks__ folder for the code.
+jest.mock('next/router');
 
 describe('EditorPage', () => {
+  beforeEach(() => {
+    Router.replace = jest.fn();
+    Router.pathname = '/editor';
+    Router.asPath = '/editor';
+  });
+
+  afterEach(() => {
+    Router.replace = jest.fn();
+    Router.pathname = '/';
+    Router.asPath = '/';
+  });
+
   // we want to test that our page component actually redirects
   // when an unauthorized user comes to view the page
   describe('when not logged in', () => {
-    // here, we reset our mock after its be called in the test
-    afterEach(() => {
-      action('nextRouter.replace').mockClear();
-    });
-
     it('redirects', async () => {
-      render(decorateStory(renders, story));
+      // render the UI with some mocked data
+      render(
+        <MockedProvider
+          mocks={[
+            {
+              request: {
+                query: LayoutQuery,
+                variables: {},
+              },
+              result: {
+                data: {
+                  viewer: null,
+                },
+              },
+            },
+            {
+              request: {
+                query: EditorPageQuery,
+                variables: {},
+              },
+              result: {
+                data: {
+                  canCreateArticle: {
+                    value: false,
+                    __typename: 'AuthorizationResult',
+                  },
+                },
+              },
+            },
+          ]}
+        >
+          <EditorPage />
+        </MockedProvider>
+      );
 
       // since this this happens in an effect, we need to use `waitFor`.
       await waitFor(() => {
-        // in storybook, we mock some parts of the router to add `action` events
-        // so now in our tests, we can mock the `action`
-        // and test that the router was called with the right method
-        expect(action('nextRouter.replace')).toHaveBeenCalledWith(
-          '/editor',
-          '/',
-          {
-            shallow: true,
-          }
-        );
+        // test that the router was called with the right arguments
+        expect(Router.replace).toHaveBeenCalledWith('/editor', '/', {
+          shallow: true,
+        });
       });
     });
   });
 
   describe('when logged in', () => {
     it('does not redirect', async () => {
-      render(decorateStory(asUser, story));
+      // render the UI with some mocked data
+      render(
+        <MockedProvider
+          mocks={[
+            {
+              request: {
+                query: LayoutQuery,
+                variables: {},
+              },
+              result: {
+                data: {
+                  viewer: {
+                    username: 'jamie',
+                    __typename: 'User',
+                  },
+                },
+              },
+            },
+            {
+              request: {
+                query: EditorPageQuery,
+                variables: {},
+              },
+              result: {
+                data: {
+                  canCreateArticle: {
+                    value: true,
+                    __typename: 'AuthorizationResult',
+                  },
+                },
+              },
+            },
+          ]}
+        >
+          <EditorPage />
+        </MockedProvider>
+      );
 
       await waitFor(() => {
-        // we just want to make sure a user who has access doesn't get redirected as well.
-        expect(action('nextRouter.replace')).not.toHaveBeenCalled();
-
-        // we could add another test here that asserts something about the page markup
-        // but that's a decision you can make.
+        expect(Router.replace).not.toHaveBeenCalled();
       });
     });
   });

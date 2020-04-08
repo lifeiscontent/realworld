@@ -1,27 +1,20 @@
-import { render, fireEvent, screen } from '@testing-library/react';
-import story, { renders, canUpdate } from './index.stories';
-import { action } from '@storybook/addon-actions';
-import { decorateStory } from '../../utils/storybook';
-
-jest.mock('@storybook/addon-actions');
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import { ArticleUpdateButton } from '.';
 
 describe('ArticleUpdateButton', () => {
   it('does not render with insufficient access', async () => {
-    render(decorateStory(renders, story));
+    render(<ArticleUpdateButton slug="a-simple-title" />);
 
-    expect(screen.queryByRole('button')).toBeNull();
+    expect(screen.queryByRole('link')).toBeNull();
   });
 
-  it('goes to link on click', () => {
-    render(decorateStory(canUpdate, story));
-
-    const link = screen.getByRole('link');
-    fireEvent.click(link);
-
-    expect(action('nextRouter.push')).toHaveBeenCalledWith(
-      '/editor/[slug]',
-      '/editor/a-simple-title',
-      { shallow: undefined }
+  it('renders a link with correct URL', async () => {
+    render(
+      <ArticleUpdateButton canUpdate={{ value: true }} slug="a-simple-title" />
     );
+
+    const link = await screen.findByRole('link');
+    expect(link).toHaveAttribute('href', '/editor/a-simple-title');
   });
 });

@@ -1,32 +1,59 @@
+import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { action } from '@storybook/addon-actions';
-import story, { renders, canFavorite, canUnfavorite } from './index.stories';
-import { decorateStory } from '../../utils/storybook';
-
-jest.mock('@storybook/addon-actions');
+import { ArticleFavoriteButton } from '.';
 
 describe('ArticleFavoriteButton', () => {
+  let onFavorite;
+  let onUnfavorite;
+
+  beforeEach(() => {
+    onFavorite = jest.fn();
+    onUnfavorite = jest.fn();
+  });
+
   it('is disabled with insufficient access', async () => {
-    render(decorateStory(renders, story));
+    render(
+      <ArticleFavoriteButton
+        onFavorite={onFavorite}
+        onUnfavorite={onUnfavorite}
+        slug="a-simple-title"
+      />
+    );
 
     const button = await screen.findByText('Favorite Article (0)');
     expect(button).toBeDisabled();
   });
 
   it('calls onFavorite when clicked', async () => {
-    render(decorateStory(canFavorite, story));
+    render(
+      <ArticleFavoriteButton
+        onFavorite={onFavorite}
+        onUnfavorite={onUnfavorite}
+        slug="a-simple-title"
+        canFavorite={{ value: true }}
+      />
+    );
     const button = await screen.findByText('Favorite Article (0)');
 
     fireEvent.click(button);
-    expect(action('onFavorite')).toHaveBeenCalled();
+    expect(onFavorite).toHaveBeenCalled();
   });
 
   it('calls onUnfavorite when clicked', async () => {
-    render(decorateStory(canUnfavorite, story));
+    render(
+      <ArticleFavoriteButton
+        canUnfavorite={{ value: true }}
+        favoritesCount={1}
+        onFavorite={onFavorite}
+        onUnfavorite={onUnfavorite}
+        slug="a-simple-title"
+        viewerDidFavorite={true}
+      />
+    );
 
     const button = await screen.findByText('Unfavorite Article (1)');
 
     fireEvent.click(button);
-    expect(action('onUnfavorite')).toHaveBeenCalled();
+    expect(onUnfavorite).toHaveBeenCalled();
   });
 });

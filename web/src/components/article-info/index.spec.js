@@ -1,23 +1,17 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import story, { renders } from './index.stories';
-import { decorateStory } from '../../utils/storybook';
-import { action } from '@storybook/addon-actions';
-
-jest.mock('@storybook/addon-actions');
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import { ArticleInfo } from '.';
 
 describe('ArticleUpdateButton', () => {
-  it('goes to link on click', async () => {
-    render(decorateStory(renders, story));
+  it('renders link with proper URL', async () => {
+    render(
+      <ArticleInfo
+        createdAt={new Date(2000, 2, 1).toISOString()}
+        author={{ username: 'lifeiscontent' }}
+      />
+    );
     const link = await screen.findByRole('link');
 
-    fireEvent.click(link);
-
-    expect(action('nextRouter.push')).toHaveBeenCalledWith(
-      '/user/[username]',
-      '/user/lifeiscontent',
-      {
-        shallow: undefined,
-      }
-    );
+    expect(link).toHaveAttribute('href', '/user/lifeiscontent');
   });
 });

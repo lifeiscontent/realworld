@@ -1,13 +1,20 @@
+import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { action } from '@storybook/addon-actions';
-import story, { renders } from './index.stories';
-import { decorateStory } from '../../utils/storybook';
-
-jest.mock('@storybook/addon-actions');
+import { MockedProvider } from '@apollo/react-testing';
+import { ArticleForm } from '.';
 
 describe('ArticleForm', () => {
+  let onSubmit;
+
+  beforeEach(() => {
+    onSubmit = jest.fn();
+  });
   it('displays errors on submit', async () => {
-    render(decorateStory(renders, story));
+    render(
+      <MockedProvider>
+        <ArticleForm onSubmit={onSubmit} />
+      </MockedProvider>
+    );
 
     const submitButton = await screen.findByText('Publish Article');
     fireEvent.click(submitButton);
@@ -16,7 +23,11 @@ describe('ArticleForm', () => {
   });
 
   it('calls onSubmit when valid on submit', async () => {
-    render(decorateStory(renders, story));
+    render(
+      <MockedProvider>
+        <ArticleForm onSubmit={onSubmit} />
+      </MockedProvider>
+    );
 
     const title = await screen.findByLabelText(/title/i);
     const description = await screen.findByLabelText(/description/i);
@@ -45,6 +56,6 @@ describe('ArticleForm', () => {
       fireEvent.click(submitButton);
     });
 
-    expect(action('onSubmit')).toHaveBeenCalled();
+    expect(onSubmit).toHaveBeenCalled();
   });
 });

@@ -31,7 +31,7 @@ export function Button({ children, size, variant }) {
         'btn-sm': size === 'sm',
         'btn-lg': size === 'lg',
         'btn-primary': variant === 'primary',
-        'btn-secondary': variant === 'secondary'
+        'btn-secondary': variant === 'secondary',
       })}
     >
       {children}
@@ -41,7 +41,7 @@ export function Button({ children, size, variant }) {
 
 Button.propTypes = {
   size: PropTypes.oneOf(['sm', 'lg']).isRequired,
-  variant: PropTypes.oneOf(['primary', 'secondary']).isRequired
+  variant: PropTypes.oneOf(['primary', 'secondary']).isRequired,
 };
 
 const Example = () => (
@@ -91,7 +91,7 @@ export function ArticleFavoriteButton({
   onFavorite,
   onUnfavorite,
   slug,
-  viewerDidFavorite
+  viewerDidFavorite,
 }) {
   const disabled = !(canUnfavorite.value || canFavorite.value);
   const handleClick = event => {
@@ -107,7 +107,7 @@ export function ArticleFavoriteButton({
     <button
       className={clsx('btn btn-sm', {
         'btn-outline-primary': viewerDidFavorite === false,
-        'btn-primary': viewerDidFavorite
+        'btn-primary': viewerDidFavorite,
       })}
       disabled={disabled}
       onClick={handleClick}
@@ -147,14 +147,14 @@ ArticleFavoriteButton.fragments = {
       slug
       viewerDidFavorite
     }
-  `
+  `,
 };
 
 ArticleFavoriteButton.defaultProps = {
   canFavorite: { value: false },
   canUnfavorite: { value: false },
   favoritesCount: 0,
-  viewerDidFavorite: false
+  viewerDidFavorite: false,
 };
 
 ArticleFavoriteButton.propTypes = {
@@ -164,7 +164,7 @@ ArticleFavoriteButton.propTypes = {
   onFavorite: PropTypes.func.isRequired,
   onUnfavorite: PropTypes.func.isRequired,
   slug: PropTypes.string.isRequired,
-  viewerDidFavorite: PropTypes.bool
+  viewerDidFavorite: PropTypes.bool,
 };
 ```
 
@@ -188,7 +188,7 @@ import { action } from '@storybook/addon-actions'; // import some addons
 
 export default {
   title: 'Buttons/ArticleFavoriteButton', // the title of our story
-  component: ArticleFavoriteButton // the component we're viewing
+  component: ArticleFavoriteButton, // the component we're viewing
 };
 
 // the minimum number of props needed to get the component to render.
@@ -231,41 +231,69 @@ export const canUnfavorite = () => (
 since we have 2 actions (favorite/unfavorite) we can test them in jest, let's do that now.
 
 ```jsx
+import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { action } from '@storybook/addon-actions';
-
-// we can reuse our storybook examples as fixtures
-import story, { renders, canFavorite, canUnfavorite } from './index.stories';
-// use a custom helper for using stories easier
-import { decorateStory } from '../../utils/storybook';
-
-// in order to test that our storybook actions get called, we can mock it.
-// checkout the `__mocks__` folder for more details.
-jest.mock('@storybook/addon-actions');
 
 describe('ArticleFavoriteButton', () => {
+  let onFavorite;
+  let onUnfavorite;
+
+  // we replace the mock functions on each test run to
+  // make sure our tests are isolated from each other.
+
+  beforeEach(() => {
+    onFavorite = jest.fn();
+    onUnfavorite = jest.fn();
+  });
+
   it('is disabled with insufficient access', async () => {
-    render(decorateStory(renders, story));
+    render(
+      <ArticleFavoriteButton
+        onFavorite={onFavorite}
+        onUnfavorite={onUnfavorite}
+        slug="a-simple-title"
+      />
+    );
 
     const button = await screen.findByText('Favorite Article (0)');
+
     expect(button).toHaveAttribute('disabled');
   });
 
   it('calls onFavorite when clicked', async () => {
-    render(decorateStory(canFavorite, story));
+    render(
+      <ArticleFavoriteButton
+        onFavorite={onFavorite}
+        onUnfavorite={onUnfavorite}
+        slug="a-simple-title"
+        canFavorite={{ value: true }}
+      />
+    );
+
     const button = await screen.findByText('Favorite Article (0)');
 
     fireEvent.click(button);
-    expect(action('onFavorite')).toHaveBeenCalled();
+
+    expect(onFavorite).toHaveBeenCalled();
   });
 
   it('calls onUnfavorite when clicked', async () => {
-    render(decorateStory(canUnfavorite, story));
+    render(
+      <ArticleFavoriteButton
+        canUnfavorite={{ value: true }}
+        favoritesCount={1}
+        onFavorite={onFavorite}
+        onUnfavorite={onUnfavorite}
+        slug="a-simple-title"
+        viewerDidFavorite={true}
+      />
+    );
 
     const button = await screen.findByText('Unfavorite Article (1)');
 
     fireEvent.click(button);
-    expect(action('onUnfavorite')).toHaveBeenCalled();
+
+    expect(onUnfavorite).toHaveBeenCalled();
   });
 });
 ```
