@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'unfollowUser', type: :graphql do
-  let(:query) do
+  let(:mutation) do
     <<-GRAPHQL
     mutation UnfollowUserMutation($username: ID!) {
       unfollowUser(username: $username) {
@@ -27,16 +27,16 @@ RSpec.describe 'unfollowUser', type: :graphql do
   context 'current_user is not defined' do
     let(:result) do
       {
-        'data' => {
-          'unfollowUser' => nil
+        data: {
+          unfollowUser: nil
         },
-        'errors' => [
+        errors: [
           {
-            'extensions' => { 'code' => 'UNAUTHORIZED', 'details' => {}, 'fullMessages' => [] },
-            'locations' => [
-              { 'column' => 7, 'line' => 2 }
+            extensions: { code: 'UNAUTHORIZED', details: {}, fullMessages: [] },
+            locations: [
+              { column: 7, line: 2 }
             ],
-            'message' => 'You are not authorized to perform this action', 'path' => ['unfollowUser']
+            message: 'You are not authorized to perform this action', path: ['unfollowUser']
           }
         ]
       }
@@ -49,11 +49,11 @@ RSpec.describe 'unfollowUser', type: :graphql do
 
     let(:result) do
       {
-        'data' => {
-          'unfollowUser' => {
-            'user' => {
-              'followersCount' => 0,
-              'username' => 'user2'
+        data: {
+          unfollowUser: {
+            user: {
+              followersCount: followed.reload.followers_count,
+              username: followed.username
             }
           }
         }

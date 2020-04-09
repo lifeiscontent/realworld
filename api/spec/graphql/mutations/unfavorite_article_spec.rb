@@ -2,11 +2,11 @@
 
 require 'rails_helper'
 
-RSpec.describe 'favoriteArticle', type: :graphql do
-  let(:query) do
+RSpec.describe 'unfavoriteArticle', type: :graphql do
+  let(:mutation) do
     <<-GRAPHQL
-    mutation FavoriteArticleMutation($slug: ID!) {
-      favoriteArticle(slug: $slug) {
+    mutation UnfavoriteArticleMutation($slug: ID!) {
+      unfavoriteArticle(slug: $slug) {
         article {
           slug
           favoritesCount
@@ -24,19 +24,21 @@ RSpec.describe 'favoriteArticle', type: :graphql do
     }
   end
 
+  before(:each) { Favorite.create(article: article, user: user) }
+
   context 'current_user is not defined' do
     let(:result) do
       {
-        'data' => {
-          'favoriteArticle' => nil
+        data: {
+          unfavoriteArticle: nil
         },
-        'errors' => [
+        errors: [
           {
-            'extensions' => { 'code' => 'UNAUTHORIZED', 'details' => {}, 'fullMessages' => [] },
-            'locations' => [
-              { 'column' => 7, 'line' => 2 }
+            extensions: { code: 'UNAUTHORIZED', details: {}, fullMessages: [] },
+            locations: [
+              { column: 7, line: 2 }
             ],
-            'message' => 'You are not authorized to perform this action', 'path' => ['favoriteArticle']
+            message: 'You are not authorized to perform this action', path: ['unfavoriteArticle']
           }
         ]
       }
@@ -49,11 +51,11 @@ RSpec.describe 'favoriteArticle', type: :graphql do
 
     let(:result) do
       {
-        'data' => {
-          'favoriteArticle' => {
-            'article' => {
-              'favoritesCount' => 1,
-              'slug' => 'title-1'
+        data: {
+          unfavoriteArticle: {
+            article: {
+              favoritesCount: article.reload.favorites_count,
+              slug: article.slug
             }
           }
         }

@@ -2,8 +2,7 @@
 
 module Mutations
   class UpdateUser < Mutations::BaseMutation
-    class UpdateUserInput < Types::BaseInputObject
-      argument :username, ID, required: false
+    class UpdateUserProfileInput < Types::BaseInputObject
       argument :bio, String, required: false
       argument :image_url, String, required: false, prepare: :nil_if_empty
 
@@ -18,7 +17,8 @@ module Mutations
     class UpdateUserInput < Types::BaseInputObject
       argument :email, String, required: false
       argument :password, String, required: false, prepare: :nil_if_empty
-      argument :profile, UpdateUserInput, required: false, as: :profile_attributes
+      argument :username, ID, required: false
+      argument :profile, UpdateUserProfileInput, required: false, as: :profile_attributes
 
       def prepare
         to_h

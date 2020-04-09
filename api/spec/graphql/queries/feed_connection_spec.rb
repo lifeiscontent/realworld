@@ -26,22 +26,20 @@ RSpec.describe 'feedConnection', type: :graphql do
   let(:author) { create(:author) }
   let(:tags) { create_list(:tag, 1) }
 
-  before(:each) do
-    create_list(:article, 2, author: author)
-    create_list(:article, 2, author: author, tags: tags)
-  end
+  let!(:tagged_articles) { create_list(:article, 2, author: author, tags: tags) }
+  let!(:articles) { create_list(:article, 2, author: author) }
 
   context 'current_user is not defined' do
     let(:result) do
       {
-        'data' => {
-          'feedConnection' => {
-            'edges' => [],
-            'pageInfo' => {
-              'endCursor' => nil,
-              'hasNextPage' => false,
-              'hasPreviousPage' => false,
-              'startCursor' => nil
+        data: {
+          feedConnection: {
+            edges: [],
+            pageInfo: {
+              endCursor: nil,
+              hasNextPage: false,
+              hasPreviousPage: false,
+              startCursor: nil
             }
           }
         }
@@ -54,14 +52,14 @@ RSpec.describe 'feedConnection', type: :graphql do
     let(:current_user) { create(:user) }
     let(:result) do
       {
-        'data' => {
-          'feedConnection' => {
-            'edges' => [],
-            'pageInfo' => {
-              'endCursor' => nil,
-              'hasNextPage' => false,
-              'hasPreviousPage' => false,
-              'startCursor' => nil
+        data: {
+          feedConnection: {
+            edges: [],
+            pageInfo: {
+              endCursor: nil,
+              hasNextPage: false,
+              hasPreviousPage: false,
+              startCursor: nil
             }
           }
         }
@@ -77,17 +75,14 @@ RSpec.describe 'feedConnection', type: :graphql do
     end
     let(:result) do
       {
-        'data' => {
-          'feedConnection' => {
-            'edges' => [
-              { 'node' => { 'slug' => 'title-4' } },
-              { 'node' => { 'slug' => 'title-3' } }
-            ],
-            'pageInfo' => {
-              'endCursor' => 'Mg',
-              'hasNextPage' => true,
-              'hasPreviousPage' => false,
-              'startCursor' => 'MQ'
+        data: {
+          feedConnection: {
+            edges: articles.reverse.map { |article| { node: { slug: article.slug } } },
+            pageInfo: {
+              endCursor: 'Mg',
+              hasNextPage: true,
+              hasPreviousPage: false,
+              startCursor: 'MQ'
             }
           }
         }
@@ -100,21 +95,18 @@ RSpec.describe 'feedConnection', type: :graphql do
   context 'current_user is a user who follows author with tag' do
     let(:current_user) { create(:relationship, follower: create(:user), followed: author).follower }
     let(:variables) do
-      { first: 2, tagName: Tag.first.name }
+      { first: 2, tagName: tags.first.name }
     end
     let(:result) do
       {
-        'data' => {
-          'feedConnection' => {
-            'edges' => [
-              { 'node' => { 'slug' => 'title-4' } },
-              { 'node' => { 'slug' => 'title-3' } }
-            ],
-            'pageInfo' => {
-              'endCursor' => 'Mg',
-              'hasNextPage' => false,
-              'hasPreviousPage' => false,
-              'startCursor' => 'MQ'
+        data: {
+          feedConnection: {
+            edges: tagged_articles.reverse.map { |article| { node: { slug: article.slug } } },
+            pageInfo: {
+              endCursor: 'Mg',
+              hasNextPage: false,
+              hasPreviousPage: false,
+              startCursor: 'MQ'
             }
           }
         }

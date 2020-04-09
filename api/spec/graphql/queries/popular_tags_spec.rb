@@ -14,15 +14,13 @@ RSpec.describe 'popularTags', type: :graphql do
     GRAPHQL
   end
 
-  before(:each) do
-    create_list(:tag, 3)
-  end
+  let!(:tags) { create_list(:tag, 3) }
 
   context 'current_user is not defined' do
     let(:result) do
       {
-        'data' => {
-          'popularTags' => []
+        data: {
+          popularTags: []
         }
       }
     end
@@ -30,15 +28,11 @@ RSpec.describe 'popularTags', type: :graphql do
   end
 
   context 'current_user is not defined and article has tag' do
-    before(:each) do
-      create(:article, tags: Tag.limit(1), author: build(:author))
-    end
+    let!(:article) { create(:article, tags: [tags.first], author: build(:author)) }
     let(:result) do
       {
-        'data' => {
-          'popularTags' => [
-            { 'id' => '1', 'name' => 'tag1' }
-          ]
+        data: {
+          popularTags: article.tags.map { |tag| { id: tag.id.to_s, name: tag.name } }
         }
       }
     end

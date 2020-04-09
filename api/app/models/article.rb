@@ -19,9 +19,9 @@ class Article < ApplicationRecord
     where(author: user.following)
   end
 
-  def self.tagged_with(tag)
-    return none unless tag.present?
+  def self.tagged_with(tags)
+    return none unless tags.present?
 
-    joins(:taggings).where(taggings: { tag: tag }).distinct
+    joins(:taggings).where(taggings: { tag: tags }).distinct
   end
 end

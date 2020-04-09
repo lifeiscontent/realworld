@@ -3,14 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'signIn', type: :graphql do
-  before(:each) do
-    travel_to Time.zone.local(1994)
-  end
-  after(:each) do
-    travel_back
-  end
-
-  let(:query) do
+  let(:mutation) do
     <<-GRAPHQL
     mutation SignInMutation($input: SignInInput!) {
       signIn(input: $input) {
@@ -23,6 +16,7 @@ RSpec.describe 'signIn', type: :graphql do
     }
     GRAPHQL
   end
+
   let(:user) { create(:user) }
   let(:variables) do
     {
@@ -34,18 +28,17 @@ RSpec.describe 'signIn', type: :graphql do
   end
 
   context 'current_user is nil' do
-    before(:each) do
-      allow_any_instance_of(User).to receive(:generate_jwt).and_return('token')
-    end
+    let(:token) { SecureRandom.uuid }
+    before(:each) { allow_any_instance_of(User).to receive(:generate_jwt).and_return(token) }
 
     let(:result) do
       {
-        'data' => {
-          'signIn' => {
-            'token' => 'token',
-            'user' => {
-              'email' => 'user1@example.com',
-              'username' => 'user1'
+        data: {
+          signIn: {
+            token: token,
+            user: {
+              email: user.email,
+              username: user.username
             }
           }
         }

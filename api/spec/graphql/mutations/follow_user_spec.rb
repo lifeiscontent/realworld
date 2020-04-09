@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'followUser', type: :graphql do
-  let(:query) do
+  let(:mutation) do
     <<-GRAPHQL
     mutation FollowUserMutation($username: ID!) {
       followUser(username: $username) {
@@ -26,16 +26,16 @@ RSpec.describe 'followUser', type: :graphql do
   context 'current_user is not defined' do
     let(:result) do
       {
-        'data' => {
-          'followUser' => nil
+        data: {
+          followUser: nil
         },
-        'errors' => [
+        errors: [
           {
-            'extensions' => { 'code' => 'UNAUTHORIZED', 'details' => {}, 'fullMessages' => [] },
-            'locations' => [
-              { 'column' => 7, 'line' => 2 }
+            extensions: { code: 'UNAUTHORIZED', details: {}, fullMessages: [] },
+            locations: [
+              { column: 7, line: 2 }
             ],
-            'message' => 'You are not authorized to perform this action', 'path' => ['followUser']
+            message: 'You are not authorized to perform this action', path: ['followUser']
           }
         ]
       }
@@ -48,11 +48,11 @@ RSpec.describe 'followUser', type: :graphql do
 
     let(:result) do
       {
-        'data' => {
-          'followUser' => {
-            'user' => {
-              'followersCount' => 1,
-              'username' => 'user1'
+        data: {
+          followUser: {
+            user: {
+              followersCount: followed.reload.followers_count,
+              username: followed.username
             }
           }
         }

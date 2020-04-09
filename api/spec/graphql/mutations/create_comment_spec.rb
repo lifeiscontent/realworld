@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'createComment', type: :graphql do
-  let(:query) do
+  let(:mutation) do
     <<-GRAPHQL
     mutation CreateCommentMutation($articleSlug: ID!, $input: CreateCommentInput!) {
       createComment(articleSlug: $articleSlug, input: $input) {
@@ -35,16 +35,16 @@ RSpec.describe 'createComment', type: :graphql do
   context 'current_user is not defined' do
     let(:result) do
       {
-        'data' => {
-          'createComment' => nil
+        data: {
+          createComment: nil
         },
-        'errors' => [
+        errors: [
           {
-            'extensions' => { 'code' => 'UNAUTHORIZED', 'details' => {}, 'fullMessages' => [] },
-            'locations' => [
-              { 'column' => 7, 'line' => 2 }
+            extensions: { code: 'UNAUTHORIZED', details: {}, fullMessages: [] },
+            locations: [
+              { column: 7, line: 2 }
             ],
-            'message' => 'You are not authorized to perform this action', 'path' => ['createComment']
+            message: 'You are not authorized to perform this action', path: ['createComment']
           }
         ]
       }
@@ -58,16 +58,16 @@ RSpec.describe 'createComment', type: :graphql do
 
     let(:result) do
       {
-        'data' => {
-          'createComment' => {
-            'comment' => {
-              'article' => {
-                'slug' => 'title-1'
+        data: {
+          createComment: {
+            comment: {
+              article: {
+                slug: article.slug
               },
-              'author' => {
-                'username' => 'user2'
+              author: {
+                username: current_user.username
               },
-              'body' => 'There are five steps involved.'
+              body: comment_attributes[:body]
             }
           }
         }

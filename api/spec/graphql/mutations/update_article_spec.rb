@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'updateArticle', type: :graphql do
-  let(:query) do
+  let(:mutation) do
     <<-GRAPHQL
     mutation UpdateArticleMutation($slug: ID!, $input: UpdateArticleInput!) {
       updateArticle(slug: $slug, input: $input) {
@@ -38,21 +38,21 @@ RSpec.describe 'updateArticle', type: :graphql do
   context 'current_user is not defined' do
     let(:result) do
       {
-        'data' => {
-          'updateArticle' => nil
+        data: {
+          updateArticle: nil
         },
-        'errors' => [
+        errors: [
           {
-            'extensions' => {
-              'code' => 'UNAUTHORIZED',
-              'details' => {},
-              'fullMessages' => []
+            extensions: {
+              code: 'UNAUTHORIZED',
+              details: {},
+              fullMessages: []
             },
-            'locations' => [
-              { 'column' => 7, 'line' => 2 }
+            locations: [
+              { column: 7, line: 2 }
             ],
-            'message' => 'You are not authorized to perform this action',
-            'path' => ['updateArticle']
+            message: 'You are not authorized to perform this action',
+            path: ['updateArticle']
           }
         ]
       }
@@ -66,21 +66,21 @@ RSpec.describe 'updateArticle', type: :graphql do
 
     let(:result) do
       {
-        'data' => {
-          'updateArticle' => nil
+        data: {
+          updateArticle: nil
         },
-        'errors' => [
+        errors: [
           {
-            'extensions' => {
-              'code' => 'UNAUTHORIZED',
-              'details' => {},
-              'fullMessages' => []
+            extensions: {
+              code: 'UNAUTHORIZED',
+              details: {},
+              fullMessages: []
             },
-            'locations' => [
-              { 'column' => 7, 'line' => 2 }
+            locations: [
+              { column: 7, line: 2 }
             ],
-            'message' => 'You are not authorized to perform this action',
-            'path' => ['updateArticle']
+            message: 'You are not authorized to perform this action',
+            path: ['updateArticle']
           }
         ]
       }
@@ -93,17 +93,13 @@ RSpec.describe 'updateArticle', type: :graphql do
     let(:current_user) { author }
     let(:result) do
       {
-        'data' => {
-          'updateArticle' => {
-            'article' => {
-              'body' => 'There are five steps involved.',
-              'description' => 'There are five steps involved.',
-              'tags' => [
-                { 'id' => '1', 'name' => 'tag1' },
-                { 'id' => '2', 'name' => 'tag2' },
-                { 'id' => '3', 'name' => 'tag3' }
-              ],
-              'title' => 'Title 1'
+        data: {
+          updateArticle: {
+            article: {
+              body: article.body,
+              description: article.description,
+              tags: tags.map { |tag| { id: tag.id.to_s, name: tag.name } },
+              title: article.title
             }
           }
         }

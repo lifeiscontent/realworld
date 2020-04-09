@@ -182,26 +182,26 @@ RSpec.describe 'articleBySlug', type: :graphql do
   context 'current_user is not defined' do
     let(:result) do
       {
-        'data' => {
-          'articleBySlug' => {
-            'author' => {
-              'username' => 'user1'
+        data: {
+          articleBySlug: {
+            author: {
+              username: article.author.username
             },
-            'body' => 'There are five steps involved.',
-            'canCreate' => { 'value' => false },
-            'canCreateComment' => { 'value' => false },
-            'canDelete' => { 'value' => false },
-            'canFavorite' => { 'value' => false },
-            'canUnfavorite' => { 'value' => false },
-            'canUpdate' => { 'value' => false },
-            'comments' => [],
-            'createdAt' => '1994-01-01T00:00:00Z',
-            'description' => 'There are five steps involved.',
-            'slug' => 'title-1',
-            'tags' => [],
-            'title' => 'Title 1',
-            'updatedAt' => '1994-01-01T00:00:00Z',
-            'viewerDidFavorite' => false
+            body: article.body,
+            canCreate: { value: false },
+            canCreateComment: { value: false },
+            canDelete: { value: false },
+            canFavorite: { value: false },
+            canUnfavorite: { value: false },
+            canUpdate: { value: false },
+            comments: [],
+            createdAt: article.created_at.iso8601.to_s,
+            description: article.description,
+            slug: article.slug,
+            tags: [],
+            title: article.title,
+            updatedAt: article.updated_at.iso8601.to_s,
+            viewerDidFavorite: false
           }
         }
       }
@@ -237,30 +237,31 @@ RSpec.describe 'articleBySlug', type: :graphql do
     let(:current_user) { create(:user) }
     let(:result) do
       {
-        'data' => {
-          'articleBySlug' => {
-            'author' => {
-              'username' => 'user1'
+        data: {
+          articleBySlug: {
+            author: {
+              username: article.author.username
             },
-            'body' => 'There are five steps involved.',
-            'canCreate' => { 'value' => true },
-            'canCreateComment' => { 'value' => true },
-            'canDelete' => { 'value' => false },
-            'canFavorite' => { 'value' => true },
-            'canUnfavorite' => { 'value' => false },
-            'canUpdate' => { 'value' => false },
-            'comments' => [],
-            'createdAt' => '1994-01-01T00:00:00Z',
-            'description' => 'There are five steps involved.',
-            'slug' => 'title-1',
-            'tags' => [],
-            'title' => 'Title 1',
-            'updatedAt' => '1994-01-01T00:00:00Z',
-            'viewerDidFavorite' => false
+            body: article.body,
+            canCreate: { value: true },
+            canCreateComment: { value: true },
+            canDelete: { value: false },
+            canFavorite: { value: true },
+            canUnfavorite: { value: false },
+            canUpdate: { value: false },
+            comments: [],
+            createdAt: article.created_at.iso8601.to_s,
+            description: article.description,
+            slug: article.slug,
+            tags: [],
+            title: article.title,
+            updatedAt: article.updated_at.iso8601.to_s,
+            viewerDidFavorite: false
           }
         }
       }
     end
+
     it { is_expected.to eql result }
   end
 end
@@ -283,30 +284,31 @@ RSpec.describe 'articleBySlug', type: :graphql do
     let(:current_user) { create(:favorite, article: article, user: build(:user)).user }
     let(:result) do
       {
-        'data' => {
-          'articleBySlug' => {
-            'author' => {
-              'username' => 'user1'
+        data: {
+          articleBySlug: {
+            author: {
+              username: article.author.username
             },
-            'body' => 'There are five steps involved.',
-            'canCreate' => { 'value' => true },
-            'canCreateComment' => { 'value' => true },
-            'canDelete' => { 'value' => false },
-            'canFavorite' => { 'value' => false },
-            'canUnfavorite' => { 'value' => true },
-            'canUpdate' => { 'value' => false },
-            'comments' => [],
-            'createdAt' => '1994-01-01T00:00:00Z',
-            'description' => 'There are five steps involved.',
-            'slug' => 'title-1',
-            'tags' => [],
-            'title' => 'Title 1',
-            'updatedAt' => '1994-01-01T00:00:00Z',
-            'viewerDidFavorite' => true
+            body: article.body,
+            canCreate: { value: true },
+            canCreateComment: { value: true },
+            canDelete: { value: false },
+            canFavorite: { value: false },
+            canUnfavorite: { value: true },
+            canUpdate: { value: false },
+            comments: [],
+            createdAt: article.created_at.iso8601.to_s,
+            description: article.description,
+            slug: article.slug,
+            tags: [],
+            title: article.title,
+            updatedAt: article.updated_at.iso8601.to_s,
+            viewerDidFavorite: true
           }
         }
       }
     end
+
     it { is_expected.to eql result }
   end
 end
@@ -328,30 +330,31 @@ RSpec.describe 'articleBySlug', type: :graphql do
     let(:current_user) { author }
     let(:result) do
       {
-        'data' => {
-          'articleBySlug' => {
-            'author' => {
-              'username' => 'user1'
+        data: {
+          articleBySlug: {
+            author: {
+              username: article.author.username
             },
-            'body' => 'There are five steps involved.',
-            'canCreate' => { 'value' => true },
-            'canCreateComment' => { 'value' => true },
-            'canDelete' => { 'value' => true },
-            'canFavorite' => { 'value' => false },
-            'canUnfavorite' => { 'value' => false },
-            'canUpdate' => { 'value' => true },
-            'comments' => [],
-            'createdAt' => '1994-01-01T00:00:00Z',
-            'description' => 'There are five steps involved.',
-            'slug' => 'title-1',
-            'tags' => [],
-            'title' => 'Title 1',
-            'updatedAt' => '1994-01-01T00:00:00Z',
-            'viewerDidFavorite' => false
+            body: article.body,
+            canCreate: { value: true },
+            canCreateComment: { value: true },
+            canDelete: { value: true },
+            canFavorite: { value: false },
+            canUnfavorite: { value: false },
+            canUpdate: { value: true },
+            comments: [],
+            createdAt: article.created_at.iso8601.to_s,
+            description: article.description,
+            slug: article.slug,
+            tags: [],
+            title: article.title,
+            updatedAt: article.updated_at.iso8601.to_s,
+            viewerDidFavorite: false
           }
         }
       }
     end
+
     it { is_expected.to eql result }
   end
 end

@@ -48,7 +48,7 @@ require 'rails_helper'
 RSpec.describe 'createArticle', type: :graphql do
   # ...
   let(:tags) { create_list(3, :tags) }
-  let(:article_attributes) { attributes_for :article }
+  let(:article_attributes) { attributes_for(:article) }
   let(:variables) do
     {
       input: {
@@ -180,20 +180,21 @@ RSpec.describe 'createArticle', type: :graphql do
   context 'current_user is not defined' do
     let(:result) do
       {
-        'data' => {
-          'createArticle' => nil
+        data: {
+          createArticle: nil
         },
-        'errors' => [
+        errors: [
           {
-            'extensions' => { 'code' => 'UNAUTHORIZED', 'details' => {}, 'fullMessages' => [] },
-            'locations' => [
-              { 'column' => 7, 'line' => 2 }
+            extensions: { code: 'UNAUTHORIZED', details: {}, fullMessages: [] },
+            locations: [
+              { column: 7, line: 2 }
             ],
-            'message' => 'You are not authorized to perform this action', 'path' => ['createArticle']
+            message: 'You are not authorized to perform this action', path: ['createArticle']
           }
         ]
       }
     end
+
     it { is_expected.to eql result }
   end
 end
@@ -215,17 +216,13 @@ RSpec.describe 'createArticle', type: :graphql do
 
     let(:result) do
       {
-        'data' => {
-          'createArticle' => {
-            'article' => {
-              'body' => 'There are five steps involved.',
-              'description' => 'There are five steps involved.',
-              'tags' => [
-                { 'id' => '1', 'name' => 'tag1' },
-                { 'id' => '2', 'name' => 'tag2' },
-                { 'id' => '3', 'name' => 'tag3' }
-              ],
-              'title' => 'Title 1'
+        data: {
+          createArticle: {
+            article: {
+              body: article_attributes[:body],
+              description: article_attributes[:description],
+              tags: tags.map { |tag| { id: tag.id.to_s, name: tag.name } },
+              title: article_attributes[:title]
             }
           }
         }

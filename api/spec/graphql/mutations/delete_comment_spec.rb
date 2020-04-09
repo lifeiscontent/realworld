@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'deleteComment', type: :graphql do
-  let(:query) do
+  let(:mutation) do
     <<-GRAPHQL
     mutation DeleteCommentMutation($id: ID!) {
       deleteComment(id: $id) {
@@ -27,21 +27,21 @@ RSpec.describe 'deleteComment', type: :graphql do
   context 'current_user is not defined' do
     let(:result) do
       {
-        'data' => {
-          'deleteComment' => nil
+        data: {
+          deleteComment: nil
         },
-        'errors' => [
+        errors: [
           {
-            'extensions' => {
-              'code' => 'UNAUTHORIZED',
-              'details' => {},
-              'fullMessages' => []
+            extensions: {
+              code: 'UNAUTHORIZED',
+              details: {},
+              fullMessages: []
             },
-            'locations' => [
-              { 'column' => 7, 'line' => 2 }
+            locations: [
+              { column: 7, line: 2 }
             ],
-            'message' => 'You are not authorized to perform this action',
-            'path' => ['deleteComment']
+            message: 'You are not authorized to perform this action',
+            path: ['deleteComment']
           }
         ]
       }
@@ -55,21 +55,21 @@ RSpec.describe 'deleteComment', type: :graphql do
 
     let(:result) do
       {
-        'data' => {
-          'deleteComment' => nil
+        data: {
+          deleteComment: nil
         },
-        'errors' => [
+        errors: [
           {
-            'extensions' => {
-              'code' => 'UNAUTHORIZED',
-              'details' => {},
-              'fullMessages' => []
+            extensions: {
+              code: 'UNAUTHORIZED',
+              details: {},
+              fullMessages: []
             },
-            'locations' => [
-              { 'column' => 7, 'line' => 2 }
+            locations: [
+              { column: 7, line: 2 }
             ],
-            'message' => 'You are not authorized to perform this action',
-            'path' => ['deleteComment']
+            message: 'You are not authorized to perform this action',
+            path: ['deleteComment']
           }
         ]
       }
@@ -82,10 +82,10 @@ RSpec.describe 'deleteComment', type: :graphql do
     let(:current_user) { comment_author }
     let(:result) do
       {
-        'data' => {
-          'deleteComment' => {
-            'comment' => {
-              'body' => 'There are five steps involved.'
+        data: {
+          deleteComment: {
+            comment: {
+              body: comment.body
             }
           }
         }
@@ -99,10 +99,10 @@ RSpec.describe 'deleteComment', type: :graphql do
     let(:current_user) { article_author }
     let(:result) do
       {
-        'data' => {
-          'deleteComment' => {
-            'comment' => {
-              'body' => 'There are five steps involved.'
+        data: {
+          deleteComment: {
+            comment: {
+              body: comment.body
             }
           }
         }

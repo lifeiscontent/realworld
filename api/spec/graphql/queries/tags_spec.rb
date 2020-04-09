@@ -14,19 +14,13 @@ RSpec.describe 'tags', type: :graphql do
     GRAPHQL
   end
 
-  before(:each) do
-    create_list(:tag, 3)
-  end
+  let!(:tags) { create_list(:tag, 3) }
 
   context 'current_user is not defined' do
     let(:result) do
       {
-        'data' => {
-          'tags' => [
-            { 'id' => '1', 'name' => 'tag1' },
-            { 'id' => '2', 'name' => 'tag2' },
-            { 'id' => '3', 'name' => 'tag3' }
-          ]
+        data: {
+          tags: tags.map { |tag| { id: tag.id.to_s, name: tag.name } }
         }
       }
     end

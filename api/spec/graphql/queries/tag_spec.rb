@@ -3,13 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe 'tag', type: :graphql do
-  before(:each) do
-    travel_to Time.zone.local(1994)
-  end
-  after(:each) do
-    travel_back
-  end
-
   let(:query) do
     <<-GRAPHQL
     query TagQuery($id: ID!) {
@@ -30,10 +23,10 @@ RSpec.describe 'tag', type: :graphql do
   context 'current_user is not defined' do
     let(:result) do
       {
-        'data' => {
-          'tag' => {
-            'id' => '1',
-            'name' => 'tag1'
+        data: {
+          tag: {
+            id: tag.id.to_s,
+            name: tag.name
           }
         }
       }
