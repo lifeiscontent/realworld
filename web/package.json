@@ -13,7 +13,7 @@
     "apollo-cache-inmemory": "1.6.5",
     "apollo-client": "2.6.8",
     "apollo-link": "1.2.14",
-    "apollo-link-context": "1.0.19",
+    "apollo-link-context": "1.0.20",
     "apollo-link-error": "1.1.13",
     "apollo-link-http": "1.5.17",
     "clsx": "1.1.0",
