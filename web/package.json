@@ -15,7 +15,7 @@
     "apollo-link": "1.2.13",
     "apollo-link-context": "1.0.19",
     "apollo-link-error": "1.1.12",
-    "apollo-link-http": "1.5.16",
+    "apollo-link-http": "1.5.17",
     "clsx": "1.1.0",
     "cookie": "0.4.0",
     "dotenv": "8.2.0",
