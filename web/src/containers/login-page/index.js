@@ -8,6 +8,7 @@ import { LoginForm } from '../../components/login-form';
 
 function LoginPage() {
   const [signIn] = useMutation(LoginPageSignInMutation);
+
   return (
     <div className="auth-page">
       <LoginForm
@@ -26,7 +27,7 @@ function LoginPage() {
                   secure: process.env.NODE_ENV === 'production',
                 }
               );
-              window.location = '/';
+              window.location.assign('/');
             })
             .catch(err => {
               handleValidationError(err, setStatus);

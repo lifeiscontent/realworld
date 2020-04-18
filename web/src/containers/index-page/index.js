@@ -16,8 +16,14 @@ function IndexPage() {
     typeof router.query.before !== 'undefined' ||
     typeof router.query.after !== 'undefined'
       ? {
-          last: router.query.last ? parseInt(router.query.last) : null,
-          first: router.query.first ? parseInt(router.query.first) : null,
+          last:
+            typeof router.query.last === 'string'
+              ? parseInt(router.query.last)
+              : null,
+          first:
+            typeof router.query.first === 'string'
+              ? parseInt(router.query.first)
+              : null,
           before: router.query.before ? router.query.before : null,
           after: router.query.after ? router.query.after : null,
           tagName: router.query.tagName,

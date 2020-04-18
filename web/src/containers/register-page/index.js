@@ -9,6 +9,7 @@ import { RegisterForm } from '../../components/register-form';
 function RegisterPage() {
   const router = useRouter();
   const [signUp] = useMutation(RegisterPageSignUpMutation);
+
   return (
     <div className="auth-page">
       <RegisterForm
