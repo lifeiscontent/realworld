@@ -9,7 +9,7 @@ gem 'action_policy', '~> 0.4.3'
 gem 'action_policy-graphql', '~> 0.3.2'
 gem 'active_record_doctor', '~> 1.7.0', group: :development
 gem 'bootsnap', '>= 1.1.0', require: false
-gem 'byebug', '~> 11.1.0', platforms: %i[mri mingw x64_mingw], groups: %i[development test]
+gem 'byebug', '~> 11.1.2', platforms: %i[mri mingw x64_mingw], groups: %i[development test]
 gem 'database_cleaner-active_record', '~> 1.8.0', group: :test
 gem 'devise', '~> 4.7.0'
 gem 'factory_bot_rails', '~> 5.1.0', group: :test
