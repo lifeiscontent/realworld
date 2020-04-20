@@ -28,7 +28,7 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-markdown": "4.3.1",
-    "yup": "0.28.3"
+    "yup": "0.28.4"
   },
   "scripts": {
     "dev": "next",
