@@ -2,7 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     action_policy (0.4.3)
-    action_policy-graphql (0.3.2)
+    action_policy-graphql (0.4.0)
       action_policy (>= 0.3.0)
       graphql (>= 1.9.3)
     actioncable (6.0.2.2)
@@ -252,7 +252,7 @@ PLATFORMS
 
 DEPENDENCIES
   action_policy (~> 0.4.3)
-  action_policy-graphql (~> 0.3.2)
+  action_policy-graphql (~> 0.4.0)
   active_record_doctor (~> 1.7.0)
   bootsnap (>= 1.1.0)
   byebug (~> 11.1.3)
