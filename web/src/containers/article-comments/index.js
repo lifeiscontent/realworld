@@ -9,7 +9,6 @@ import { NetworkStatus } from 'apollo-client';
 
 export function ArticleComments({ articleSlug }) {
   const commentsList = useQuery(ArticleCommentsQuery, {
-    fetchPolicy: 'cache-first',
     variables: {
       slug: articleSlug,
     },

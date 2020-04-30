@@ -6,7 +6,6 @@ import { NetworkStatus } from 'apollo-client';
 
 export function TagsInputTag({ id, onRemoveTag }) {
   const tagInputTag = useQuery(TagsInputTagQuery, {
-    fetchPolicy: 'cache-only',
     variables: {
       id,
     },

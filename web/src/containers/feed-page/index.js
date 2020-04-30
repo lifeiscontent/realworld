@@ -12,26 +12,22 @@ import { ArticlePreview } from '../../components/article-preview';
 
 function FeedPage() {
   const router = useRouter();
-  const variables =
-    typeof router.query.before !== 'undefined' ||
-    typeof router.query.after !== 'undefined'
-      ? {
-          last:
-            typeof router.query.last === 'string'
-              ? parseInt(router.query.last)
-              : null,
-          first:
-            typeof router.query.first === 'string'
-              ? parseInt(router.query.first)
-              : null,
-          before: router.query.before ? router.query.before : null,
-          after: router.query.after ? router.query.after : null,
-          tagName: router.query.tagName,
-        }
-      : { first: 10, tagName: router.query.tagName };
+  const {
+    before,
+    after,
+    tagName,
+    last = before && !after ? '10' : undefined,
+    first = last ? undefined : '10',
+  } = router.query;
 
   const feed = useQuery(FeedPageQuery, {
-    variables,
+    variables: {
+      last: typeof last === 'string' ? parseInt(last, 10) : undefined,
+      first: typeof first === 'string' ? parseInt(first, 10) : undefined,
+      before,
+      after,
+      tagName,
+    },
     notifyOnNetworkStatusChange: true,
   });
 
