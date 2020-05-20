@@ -9,11 +9,12 @@ import { NetworkStatus } from 'apollo-client';
 
 function EditorUpdatePage() {
   const router = useRouter();
+  const skip = !router.query.slug;
   const editorUpdate = useQuery(EditorUpdatePageQuery, {
     variables: {
       slug: router.query.slug,
     },
-    skip: !router.query.slug,
+    skip,
   });
 
   const [updateArticle] = useMutation(EditorUpdatePageUpdateArticleMutation);
@@ -21,19 +22,14 @@ function EditorUpdatePage() {
   useEffect(() => {
     if (
       editorUpdate.networkStatus === NetworkStatus.loading ||
-      editorUpdate.networkStatus === undefined ||
+      skip ||
       editorUpdate.data.article.canUpdate.value
     )
       return;
     router.replace(router.asPath, '/', { shallow: true });
-  }, [editorUpdate.data, editorUpdate.networkStatus, router]);
+  }, [editorUpdate.data, editorUpdate.networkStatus, router, skip]);
 
-  if (
-    editorUpdate.networkStatus === NetworkStatus.loading ||
-    editorUpdate.networkStatus === undefined ||
-    !editorUpdate.data.article.canUpdate.value
-  )
-    return null;
+  if (editorUpdate.networkStatus === NetworkStatus.loading || skip) return null;
 
   return (
     <div className="editor-page">

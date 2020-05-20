@@ -16,19 +16,13 @@ function EditorPage() {
   useEffect(() => {
     if (
       editor.networkStatus === NetworkStatus.loading ||
-      editor.networkStatus === undefined ||
       editor.data.canCreateArticle.value
     )
       return;
     router.replace(router.asPath, '/', { shallow: true });
   }, [editor.data, editor.networkStatus, router]);
 
-  if (
-    editor.networkStatus === NetworkStatus.loading ||
-    editor.networkStatus === undefined ||
-    !editor.data.canCreateArticle.value
-  )
-    return null;
+  if (editor.networkStatus === NetworkStatus.loading) return null;
 
   return (
     <div className="editor-page">

@@ -11,11 +11,7 @@ export function TagsInputTag({ id, onRemoveTag }) {
     },
   });
 
-  if (
-    tagInputTag.networkStatus === NetworkStatus.loading ||
-    tagInputTag.networkStatus === undefined
-  )
-    return null;
+  if (tagInputTag.networkStatus === NetworkStatus.loading) return null;
 
   return (
     <span className="tag-default tag-pill">
