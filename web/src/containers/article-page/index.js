@@ -11,11 +11,12 @@ import { NetworkStatus } from 'apollo-client';
 
 function ArticlePage() {
   const router = useRouter();
+  const skip = !router.query.slug;
   const article = useQuery(ArticlePageQuery, {
     variables: {
       slug: router.query.slug,
     },
-    skip: !router.query.slug,
+    skip,
   });
 
   const [deleteArticle] = useMutation(ArticlePageDeleteArticleMutation);
@@ -24,7 +25,7 @@ function ArticlePage() {
   const [unfavoriteArticle] = useMutation(ArticlePageUnfavoriteArticleMutation);
   const [unfollowUser] = useMutation(ArticlePageUnfollowUserMutation);
 
-  if (article.networkStatus === NetworkStatus.loading) {
+  if (article.networkStatus === NetworkStatus.loading || skip) {
     return null;
   }
 

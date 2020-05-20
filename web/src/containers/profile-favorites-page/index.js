@@ -10,11 +10,12 @@ import { NetworkStatus } from 'apollo-client';
 
 function ProfileFavoritesPage() {
   const router = useRouter();
+  const skip = !router.query.username;
   const favorites = useQuery(ProfileFavoritesPageQuery, {
     variables: {
       username: router.query.username,
     },
-    skip: !router.query.username,
+    skip,
   });
 
   const [favoriteArticle] = useMutation(
@@ -58,7 +59,7 @@ function ProfileFavoritesPage() {
   const [followUser] = useMutation(ProfileFavoritesPageFollowUserMutation);
   const [unfollowUser] = useMutation(ProfileFavortiesPageUnfollowUserMutation);
 
-  if (favorites.networkStatus === NetworkStatus.loading) return null;
+  if (favorites.networkStatus === NetworkStatus.loading || skip) return null;
 
   return (
     <div className="profile-page">
@@ -71,14 +72,18 @@ function ProfileFavoritesPage() {
         <div className="row">
           <div className="col-xs-12 col-md-10 offset-md-1">
             <UserArticlesToggle username={favorites.data.user.username} />
-            {favorites.data.user.favoriteArticlesConnection.edges.map(edge => (
-              <ArticlePreview
-                key={edge.node.slug}
-                onFavorite={favoriteArticle}
-                onUnfavorite={unfavoriteArticle}
-                {...edge.node}
-              />
-            ))}
+            {favorites.data.user.favoriteArticlesConnection.edges.length ? (
+              favorites.data.user.favoriteArticlesConnection.edges.map(edge => (
+                <ArticlePreview
+                  key={edge.node.slug}
+                  onFavorite={favoriteArticle}
+                  onUnfavorite={unfavoriteArticle}
+                  {...edge.node}
+                />
+              ))
+            ) : (
+              <div className="article-preview">No articles</div>
+            )}
           </div>
         </div>
       </div>

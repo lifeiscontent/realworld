@@ -10,11 +10,12 @@ import { NetworkStatus } from 'apollo-client';
 
 function ProfilePage() {
   const router = useRouter();
+  const skip = !router.query.username;
   const profile = useQuery(ProfilePageQuery, {
     variables: {
       username: router.query.username,
     },
-    skip: !router.query.username,
+    skip,
   });
 
   const [favoriteArticle] = useMutation(ProfilePageFavoriteArticleMutation);
@@ -22,7 +23,7 @@ function ProfilePage() {
   const [followUser] = useMutation(ProfilePageFollowUser);
   const [unfollowUser] = useMutation(ProfilePageUnfollowUserMutation);
 
-  if (profile.networkStatus === NetworkStatus.loading) return null;
+  if (profile.networkStatus === NetworkStatus.loading || skip) return null;
 
   return (
     <div className="profile-page">
@@ -35,14 +36,18 @@ function ProfilePage() {
         <div className="row">
           <div className="col-xs-12 col-md-10 offset-md-1">
             <UserArticlesToggle {...profile.data.user} />
-            {profile.data.user.articlesConnection.edges.map(edge => (
-              <ArticlePreview
-                key={edge.node.slug}
-                onUnfavorite={unfavoriteArticle}
-                onFavorite={favoriteArticle}
-                {...edge.node}
-              />
-            ))}
+            {profile.data.user.articlesConnection.edges.length ? (
+              profile.data.user.articlesConnection.edges.map(edge => (
+                <ArticlePreview
+                  key={edge.node.slug}
+                  onUnfavorite={unfavoriteArticle}
+                  onFavorite={favoriteArticle}
+                  {...edge.node}
+                />
+              ))
+            ) : (
+              <div className="article-preview">No articles</div>
+            )}
           </div>
         </div>
       </div>
