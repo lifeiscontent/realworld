@@ -15,19 +15,13 @@ function SettingsPage() {
   useEffect(() => {
     if (
       settings.networkStatus === NetworkStatus.loading ||
-      settings.networkStatus === undefined ||
       !!settings.data.viewer
     )
       return;
     router.replace(router.asPath, '/login', { shallow: true });
   }, [settings.data, settings.networkStatus, router]);
 
-  if (
-    settings.networkStatus === NetworkStatus.loading ||
-    settings.networkStatus === undefined ||
-    !settings.data.viewer
-  )
-    return null;
+  if (settings.networkStatus === NetworkStatus.loading) return null;
 
   return (
     <div className="settings-page">

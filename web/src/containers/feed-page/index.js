@@ -35,21 +35,12 @@ function FeedPage() {
   const [unfavoriteArticle] = useMutation(FeedPageUnfavoriteArticleMutation);
 
   useEffect(() => {
-    if (
-      feed.networkStatus === NetworkStatus.loading ||
-      feed.networkStatus === undefined ||
-      !!feed.data.viewer
-    )
+    if (feed.networkStatus === NetworkStatus.loading || !!feed.data.viewer)
       return;
     router.replace(router.asPath, '/login', { shallow: true });
   }, [feed.data, feed.networkStatus, router]);
 
-  if (
-    feed.networkStatus === NetworkStatus.loading ||
-    feed.networkStatus === undefined ||
-    !feed.data.viewer
-  )
-    return null;
+  if (feed.networkStatus === NetworkStatus.loading) return null;
 
   return (
     <div className="home-page">

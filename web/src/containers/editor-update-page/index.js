@@ -21,19 +21,13 @@ function EditorUpdatePage() {
   useEffect(() => {
     if (
       editorUpdate.networkStatus === NetworkStatus.loading ||
-      editorUpdate.networkStatus === undefined ||
       editorUpdate.data.article.canUpdate.value
     )
       return;
     router.replace(router.asPath, '/', { shallow: true });
   }, [editorUpdate.data, editorUpdate.networkStatus, router]);
 
-  if (
-    editorUpdate.networkStatus === NetworkStatus.loading ||
-    editorUpdate.networkStatus === undefined ||
-    !editorUpdate.data.article.canUpdate.value
-  )
-    return null;
+  if (editorUpdate.networkStatus === NetworkStatus.loading) return null;
 
   return (
     <div className="editor-page">

@@ -79,10 +79,7 @@ export function ArticleComments({ articleSlug }) {
       .finally(() => setSubmitting(false));
   };
 
-  if (
-    commentsList.networkStatus === NetworkStatus.loading ||
-    commentsList.networkStatus === undefined
-  ) {
+  if (commentsList.networkStatus === NetworkStatus.loading) {
     return null;
   }
 

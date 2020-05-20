@@ -58,11 +58,7 @@ function ProfileFavoritesPage() {
   const [followUser] = useMutation(ProfileFavoritesPageFollowUserMutation);
   const [unfollowUser] = useMutation(ProfileFavortiesPageUnfollowUserMutation);
 
-  if (
-    favorites.networkStatus === NetworkStatus.loading ||
-    favorites.networkStatus === undefined
-  )
-    return null;
+  if (favorites.networkStatus === NetworkStatus.loading) return null;
 
   return (
     <div className="profile-page">

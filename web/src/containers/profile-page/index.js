@@ -22,11 +22,7 @@ function ProfilePage() {
   const [followUser] = useMutation(ProfilePageFollowUser);
   const [unfollowUser] = useMutation(ProfilePageUnfollowUserMutation);
 
-  if (
-    profile.networkStatus === NetworkStatus.loading ||
-    profile.networkStatus === undefined
-  )
-    return null;
+  if (profile.networkStatus === NetworkStatus.loading) return null;
 
   return (
     <div className="profile-page">

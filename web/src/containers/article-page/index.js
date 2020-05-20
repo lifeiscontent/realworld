@@ -24,10 +24,7 @@ function ArticlePage() {
   const [unfavoriteArticle] = useMutation(ArticlePageUnfavoriteArticleMutation);
   const [unfollowUser] = useMutation(ArticlePageUnfollowUserMutation);
 
-  if (
-    article.networkStatus === NetworkStatus.loading ||
-    article.networkStatus === undefined
-  ) {
+  if (article.networkStatus === NetworkStatus.loading) {
     return null;
   }
 
