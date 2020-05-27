@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "@apollo/react-testing": "3.1.4",
-    "@babel/core": "^7.9.6",
+    "@babel/core": "^7.10.0",
     "@babel/runtime-corejs2": "7.10.0",
     "@storybook/addon-actions": "^5.3.19",
     "@storybook/addon-links": "^5.3.19",
