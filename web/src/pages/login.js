@@ -1,4 +1,9 @@
-import { withApollo } from '../hocs/with-apollo';
 import LoginPage from '../containers/login-page';
 
-export default withApollo()(LoginPage);
+export default LoginPage;
+
+export function getStaticProps() {
+  return {
+    props: {},
+  };
+}

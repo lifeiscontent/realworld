@@ -2,41 +2,43 @@ import React from 'react';
 import cookie from 'cookie';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
-import { withLayout } from '../../hocs/with-layout';
 import { handleValidationError } from '../../utils/graphql';
 import { LoginForm } from '../../components/login-form';
+import { Layout } from '../layout';
 
 function LoginPage() {
   const [signIn] = useMutation(LoginPageSignInMutation);
 
   return (
-    <div className="auth-page">
-      <LoginForm
-        onSubmit={(values, { setSubmitting, setStatus }) => {
-          signIn({
-            variables: values,
-          })
-            .then(res => {
-              document.cookie = cookie.serialize(
-                'authorization',
-                `Bearer ${res.data.signIn.token}`,
-                {
-                  maxAge: 60 * 60 * 24,
-                  path: '/',
-                  sameSite: 'lax',
-                  secure: process.env.NODE_ENV === 'production',
-                }
-              );
-              window.location.assign('/');
+    <Layout>
+      <div className="auth-page">
+        <LoginForm
+          onSubmit={(values, { setSubmitting, setStatus }) => {
+            signIn({
+              variables: values,
             })
-            .catch(err => {
-              handleValidationError(err, setStatus);
-              console.error(err);
-              setSubmitting(false);
-            });
-        }}
-      />
-    </div>
+              .then(res => {
+                document.cookie = cookie.serialize(
+                  'authorization',
+                  `Bearer ${res.data.signIn.token}`,
+                  {
+                    maxAge: 60 * 60 * 24,
+                    path: '/',
+                    sameSite: 'lax',
+                    secure: process.env.NODE_ENV === 'production',
+                  }
+                );
+                window.location.assign('/');
+              })
+              .catch(err => {
+                handleValidationError(err, setStatus);
+                console.error(err);
+                setSubmitting(false);
+              });
+          }}
+        />
+      </div>
+    </Layout>
   );
 }
 
@@ -52,4 +54,4 @@ const LoginPageSignInMutation = gql`
   }
 `;
 
-export default withLayout(LoginPage);
+export default LoginPage;

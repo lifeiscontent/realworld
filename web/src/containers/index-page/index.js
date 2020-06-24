@@ -1,6 +1,5 @@
 import React from 'react';
 import gql from 'graphql-tag';
-import { withLayout } from '../../hocs/with-layout';
 import { useRouter } from 'next/router';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { Sidebar } from '../../components/sidebar';
@@ -9,25 +8,28 @@ import { NetworkStatus } from 'apollo-client';
 import { HomePageBanner } from '../../components/home-page-banner';
 import { ViewerFeedToggle } from '../../components/viewer-feed-toggle';
 import { ArticlePreview } from '../../components/article-preview';
+import { Layout } from '../layout';
 
-function IndexPage() {
-  const router = useRouter();
-  const {
+export function queryToVariables({
+  before = undefined,
+  after = undefined,
+  tagName = undefined,
+  last = before && !after ? '10' : undefined,
+  first = last ? undefined : '10',
+} = {}) {
+  return {
+    last: typeof last === 'string' ? parseInt(last, 10) : undefined,
+    first: typeof first === 'string' ? parseInt(first, 10) : undefined,
     before,
     after,
     tagName,
-    last = before && !after ? '10' : undefined,
-    first = last ? undefined : '10',
-  } = router.query;
+  };
+}
+function IndexPage() {
+  const router = useRouter();
 
-  const index = useQuery(IndexPageArticlesQuery, {
-    variables: {
-      last: typeof last === 'string' ? parseInt(last, 10) : undefined,
-      first: typeof first === 'string' ? parseInt(first, 10) : undefined,
-      before,
-      after,
-      tagName,
-    },
+  const index = useQuery(IndexPageQuery, {
+    variables: queryToVariables(router.query),
     notifyOnNetworkStatusChange: true,
   });
 
@@ -37,28 +39,30 @@ function IndexPage() {
   if (index.networkStatus === NetworkStatus.loading) return null;
 
   return (
-    <div className="home-page">
-      <HomePageBanner />
-      <div className="container page">
-        <div className="row">
-          <div className="col-xs-12 col-md-9">
-            <ViewerFeedToggle {...index.data.viewer} />
-            {index.data.articlesConnection.edges.map(edge => (
-              <ArticlePreview
-                key={edge.node.slug}
-                onFavorite={favoriteArticle}
-                onUnfavorite={unfavoriteArticle}
-                {...edge.node}
-              />
-            ))}
-            <Pagination {...index.data.articlesConnection.pageInfo} />
-          </div>
-          <div className="col-xs-12 col-md-3">
-            <Sidebar {...index.data} />
+    <Layout>
+      <div className="home-page">
+        <HomePageBanner />
+        <div className="container page">
+          <div className="row">
+            <div className="col-xs-12 col-md-9">
+              <ViewerFeedToggle {...index.data.viewer} />
+              {index.data.articlesConnection.edges.map(edge => (
+                <ArticlePreview
+                  key={edge.node.slug}
+                  onFavorite={favoriteArticle}
+                  onUnfavorite={unfavoriteArticle}
+                  {...edge.node}
+                />
+              ))}
+              <Pagination {...index.data.articlesConnection.pageInfo} />
+            </div>
+            <div className="col-xs-12 col-md-3">
+              <Sidebar {...index.data} />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }
 
@@ -73,8 +77,8 @@ const IndexPageArticleFragment = gql`
   ${ArticlePreview.fragments.author}
 `;
 
-const IndexPageArticlesQuery = gql`
-  query IndexPageArticlesQuery(
+const IndexPageQuery = gql`
+  query IndexPageQuery(
     $after: String
     $before: String
     $first: Int
@@ -130,4 +134,6 @@ const IndexPageUnfavoriteArticleMutation = gql`
   ${IndexPageArticleFragment}
 `;
 
-export default withLayout(IndexPage);
+IndexPage.query = IndexPageQuery;
+
+export default IndexPage;

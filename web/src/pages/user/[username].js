@@ -1,4 +1,19 @@
-import ProfilePage from '../../containers/profile-page';
-import { withApollo } from '../../hocs/with-apollo';
+import ProfilePage, { queryToVariables } from '../../containers/profile-page';
+import { initializeApollo } from '../../lib/apolloClient';
 
-export default withApollo({ ssr: true })(ProfilePage);
+export default ProfilePage;
+
+export async function getServerSideProps(ctx) {
+  const apolloClient = initializeApollo(ctx);
+
+  await apolloClient.query({
+    query: ProfilePage.query,
+    variables: queryToVariables(ctx.query),
+  });
+
+  return {
+    props: {
+      initialApolloState: apolloClient.cache.extract(),
+    },
+  };
+}

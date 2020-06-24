@@ -1,4 +1,9 @@
 import RegisterPage from '../containers/register-page';
-import { withApollo } from '../hocs/with-apollo';
 
-export default withApollo()(RegisterPage);
+export default RegisterPage;
+
+export function getStaticProps() {
+  return {
+    props: {},
+  };
+}

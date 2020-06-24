@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import gql from 'graphql-tag';
-import { withLayout } from '../../hocs/with-layout';
 import { useRouter } from 'next/router';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { Sidebar } from '../../components/sidebar';
@@ -9,62 +8,65 @@ import { NetworkStatus } from 'apollo-client';
 import { HomePageBanner } from '../../components/home-page-banner';
 import { ViewerFeedToggle } from '../../components/viewer-feed-toggle';
 import { ArticlePreview } from '../../components/article-preview';
+import { Layout } from '../layout';
 
-function FeedPage() {
-  const router = useRouter();
-  const {
+export function queryToVariables({
+  before = undefined,
+  after = undefined,
+  tagName = undefined,
+  last = before && !after ? '10' : undefined,
+  first = last ? undefined : '10',
+} = {}) {
+  return {
+    last: typeof last === 'string' ? parseInt(last, 10) : undefined,
+    first: typeof first === 'string' ? parseInt(first, 10) : undefined,
     before,
     after,
     tagName,
-    last = before && !after ? '10' : undefined,
-    first = last ? undefined : '10',
-  } = router.query;
+  };
+}
 
+function FeedPage() {
+  const router = useRouter();
   const feed = useQuery(FeedPageQuery, {
-    variables: {
-      last: typeof last === 'string' ? parseInt(last, 10) : undefined,
-      first: typeof first === 'string' ? parseInt(first, 10) : undefined,
-      before,
-      after,
-      tagName,
-    },
     notifyOnNetworkStatusChange: true,
+    onCompleted(data) {
+      if (data.viewer) return;
+      router.replace(router.asPath, '/login', { shallow: true });
+    },
+    variables: queryToVariables(router.query),
   });
 
   const [favoriteArticle] = useMutation(FeedPageFavoriteArticleMutation);
   const [unfavoriteArticle] = useMutation(FeedPageUnfavoriteArticleMutation);
 
-  useEffect(() => {
-    if (feed.networkStatus === NetworkStatus.loading || !!feed.data.viewer)
-      return;
-    router.replace(router.asPath, '/login', { shallow: true });
-  }, [feed.data, feed.networkStatus, router]);
-
   if (feed.networkStatus === NetworkStatus.loading) return null;
 
   return (
-    <div className="home-page">
-      <HomePageBanner />
-      <div className="container page">
-        <div className="row">
-          <div className="col-xs-12 col-md-9">
-            <ViewerFeedToggle {...feed.data.viewer} />
-            {feed.data.feedConnection.edges.map(edge => (
-              <ArticlePreview
-                key={edge.node.slug}
-                onFavorite={favoriteArticle}
-                onUnfavorite={unfavoriteArticle}
-                {...edge.node}
-              />
-            ))}
-            <Pagination {...feed.data.feedConnection.pageInfo} />
-          </div>
-          <div className="col-xs-12 col-md-3">
-            <Sidebar {...feed.data} />
+    <Layout>
+      <div className="home-page">
+        <HomePageBanner />
+        <div className="container page">
+          <div className="row">
+            <div className="col-xs-12 col-md-9">
+              <ViewerFeedToggle {...feed.data.viewer} />
+              {feed.data.feedConnection.edges.map(edge => (
+                <ArticlePreview
+                  key={edge.node.slug}
+                  onFavorite={favoriteArticle}
+                  onUnfavorite={unfavoriteArticle}
+                  {...edge.node}
+                />
+              ))}
+              <Pagination {...feed.data.feedConnection.pageInfo} />
+            </div>
+            <div className="col-xs-12 col-md-3">
+              <Sidebar {...feed.data} />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }
 
@@ -136,4 +138,6 @@ const FeedPageUnfavoriteArticleMutation = gql`
   ${FeedPageArticleFragment}
 `;
 
-export default withLayout(FeedPage);
+FeedPage.query = FeedPageQuery;
+
+export default FeedPage;

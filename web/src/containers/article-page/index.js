@@ -5,17 +5,19 @@ import { useRouter } from 'next/router';
 import { ArticleContent } from '../../components/article-content';
 import { ArticlePageBanner } from '../../components/article-page-banner';
 import { ArticleMeta } from '../../components/article-meta';
-import { withLayout } from '../../hocs/with-layout';
 import { ArticleComments } from '../article-comments';
 import { NetworkStatus } from 'apollo-client';
+import { Layout } from '../layout';
+
+export function queryToVariables({ slug = undefined } = {}) {
+  return { slug };
+}
 
 function ArticlePage() {
   const router = useRouter();
   const skip = !router.query.slug;
   const article = useQuery(ArticlePageQuery, {
-    variables: {
-      slug: router.query.slug,
-    },
+    variables: queryToVariables(router.query),
     skip,
   });
 
@@ -30,35 +32,37 @@ function ArticlePage() {
   }
 
   return (
-    <div className="article-page">
-      <ArticlePageBanner
-        onDelete={deleteArticle}
-        onFavorite={favoriteArticle}
-        onFollow={followUser}
-        onUnfavorite={unfavoriteArticle}
-        onUnfollow={unfollowUser}
-        {...article.data.article}
-      />
-      <div className="container page">
-        <ArticleContent {...article.data.article} />
-        <hr />
-        <div className="article-actions">
-          <ArticleMeta
-            onDelete={deleteArticle}
-            onFavorite={favoriteArticle}
-            onFollow={followUser}
-            onUnfavorite={unfavoriteArticle}
-            onUnfollow={unfollowUser}
-            {...article.data.article}
-          />
-        </div>
-        <div className="row">
-          <div className="col-xs-12 col-md-8 offset-md-2">
-            <ArticleComments articleSlug={router.query.slug} />
+    <Layout>
+      <div className="article-page">
+        <ArticlePageBanner
+          onDelete={deleteArticle}
+          onFavorite={favoriteArticle}
+          onFollow={followUser}
+          onUnfavorite={unfavoriteArticle}
+          onUnfollow={unfollowUser}
+          {...article.data.article}
+        />
+        <div className="container page">
+          <ArticleContent {...article.data.article} />
+          <hr />
+          <div className="article-actions">
+            <ArticleMeta
+              onDelete={deleteArticle}
+              onFavorite={favoriteArticle}
+              onFollow={followUser}
+              onUnfavorite={unfavoriteArticle}
+              onUnfollow={unfollowUser}
+              {...article.data.article}
+            />
+          </div>
+          <div className="row">
+            <div className="col-xs-12 col-md-8 offset-md-2">
+              <ArticleComments articleSlug={router.query.slug} />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }
 
@@ -164,4 +168,6 @@ const ArticlePageUnfollowUserMutation = gql`
   ${ArticlePageAuthorFragment}
 `;
 
-export default withLayout(ArticlePage);
+ArticlePage.query = ArticlePageQuery;
+
+export default ArticlePage;

@@ -1,4 +1,19 @@
-import ArticlePage from '../../containers/article-page';
-import { withApollo } from '../../hocs/with-apollo';
+import ArticlePage, { queryToVariables } from '../../containers/article-page';
+import { initializeApollo } from '../../lib/apolloClient';
 
-export default withApollo({ ssr: true })(ArticlePage);
+export default ArticlePage;
+
+export async function getServerSideProps(ctx) {
+  const apolloClient = initializeApollo(ctx);
+
+  await apolloClient.query({
+    query: ArticlePage.query,
+    variables: queryToVariables(ctx.query),
+  });
+
+  return {
+    props: {
+      initialApolloState: apolloClient.cache.extract(),
+    },
+  };
+}

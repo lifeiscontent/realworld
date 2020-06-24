@@ -1,12 +1,21 @@
 import React from 'react';
-import NextApp from 'next/app';
+import PropTypes from 'prop-types';
+import { ApolloProvider } from '@apollo/react-hooks';
+import { useApollo } from '../lib/apolloClient';
 
-class App extends NextApp {
-  render() {
-    const { Component, pageProps } = this.props;
+export default function App({ Component, pageProps }) {
+  const apolloClient = useApollo(pageProps.initialApolloState);
 
-    return <Component {...pageProps} />;
-  }
+  return (
+    <ApolloProvider client={apolloClient}>
+      <Component {...pageProps} />
+    </ApolloProvider>
+  );
 }
 
-export default App;
+App.propTypes = {
+  Component: PropTypes.func,
+  pageProps: PropTypes.shape({
+    initialApolloState: PropTypes.object,
+  }),
+};

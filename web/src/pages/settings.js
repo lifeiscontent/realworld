@@ -1,4 +1,9 @@
 import SettingsPage from '../containers/settings-page';
-import { withApollo } from '../hocs/with-apollo';
 
-export default withApollo()(SettingsPage);
+export default SettingsPage;
+
+export async function getStaticProps() {
+  return {
+    props: {},
+  };
+}
