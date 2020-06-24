@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  ArticleComments,
-  ArticleCommentsCreateCommentMutation,
-  ArticleCommentsQuery,
-} from '.';
+import { ArticleComments, ArticleCommentsCreateCommentMutation } from '.';
 import { withApolloClient } from 'storybook-addon-apollo-client';
 import { withNextRouter } from 'storybook-addon-next-router';
 
@@ -23,7 +19,7 @@ canCreateComment.story = {
       mocks: [
         {
           request: {
-            query: ArticleCommentsQuery,
+            query: ArticleComments.query,
             variables: { slug: 'sunt-vitae-voluptatum-quas' },
           },
           result: {

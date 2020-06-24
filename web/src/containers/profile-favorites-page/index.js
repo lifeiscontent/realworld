@@ -66,7 +66,7 @@ function ProfileFavoritesPage() {
   if (favorites.networkStatus === NetworkStatus.loading || skip) return null;
 
   return (
-    <Layout>
+    <Layout {...favorites.data.viewer}>
       <div className="profile-page">
         <UserPageBanner
           onFollow={followUser}
@@ -152,14 +152,16 @@ const ProfileFavoritesUserFragment = gql`
 const ProfileFavoritesPageQuery = gql`
   query ProfileFavoritesPageQuery($username: ID!) {
     viewer {
+      ...LayoutViewerFragment
       ...ProfileFavoritesViewerFragment
     }
     user: userByUsername(username: $username) {
       ...ProfileFavoritesUserFragment
     }
   }
-  ${ProfileFavoritesViewerFragment}
+  ${Layout.fragments.viewer}
   ${ProfileFavoritesUserFragment}
+  ${ProfileFavoritesViewerFragment}
 `;
 
 const ProfileFavoritesPageFavoriteArticleMutation = gql`

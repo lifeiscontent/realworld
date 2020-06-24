@@ -28,7 +28,7 @@ function ProfilePage() {
   if (profile.networkStatus === NetworkStatus.loading || skip) return null;
 
   return (
-    <Layout>
+    <Layout {...profile.data.viewer}>
       <div className="profile-page">
         <UserPageBanner
           onFollow={followUser}
@@ -91,7 +91,11 @@ const ProfilePageQuery = gql`
         }
       }
     }
+    viewer {
+      ...LayoutViewerFragment
+    }
   }
+  ${Layout.fragments.viewer}
   ${ProfilePageUserFragment}
   ${ProfilePageArticleFragment}
 `;

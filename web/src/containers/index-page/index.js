@@ -39,7 +39,7 @@ function IndexPage() {
   if (index.networkStatus === NetworkStatus.loading) return null;
 
   return (
-    <Layout>
+    <Layout {...index.data.viewer}>
       <div className="home-page">
         <HomePageBanner />
         <div className="container page">
@@ -86,6 +86,7 @@ const IndexPageQuery = gql`
     $tagName: String
   ) {
     viewer {
+      ...LayoutViewerFragment
       ...ViewerFeedToggleViewerFragment
     }
     articlesConnection(
@@ -107,6 +108,7 @@ const IndexPageQuery = gql`
     ...SidebarQueryFragment
   }
   ${IndexPageArticleFragment}
+  ${Layout.fragments.viewer}
   ${Pagination.fragments.pageInfo}
   ${Sidebar.fragments.query}
   ${ViewerFeedToggle.fragments.viewer}

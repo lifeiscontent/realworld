@@ -16,7 +16,6 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MockedProvider } from '@apollo/react-testing';
 import {
   ArticleComments,
-  ArticleCommentsQuery,
   ArticleCommentsCreateCommentMutation,
 } from '.';
 
@@ -28,7 +27,7 @@ describe('ArticleComments', () => {
         mocks={[
           {
             request: {
-              query: ArticleCommentsQuery,
+              query: ArticleComments.query,
               variables: { slug: 'sunt-vitae-voluptatum-quas' },
             },
             result: {

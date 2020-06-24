@@ -28,7 +28,7 @@ function EditorUpdatePage() {
   if (editorUpdate.networkStatus === NetworkStatus.loading || skip) return null;
 
   return (
-    <Layout>
+    <Layout {...editorUpdate.data.viewer}>
       <div className="editor-page">
         <ArticleForm
           onSubmit={(values, { setSubmitting, setStatus }) => {
@@ -81,8 +81,12 @@ const EditorUpdatePageQuery = gql`
       }
       ...EditorUpdatePageArticleFragment
     }
+    viewer {
+      ...LayoutViewerFragment
+    }
   }
   ${EditorUpdatePageArticleFragment}
+  ${Layout.fragments.viewer}
 `;
 
 EditorUpdatePage.query = EditorUpdatePageQuery;

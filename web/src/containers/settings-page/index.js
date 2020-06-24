@@ -20,7 +20,7 @@ function SettingsPage() {
   if (settings.networkStatus === NetworkStatus.loading) return null;
 
   return (
-    <Layout>
+    <Layout {...settings.data.viewer}>
       <div className="settings-page">
         <UserSettingsForm
           onSubmit={(values, { setSubmitting, setStatus }) => {
@@ -54,9 +54,11 @@ const SettingsPageUserFragment = gql`
 const SettingsPageQuery = gql`
   query SettingsPageQuery {
     viewer {
+      ...LayoutViewerFragment
       ...SettingsPageUserFragment
     }
   }
+  ${Layout.fragments.viewer}
   ${SettingsPageUserFragment}
 `;
 

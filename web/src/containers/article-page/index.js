@@ -32,7 +32,7 @@ function ArticlePage() {
   }
 
   return (
-    <Layout>
+    <Layout {...article.data.viewer}>
       <div className="article-page">
         <ArticlePageBanner
           onDelete={deleteArticle}
@@ -57,7 +57,7 @@ function ArticlePage() {
           </div>
           <div className="row">
             <div className="col-xs-12 col-md-8 offset-md-2">
-              <ArticleComments articleSlug={router.query.slug} />
+              <ArticleComments articleSlug={article.data.article.slug} />
             </div>
           </div>
         </div>
@@ -100,10 +100,11 @@ const ArticlePageViewerFragment = gql`
   ${ArticleComments.fragments.viewer}
 `;
 
-export const ArticlePageQuery = gql`
+const ArticlePageQuery = gql`
   query ArticlePageQuery($slug: ID!) {
     viewer {
       ...ArticlePageViewerFragment
+      ...LayoutViewerFragment
     }
     article: articleBySlug(slug: $slug) {
       ...ArticlePageArticleFragment
@@ -111,6 +112,7 @@ export const ArticlePageQuery = gql`
   }
   ${ArticlePageArticleFragment}
   ${ArticlePageViewerFragment}
+  ${Layout.fragments.viewer}
 `;
 
 const ArticlePageDeleteArticleMutation = gql`

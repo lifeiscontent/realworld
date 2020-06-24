@@ -21,7 +21,7 @@ function EditorPage() {
   if (editor.networkStatus === NetworkStatus.loading) return null;
 
   return (
-    <Layout>
+    <Layout {...editor.data.viewer}>
       <div className="editor-page">
         <ArticleForm
           onSubmit={(values, { setSubmitting, setStatus }) => {
@@ -54,12 +54,16 @@ const EditorPageCreateArticleMutation = gql`
   }
 `;
 
-export const EditorPageQuery = gql`
+const EditorPageQuery = gql`
   query EditorPageQuery {
     canCreateArticle {
       value
     }
+    viewer {
+      ...LayoutViewerFragment
+    }
   }
+  ${Layout.fragments.viewer}
 `;
 
 EditorPage.query = EditorPageQuery;

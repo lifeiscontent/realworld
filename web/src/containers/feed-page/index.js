@@ -43,7 +43,7 @@ function FeedPage() {
   if (feed.networkStatus === NetworkStatus.loading) return null;
 
   return (
-    <Layout>
+    <Layout {...feed.data.viewer}>
       <div className="home-page">
         <HomePageBanner />
         <div className="container page">
@@ -90,6 +90,7 @@ const FeedPageQuery = gql`
     $tagName: String
   ) {
     viewer {
+      ...LayoutViewerFragment
       ...ViewerFeedToggleViewerFragment
     }
     feedConnection(
@@ -111,6 +112,7 @@ const FeedPageQuery = gql`
     ...SidebarQueryFragment
   }
   ${FeedPageArticleFragment}
+  ${Layout.fragments.viewer}
   ${Pagination.fragments.pageInfo}
   ${Sidebar.fragments.query}
   ${ViewerFeedToggle.fragments.viewer}

@@ -1,9 +1,8 @@
 import React from 'react';
 import { withApolloClient } from 'storybook-addon-apollo-client';
-import ArticlePage, { ArticlePageQuery } from '.';
+import ArticlePage from '.';
 
 import { withNextRouter } from 'storybook-addon-next-router';
-import { LayoutQuery } from '../layout';
 
 export default {
   title: 'Pages/ArticlePage',
@@ -19,16 +18,7 @@ renders.story = {
       mocks: [
         {
           request: {
-            query: LayoutQuery,
-            variables: {},
-          },
-          result: {
-            data: { viewer: null },
-          },
-        },
-        {
-          request: {
-            query: ArticlePageQuery,
+            query: ArticlePage.query,
             variables: {
               slug: 'sunt-vitae-voluptatum-quas',
             },
@@ -182,7 +172,7 @@ renders.story = {
         },
       ],
     },
-    router: {
+    nextRouter: {
       pathname: '/article/[slug]',
       asPath: '/article/sunt-vitae-voluptatum-quas',
       query: {
@@ -200,21 +190,7 @@ isAuthor.story = {
       mocks: [
         {
           request: {
-            query: LayoutQuery,
-            variables: {},
-          },
-          result: {
-            data: {
-              viewer: {
-                username: 'jamie',
-                __typename: 'User',
-              },
-            },
-          },
-        },
-        {
-          request: {
-            query: ArticlePageQuery,
+            query: ArticlePage.query,
             variables: {
               slug: 'sunt-vitae-voluptatum-quas',
             },
@@ -375,7 +351,7 @@ isAuthor.story = {
         },
       ],
     },
-    router: {
+    nextRouter: {
       pathname: '/article/[slug]',
       asPath: '/article/sunt-vitae-voluptatum-quas',
       query: {
