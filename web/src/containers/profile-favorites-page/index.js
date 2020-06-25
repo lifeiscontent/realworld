@@ -3,18 +3,22 @@ import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { ArticlePreview } from '../../components/article-preview';
-import { withLayout } from '../../hocs/with-layout';
 import { UserPageBanner } from '../../components/user-page-banner';
 import { UserArticlesToggle } from '../../components/user-articles-toggle';
 import { NetworkStatus } from 'apollo-client';
+import { Layout } from '../layout';
+
+export function queryToVariables({ username = undefined } = {}) {
+  return {
+    username,
+  };
+}
 
 function ProfileFavoritesPage() {
   const router = useRouter();
   const skip = !router.query.username;
   const favorites = useQuery(ProfileFavoritesPageQuery, {
-    variables: {
-      username: router.query.username,
-    },
+    variables: queryToVariables(router.query),
     skip,
   });
 
@@ -62,32 +66,36 @@ function ProfileFavoritesPage() {
   if (favorites.networkStatus === NetworkStatus.loading || skip) return null;
 
   return (
-    <div className="profile-page">
-      <UserPageBanner
-        onFollow={followUser}
-        onUnfollow={unfollowUser}
-        {...favorites.data.user}
-      />
-      <div className="container">
-        <div className="row">
-          <div className="col-xs-12 col-md-10 offset-md-1">
-            <UserArticlesToggle username={favorites.data.user.username} />
-            {favorites.data.user.favoriteArticlesConnection.edges.length ? (
-              favorites.data.user.favoriteArticlesConnection.edges.map(edge => (
-                <ArticlePreview
-                  key={edge.node.slug}
-                  onFavorite={favoriteArticle}
-                  onUnfavorite={unfavoriteArticle}
-                  {...edge.node}
-                />
-              ))
-            ) : (
-              <div className="article-preview">No articles</div>
-            )}
+    <Layout {...favorites.data.viewer}>
+      <div className="profile-page">
+        <UserPageBanner
+          onFollow={followUser}
+          onUnfollow={unfollowUser}
+          {...favorites.data.user}
+        />
+        <div className="container">
+          <div className="row">
+            <div className="col-xs-12 col-md-10 offset-md-1">
+              <UserArticlesToggle username={favorites.data.user.username} />
+              {favorites.data.user.favoriteArticlesConnection.edges.length ? (
+                favorites.data.user.favoriteArticlesConnection.edges.map(
+                  edge => (
+                    <ArticlePreview
+                      key={edge.node.slug}
+                      onFavorite={favoriteArticle}
+                      onUnfavorite={unfavoriteArticle}
+                      {...edge.node}
+                    />
+                  )
+                )
+              ) : (
+                <div className="article-preview">No articles</div>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }
 
@@ -144,14 +152,16 @@ const ProfileFavoritesUserFragment = gql`
 const ProfileFavoritesPageQuery = gql`
   query ProfileFavoritesPageQuery($username: ID!) {
     viewer {
+      ...LayoutViewerFragment
       ...ProfileFavoritesViewerFragment
     }
     user: userByUsername(username: $username) {
       ...ProfileFavoritesUserFragment
     }
   }
-  ${ProfileFavoritesViewerFragment}
+  ${Layout.fragments.viewer}
   ${ProfileFavoritesUserFragment}
+  ${ProfileFavoritesViewerFragment}
 `;
 
 const ProfileFavoritesPageFavoriteArticleMutation = gql`
@@ -198,4 +208,6 @@ const ProfileFavortiesPageUnfollowUserMutation = gql`
   ${ProfileFavoritesUserFragment}
 `;
 
-export default withLayout(ProfileFavoritesPage);
+ProfileFavoritesPage.query = ProfileFavoritesPageQuery;
+
+export default ProfileFavoritesPage;

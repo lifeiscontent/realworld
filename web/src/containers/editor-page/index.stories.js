@@ -1,8 +1,7 @@
 import React from 'react';
-import EditorPage, { EditorPageQuery } from '.';
+import EditorPage from '.';
 import { withApolloClient } from 'storybook-addon-apollo-client';
 import { withNextRouter } from 'storybook-addon-next-router';
-import { LayoutQuery } from '../layout';
 
 export default {
   title: 'Pages/EditorPage',
@@ -18,18 +17,7 @@ renders.story = {
       mocks: [
         {
           request: {
-            query: LayoutQuery,
-            variables: {},
-          },
-          result: {
-            data: {
-              viewer: null,
-            },
-          },
-        },
-        {
-          request: {
-            query: EditorPageQuery,
+            query: EditorPage.query,
             variables: {},
           },
           result: {
@@ -38,6 +26,7 @@ renders.story = {
                 value: false,
                 __typename: 'AuthorizationResult',
               },
+              viewer: null,
             },
           },
         },
@@ -58,21 +47,7 @@ asUser.story = {
       mocks: [
         {
           request: {
-            query: LayoutQuery,
-            variables: {},
-          },
-          result: {
-            data: {
-              viewer: {
-                username: 'jamie',
-                __typename: 'User',
-              },
-            },
-          },
-        },
-        {
-          request: {
-            query: EditorPageQuery,
+            query: EditorPage.query,
             variables: {},
           },
           result: {
@@ -80,6 +55,10 @@ asUser.story = {
               canCreateArticle: {
                 value: true,
                 __typename: 'AuthorizationResult',
+              },
+              viewer: {
+                username: 'jamie',
+                __typename: 'User',
               },
             },
           },

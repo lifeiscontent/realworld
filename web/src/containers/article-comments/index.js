@@ -157,3 +157,5 @@ const ArticleCommentsDeleteCommentMutation = gql`
   }
   ${CommentCard.fragments.comment}
 `;
+
+ArticleComments.query = ArticleCommentsQuery;

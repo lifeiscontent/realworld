@@ -1,4 +1,9 @@
 import LogoutPage from '../containers/logout-page';
-import { withApollo } from '../hocs/with-apollo';
 
-export default withApollo()(LogoutPage);
+export default LogoutPage;
+
+export function getStaticProps() {
+  return {
+    props: {},
+  };
+}

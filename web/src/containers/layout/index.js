@@ -4,11 +4,8 @@ import { Footer } from '../../components/footer';
 import { Navbar } from '../../components/navbar';
 import gql from 'graphql-tag';
 import Head from 'next/head';
-import { useQuery } from '@apollo/react-hooks';
 
-export function Layout({ children }) {
-  const layout = useQuery(LayoutQuery);
-
+export function Layout({ children, username }) {
   return (
     <>
       <Head>
@@ -34,7 +31,7 @@ export function Layout({ children }) {
         <link href="//fonts.googleapis.com" rel="preconnect" />
         <link href="//fonts.gstatic.com" rel="preconnect" />
       </Head>
-      <Navbar {...layout.data?.viewer} />
+      <Navbar username={username} />
       {children}
       <Footer />
     </>
@@ -49,15 +46,7 @@ Layout.fragments = {
   `,
 };
 
-export const LayoutQuery = gql`
-  query LayoutQuery {
-    viewer {
-      ...LayoutViewerFragment
-    }
-  }
-  ${Layout.fragments.viewer}
-`;
-
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
+  username: PropTypes.string,
 };

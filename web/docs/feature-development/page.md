@@ -15,10 +15,9 @@ We'll be using a mock for [next/router][web/__mocks__/next/router.js]
 ```js
 import React from 'react';
 import { render, waitFor } from '@testing-library/react';
-import EditorPage, { EditorPageQuery } from '.';
+import EditorPage from '.';
 // we use MockedProvider from Apollo because we have some data we need to fetch
 import { MockedProvider } from '@apollo/react-testing';
-import { LayoutQuery } from '../layout';
 import Router from 'next/router';
 
 // we mock next/router look at the __mocks__ folder for the code.
@@ -47,18 +46,7 @@ describe('EditorPage', () => {
           mocks={[
             {
               request: {
-                query: LayoutQuery,
-                variables: {},
-              },
-              result: {
-                data: {
-                  viewer: null,
-                },
-              },
-            },
-            {
-              request: {
-                query: EditorPageQuery,
+                query: EditorPage.query,
                 variables: {},
               },
               result: {
@@ -67,6 +55,7 @@ describe('EditorPage', () => {
                     value: false,
                     __typename: 'AuthorizationResult',
                   },
+                  viewer: null,
                 },
               },
             },
@@ -94,21 +83,7 @@ describe('EditorPage', () => {
           mocks={[
             {
               request: {
-                query: LayoutQuery,
-                variables: {},
-              },
-              result: {
-                data: {
-                  viewer: {
-                    username: 'jamie',
-                    __typename: 'User',
-                  },
-                },
-              },
-            },
-            {
-              request: {
-                query: EditorPageQuery,
+                query: EditorPage.query,
                 variables: {},
               },
               result: {
@@ -116,6 +91,10 @@ describe('EditorPage', () => {
                   canCreateArticle: {
                     value: true,
                     __typename: 'AuthorizationResult',
+                  },
+                  viewer: {
+                    username: 'jamie',
+                    __typename: 'User',
                   },
                 },
               },
