@@ -18,7 +18,7 @@
     "apollo-link-http": "1.5.17",
     "clsx": "1.1.1",
     "cookie": "0.4.1",
-    "formik": "2.1.4",
+    "formik": "2.1.5",
     "graphql": "15.3.0",
     "graphql-tag": "2.10.4",
     "isomorphic-unfetch": "3.0.0",
