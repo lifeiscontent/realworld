@@ -10,6 +10,7 @@ function EditorPage() {
   const editor = useQuery(EditorPageQuery, {
     onCompleted(data) {
       if (data.canCreateArticle.value) return;
+
       router.replace(router.asPath, '/', { shallow: true });
     },
   });

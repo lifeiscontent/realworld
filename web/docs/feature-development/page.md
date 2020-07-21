@@ -24,6 +24,8 @@ import Router from 'next/router';
 jest.mock('next/router');
 
 describe('EditorPage', () => {
+  let mocks;
+
   beforeEach(() => {
     Router.replace = jest.fn();
     Router.pathname = '/editor';
@@ -39,28 +41,30 @@ describe('EditorPage', () => {
   // we want to test that our page component actually redirects
   // when an unauthorized user comes to view the page
   describe('when not logged in', () => {
+    beforeEach(() => {
+      mocks = [
+        {
+          request: {
+            query: EditorPage.query,
+            variables: {},
+          },
+          result: {
+            data: {
+              canCreateArticle: {
+                value: false,
+                __typename: 'AuthorizationResult',
+              },
+              viewer: null,
+            },
+          },
+        },
+      ];
+    });
+
     it('redirects', async () => {
       // render the UI with some mocked data
       render(
-        <MockedProvider
-          mocks={[
-            {
-              request: {
-                query: EditorPage.query,
-                variables: {},
-              },
-              result: {
-                data: {
-                  canCreateArticle: {
-                    value: false,
-                    __typename: 'AuthorizationResult',
-                  },
-                  viewer: null,
-                },
-              },
-            },
-          ]}
-        >
+        <MockedProvider mocks={mocks}>
           <EditorPage />
         </MockedProvider>
       );
@@ -76,31 +80,33 @@ describe('EditorPage', () => {
   });
 
   describe('when logged in', () => {
+    beforeEach(() => {
+      mocks = [
+        {
+          request: {
+            query: EditorPage.query,
+            variables: {},
+          },
+          result: {
+            data: {
+              canCreateArticle: {
+                value: true,
+                __typename: 'AuthorizationResult',
+              },
+              viewer: {
+                username: 'jamie',
+                __typename: 'User',
+              },
+            },
+          },
+        },
+      ];
+    });
+
     it('does not redirect', async () => {
       // render the UI with some mocked data
       render(
-        <MockedProvider
-          mocks={[
-            {
-              request: {
-                query: EditorPage.query,
-                variables: {},
-              },
-              result: {
-                data: {
-                  canCreateArticle: {
-                    value: true,
-                    __typename: 'AuthorizationResult',
-                  },
-                  viewer: {
-                    username: 'jamie',
-                    __typename: 'User',
-                  },
-                },
-              },
-            },
-          ]}
-        >
+        <MockedProvider mocks={mocks}>
           <EditorPage />
         </MockedProvider>
       );

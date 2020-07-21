@@ -80,3 +80,5 @@ const TagsInputQuery = gql`
   }
   ${TagsInputTag.fragments.tag}
 `;
+
+TagsInput.query = TagsInputQuery;
