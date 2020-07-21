@@ -7,7 +7,7 @@ import { gql, useQuery } from '@apollo/client';
 export function TagsInput(props) {
   const [value, setValue] = useState('');
 
-  const tags = useQuery(TagsInputQuery, {
+  const component = useQuery(TagsInputQuery, {
     returnPartialData: true,
   });
 
@@ -32,15 +32,15 @@ export function TagsInput(props) {
           onKeyDown={event => {
             if (event.key === 'Enter') {
               event.preventDefault();
-              const tag = tags.data.tags.find(
-                tag => tag.name === event.target.value
+              const tag = component.data.tags.find(
+                tag => tag.name === event.currentTarget.value
               );
               if (tag?.id) {
                 if (field.value.includes(tag.id) === false) {
                   helpers.setValue(field.value.concat(tag.id));
                   setValue('');
-                  event.target.blur();
-                  event.target.focus();
+                  event.currentTarget.blur();
+                  event.currentTarget.focus();
                 }
               } else {
                 // TODO: create tag and refetch TagsInputQuery
@@ -49,11 +49,11 @@ export function TagsInput(props) {
           }}
           onChange={event => {
             event.preventDefault();
-            setValue(event.target.value);
+            setValue(event.currentTarget.value);
           }}
         />
         <datalist id="tags">
-          {(tags.data?.tags ?? []).map(tag => (
+          {(component.data?.tags ?? []).map(tag => (
             <option value={tag.name} key={tag.id} />
           ))}
         </datalist>

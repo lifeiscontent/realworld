@@ -6,7 +6,7 @@ import { handleValidationError } from '../../utils/graphql';
 import { CommentCard } from '../../components/comment-card';
 
 export function ArticleComments({ articleSlug }) {
-  const commentsList = useQuery(ArticleCommentsQuery, {
+  const component = useQuery(ArticleCommentsQuery, {
     variables: {
       slug: articleSlug,
     },
@@ -77,18 +77,18 @@ export function ArticleComments({ articleSlug }) {
       .finally(() => setSubmitting(false));
   };
 
-  if (commentsList.networkStatus === NetworkStatus.loading) {
+  if (component.networkStatus === NetworkStatus.loading) {
     return null;
   }
 
   return (
     <>
       <UserCommentForm
-        canCreateComment={commentsList.data.article.canCreateComment}
+        canCreateComment={component.data.article.canCreateComment}
         onSubmit={handleSubmit}
-        {...commentsList.data.viewer}
+        {...component.data.viewer}
       />
-      {commentsList.data.article.comments.map(comment => (
+      {component.data.article.comments.map(comment => (
         <CommentCard key={comment.id} onDelete={deleteComment} {...comment} />
       ))}
     </>

@@ -12,9 +12,10 @@ export function queryToVariables({ slug = undefined } = {}) {
 function EditorUpdatePage() {
   const router = useRouter();
   const skip = !router.query.slug;
-  const editorUpdate = useQuery(EditorUpdatePageQuery, {
+  const page = useQuery(EditorUpdatePageQuery, {
     onCompleted(data) {
       if (data.article.canUpdate.value) return;
+
       router.replace(router.asPath, '/', { shallow: true });
     },
     skip,
@@ -23,10 +24,10 @@ function EditorUpdatePage() {
 
   const [updateArticle] = useMutation(EditorUpdatePageUpdateArticleMutation);
 
-  if (editorUpdate.networkStatus === NetworkStatus.loading || skip) return null;
+  if (page.networkStatus === NetworkStatus.loading || skip) return null;
 
   return (
-    <Layout {...editorUpdate.data.viewer}>
+    <Layout {...page.data.viewer}>
       <div className="editor-page">
         <ArticleForm
           onSubmit={(values, { setSubmitting, setStatus }) => {
@@ -43,7 +44,7 @@ function EditorUpdatePage() {
                 setSubmitting(false);
               });
           }}
-          {...editorUpdate.data.article}
+          {...page.data.article}
         />
       </div>
     </Layout>

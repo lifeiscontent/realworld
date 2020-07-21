@@ -7,18 +7,19 @@ import { Layout } from '../layout';
 
 function SettingsPage() {
   const router = useRouter();
-  const settings = useQuery(SettingsPageQuery, {
+  const page = useQuery(SettingsPageQuery, {
     onCompleted(data) {
       if (data.viewer) return;
+
       router.replace(router.asPath, '/login', { shallow: true });
     },
   });
   const [updateUser] = useMutation(SettingsPageUpdateUserMutation);
 
-  if (settings.networkStatus === NetworkStatus.loading) return null;
+  if (page.networkStatus === NetworkStatus.loading) return null;
 
   return (
-    <Layout {...settings.data.viewer}>
+    <Layout {...page.data.viewer}>
       <div className="settings-page">
         <UserSettingsForm
           onSubmit={(values, { setSubmitting, setStatus }) => {
@@ -35,7 +36,7 @@ function SettingsPage() {
                 setSubmitting(false);
               });
           }}
-          {...settings.data.viewer}
+          {...page.data.viewer}
         />
       </div>
     </Layout>
