@@ -14,7 +14,7 @@ export function queryToVariables({ slug = undefined } = {}) {
 function ArticlePage() {
   const router = useRouter();
   const skip = !router.query.slug;
-  const article = useQuery(ArticlePageQuery, {
+  const page = useQuery(ArticlePageQuery, {
     variables: queryToVariables(router.query),
     skip,
   });
@@ -25,12 +25,12 @@ function ArticlePage() {
   const [unfavoriteArticle] = useMutation(ArticlePageUnfavoriteArticleMutation);
   const [unfollowUser] = useMutation(ArticlePageUnfollowUserMutation);
 
-  if (article.networkStatus === NetworkStatus.loading || skip) {
+  if (page.networkStatus === NetworkStatus.loading || skip) {
     return null;
   }
 
   return (
-    <Layout {...article.data.viewer}>
+    <Layout {...page.data.viewer}>
       <div className="article-page">
         <ArticlePageBanner
           onDelete={deleteArticle}
@@ -38,10 +38,10 @@ function ArticlePage() {
           onFollow={followUser}
           onUnfavorite={unfavoriteArticle}
           onUnfollow={unfollowUser}
-          {...article.data.article}
+          {...page.data.article}
         />
         <div className="container page">
-          <ArticleContent {...article.data.article} />
+          <ArticleContent {...page.data.article} />
           <hr />
           <div className="article-actions">
             <ArticleMeta
@@ -50,12 +50,12 @@ function ArticlePage() {
               onFollow={followUser}
               onUnfavorite={unfavoriteArticle}
               onUnfollow={unfollowUser}
-              {...article.data.article}
+              {...page.data.article}
             />
           </div>
           <div className="row">
             <div className="col-xs-12 col-md-8 offset-md-2">
-              <ArticleComments articleSlug={article.data.article.slug} />
+              <ArticleComments articleSlug={page.data.article.slug} />
             </div>
           </div>
         </div>

@@ -13,7 +13,7 @@ export function queryToVariables({ username = undefined } = {}) {
 function ProfilePage() {
   const router = useRouter();
   const skip = !router.query.username;
-  const profile = useQuery(ProfilePageQuery, {
+  const page = useQuery(ProfilePageQuery, {
     variables: queryToVariables(router.query),
     skip,
   });
@@ -23,22 +23,22 @@ function ProfilePage() {
   const [followUser] = useMutation(ProfilePageFollowUser);
   const [unfollowUser] = useMutation(ProfilePageUnfollowUserMutation);
 
-  if (profile.networkStatus === NetworkStatus.loading || skip) return null;
+  if (page.networkStatus === NetworkStatus.loading || skip) return null;
 
   return (
-    <Layout {...profile.data.viewer}>
+    <Layout {...page.data.viewer}>
       <div className="profile-page">
         <UserPageBanner
           onFollow={followUser}
           onUnfollow={unfollowUser}
-          {...profile.data.user}
+          {...page.data.user}
         />
         <div className="container">
           <div className="row">
             <div className="col-xs-12 col-md-10 offset-md-1">
-              <UserArticlesToggle {...profile.data.user} />
-              {profile.data.user.articlesConnection.edges.length ? (
-                profile.data.user.articlesConnection.edges.map(edge => (
+              <UserArticlesToggle {...page.data.user} />
+              {page.data.user.articlesConnection.edges.length ? (
+                page.data.user.articlesConnection.edges.map(edge => (
                   <ArticlePreview
                     key={edge.node.slug}
                     onUnfavorite={unfavoriteArticle}

@@ -1,14 +1,15 @@
 import { useMemo } from 'react';
 import { ApolloClient, HttpLink, ApolloLink } from '@apollo/client';
-import { InMemoryCache } from '@apollo/client/cache';
-import cacheConfig from '../apollo/cache-config';
+import { InMemoryCache, defaultDataIdFromObject } from '@apollo/client/cache';
 import { setContext } from '@apollo/client/link/context';
+import { relayStylePagination } from '@apollo/client/utilities';
 import cookie from 'cookie';
 
 let apolloClient;
 
 function createApolloClient(ctx) {
   const ssrMode = typeof window === 'undefined';
+
   return new ApolloClient({
     assumeImmutableResults: true,
     connectToDevTools: !ssrMode && process.env.NODE_ENV !== 'production',
@@ -29,7 +30,48 @@ function createApolloClient(ctx) {
         credentials: 'omit', // Additional fetch() options like `credentials` or `headers`
       }),
     ]),
-    cache: new InMemoryCache(cacheConfig),
+    cache: new InMemoryCache({
+      resultCaching: true,
+      dataIdFromObject(object) {
+        switch (object.__typename) {
+          case 'Article':
+            return `${object.__typename}:${object.slug}`;
+          case 'User':
+            return `${object.__typename}:${object.username}`;
+          default:
+            return defaultDataIdFromObject(object);
+        }
+      },
+      typePolicies: {
+        Article: {
+          keyFields: ['slug'],
+        },
+        User: {
+          keyFields: ['username'],
+        },
+        Query: {
+          fields: {
+            articlesConnection: relayStylePagination(),
+            articleBySlug(_, { args, toReference }) {
+              return toReference({ __typename: 'Article', slug: args.slug });
+            },
+            comment(_, { args, toReference }) {
+              return toReference({ __typename: 'Comment', id: args.id });
+            },
+            feedConnection: relayStylePagination(),
+            userByUsername(_, { args, toReference }) {
+              return toReference({
+                __typename: 'User',
+                username: args.username,
+              });
+            },
+            tag(_, { args, toReference }) {
+              return toReference({ __typename: 'Tag', id: args.id });
+            },
+          },
+        },
+      },
+    }),
   });
 }
 

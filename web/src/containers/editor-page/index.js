@@ -7,7 +7,7 @@ import { Layout } from '../layout';
 
 function EditorPage() {
   const router = useRouter();
-  const editor = useQuery(EditorPageQuery, {
+  const page = useQuery(EditorPageQuery, {
     onCompleted(data) {
       if (data.canCreateArticle.value) return;
 
@@ -16,10 +16,10 @@ function EditorPage() {
   });
   const [createArticle] = useMutation(EditorPageCreateArticleMutation);
 
-  if (editor.networkStatus === NetworkStatus.loading) return null;
+  if (page.networkStatus === NetworkStatus.loading) return null;
 
   return (
-    <Layout {...editor.data.viewer}>
+    <Layout {...page.data.viewer}>
       <div className="editor-page">
         <ArticleForm
           onSubmit={(values, { setSubmitting, setStatus }) => {

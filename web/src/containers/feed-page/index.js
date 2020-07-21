@@ -23,32 +23,33 @@ export function queryToVariables({
     tagName,
   };
 }
-
 function FeedPage() {
   const router = useRouter();
-  const feed = useQuery(FeedPageQuery, {
-    notifyOnNetworkStatusChange: true,
+
+  const page = useQuery(FeedPageQuery, {
     onCompleted(data) {
       if (data.viewer) return;
+
       router.replace(router.asPath, '/login', { shallow: true });
     },
+    notifyOnNetworkStatusChange: true,
     variables: queryToVariables(router.query),
   });
 
   const [favoriteArticle] = useMutation(FeedPageFavoriteArticleMutation);
   const [unfavoriteArticle] = useMutation(FeedPageUnfavoriteArticleMutation);
 
-  if (feed.networkStatus === NetworkStatus.loading) return null;
+  if (page.networkStatus === NetworkStatus.loading) return null;
 
   return (
-    <Layout {...feed.data.viewer}>
+    <Layout {...page.data.viewer}>
       <div className="home-page">
         <HomePageBanner />
         <div className="container page">
           <div className="row">
             <div className="col-xs-12 col-md-9">
-              <ViewerFeedToggle {...feed.data.viewer} />
-              {feed.data.feedConnection.edges.map(edge => (
+              <ViewerFeedToggle {...page.data.viewer} />
+              {page.data.feedConnection.edges.map(edge => (
                 <ArticlePreview
                   key={edge.node.slug}
                   onFavorite={favoriteArticle}
@@ -56,10 +57,10 @@ function FeedPage() {
                   {...edge.node}
                 />
               ))}
-              <Pagination {...feed.data.feedConnection.pageInfo} />
+              <Pagination {...page.data.feedConnection.pageInfo} />
             </div>
             <div className="col-xs-12 col-md-3">
-              <Sidebar {...feed.data} />
+              <Sidebar {...page.data} />
             </div>
           </div>
         </div>

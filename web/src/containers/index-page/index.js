@@ -26,25 +26,25 @@ export function queryToVariables({
 function IndexPage() {
   const router = useRouter();
 
-  const index = useQuery(IndexPageQuery, {
-    variables: queryToVariables(router.query),
+  const page = useQuery(IndexPageQuery, {
     notifyOnNetworkStatusChange: true,
+    variables: queryToVariables(router.query),
   });
 
   const [favoriteArticle] = useMutation(IndexPageFavoriteArticleMutation);
   const [unfavoriteArticle] = useMutation(IndexPageUnfavoriteArticleMutation);
 
-  if (index.networkStatus === NetworkStatus.loading) return null;
+  if (page.networkStatus === NetworkStatus.loading) return null;
 
   return (
-    <Layout {...index.data.viewer}>
+    <Layout {...page.data.viewer}>
       <div className="home-page">
         <HomePageBanner />
         <div className="container page">
           <div className="row">
             <div className="col-xs-12 col-md-9">
-              <ViewerFeedToggle {...index.data.viewer} />
-              {index.data.articlesConnection.edges.map(edge => (
+              <ViewerFeedToggle {...page.data.viewer} />
+              {page.data.articlesConnection.edges.map(edge => (
                 <ArticlePreview
                   key={edge.node.slug}
                   onFavorite={favoriteArticle}
@@ -52,10 +52,10 @@ function IndexPage() {
                   {...edge.node}
                 />
               ))}
-              <Pagination {...index.data.articlesConnection.pageInfo} />
+              <Pagination {...page.data.articlesConnection.pageInfo} />
             </div>
             <div className="col-xs-12 col-md-3">
-              <Sidebar {...index.data} />
+              <Sidebar {...page.data} />
             </div>
           </div>
         </div>
