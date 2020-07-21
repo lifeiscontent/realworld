@@ -6,7 +6,7 @@ import { ArticleFavoriteButton } from '../article-favorite-button';
 import { UserFollowButton } from '../user-follow-button';
 import { UserAvatarLink } from '../user-avatar-link';
 import { ArticleInfo } from '../article-info';
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
 export function ArticleMeta({
   author,

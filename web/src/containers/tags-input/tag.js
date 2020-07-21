@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import gql from 'graphql-tag';
-import { useQuery } from '@apollo/react-hooks';
-import { NetworkStatus } from 'apollo-client';
+import { gql, useQuery, NetworkStatus } from '@apollo/client';
 
 export function TagsInputTag({ id, onRemoveTag }) {
   const tagInputTag = useQuery(TagsInputTagQuery, {

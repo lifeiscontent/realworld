@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { ArticleInfo } from '../article-info';
 import { ArticlePreviewFavoriteButton } from './favorite-button';
 import { ArticlePreviewTagsList } from './tags-list';
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 import { UserAvatarLink } from '../user-avatar-link';
 
 export function ArticlePreview({

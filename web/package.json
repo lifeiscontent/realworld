@@ -8,14 +8,7 @@
     "yarn": "1.x"
   },
   "dependencies": {
-    "@apollo/react-hooks": "3.1.5",
-    "@apollo/react-ssr": "4.0.0",
-    "apollo-cache-inmemory": "1.6.6",
-    "apollo-client": "2.6.10",
-    "apollo-link": "1.2.14",
-    "apollo-link-context": "1.0.20",
-    "apollo-link-error": "1.1.13",
-    "apollo-link-http": "1.5.17",
+    "@apollo/client": "3.0.2",
     "clsx": "1.1.1",
     "cookie": "0.4.1",
     "formik": "2.1.5",
@@ -40,7 +33,6 @@
     "build-storybook": "build-storybook -s ./public"
   },
   "devDependencies": {
-    "@apollo/react-testing": "3.1.4",
     "@babel/core": "^7.10.5",
     "@babel/runtime-corejs2": "7.10.5",
     "@storybook/addon-actions": "^5.3.19",
@@ -58,6 +50,7 @@
     "babel-plugin-graphql-tag": "2.5.0",
     "eslint": "7.5.0",
     "eslint-config-prettier": "6.11.0",
+    "eslint-plugin-import": "2.22.0",
     "eslint-plugin-jest": "23.18.0",
     "eslint-plugin-prettier": "3.1.4",
     "eslint-plugin-react": "7.20.3",

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { format } from '../../utils/date';
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
 export function ArticleInfo({ author, createdAt }) {
   return (

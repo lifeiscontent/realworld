@@ -5,7 +5,7 @@ import { FormikStatusErrors } from '../formik-status-errors';
 import { FormikSubmitButton } from '../formik-submit-button';
 import { TagsInput } from '../../containers/tags-input';
 import * as Yup from 'yup';
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
 const createValidationSchema = Yup.object({
   input: Yup.object({

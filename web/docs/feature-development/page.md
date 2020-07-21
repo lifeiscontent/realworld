@@ -17,13 +17,15 @@ import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import EditorPage from '.';
 // we use MockedProvider from Apollo because we have some data we need to fetch
-import { MockedProvider } from '@apollo/react-testing';
+import { MockedProvider } from '@apollo/client/testing';
 import Router from 'next/router';
 
 // we mock next/router look at the __mocks__ folder for the code.
 jest.mock('next/router');
 
 describe('EditorPage', () => {
+  let mocks;
+
   beforeEach(() => {
     Router.replace = jest.fn();
     Router.pathname = '/editor';
@@ -39,28 +41,30 @@ describe('EditorPage', () => {
   // we want to test that our page component actually redirects
   // when an unauthorized user comes to view the page
   describe('when not logged in', () => {
+    beforeEach(() => {
+      mocks = [
+        {
+          request: {
+            query: EditorPage.query,
+            variables: {},
+          },
+          result: {
+            data: {
+              canCreateArticle: {
+                value: false,
+                __typename: 'AuthorizationResult',
+              },
+              viewer: null,
+            },
+          },
+        },
+      ];
+    });
+
     it('redirects', async () => {
       // render the UI with some mocked data
       render(
-        <MockedProvider
-          mocks={[
-            {
-              request: {
-                query: EditorPage.query,
-                variables: {},
-              },
-              result: {
-                data: {
-                  canCreateArticle: {
-                    value: false,
-                    __typename: 'AuthorizationResult',
-                  },
-                  viewer: null,
-                },
-              },
-            },
-          ]}
-        >
+        <MockedProvider mocks={mocks}>
           <EditorPage />
         </MockedProvider>
       );
@@ -76,31 +80,33 @@ describe('EditorPage', () => {
   });
 
   describe('when logged in', () => {
+    beforeEach(() => {
+      mocks = [
+        {
+          request: {
+            query: EditorPage.query,
+            variables: {},
+          },
+          result: {
+            data: {
+              canCreateArticle: {
+                value: true,
+                __typename: 'AuthorizationResult',
+              },
+              viewer: {
+                username: 'jamie',
+                __typename: 'User',
+              },
+            },
+          },
+        },
+      ];
+    });
+
     it('does not redirect', async () => {
       // render the UI with some mocked data
       render(
-        <MockedProvider
-          mocks={[
-            {
-              request: {
-                query: EditorPage.query,
-                variables: {},
-              },
-              result: {
-                data: {
-                  canCreateArticle: {
-                    value: true,
-                    __typename: 'AuthorizationResult',
-                  },
-                  viewer: {
-                    username: 'jamie',
-                    __typename: 'User',
-                  },
-                },
-              },
-            },
-          ]}
-        >
+        <MockedProvider mocks={mocks}>
           <EditorPage />
         </MockedProvider>
       );

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
 export function ArticleUpdateButton({ canUpdate, slug }) {
   if (canUpdate.value === false) return null;

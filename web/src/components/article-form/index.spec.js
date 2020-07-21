@@ -1,17 +1,21 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { MockedProvider } from '@apollo/react-testing';
+import { MockedProvider } from '@apollo/client/testing';
 import { ArticleForm } from '.';
+import { TagsInput } from '../../containers/tags-input';
 
 describe('ArticleForm', () => {
   let onSubmit;
+  let mocks;
 
   beforeEach(() => {
     onSubmit = jest.fn();
+    mocks = [{ request: { query: TagsInput.query }, result: { data: {} } }];
   });
+
   it('displays errors on submit', async () => {
     render(
-      <MockedProvider>
+      <MockedProvider mocks={mocks}>
         <ArticleForm onSubmit={onSubmit} />
       </MockedProvider>
     );
@@ -24,7 +28,7 @@ describe('ArticleForm', () => {
 
   it('calls onSubmit when valid on submit', async () => {
     render(
-      <MockedProvider>
+      <MockedProvider mocks={mocks}>
         <ArticleForm onSubmit={onSubmit} />
       </MockedProvider>
     );

@@ -1,12 +1,10 @@
 import React from 'react';
-import gql from 'graphql-tag';
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import { gql, useQuery, useMutation, NetworkStatus } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { ArticleContent } from '../../components/article-content';
 import { ArticlePageBanner } from '../../components/article-page-banner';
 import { ArticleMeta } from '../../components/article-meta';
 import { ArticleComments } from '../article-comments';
-import { NetworkStatus } from 'apollo-client';
 import { Layout } from '../layout';
 
 export function queryToVariables({ slug = undefined } = {}) {

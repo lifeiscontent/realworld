@@ -7,7 +7,7 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 // we use MockedProvider from apollo because the ArticleForm contains a Mutation for the tags input
-import { MockedProvider } from '@apollo/react-testing';
+import { MockedProvider } from '@apollo/client/testing';
 import { ArticleForm } from '.';
 
 describe('ArticleForm', () => {

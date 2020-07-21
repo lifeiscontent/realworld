@@ -1,12 +1,15 @@
 import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import EditorPage from '.';
-import { MockedProvider } from '@apollo/react-testing';
+import { MockedProvider } from '@apollo/client/testing';
 import Router from 'next/router';
+import { TagsInput } from '../tags-input';
 
 jest.mock('next/router');
 
 describe('EditorPage', () => {
+  let mocks;
+
   beforeEach(() => {
     Router.replace = jest.fn();
     Router.pathname = '/editor';
@@ -20,27 +23,38 @@ describe('EditorPage', () => {
   });
 
   describe('when not logged in', () => {
+    beforeEach(() => {
+      mocks = [
+        {
+          request: {
+            query: EditorPage.query,
+            variables: {},
+          },
+          result: {
+            data: {
+              canCreateArticle: {
+                value: false,
+                __typename: 'AuthorizationResult',
+              },
+              viewer: null,
+            },
+          },
+        },
+        {
+          request: {
+            query: TagsInput.query,
+            variables: {},
+          },
+          result: {
+            data: {},
+          },
+        },
+      ];
+    });
+
     it('redirects', async () => {
       render(
-        <MockedProvider
-          mocks={[
-            {
-              request: {
-                query: EditorPage.query,
-                variables: {},
-              },
-              result: {
-                data: {
-                  canCreateArticle: {
-                    value: false,
-                    __typename: 'AuthorizationResult',
-                  },
-                  viewer: null,
-                },
-              },
-            },
-          ]}
-        >
+        <MockedProvider mocks={mocks}>
           <EditorPage />
         </MockedProvider>
       );
@@ -54,30 +68,41 @@ describe('EditorPage', () => {
   });
 
   describe('when logged in', () => {
-    it('does not redirect', async () => {
-      render(
-        <MockedProvider
-          mocks={[
-            {
-              request: {
-                query: EditorPage.query,
-                variables: {},
+    beforeEach(() => {
+      mocks = [
+        {
+          request: {
+            query: EditorPage.query,
+            variables: {},
+          },
+          result: {
+            data: {
+              canCreateArticle: {
+                value: true,
+                __typename: 'AuthorizationResult',
               },
-              result: {
-                data: {
-                  canCreateArticle: {
-                    value: true,
-                    __typename: 'AuthorizationResult',
-                  },
-                  viewer: {
-                    username: 'jamie',
-                    __typename: 'User',
-                  },
-                },
+              viewer: {
+                username: 'jamie',
+                __typename: 'User',
               },
             },
-          ]}
-        >
+          },
+        },
+        {
+          request: {
+            query: TagsInput.query,
+            variables: {},
+          },
+          result: {
+            data: {},
+          },
+        },
+      ];
+    });
+
+    it('does not redirect', async () => {
+      render(
+        <MockedProvider mocks={mocks}>
           <EditorPage />
         </MockedProvider>
       );

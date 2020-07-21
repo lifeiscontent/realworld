@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { UserFollowButton } from '../user-follow-button';
 import { UserUpdateButton } from '../user-update-button';
 import { UserAvatar } from '../user-avatar';
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
 export function UserPageBanner({
   canFollow,

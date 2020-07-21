@@ -4,7 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { FormikSubmitButton } from '../formik-submit-button';
 import { FormikStatusErrors } from '../formik-status-errors';
 import * as Yup from 'yup';
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
 const validationSchema = Yup.object({
   username: Yup.string().required('You need to be logged in to do this'),

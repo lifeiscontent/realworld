@@ -1,10 +1,8 @@
 import React from 'react';
-import gql from 'graphql-tag';
+import { gql, useQuery, useMutation, NetworkStatus } from '@apollo/client';
 import { useRouter } from 'next/router';
-import { useQuery, useMutation } from '@apollo/react-hooks';
 import { Sidebar } from '../../components/sidebar';
 import { Pagination } from '../../components/pagination';
-import { NetworkStatus } from 'apollo-client';
 import { HomePageBanner } from '../../components/home-page-banner';
 import { ViewerFeedToggle } from '../../components/viewer-feed-toggle';
 import { ArticlePreview } from '../../components/article-preview';

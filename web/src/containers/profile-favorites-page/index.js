@@ -1,11 +1,9 @@
 import React from 'react';
-import gql from 'graphql-tag';
+import { gql, useQuery, useMutation, NetworkStatus } from '@apollo/client';
 import { useRouter } from 'next/router';
-import { useQuery, useMutation } from '@apollo/react-hooks';
 import { ArticlePreview } from '../../components/article-preview';
 import { UserPageBanner } from '../../components/user-page-banner';
 import { UserArticlesToggle } from '../../components/user-articles-toggle';
-import { NetworkStatus } from 'apollo-client';
 import { Layout } from '../layout';
 
 export function queryToVariables({ username = undefined } = {}) {

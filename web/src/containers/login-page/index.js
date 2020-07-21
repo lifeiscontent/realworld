@@ -1,7 +1,6 @@
 import React from 'react';
 import cookie from 'cookie';
-import gql from 'graphql-tag';
-import { useMutation } from '@apollo/react-hooks';
+import { gql, useMutation } from '@apollo/client';
 import { handleValidationError } from '../../utils/graphql';
 import { LoginForm } from '../../components/login-form';
 import { Layout } from '../layout';
