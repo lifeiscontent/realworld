@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useQuery, useMutation } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
+import { useQuery, useMutation, gql, NetworkStatus } from '@apollo/client';
 import { UserCommentForm } from '../../components/user-comment-form';
 import { handleValidationError } from '../../utils/graphql';
 import { CommentCard } from '../../components/comment-card';
-import { NetworkStatus } from 'apollo-client';
 
 export function ArticleComments({ articleSlug }) {
   const commentsList = useQuery(ArticleCommentsQuery, {

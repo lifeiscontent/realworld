@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
 export function ArticleContent({ description, body }) {
   return (

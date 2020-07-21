@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useField } from 'formik';
 import { TagsInputTag } from './tag';
-import gql from 'graphql-tag';
-import { useQuery } from '@apollo/react-hooks';
+import { gql, useQuery } from '@apollo/client';
 
 export function TagsInput(props) {
   const [value, setValue] = useState('');

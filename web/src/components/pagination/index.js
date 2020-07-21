@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import clsx from 'clsx';
 import Link from 'next/link';
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
 export function Pagination({
   hasNextPage,

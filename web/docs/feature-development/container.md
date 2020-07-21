@@ -2,9 +2,9 @@
 
 a `container` is for the interactions it has with Data/GraphQL.
 
-1.  Test the behavior of the expected outcome from the containers. e.g. does `create` get called? in Apollo you can test this using `MockedProvider` from [@apollo/react-testing][@apollo/react-testing].
+1.  Test the behavior of the expected outcome from the containers. e.g. does `create` get called? in Apollo you can test this using `MockedProvider` from [@apollo/client/testing][@apollo/client/testing].
 
-[@apollo/react-testing]: https://www.apollographql.com/docs/react/api/react-testing
+[@apollo/client/testing]: https://www.apollographql.com/docs/react/api/react-testing
 
 Let's write a test for the ArticleComments component.
 
@@ -13,7 +13,7 @@ Let's write a test for the ArticleComments component.
 ```js
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { MockedProvider } from '@apollo/react-testing';
+import { MockedProvider } from '@apollo/client/testing';
 import {
   ArticleComments,
   ArticleCommentsCreateCommentMutation,

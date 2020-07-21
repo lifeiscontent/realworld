@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Footer } from '../../components/footer';
 import { Navbar } from '../../components/navbar';
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 import Head from 'next/head';
 
 export function Layout({ children, username }) {

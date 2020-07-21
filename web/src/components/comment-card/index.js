@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { format } from '../../utils/date';
 import Markdown from 'react-markdown';
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
 export function CommentCard({
   author,

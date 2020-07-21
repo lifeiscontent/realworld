@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ArticleMeta } from '../article-meta';
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
 export function ArticlePageBanner({
   author,

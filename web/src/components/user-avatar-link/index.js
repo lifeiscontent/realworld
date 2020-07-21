@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { UserAvatar } from '../user-avatar';
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
 export function UserAvatarLink({ profile, username }) {
   return (

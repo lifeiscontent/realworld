@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Link from 'next/link';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
 export function ViewerFeedToggle({ username }) {
   const router = useRouter();

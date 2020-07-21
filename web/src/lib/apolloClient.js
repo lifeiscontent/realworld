@@ -1,10 +1,8 @@
 import { useMemo } from 'react';
-import { ApolloClient } from 'apollo-client';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { HttpLink } from 'apollo-link-http';
+import { ApolloClient, HttpLink, ApolloLink } from '@apollo/client';
+import { InMemoryCache } from '@apollo/client/cache';
 import cacheConfig from '../apollo/cache-config';
-import { ApolloLink } from 'apollo-link';
-import { setContext } from 'apollo-link-context';
+import { setContext } from '@apollo/client/link/context';
 import cookie from 'cookie';
 
 let apolloClient;
@@ -55,5 +53,6 @@ export function useApollo(initialState) {
   const store = useMemo(() => initializeApollo(undefined, initialState), [
     initialState,
   ]);
+
   return store;
 }

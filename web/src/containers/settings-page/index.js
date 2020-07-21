@@ -1,10 +1,8 @@
 import React from 'react';
-import gql from 'graphql-tag';
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import { gql, useQuery, useMutation, NetworkStatus } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { handleValidationError } from '../../utils/graphql';
 import { UserSettingsForm } from '../../components/user-settings-form';
-import { NetworkStatus } from 'apollo-client';
 import { Layout } from '../layout';
 
 function SettingsPage() {

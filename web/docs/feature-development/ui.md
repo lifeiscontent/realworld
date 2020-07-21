@@ -64,7 +64,7 @@ This will serve as our starting template
 import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
 export function ArticleFavoriteButton() {}
 ```

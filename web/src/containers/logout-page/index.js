@@ -1,7 +1,7 @@
 import cookie from 'cookie';
 import Router from 'next/router';
 import { useEffect } from 'react';
-import { useApolloClient } from '@apollo/react-hooks';
+import { useApolloClient } from '@apollo/client';
 
 export default function LogoutPage() {
   const client = useApolloClient();

@@ -30,7 +30,7 @@ Make sure all the UI Components you need are available to you before you start o
 [web/docs/feature-development/form.md]: https://github.com/lifeiscontent/realworld/blob/master/web/docs/feature-development/form.md
 [web/docs/feature-development/page.md]: https://github.com/lifeiscontent/realworld/blob/master/web/docs/feature-development/page.md
 [web/docs/feature-development/ui.md]: https://github.com/lifeiscontent/realworld/blob/master/web/docs/feature-development/ui.md
-[@apollo/react-testing]: https://www.apollographql.com/docs/react/api/react-testing
+[@apollo/client/testing]: https://www.apollographql.com/docs/react/api/react-testing
 [@storybook/react]: https://storybook.js.org
 [@testing-library/react]: https://testing-library.com/react
 [jest]: https://jestjs.io

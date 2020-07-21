@@ -17,7 +17,7 @@ import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import EditorPage from '.';
 // we use MockedProvider from Apollo because we have some data we need to fetch
-import { MockedProvider } from '@apollo/react-testing';
+import { MockedProvider } from '@apollo/client/testing';
 import Router from 'next/router';
 
 // we mock next/router look at the __mocks__ folder for the code.

@@ -7,10 +7,12 @@
   },
   "extends": [
     "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:prettier/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
     "plugin:jest/recommended",
-    "plugin:jest/style"
+    "plugin:jest/style",
+    "plugin:prettier/recommended",
+    "plugin:react/recommended"
   ],
   "globals": {
     "Atomics": "readonly",

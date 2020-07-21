@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { SidebarTagList } from './tag-list';
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
 export function Sidebar({ popularTags }) {
   return (

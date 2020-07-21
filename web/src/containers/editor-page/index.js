@@ -1,11 +1,8 @@
 import React from 'react';
 import { ArticleForm } from '../../components/article-form';
-import { useMutation, useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
+import { useMutation, useQuery, gql, NetworkStatus } from '@apollo/client';
 import { useRouter } from 'next/router';
-
 import { handleValidationError } from '../../utils/graphql';
-import { NetworkStatus } from 'apollo-client';
 import { Layout } from '../layout';
 
 function EditorPage() {
