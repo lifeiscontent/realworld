@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { gql, useQuery, useMutation, NetworkStatus } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { Sidebar } from '../../components/sidebar';
@@ -27,11 +27,14 @@ function FeedPage() {
   const router = useRouter();
 
   const page = useQuery(FeedPageQuery, {
-    onCompleted(data) {
-      if (data.viewer) return;
+    onCompleted: useCallback(
+      data => {
+        if (data.viewer) return;
 
-      router.replace(router.asPath, '/login', { shallow: true });
-    },
+        router.replace(router.asPath, '/login', { shallow: true });
+      },
+      [router]
+    ),
     notifyOnNetworkStatusChange: true,
     variables: queryToVariables(router.query),
   });
