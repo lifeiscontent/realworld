@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { ArticleForm } from '../../components/article-form';
 import { useMutation, useQuery, gql, NetworkStatus } from '@apollo/client';
 import { useRouter } from 'next/router';
@@ -8,11 +8,14 @@ import { Layout } from '../layout';
 function EditorPage() {
   const router = useRouter();
   const page = useQuery(EditorPageQuery, {
-    onCompleted(data) {
-      if (data.canCreateArticle.value) return;
+    onCompleted: useCallback(
+      data => {
+        if (data.canCreateArticle.value) return;
 
-      router.replace(router.asPath, '/', { shallow: true });
-    },
+        router.replace(router.asPath, '/', { shallow: true });
+      },
+      [router]
+    ),
   });
   const [createArticle] = useMutation(EditorPageCreateArticleMutation);
 
