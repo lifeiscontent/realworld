@@ -20,7 +20,7 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-markdown": "4.3.1",
-    "yup": "0.29.2"
+    "yup": "0.29.3"
   },
   "scripts": {
     "dev": "next",
