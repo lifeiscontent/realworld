@@ -47,7 +47,7 @@
     "babel-eslint": "10.1.0",
     "babel-jest": "26.2.2",
     "babel-loader": "^8.1.0",
-    "babel-plugin-graphql-tag": "2.5.0",
+    "babel-plugin-graphql-tag": "3.0.0",
     "eslint": "7.6.0",
     "eslint-config-prettier": "6.11.0",
     "eslint-plugin-import": "2.22.0",
