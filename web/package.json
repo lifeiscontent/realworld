@@ -62,6 +62,6 @@
     "prettier": "2.0.5",
     "react-test-renderer": "16.13.1",
     "storybook-addon-apollo-client": "3.0.0",
-    "storybook-addon-next-router": "1.0.1"
+    "storybook-addon-next-router": "2.0.0"
   }
 }
