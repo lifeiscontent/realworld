@@ -35,10 +35,10 @@
   "devDependencies": {
     "@babel/core": "^7.11.1",
     "@babel/runtime-corejs2": "7.11.2",
-    "@storybook/addon-actions": "^6.0.2",
-    "@storybook/addon-links": "^6.0.2",
-    "@storybook/addons": "^6.0.2",
-    "@storybook/react": "^6.0.2",
+    "@storybook/addon-actions": "^6.0.3",
+    "@storybook/addon-links": "^6.0.3",
+    "@storybook/addons": "^6.0.3",
+    "@storybook/react": "^6.0.3",
     "@testing-library/jest-dom": "5.11.3",
     "@testing-library/react": "10.4.8",
     "@types/jest": "26.0.9",
@@ -61,7 +61,7 @@
     "lint-staged": "10.2.11",
     "prettier": "2.0.5",
     "react-test-renderer": "16.13.1",
-    "storybook-addon-apollo-client": "1.0.1",
+    "storybook-addon-apollo-client": "3.0.0",
     "storybook-addon-next-router": "1.0.1"
   }
 }
