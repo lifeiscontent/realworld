@@ -59,7 +59,7 @@
     "identity-obj-proxy": "3.0.0",
     "jest": "26.4.2",
     "lint-staged": "10.2.13",
-    "prettier": "2.1.0",
+    "prettier": "2.1.1",
     "react-test-renderer": "16.13.1",
     "storybook-addon-apollo-client": "3.0.0",
     "storybook-addon-next-router": "2.0.0"
