@@ -210,7 +210,7 @@ GEM
     ruby-graphviz (1.2.5)
       rexml
     ruby-progressbar (1.10.1)
-    shoulda-matchers (4.3.0)
+    shoulda-matchers (4.4.0)
       activesupport (>= 4.2.0)
     solargraph (0.39.15)
       backport (~> 1.1)
@@ -275,7 +275,7 @@ DEPENDENCIES
   rails-erd (~> 1.6)
   rspec-rails (~> 4.0)
   rubocop (~> 0.89.1)
-  shoulda-matchers (~> 4.3.0)
+  shoulda-matchers (~> 4.4.0)
   solargraph (~> 0.39.15)
   spring (~> 2.1.1)
   spring-watcher-listen (~> 2.0.0)
