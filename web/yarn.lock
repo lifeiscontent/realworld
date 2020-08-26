@@ -1717,16 +1717,16 @@
     util-deprecate "^1.0.2"
     uuid "^8.0.0"
 
-"@storybook/addon-links@^6.0.17":
-  version "6.0.17"
-  resolved "https://registry.yarnpkg.com/@storybook/addon-links/-/addon-links-6.0.17.tgz#f1d1380307cc7ed27672b915016a1e962059f0d2"
-  integrity sha512-S62mXFnB70LEtBi1CTrfYFy1w/lrn16PsG2nXnJiCtol7Gw+kcOKtYisndUJ+to3hjIkYztK+aorX/NsLn5GZA==
+"@storybook/addon-links@^6.0.18":
+  version "6.0.18"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-links/-/addon-links-6.0.18.tgz#e024846b1001b8fb3cf19c3cdd8db63aef18595d"
+  integrity sha512-MbheQvRNWnJgmZez0tGxS8A/qDz6Gj2vo8RF7xfIPK+fXR4vXPOk3d2oPTdcuodgGArUNPPtQYO/87Gs56sVew==
   dependencies:
-    "@storybook/addons" "6.0.17"
-    "@storybook/client-logger" "6.0.17"
-    "@storybook/core-events" "6.0.17"
+    "@storybook/addons" "6.0.18"
+    "@storybook/client-logger" "6.0.18"
+    "@storybook/core-events" "6.0.18"
     "@storybook/csf" "0.0.1"
-    "@storybook/router" "6.0.17"
+    "@storybook/router" "6.0.18"
     "@types/qs" "^6.9.0"
     core-js "^3.0.1"
     global "^4.3.2"
@@ -1750,7 +1750,7 @@
     global "^4.3.2"
     regenerator-runtime "^0.13.3"
 
-"@storybook/addons@6.x", "@storybook/addons@^6.0.18":
+"@storybook/addons@6.0.18", "@storybook/addons@6.x", "@storybook/addons@^6.0.18":
   version "6.0.18"
   resolved "https://registry.yarnpkg.com/@storybook/addons/-/addons-6.0.18.tgz#c8bb2a3eb1fa7eca31542b7d67957671b709c01f"
   integrity sha512-sKHlT71fu68m0cVaDRe2/uY2/9fANiujh6XdHxbtDpNiByyWD2mCnHBpa2ra+NVEd6ZioyFc2R31uHDLU+pbQw==
