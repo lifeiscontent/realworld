@@ -36,7 +36,7 @@
     "@babel/core": "^7.11.4",
     "@babel/runtime-corejs2": "7.11.2",
     "@storybook/addon-actions": "^6.0.18",
-    "@storybook/addon-links": "^6.0.18",
+    "@storybook/addon-links": "^6.0.19",
     "@storybook/addons": "^6.0.18",
     "@storybook/react": "^6.0.19",
     "@testing-library/jest-dom": "5.11.4",
