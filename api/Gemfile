@@ -16,7 +16,7 @@ gem 'factory_bot_rails', '~> 6.1.0', group: :test
 gem 'faker', '~> 2.13.0'
 gem 'friendly_id', '~> 5.4.0'
 gem 'graphql', '~> 1.11.3'
-gem 'jwt', '~> 2.2.1'
+gem 'jwt', '~> 2.2.2'
 gem 'listen', '>= 3.0.5', '< 3.3', group: :development
 gem 'pg', '~> 1.2.3'
 gem 'puma', '~> 4.3.6'
