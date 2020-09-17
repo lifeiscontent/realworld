@@ -58,7 +58,7 @@
     "husky": "4.3.0",
     "identity-obj-proxy": "3.0.0",
     "jest": "26.4.2",
-    "lint-staged": "10.3.0",
+    "lint-staged": "10.4.0",
     "prettier": "2.1.2",
     "react-test-renderer": "16.13.1",
     "storybook-addon-apollo-client": "3.0.0",
