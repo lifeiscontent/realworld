@@ -24,7 +24,7 @@ gem 'rack-cors', '~> 1.1.0'
 gem 'rails', '~> 6.0.3'
 gem 'rails-erd', '~> 1.6', group: :development
 gem 'rspec-rails', '~> 4.0', group: :development
-gem 'rubocop', '~> 0.91.0', group: :development, require: false
+gem 'rubocop', '~> 0.91.1', group: :development, require: false
 gem 'shoulda-matchers', '~> 4.4.1', group: :test
 gem 'solargraph', '~> 0.39.15', group: :development
 gem 'spring', '~> 2.1.1', group: :development
