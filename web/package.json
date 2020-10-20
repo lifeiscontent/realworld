@@ -18,7 +18,7 @@
     "next": "9.5.5",
     "prop-types": "15.7.2",
     "react": "16.14.0",
-    "react-dom": "16.13.1",
+    "react-dom": "16.14.0",
     "react-markdown": "5.0.0",
     "yup": "0.29.3"
   },
