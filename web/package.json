@@ -19,7 +19,7 @@
     "prop-types": "15.7.2",
     "react": "16.14.0",
     "react-dom": "16.14.0",
-    "react-markdown": "5.0.1",
+    "react-markdown": "5.0.2",
     "yup": "0.29.3"
   },
   "scripts": {
