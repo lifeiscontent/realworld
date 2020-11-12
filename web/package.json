@@ -11,7 +11,7 @@
     "@apollo/client": "3.2.5",
     "clsx": "1.1.1",
     "cookie": "0.4.1",
-    "formik": "2.2.4",
+    "formik": "2.2.5",
     "graphql": "15.4.0",
     "graphql-tag": "2.11.0",
     "isomorphic-unfetch": "3.1.0",
