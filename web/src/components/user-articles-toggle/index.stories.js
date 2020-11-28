@@ -14,11 +14,9 @@ export const myArticlesActive = () => (
   <UserArticlesToggle username="lifeiscontent" />
 );
 
-myArticlesActive.story = {
-  parameters: {
-    router: {
-      pathname: '/user/[username]',
-    },
+myArticlesActive.parameters = {
+  nextRouter: {
+    pathname: '/user/[username]',
   },
 };
 
@@ -26,10 +24,8 @@ export const favoritedArticlesActive = () => (
   <UserArticlesToggle username="lifeiscontent" />
 );
 
-favoritedArticlesActive.story = {
-  parameters: {
-    router: {
-      pathname: '/user/[username]/favorites',
-    },
+favoritedArticlesActive.parameters = {
+  nextRouter: {
+    pathname: '/user/[username]/favorites',
   },
 };

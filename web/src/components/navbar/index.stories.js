@@ -12,10 +12,8 @@ export const renders = () => <Navbar />;
 
 export const loggedIn = () => <Navbar username="lifeiscontent" />;
 
-renders.story = {
-  parameters: {
-    router: {
-      pathname: '/',
-    },
+renders.parameters = {
+  nextRouter: {
+    pathname: '/',
   },
 };

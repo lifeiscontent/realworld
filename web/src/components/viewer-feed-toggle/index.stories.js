@@ -10,30 +10,24 @@ export default {
 
 export const renders = () => <ViewerFeedToggle />;
 
-renders.story = {
-  parameters: {
-    router: {
-      pathname: '/',
-    },
+renders.parameters = {
+  nextRouter: {
+    pathname: '/',
   },
 };
 
 export const feedEnabled = () => <ViewerFeedToggle username="lifeiscontent" />;
 
-feedEnabled.story = {
-  parameters: {
-    router: {
-      pathname: '/',
-    },
+feedEnabled.parameters = {
+  nextRouter: {
+    pathname: '/',
   },
 };
 
 export const feedActive = () => <ViewerFeedToggle username="lifeiscontent" />;
 
-feedActive.story = {
-  parameters: {
-    router: {
-      pathname: '/feed',
-    },
+feedActive.parameters = {
+  nextRouter: {
+    pathname: '/feed',
   },
 };
