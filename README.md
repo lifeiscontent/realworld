@@ -2,8 +2,9 @@
 
 ![Web](https://github.com/lifeiscontent/realworld/workflows/Web/badge.svg?branch=master)
 ![Api](https://github.com/lifeiscontent/realworld/workflows/Api/badge.svg?branch=master)
+[![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@master/badge/badge-storybook.svg)](https://master--5fcdd27b2771900021fc381e.chromatic.com)
 
-This repo implements opinionated best practices for Apollo Client, React, and Next.js.
+This repo implements opinionated best practices for Apollo Client, React, Next.js and Storybook.
 
 1 caveat is it does not try to implement a best practice on UI Components as the styles are reused from the [realworld.io](https://github.com/gothinkster/realworld) project.
 
