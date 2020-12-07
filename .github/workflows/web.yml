@@ -7,6 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Use Node.js 12.x
         uses: actions/setup-node@v1
         with:
@@ -14,8 +16,6 @@ jobs:
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
-        env:
-          CI: true
         working-directory: ./web
       - uses: actions/cache@v1
         id: yarn-cache
@@ -32,8 +32,6 @@ jobs:
             ${{ runner.os }}-node-modules-
       - name: Install Node Modules
         run: yarn install
-        env:
-          CI: true
         working-directory: ./web
       - name: Run Lint
         run: yarn lint
@@ -46,16 +44,12 @@ jobs:
             ${{ runner.os }}-nextjs-
       - name: Build Project
         run: yarn build
-        env:
-          CI: true
         working-directory: ./web
       - name: Run Tests
         run: yarn test
-        env:
-          CI: true
         working-directory: ./web
       - name: Publish Storybook and run visual tests
-        run: yarn chromatic
+        run: yarn chromatic --exit-once-uploaded
         env:
-          CI: true
+          CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
         working-directory: ./web
