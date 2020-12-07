@@ -33,12 +33,12 @@
     "build-storybook": "build-storybook -s ./public"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9",
+    "@babel/core": "7.12.9",
     "@babel/runtime-corejs2": "7.12.5",
-    "@storybook/addon-actions": "^6.1.10",
-    "@storybook/addon-links": "^6.1.10",
-    "@storybook/addons": "^6.1.6",
-    "@storybook/react": "^6.1.10",
+    "@storybook/addon-actions": "6.1.10",
+    "@storybook/addon-links": "6.1.10",
+    "@storybook/addons": "6.1.10",
+    "@storybook/react": "6.1.10",
     "@testing-library/jest-dom": "5.11.6",
     "@testing-library/react": "11.2.2",
     "@types/jest": "26.0.16",
@@ -46,10 +46,10 @@
     "@types/react-dom": "17.0.0",
     "babel-eslint": "10.1.0",
     "babel-jest": "26.6.3",
-    "babel-loader": "^8.2.2",
+    "babel-loader": "8.2.2",
     "babel-plugin-graphql-tag": "3.1.0",
-    "eslint": "7.14.0",
-    "eslint-config-prettier": "6.15.0",
+    "eslint": "7.15.0",
+    "eslint-config-prettier": "7.0.0",
     "eslint-plugin-import": "2.22.1",
     "eslint-plugin-jest": "24.1.3",
     "eslint-plugin-prettier": "3.2.0",
@@ -61,7 +61,7 @@
     "lint-staged": "10.5.3",
     "prettier": "2.2.1",
     "react-test-renderer": "17.0.1",
-    "storybook-addon-apollo-client": "3.0.0",
+    "storybook-addon-apollo-client": "4.0.0",
     "storybook-addon-next-router": "2.0.2"
   }
 }

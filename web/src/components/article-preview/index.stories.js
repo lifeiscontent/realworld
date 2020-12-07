@@ -21,11 +21,9 @@ export const renders = () => (
   />
 );
 
-renders.story = {
-  parameters: {
-    router: {
-      pathname: '/',
-    },
+renders.parameters = {
+  nextRouter: {
+    pathname: '/',
   },
 };
 
@@ -42,11 +40,9 @@ export const hasTags = () => (
   />
 );
 
-hasTags.story = {
-  parameters: {
-    router: {
-      pathname: '/',
-    },
+hasTags.parameters = {
+  nextRouter: {
+    pathname: '/',
   },
 };
 
@@ -67,11 +63,9 @@ export const canFavorite = () => (
   />
 );
 
-canFavorite.story = {
-  parameters: {
-    router: {
-      pathname: '/',
-    },
+canFavorite.parameters = {
+  nextRouter: {
+    pathname: '/',
   },
 };
 
@@ -92,11 +86,9 @@ export const canUnfavorite = () => (
   />
 );
 
-canUnfavorite.story = {
-  parameters: {
-    router: {
-      pathname: '/',
-    },
+canUnfavorite.parameters = {
+  nextRouter: {
+    pathname: '/',
   },
 };
 
@@ -118,10 +110,8 @@ export const withProfileImage = () => (
   />
 );
 
-withProfileImage.story = {
-  parameters: {
-    router: {
-      pathname: '/',
-    },
+withProfileImage.parameters = {
+  nextRouter: {
+    pathname: '/',
   },
 };

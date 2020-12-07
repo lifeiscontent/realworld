@@ -10,11 +10,9 @@ export default {
 
 export const renders = () => <Sidebar />;
 
-renders.story = {
-  parameters: {
-    router: {
-      pathname: '/',
-    },
+renders.parameters = {
+  nextRouter: {
+    pathname: '/',
   },
 };
 
@@ -27,11 +25,9 @@ export const withTags = () => (
   />
 );
 
-withTags.story = {
-  parameters: {
-    router: {
-      pathname: '/',
-    },
+withTags.parameters = {
+  nextRouter: {
+    pathname: '/',
   },
 };
 
@@ -44,12 +40,10 @@ export const withActiveTag = () => (
   />
 );
 
-withActiveTag.story = {
-  parameters: {
-    router: {
-      pathname: '/',
-      asPath: '/',
-      query: { tagName: 'react' },
-    },
+withActiveTag.parameters = {
+  nextRouter: {
+    pathname: '/',
+    asPath: '/',
+    query: { tagName: 'react' },
   },
 };
