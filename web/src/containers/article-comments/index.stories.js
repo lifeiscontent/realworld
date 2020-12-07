@@ -177,7 +177,7 @@ canCreateComment.parameters = {
                   },
                   __typename: 'User',
                 },
-                body: 'Hello world',
+                body: 'Hello world!',
                 createdAt: new Date(1994, 2, 1).toISOString(),
                 id: 'new',
                 canDelete: { value: true, __typename: 'AuthorizationResult' },

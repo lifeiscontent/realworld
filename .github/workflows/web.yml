@@ -54,3 +54,8 @@ jobs:
         env:
           CI: true
         working-directory: ./web
+      - name: Publish Storybook and run visual tests
+        run: yarn chromatic
+        env:
+          CI: true
+        working-directory: ./web

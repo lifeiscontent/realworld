@@ -30,7 +30,8 @@
     "test": "jest",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
     "storybook": "start-storybook -s ./public -p 6006",
-    "build-storybook": "build-storybook -s ./public"
+    "build-storybook": "build-storybook -s ./public",
+    "chromatic": "chromatic --project-token CHROMATIC_PROJECT_TOKEN --exit-zero-on-changes"
   },
   "devDependencies": {
     "@babel/core": "7.12.9",
@@ -48,6 +49,7 @@
     "babel-jest": "26.6.3",
     "babel-loader": "8.2.2",
     "babel-plugin-graphql-tag": "3.1.0",
+    "chromatic": "5.4.0",
     "eslint": "7.15.0",
     "eslint-config-prettier": "7.0.0",
     "eslint-plugin-import": "2.22.1",
