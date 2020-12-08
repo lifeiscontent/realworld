@@ -11594,10 +11594,10 @@ store2@^2.7.1:
   resolved "https://registry.yarnpkg.com/store2/-/store2-2.12.0.tgz#e1f1b7e1a59b6083b2596a8d067f6ee88fd4d3cf"
   integrity sha512-7t+/wpKLanLzSnQPX8WAcuLCCeuSHoWdQuh9SB3xD0kNOM38DNf+0Oa+wmvxmYueRzkmh6IcdKFtvTa+ecgPDw==
 
-storybook-addon-apollo-client@4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/storybook-addon-apollo-client/-/storybook-addon-apollo-client-4.0.1.tgz#6821082ba2ba94b73ef2b5ce9be8b515fc9a3fa6"
-  integrity sha512-NkTpMVuxOpw+XwRyKBcfuzOFRN3pqg0sj3kR1mpQaYJsTKxEi4P7MLZ6o/JPyI6D6hEKRpkwUcPWCUXj7ntJmg==
+storybook-addon-apollo-client@4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/storybook-addon-apollo-client/-/storybook-addon-apollo-client-4.0.2.tgz#0b592bb89f581861314b8859378d5527f937a44f"
+  integrity sha512-k5z3MM8CiKRe8/H+yYR0MQph8jsdwrT9hhl6qGTjscjg8FKphYMoqLCvtzbJyFWeTH5IGysJ/iRjtNWCDujiAw==
   dependencies:
     "@storybook/addons" "6.x"
     "@storybook/api" "6.x"
@@ -13121,10 +13121,10 @@ yocto-queue@^0.1.0:
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
-yup@0.32.3:
-  version "0.32.3"
-  resolved "https://registry.yarnpkg.com/yup/-/yup-0.32.3.tgz#34d665bd24230596294faf3a1cdd96ad544c389a"
-  integrity sha512-Xpm5W0sPX+bUEqPO6MAHlBwWdY6B2PlZa0rwdljOcvOepQfrBx46bb6arq9YZr4esl+/9iRjNDo7XM1nzCzbJQ==
+yup@0.32.5:
+  version "0.32.5"
+  resolved "https://registry.yarnpkg.com/yup/-/yup-0.32.5.tgz#fddc1dc655bc016b416275e7ce9ab8d817a1636a"
+  integrity sha512-bLbkTrPrFEF4rg30lS8T3QqoVLSAJ1N/b6btn5HVM4y9Q2EVJr2VLk+3kcskqPB41OSPx0cGRLINklH7PNqSYg==
   dependencies:
     "@babel/runtime" "^7.10.5"
     "@types/lodash" "^4.14.165"
