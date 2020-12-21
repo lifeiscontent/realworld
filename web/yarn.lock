@@ -11657,10 +11657,10 @@ storybook-addon-apollo-client@4.0.3:
     "@apollo/client" "3.3.5"
     "@apollo/react-testing" "4.0.0"
 
-storybook-addon-next-router@2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/storybook-addon-next-router/-/storybook-addon-next-router-2.0.2.tgz#5c0bcca423e87d8959f59d417574f9a041a96138"
-  integrity sha512-Gr/hO4vriioP/5ywx1VlBlHjLjNEmf4CY6ikQZzWIysWII8wMw8/V6+4eylEkXF15zE4q/As3IqnyfneCdCDOw==
+storybook-addon-next-router@2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/storybook-addon-next-router/-/storybook-addon-next-router-2.0.3.tgz#24cb0233c03749a9b416f5b191bbcd17545a3d3b"
+  integrity sha512-1/q3ZYpN2Hae8ePL553J4rzVEh2rF+mVPvui2+Q7LEVvCTFgcB3Iow9xCA0P9nxNjg+oPs8Xkpb0ahXkwUAIcQ==
 
 stream-browserify@3.0.0:
   version "3.0.0"
