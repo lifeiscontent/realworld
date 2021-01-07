@@ -14,7 +14,7 @@ gem 'database_cleaner-active_record', '~> 1.8.0', group: :test
 gem 'devise', '~> 4.7.3'
 gem 'factory_bot_rails', '~> 6.1.0', group: :test
 gem 'faker', '~> 2.15.1'
-gem 'friendly_id', '~> 5.4.1'
+gem 'friendly_id', '~> 5.4.2'
 gem 'graphql', '~> 1.11.6'
 gem 'jwt', '~> 2.2.2'
 gem 'listen', '>= 3.0.5', '< 3.5', group: :development
