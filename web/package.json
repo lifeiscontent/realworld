@@ -40,7 +40,7 @@
     "@storybook/addon-links": "6.1.14",
     "@storybook/addons": "6.1.14",
     "@storybook/react": "6.1.14",
-    "@testing-library/jest-dom": "5.11.8",
+    "@testing-library/jest-dom": "5.11.9",
     "@testing-library/react": "11.2.3",
     "@types/jest": "26.0.20",
     "@types/react": "17.0.0",
