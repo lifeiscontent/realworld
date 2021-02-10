@@ -49,7 +49,7 @@ jobs:
         run: yarn test
         working-directory: ./web
       - name: Publish Storybook and run visual tests
-        if: github.actor != 'dependabot[bot]' || github.actor != 'dependabot-preview[bot]'
+        if: github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]'
         run: yarn chromatic --exit-once-uploaded
         env:
           CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
