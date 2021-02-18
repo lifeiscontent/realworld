@@ -15,7 +15,7 @@ gem 'devise', '~> 4.7.3'
 gem 'factory_bot_rails', '~> 6.1.0', group: :test
 gem 'faker', '~> 2.16.0'
 gem 'friendly_id', '~> 5.4.2'
-gem 'graphql', '~> 1.12.3'
+gem 'graphql', '~> 1.12.4'
 gem 'jwt', '~> 2.2.2'
 gem 'listen', '>= 3.0.5', '< 3.5', group: :development
 gem 'pg', '~> 1.2.3'
