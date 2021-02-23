@@ -34,7 +34,7 @@
     "chromatic": "chromatic --exit-zero-on-changes"
   },
   "devDependencies": {
-    "@babel/core": "7.12.17",
+    "@babel/core": "7.13.1",
     "@babel/runtime-corejs2": "7.13.4",
     "@storybook/addon-actions": "6.1.19",
     "@storybook/addon-links": "6.1.19",
