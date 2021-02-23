@@ -16,12 +16,12 @@ class Article < ApplicationRecord
   def self.feed_for(user)
     return none unless user.present?
 
-    where(author: user.following)
+    joins(:author).merge(user.following)
   end
 
   def self.tagged_with(tags)
     return none unless tags.present?
 
-    joins(:taggings).where(taggings: { tag: tags }).distinct
+    joins(:taggings).merge(Tagging.joins(:tag).merge(tags)).distinct
   end
 end
