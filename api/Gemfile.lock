@@ -3,7 +3,7 @@ GEM
   specs:
     action_policy (0.5.5)
       ruby-next-core (>= 0.11.0)
-    action_policy-graphql (0.5.2)
+    action_policy-graphql (0.5.3)
       action_policy (>= 0.5.0)
       graphql (>= 1.9.3)
       ruby-next-core (>= 0.10.0)
@@ -220,7 +220,7 @@ GEM
       parser (>= 2.7.1.5)
     ruby-graphviz (1.2.5)
       rexml
-    ruby-next-core (0.11.1)
+    ruby-next-core (0.12.0)
     ruby-progressbar (1.11.0)
     shoulda-matchers (4.4.1)
       activesupport (>= 4.2.0)
@@ -267,7 +267,7 @@ PLATFORMS
 
 DEPENDENCIES
   action_policy (~> 0.5.5)
-  action_policy-graphql (~> 0.5.2)
+  action_policy-graphql (~> 0.5.3)
   active_record_doctor (~> 1.7.0)
   bootsnap (>= 1.1.0)
   byebug (~> 11.1.3)
