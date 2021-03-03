@@ -224,7 +224,7 @@ GEM
     ruby-progressbar (1.11.0)
     shoulda-matchers (4.4.1)
       activesupport (>= 4.2.0)
-    solargraph (0.40.3)
+    solargraph (0.40.4)
       backport (~> 1.1)
       benchmark
       bundler (>= 1.17.2)
@@ -287,7 +287,7 @@ DEPENDENCIES
   rspec-rails (~> 4.0)
   rubocop (~> 1.11.0)
   shoulda-matchers (~> 4.4.1)
-  solargraph (~> 0.40.3)
+  solargraph (~> 0.40.4)
   spring (~> 2.1.1)
   spring-watcher-listen (~> 2.0.0)
   tzinfo-data (~> 1.2.0)
