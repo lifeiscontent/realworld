@@ -111,7 +111,7 @@ GEM
       concurrent-ruby (~> 1.0)
     jaro_winkler (1.5.4)
     jwt (2.2.2)
-    kramdown (2.3.0)
+    kramdown (2.3.1)
       rexml
     kramdown-parser-gfm (1.1.0)
       kramdown (~> 2.0)
