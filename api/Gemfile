@@ -7,7 +7,7 @@ ruby '~> 2.6.0'
 
 gem 'action_policy', '~> 0.5.7'
 gem 'action_policy-graphql', '~> 0.5.3'
-gem 'active_record_doctor', '~> 1.7.0', group: :development
+gem 'active_record_doctor', '~> 1.7.2', group: :development
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'byebug', '~> 11.1.3', platforms: %i[mri mingw x64_mingw], groups: %i[development test]
 gem 'database_cleaner-active_record', '~> 2.0.0', group: :test
