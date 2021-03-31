@@ -32,8 +32,8 @@ jobs:
       - name: Setup Database
         run: |
           cp config/database.yml.github-actions config/database.yml
-          bundle exec rake db:create
-          bundle exec rake db:schema:load
+          bin/rails db:create
+          bin/rails db:schema:load
         working-directory: ./api
         env:
           RAILS_ENV: test
@@ -41,7 +41,7 @@ jobs:
           POSTGRES_PASSWORD: postgres
 
       - name: Run RSpec
-        run: COVERAGE=true bundle exec rspec  --require rails_helper
+        run: COVERAGE=true bin/rails spec
         working-directory: ./api
         env:
           RAILS_ENV: test
