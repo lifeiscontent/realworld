@@ -4,6 +4,7 @@ module Types
   class MutationType < Types::BaseObject
     field :create_article, mutation: Mutations::CreateArticle
     field :create_comment, mutation: Mutations::CreateComment
+    field :create_question, mutation: Mutations::CreateQuestion
     field :delete_article, mutation: Mutations::DeleteArticle
     field :delete_comment, mutation: Mutations::DeleteComment
     field :favorite_article, mutation: Mutations::FavoriteArticle

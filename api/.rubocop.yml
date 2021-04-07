@@ -20,3 +20,5 @@ Style/HashTransformKeys:
   Enabled: true
 Style/HashTransformValues:
   Enabled: true
+Metrics/BlockLength:
+  Enabled: false
