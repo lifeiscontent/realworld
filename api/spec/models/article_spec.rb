@@ -77,7 +77,7 @@ RSpec.describe Article, type: :model do
     it 'will increment favorites_count by 1 when user favorites an article' do
       expect do
         favorite.save!
-      end .to change { article.favorites_count }.by(1)
+      end.to change { article.favorites_count }.by(1)
     end
 
     it 'will decrement favorites_count by 1 when user unfavorites an article' do
@@ -85,7 +85,7 @@ RSpec.describe Article, type: :model do
 
       expect do
         favorite.destroy!
-      end .to change { article.favorites_count }.by(-1)
+      end.to change { article.favorites_count }.by(-1)
     end
   end
 end
