@@ -18,5 +18,6 @@ RSpec.describe Question, type: :model do
     it { is_expected.to belong_to(:author).class_name('User').validate }
     it { is_expected.to have_many(:tags).validate }
     it { is_expected.to have_many(:taggings).validate.dependent(:destroy) }
+    it { is_expected.to have_many(:comments).validate.dependent(:destroy) }
   end
 end

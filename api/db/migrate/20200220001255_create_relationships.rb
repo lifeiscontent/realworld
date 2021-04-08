@@ -6,6 +6,7 @@ class CreateRelationships < ActiveRecord::Migration[5.2]
       t.belongs_to :followed, null: false, foreign_key: { to_table: :users }, index: false
       t.belongs_to :follower, null: false, foreign_key: { to_table: :users }, index: false
 
+
       t.timestamps
     end
     # you can only establish one relationship with someone

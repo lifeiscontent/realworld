@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Comment, type: :model do
   describe 'associations' do
-    it { is_expected.to belong_to(:article).validate }
+    it { is_expected.to belong_to(:question).validate }
     it { is_expected.to belong_to(:author).class_name('User').validate }
   end
 
@@ -13,12 +13,12 @@ RSpec.describe Comment, type: :model do
   end
 
   describe 'columns' do
-    it { is_expected.to have_db_column(:article_id).with_options(null: false) }
+    it { is_expected.to have_db_column(:question_id).with_options(null: false) }
     it { is_expected.to have_db_column(:author_id).with_options(null: false) }
     it { is_expected.to have_db_column(:body).with_options(null: false) }
     it { is_expected.to have_db_column(:created_at).with_options(null: false) }
     it { is_expected.to have_db_column(:updated_at).with_options(null: false) }
-    it { is_expected.to have_db_index(:article_id) }
+    it { is_expected.to have_db_index(:question_id) }
     it { is_expected.to have_db_index(:author_id) }
   end
 end
