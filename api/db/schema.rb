@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_07_211127) do
+ActiveRecord::Schema.define(version: 2021_04_07_234940) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,6 +55,24 @@ ActiveRecord::Schema.define(version: 2021_04_07_211127) do
     t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true
     t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
+  end
+
+  create_table "group_memberships", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "group_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["group_id", "user_id"], name: "index_group_memberships_on_group_id_and_user_id", unique: true
+    t.index ["group_id"], name: "index_group_memberships_on_group_id"
+    t.index ["user_id"], name: "index_group_memberships_on_user_id"
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "memberships_count", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_groups_on_name", unique: true
   end
 
   create_table "profiles", force: :cascade do |t|
@@ -120,6 +138,8 @@ ActiveRecord::Schema.define(version: 2021_04_07_211127) do
   add_foreign_key "comments", "users", column: "author_id"
   add_foreign_key "favorites", "articles"
   add_foreign_key "favorites", "users"
+  add_foreign_key "group_memberships", "groups"
+  add_foreign_key "group_memberships", "users"
   add_foreign_key "profiles", "users"
   add_foreign_key "questions", "users", column: "author_id"
   add_foreign_key "relationships", "users", column: "followed_id"
