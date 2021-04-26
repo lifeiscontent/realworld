@@ -84,7 +84,7 @@ GEM
     database_cleaner-active_record (2.0.0)
       activerecord (>= 5.a)
       database_cleaner-core (~> 2.0.0)
-    database_cleaner-core (2.0.0)
+    database_cleaner-core (2.0.1)
     devise (4.7.3)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -107,7 +107,7 @@ GEM
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     graphql (1.12.8)
-    i18n (1.8.9)
+    i18n (1.8.10)
       concurrent-ruby (~> 1.0)
     jaro_winkler (1.5.4)
     jwt (2.2.3)
@@ -118,19 +118,19 @@ GEM
     listen (3.5.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
-    loofah (2.9.0)
+    loofah (2.9.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
-    marcel (1.0.0)
+    marcel (1.0.1)
     method_source (1.0.0)
     mini_mime (1.0.3)
     mini_portile2 (2.5.0)
     minitest (5.14.4)
     msgpack (1.4.2)
     nio4r (2.5.7)
-    nokogiri (1.11.2)
+    nokogiri (1.11.3)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
     orm_adapter (0.5.0)
@@ -221,7 +221,7 @@ GEM
       rexml
     ruby-next-core (0.12.0)
     ruby-progressbar (1.11.0)
-    shoulda-matchers (4.4.1)
+    shoulda-matchers (4.5.1)
       activesupport (>= 4.2.0)
     solargraph (0.40.4)
       backport (~> 1.1)
@@ -285,14 +285,14 @@ DEPENDENCIES
   rails-erd (~> 1.6)
   rspec-rails (~> 5.0)
   rubocop (~> 1.13.0)
-  shoulda-matchers (~> 4.4.1)
+  shoulda-matchers (~> 4.5.1)
   solargraph (~> 0.40.4)
   spring (~> 2.1.1)
   spring-watcher-listen (~> 2.0.0)
   tzinfo-data (~> 1.2.0)
 
 RUBY VERSION
-   ruby 2.6.6p146
+   ruby 2.6.0p0
 
 BUNDLED WITH
    2.1.4

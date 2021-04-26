@@ -9,7 +9,7 @@ RSpec.describe Article, type: :model do
     it { is_expected.to have_db_column(:description).with_options(null: false) }
     it { is_expected.to have_db_column(:body).with_options(null: false) }
     it { is_expected.to have_db_column(:favorites_count).with_options(default: 0, null: false) }
-    it { is_expected.to have_db_column(:author_id).with_options(null: false, foreign_key: { to_table: :users }) }
+    it { is_expected.to have_db_column(:author_id).with_options(null: false) }
     it { is_expected.to have_db_column(:created_at).with_options(null: false) }
     it { is_expected.to have_db_column(:updated_at).with_options(null: false) }
     it { is_expected.to have_db_index(:author_id) }
