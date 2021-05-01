@@ -1,53 +1,18 @@
 version: 2
 updates:
-- package-ecosystem: bundler
-  directory: "/api"
-  schedule:
-    interval: daily
-    time: "13:00"
-  open-pull-requests-limit: 10
-  reviewers:
-  - lifeiscontent
-  ignore:
-  - dependency-name: shoulda-matchers
-    versions:
-    - 4.5.1
-  - dependency-name: graphql
-    versions:
-    - 1.12.4
-- package-ecosystem: npm
-  directory: "/web"
-  schedule:
-    interval: daily
-    time: "13:00"
-  open-pull-requests-limit: 10
-  reviewers:
-  - lifeiscontent
-  ignore:
-  - dependency-name: react-markdown
-    versions:
-    - 6.0.0
-  - dependency-name: chromatic
-    versions:
-    - 5.7.1
-  - dependency-name: "@babel/core"
-    versions:
-    - 7.13.13
-  - dependency-name: next
-    versions:
-    - 10.0.8
-  - dependency-name: "@apollo/client"
-    versions:
-    - 3.3.8
-  - dependency-name: "@storybook/addons"
-    versions:
-    - 6.1.15
-  - dependency-name: "@storybook/addon-links"
-    versions:
-    - 6.1.15
-  - dependency-name: "@storybook/react"
-    versions:
-    - 6.1.15
-  - dependency-name: "@storybook/addon-actions"
-    versions:
-    - 6.1.15
+  - package-ecosystem: bundler
+    directory: "/api"
+    schedule:
+      interval: daily
+      time: "13:00"
+    open-pull-requests-limit: 10
+    reviewers:
+      - lifeiscontent
+  - package-ecosystem: npm
+    directory: "/web"
+    schedule:
+      interval: daily
+      time: "13:00"
+    open-pull-requests-limit: 10
+    reviewers:
+      - lifeiscontent
