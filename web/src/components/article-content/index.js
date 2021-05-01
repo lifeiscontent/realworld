@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactMarkdown from 'react-markdown';
+import Markdown from 'react-markdown';
 import { gql } from '@apollo/client';
 
 export function ArticleContent({ description, body }) {
@@ -8,7 +8,7 @@ export function ArticleContent({ description, body }) {
     <div className="row article-content">
       <div className="col-md-12">
         <p>{description}</p>
-        <ReactMarkdown source={body} />
+        <Markdown>{body}</Markdown>
       </div>
     </div>
   );

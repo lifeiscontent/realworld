@@ -24,7 +24,7 @@ export function CommentCard({
     <div className="card">
       <div className="card-block">
         <div className="card-text">
-          <Markdown source={body} />
+          <Markdown>{body}</Markdown>
         </div>
       </div>
       <div className="card-footer">
