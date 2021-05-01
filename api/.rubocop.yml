@@ -1,4 +1,5 @@
 AllCops:
+  NewCops: enable
   Exclude:
     - bin/*
     - db/schema.rb
@@ -10,13 +11,3 @@ Metrics/BlockLength:
     - spec/**/*.rb
 Style/Documentation:
   Enabled: false
-Lint/RaiseException:
-  Enabled: true
-Lint/StructNewOverride:
-  Enabled: true
-Style/HashEachMethods:
-  Enabled: true
-Style/HashTransformKeys:
-  Enabled: true
-Style/HashTransformValues:
-  Enabled: true

@@ -55,7 +55,7 @@ class GraphqlController < ApplicationController
   end
 
   def current_user
-    _bearer, token = request.headers[:authorization].split(' ')
+    _bearer, token = request.headers[:authorization].split
     User.from_jwt(token)
   rescue StandardError
     nil

@@ -2,7 +2,7 @@
 
 class ArticleFeedPolicy < ApplicationPolicy
   relation_scope do |relation|
-    if user.class.name == 'User'
+    if user.instance_of?(User)
       relation.where(author: user.following.pluck(:id))
     else
       relation.none

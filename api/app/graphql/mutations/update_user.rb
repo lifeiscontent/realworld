@@ -14,6 +14,7 @@ module Mutations
         val.present? ? val : nil
       end
     end
+
     class UpdateUserInput < Types::BaseInputObject
       argument :email, String, required: false
       argument :password, String, required: false, prepare: :nil_if_empty
