@@ -4,11 +4,15 @@ import Link from 'next/link';
 import { UserAvatar } from '../user-avatar';
 import { gql } from '@apollo/client';
 
-export function UserAvatarLink({ profile, username }) {
+export function UserAvatarLink({ profile, username, size }) {
   return (
     <Link href="/user/[username]" as={`/user/${username}`}>
-      <a>
-        <UserAvatar profile={profile} username={username} />
+      <a
+        style={{
+          verticalAlign: 'middle',
+        }}
+      >
+        <UserAvatar size={size} profile={profile} username={username} />
       </a>
     </Link>
   );
@@ -27,4 +31,5 @@ UserAvatarLink.fragments = {
 UserAvatarLink.propTypes = {
   profile: PropTypes.object,
   username: PropTypes.string.isRequired,
+  size: PropTypes.string,
 };

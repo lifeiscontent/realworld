@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Formik, Form, ErrorMessage, Field } from 'formik';
 import { FormikStatusErrors } from '../formik-status-errors';
 import { FormikSubmitButton } from '../formik-submit-button';
+import Link from 'next/link';
 import * as Yup from 'yup';
 
 const validationSchema = Yup.object({
@@ -19,7 +20,9 @@ export function LoginForm({ onSubmit }) {
         <div className="col-md-6 offset-md-3 col-xs-12">
           <h1 className="text-xs-center">Sign in</h1>
           <p className="text-xs-center">
-            <a href="/register">Need an account?</a>
+            <Link href="/register">
+              <a>Need an account?</a>
+            </Link>
           </p>
           <Formik
             validationSchema={validationSchema}

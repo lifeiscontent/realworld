@@ -1,10 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { gql } from '@apollo/client';
+import Image from 'next/image';
 
-export function UserAvatar({ profile, username }) {
+export function UserAvatar({ profile, username, size }) {
   return (
-    <img
+    <Image
+      width={size}
+      height={size}
       src={profile.imageUrl ?? '/images/smiley-cyrus.jpg'}
       alt={`Image of ${username}`}
     />
@@ -29,4 +32,5 @@ UserAvatar.defaultProps = {
 UserAvatar.propTypes = {
   profile: PropTypes.shape({ imageUrl: PropTypes.string }),
   username: PropTypes.string.isRequired,
+  size: PropTypes.string,
 };
