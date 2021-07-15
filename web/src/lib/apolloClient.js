@@ -92,9 +92,10 @@ export function initializeApollo(ctx, initialState = null) {
 }
 
 export function useApollo(initialState) {
-  const store = useMemo(() => initializeApollo(undefined, initialState), [
-    initialState,
-  ]);
+  const store = useMemo(
+    () => initializeApollo(undefined, initialState),
+    [initialState]
+  );
 
   return store;
 }

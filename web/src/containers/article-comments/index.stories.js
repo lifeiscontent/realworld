@@ -126,8 +126,7 @@ canCreateComment.parameters = {
                   __typename: 'Comment',
                 },
               ],
-              body:
-                'Sit delectus in. Nesciunt saepe inventore. Quo quibusdam facere. Rem aliquam est. Est eveniet rerum. Porro enim consequatur. Sit culpa fuga. Accusamus dolores eaque. Id reiciendis totam. Quibusdam quod exercitationem.',
+              body: 'Sit delectus in. Nesciunt saepe inventore. Quo quibusdam facere. Rem aliquam est. Est eveniet rerum. Porro enim consequatur. Sit culpa fuga. Accusamus dolores eaque. Id reiciendis totam. Quibusdam quod exercitationem.',
               description: 'Eos facere consequuntur id.',
               favoritesCount: 0,
               slug: 'sunt-vitae-voluptatum-quas',

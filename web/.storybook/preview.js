@@ -1,9 +1,10 @@
-import { withNextRouter } from 'storybook-addon-next-router';
+import { RouterContext } from 'next/dist/next-server/lib/router-context';
 import { MockedProvider } from '@apollo/client/testing';
 
-export const decorators = [withNextRouter()];
-
 export const parameters = {
+  nextRouter: {
+    Provider: RouterContext.Provider,
+  },
   apolloClient: {
     MockedProvider,
   },

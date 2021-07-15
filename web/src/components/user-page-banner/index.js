@@ -21,7 +21,7 @@ export function UserPageBanner({
       <div className="container">
         <div className="row">
           <div className="col-xs-12 col-md-10 offset-md-1">
-            <UserAvatar username={username} profile={profile} />
+            <UserAvatar size="128" username={username} profile={profile} />
             <h4>{username}</h4>
             <p>{profile.bio}</p>
             <div className="btn-toolbar">

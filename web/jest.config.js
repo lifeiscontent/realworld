@@ -4,6 +4,7 @@ module.exports = {
     '!**/*.d.ts',
     '!**/node_modules/**',
   ],
+  testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/setup-tests.js'],
   testPathIgnorePatterns: ['/node_modules/', '/.next/'],
   transform: {

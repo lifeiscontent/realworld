@@ -1,11 +1,9 @@
 import React from 'react';
 import { Sidebar } from '.';
-import { withNextRouter } from 'storybook-addon-next-router';
 
 export default {
   title: 'Main/Sidebar',
   component: Sidebar,
-  decorators: [withNextRouter],
 };
 
 export const renders = () => <Sidebar />;

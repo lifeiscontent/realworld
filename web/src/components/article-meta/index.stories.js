@@ -1,12 +1,10 @@
 import React from 'react';
 import { ArticleMeta } from '.';
-import { withNextRouter } from 'storybook-addon-next-router';
 import { action } from '@storybook/addon-actions';
 
 export default {
   title: 'Content/ArticleMeta',
   component: ArticleMeta,
-  decorators: [withNextRouter],
 };
 
 export const renders = () => (

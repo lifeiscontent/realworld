@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { format } from '../../utils/date';
 import Markdown from 'react-markdown';
 import { gql } from '@apollo/client';
+import Image from 'next/image';
 
 export function CommentCard({
   author,
@@ -29,14 +30,17 @@ export function CommentCard({
       </div>
       <div className="card-footer">
         <Link href="/user/[username]" as={`/user/${author.username}`}>
-          <a className="comment-author">
-            <img
+          <a className="comment-author" style={{ verticalAlign: 'middle' }}>
+            <Image
+              width="20"
+              height="20"
               src={profile.imageUrl ?? '/images/smiley-cyrus.jpg'}
               className="comment-author-img"
               alt={`Image of ${author.username}`}
             />
           </a>
-        </Link>{' '}
+        </Link>
+        &nbsp;&nbsp;&nbsp;
         <Link href="/user/[username]" as={`/user/${author.username}`}>
           <a className="comment-author">{author.username}</a>
         </Link>

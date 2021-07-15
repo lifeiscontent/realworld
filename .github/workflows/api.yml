@@ -16,19 +16,13 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
       - uses: actions/checkout@v2
-
-      - uses: actions/setup-ruby@v1
-        with:
-          ruby-version: 2.7.3
-
       - name: Install dependent libraries
         run: sudo apt-get install libpq-dev
-
-      - name: Bundle install
-        run: |
-          gem install bundler
-          bundle install --jobs 4 --retry 3
-        working-directory: ./api
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7.3
+          working-directory: ./api
+          bundler-cache: true
       - name: Setup Database
         run: |
           cp config/database.yml.github-actions config/database.yml

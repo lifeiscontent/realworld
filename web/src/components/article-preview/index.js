@@ -24,7 +24,7 @@ export function ArticlePreview({
   return (
     <div className="article-preview">
       <div className="article-meta">
-        <UserAvatarLink {...author} />
+        <UserAvatarLink size="32" {...author} />
         <ArticleInfo createdAt={createdAt} author={author} />
         <div className="pull-xs-right">
           <ArticlePreviewFavoriteButton

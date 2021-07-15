@@ -1,12 +1,10 @@
 import React from 'react';
 import { CommentCard } from '.';
-import { withNextRouter } from 'storybook-addon-next-router';
 import { action } from '@storybook/addon-actions';
 
 export default {
   title: 'Cards/CommentCard',
   component: CommentCard,
-  decorators: [withNextRouter],
 };
 
 export const renders = () => (

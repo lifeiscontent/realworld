@@ -54,7 +54,7 @@ export function ArticleMeta({
 
   return (
     <div className="article-meta">
-      <UserAvatarLink {...author} />
+      <UserAvatarLink size="32" {...author} />
       <ArticleInfo author={author} createdAt={createdAt} />
       {followUserButton} {favoriteArticleButton} {articleUpdateButton}{' '}
       {articleDeleteButton}

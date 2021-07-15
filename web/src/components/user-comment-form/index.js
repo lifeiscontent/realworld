@@ -6,6 +6,7 @@ import { FormikStatusErrors } from '../formik-status-errors';
 import * as Yup from 'yup';
 import Link from 'next/link';
 import { gql } from '@apollo/client';
+import Image from 'next/image';
 
 const validationSchema = Yup.object({
   body: Yup.string().label('Body').required(),
@@ -42,7 +43,9 @@ export function UserCommentForm({
             />
           </div>
           <div className="card-footer">
-            <img
+            <Image
+              width="32"
+              height="32"
               src={profile.imageUrl ?? '/images/smiley-cyrus.jpg'}
               className="comment-author-img"
               alt={`Image of ${username}`}

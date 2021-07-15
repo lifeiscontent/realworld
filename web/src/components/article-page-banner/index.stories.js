@@ -1,12 +1,10 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import { ArticlePageBanner } from '.';
-import { withNextRouter } from 'storybook-addon-next-router';
 
 export default {
   title: 'Banners/ArticlePageBanner',
   component: ArticlePageBanner,
-  decorators: [withNextRouter],
 };
 
 export const renders = () => (
