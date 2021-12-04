@@ -180,7 +180,7 @@ GEM
     rb-fsevent (0.11.0)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
-    regexp_parser (2.1.1)
+    regexp_parser (2.2.0)
     responders (3.0.1)
       actionpack (>= 5.0)
       railties (>= 5.0)
@@ -266,34 +266,34 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  action_policy (~> 0.6.0)
-  action_policy-graphql (~> 0.5.3)
-  active_record_doctor (~> 1.9.0)
-  bootsnap (>= 1.1.0)
-  byebug (~> 11.1.3)
-  database_cleaner-active_record (~> 2.0.0)
-  devise (~> 4.8.0)
-  factory_bot_rails (~> 6.2.0)
-  faker (~> 2.19.0)
-  friendly_id (~> 5.4.2)
-  graphql (~> 1.13.0)
-  jwt (~> 2.3.0)
-  listen (>= 3.0.5, < 3.8)
-  pg (~> 1.2.3)
-  puma (~> 5.5.2)
-  rack-cors (~> 1.1.0)
-  rails (~> 6.1.4)
-  rails-erd (~> 1.6)
-  rspec-rails (~> 5.0)
-  rubocop (~> 1.23.0)
-  shoulda-matchers (~> 5.0.0)
-  solargraph (~> 0.44.2)
-  spring (~> 2.1.1)
-  spring-watcher-listen (~> 2.0.0)
-  tzinfo-data (~> 1.2.0)
+  action_policy
+  action_policy-graphql
+  active_record_doctor
+  bootsnap
+  byebug
+  database_cleaner-active_record
+  devise
+  factory_bot_rails
+  faker
+  friendly_id
+  graphql
+  jwt
+  listen
+  pg
+  puma
+  rack-cors
+  rails
+  rails-erd
+  rspec-rails
+  rubocop
+  shoulda-matchers
+  solargraph
+  spring
+  spring-watcher-listen
+  tzinfo-data
 
 RUBY VERSION
-   ruby 2.7.4p191
+   ruby 3.0.3p157
 
 BUNDLED WITH
-   2.1.4
+   2.2.32

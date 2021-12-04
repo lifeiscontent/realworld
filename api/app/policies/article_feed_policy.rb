@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 class ArticleFeedPolicy < ApplicationPolicy
-  relation_scope do |relation|
+  scope_for :active_record_relation do |scope|
     if user.instance_of?(User)
-      relation.where(author: user.following.pluck(:id))
+      scope.where(author: user.following.pluck(:id))
     else
-      relation.none
+      scope.none
     end
   end
 end
