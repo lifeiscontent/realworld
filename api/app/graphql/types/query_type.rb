@@ -71,7 +71,5 @@ module Types
     def viewer
       context[:current_user]
     end
-
-    expose_authorization_rules :create?, with: ArticlePolicy, field_name: 'can_create_article'
   end
 end

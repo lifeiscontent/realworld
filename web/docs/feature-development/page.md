@@ -50,10 +50,6 @@ describe('EditorPage', () => {
           },
           result: {
             data: {
-              canCreateArticle: {
-                value: false,
-                __typename: 'AuthorizationResult',
-              },
               viewer: null,
             },
           },
@@ -89,11 +85,11 @@ describe('EditorPage', () => {
           },
           result: {
             data: {
-              canCreateArticle: {
-                value: true,
-                __typename: 'AuthorizationResult',
-              },
               viewer: {
+                canCreateArticle: {
+                  value: true,
+                  __typename: 'AuthorizationResult',
+                },
                 username: 'jamie',
                 __typename: 'User',
               },

@@ -35,5 +35,6 @@ module Types
     end
 
     expose_authorization_rules :unfollow?, :follow?, :update?, prefix: 'can_'
+    expose_authorization_rules :create?, with: ArticlePolicy, field_name: 'can_create_article'
   end
 end

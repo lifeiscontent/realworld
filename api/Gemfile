@@ -1,33 +1,28 @@
-# frozen_string_literal: true
-
-gem 'action_policy', '~> 0.6.0'
-gem 'action_policy-graphql', '~> 0.5.3'
-gem 'active_record_doctor', '~> 1.9.0', group: :development
-gem 'bootsnap', '>= 1.1.0', require: false
-gem 'byebug', '~> 11.1.3', platforms: %i[mri mingw x64_mingw], groups: %i[development test]
-gem 'database_cleaner-active_record', '~> 2.0.0', group: :test
-gem 'devise', '~> 4.8.0'
-gem 'factory_bot_rails', '~> 6.2.0', group: :test
-gem 'faker', '~> 2.19.0'
-gem 'friendly_id', '~> 5.4.2'
-gem 'graphql', '~> 1.13.0'
-gem 'jwt', '~> 2.3.0'
-gem 'listen', '>= 3.0.5', '< 3.8', group: :development
-gem 'pg', '~> 1.2.3'
-gem 'puma', '~> 5.5.2'
-gem 'rack-cors', '~> 1.1.0'
-gem 'rails', '~> 6.1.4'
-gem 'rails-erd', '~> 1.6', group: :development
-gem 'rspec-rails', '~> 5.0', group: :development
-gem 'rubocop', '~> 1.23.0', group: :development, require: false
-gem 'shoulda-matchers', '~> 5.0.0', group: :test
-gem 'solargraph', '~> 0.44.2', group: :development
-gem 'spring', '~> 2.1.1', group: :development
-gem 'spring-watcher-listen', '~> 2.0.0', group: :development
-gem 'tzinfo-data', '~> 1.2.0', platforms: %i[mingw mswin x64_mingw jruby]
-
+gem 'action_policy'
+gem 'action_policy-graphql'
+gem 'active_record_doctor', group: :development
+gem 'bootsnap', require: false
+gem 'byebug', platforms: %i[mri mingw x64_mingw], group: %i[development test]
+gem 'database_cleaner-active_record', group: :test
+gem 'devise'
+gem 'factory_bot_rails', group: :test
+gem 'faker'
+gem 'friendly_id'
+gem 'graphql'
+gem 'jwt'
+gem 'listen', group: :development
+gem 'pg'
+gem 'puma'
+gem 'rack-cors'
+gem 'rails'
+gem 'rails-erd', group: :development
+gem 'rspec-rails', group: :development
+gem 'rubocop', group: :development, require: false
+gem 'shoulda-matchers', group: :test
+gem 'solargraph', group: :development
+gem 'spring', group: :development
+gem 'spring-watcher-listen', group: :development
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
-
-ruby '~> 2.7.4'
-
+ruby '3.0.3'
 source 'https://rubygems.org'

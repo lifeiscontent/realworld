@@ -45,11 +45,12 @@ export function UserCommentForm({
           <div className="card-footer">
             <span style={{ display: 'inline-flex', verticalAlign: 'middle' }}>
               <Image
-                width="32"
+                alt={`Image of ${username}`}
+                className="comment-author-img"
                 height="32"
                 src={profile.imageUrl ?? '/images/smiley-cyrus.jpg'}
-                className="comment-author-img"
-                alt={`Image of ${username}`}
+                unoptimized={!!profile.imageUrl}
+                width="32"
               />
             </span>
             &nbsp;&nbsp;

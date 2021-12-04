@@ -22,10 +22,6 @@ Renders.parameters = {
         },
         result: {
           data: {
-            canCreateArticle: {
-              value: false,
-              __typename: 'AuthorizationResult',
-            },
             viewer: null,
           },
         },
@@ -50,11 +46,11 @@ AsUser.parameters = {
         },
         result: {
           data: {
-            canCreateArticle: {
-              value: true,
-              __typename: 'AuthorizationResult',
-            },
             viewer: {
+              canCreateArticle: {
+                value: true,
+                __typename: 'AuthorizationResult',
+              },
               username: 'jamie',
               __typename: 'User',
             },

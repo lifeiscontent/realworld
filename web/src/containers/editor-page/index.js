@@ -10,7 +10,7 @@ function EditorPage() {
   const page = useQuery(EditorPageQuery, {
     onCompleted: useCallback(
       data => {
-        if (data.canCreateArticle.value) return;
+        if (data.viewer?.canCreateArticle.value) return;
 
         router.replace(router.asPath, '/', { shallow: true });
       },
@@ -57,10 +57,10 @@ const EditorPageCreateArticleMutation = gql`
 
 const EditorPageQuery = gql`
   query EditorPageQuery {
-    canCreateArticle {
-      value
-    }
     viewer {
+      canCreateArticle {
+        value
+      }
       ...LayoutViewerFragment
     }
   }
