@@ -30,14 +30,18 @@ export function CommentCard({
       </div>
       <div className="card-footer">
         <Link href="/user/[username]" as={`/user/${author.username}`}>
-          <a className="comment-author" style={{ verticalAlign: 'middle' }}>
-            <Image
-              width="20"
-              height="20"
-              src={profile.imageUrl ?? '/images/smiley-cyrus.jpg'}
-              className="comment-author-img"
-              alt={`Image of ${author.username}`}
-            />
+          <a className="comment-author">
+            <span style={{ display: 'inline-flex', verticalAlign: 'middle' }}>
+              <Image
+                alt={`Image of ${author.username}`}
+                className="comment-author-img"
+                height="20"
+                src={profile.imageUrl ?? '/images/smiley-cyrus.jpg'}
+                unoptimized={!!profile.imageUrl}
+                width="20"
+              />
+            </span>
+            <span className="comment-author-name">{author.username}</span>
           </a>
         </Link>
         &nbsp;&nbsp;&nbsp;

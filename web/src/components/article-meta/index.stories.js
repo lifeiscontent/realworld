@@ -2,94 +2,65 @@ import React from 'react';
 import { ArticleMeta } from '.';
 import { action } from '@storybook/addon-actions';
 
-export default {
+const meta = {
   title: 'Content/ArticleMeta',
   component: ArticleMeta,
 };
 
-export const renders = () => (
-  <ArticleMeta
-    author={{ username: 'lifeiscontent' }}
-    createdAt={new Date(2000, 2, 1).toISOString()}
-    onDelete={action('onDelete')}
-    onFavorite={action('onFavorite')}
-    onFollow={action('onFollow')}
-    onUnfavorite={action('onUnfavorite')}
-    onUnfollow={action('onUnfollow')}
-    slug="a-simple-title"
-  />
-);
+export default meta;
 
-export const canDelete = () => (
-  <ArticleMeta
-    author={{ username: 'lifeiscontent' }}
-    createdAt={new Date(2000, 2, 1).toISOString()}
-    canDelete={{ value: true }}
-    onDelete={action('onDelete')}
-    onFavorite={action('onFavorite')}
-    onFollow={action('onFollow')}
-    onUnfavorite={action('onUnfavorite')}
-    onUnfollow={action('onUnfollow')}
-    slug="a-simple-title"
-  />
-);
+const Template = args => <ArticleMeta {...args} />;
 
-export const canFavorite = () => (
-  <ArticleMeta
-    author={{ username: 'lifeiscontent' }}
-    createdAt={new Date(2000, 2, 1).toISOString()}
-    canFavorite={{ value: true }}
-    onDelete={action('onDelete')}
-    onFavorite={action('onFavorite')}
-    onFollow={action('onFollow')}
-    onUnfavorite={action('onUnfavorite')}
-    onUnfollow={action('onUnfollow')}
-    slug="a-simple-title"
-  />
-);
+export const Renders = Template.bind({});
 
-export const canFollow = () => (
-  <ArticleMeta
-    author={{ username: 'lifeiscontent', canFollow: { value: true } }}
-    createdAt={new Date(2000, 2, 1).toISOString()}
-    onDelete={action('onDelete')}
-    onFavorite={action('onFavorite')}
-    onFollow={action('onFollow')}
-    onUnfavorite={action('onUnfavorite')}
-    onUnfollow={action('onUnfollow')}
-    slug="a-simple-title"
-  />
-);
+Renders.args = {
+  author: { username: 'lifeiscontent' },
+  createdAt: new Date(2000, 2, 1).toISOString(),
+  onDelete: action('onDelete'),
+  onFavorite: action('onFavorite'),
+  onFollow: action('onFollow'),
+  onUnfavorite: action('onUnfavorite'),
+  onUnfollow: action('onUnfollow'),
+  slug: 'a-simple-title',
+};
 
-export const canUnfavorite = () => (
-  <ArticleMeta
-    author={{ username: 'lifeiscontent' }}
-    canUnfavorite={{ value: true }}
-    createdAt={new Date(2000, 2, 1).toISOString()}
-    favoritesCount={1}
-    onDelete={action('onDelete')}
-    onFavorite={action('onFavorite')}
-    onFollow={action('onFollow')}
-    onUnfavorite={action('onUnfavorite')}
-    onUnfollow={action('onUnfollow')}
-    slug="a-simple-title"
-  />
-);
+export const CanDelete = Template.bind({});
 
-export const canUnfollow = () => (
-  <ArticleMeta
-    author={{
-      canUnfollow: { value: true },
-      followersCount: 1,
-      username: 'lifeiscontent',
-      viewerIsFollowing: true,
-    }}
-    createdAt={new Date(2000, 2, 1).toISOString()}
-    onDelete={action('onDelete')}
-    onFavorite={action('onFavorite')}
-    onFollow={action('onFollow')}
-    onUnfavorite={action('onUnfavorite')}
-    onUnfollow={action('onUnfollow')}
-    slug="a-simple-title"
-  />
-);
+CanDelete.args = {
+  ...Renders.args,
+  canDelete: { value: true },
+};
+
+export const CanFavorite = Template.bind({});
+
+CanFavorite.args = {
+  ...Renders.args,
+  canFavorite: { value: true },
+};
+
+export const CanFollow = Template.bind({});
+
+CanFollow.args = {
+  ...Renders.args,
+  canFollow: { value: true },
+};
+
+export const CanUnfavorite = Template.bind({});
+
+CanUnfavorite.args = {
+  ...Renders.args,
+  canUnfavorite: { value: true },
+  favoritesCount: 1,
+};
+
+export const CanUnfollow = Template.bind({});
+
+CanUnfollow.args = {
+  ...Renders.args,
+  author: {
+    canUnfollow: { value: true },
+    followersCount: 1,
+    username: 'lifeiscontent',
+    viewerIsFollowing: true,
+  },
+};

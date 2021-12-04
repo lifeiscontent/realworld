@@ -1,16 +1,22 @@
 import React from 'react';
 import { ArticleComments, ArticleCommentsCreateCommentMutation } from '.';
 
-export default {
+const meta = {
   title: 'Containers/ArticleComments',
   component: ArticleComments,
 };
 
-export const canCreateComment = () => (
-  <ArticleComments articleSlug="sunt-vitae-voluptatum-quas" />
-);
+export default meta;
 
-canCreateComment.parameters = {
+const Template = args => <ArticleComments {...args} />;
+
+export const CanCreateComment = Template.bind({});
+
+CanCreateComment.args = {
+  articleSlug: 'sunt-vitae-voluptatum-quas',
+};
+
+CanCreateComment.parameters = {
   apolloClient: {
     mocks: [
       {

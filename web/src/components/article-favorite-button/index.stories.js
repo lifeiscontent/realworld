@@ -2,35 +2,39 @@ import React from 'react';
 import { ArticleFavoriteButton } from '.';
 import { action } from '@storybook/addon-actions';
 
-export default {
+const meta = {
   title: 'Buttons/ArticleFavoriteButton',
   component: ArticleFavoriteButton,
 };
 
-export const renders = () => (
-  <ArticleFavoriteButton
-    onFavorite={action('onFavorite')}
-    onUnfavorite={action('onUnfavorite')}
-    slug="a-simple-title"
-  />
-);
+export default meta;
 
-export const canFavorite = () => (
-  <ArticleFavoriteButton
-    onFavorite={action('onFavorite')}
-    onUnfavorite={action('onUnfavorite')}
-    slug="a-simple-title"
-    canFavorite={{ value: true }}
-  />
-);
+const Template = args => <ArticleFavoriteButton {...args} />;
 
-export const canUnfavorite = () => (
-  <ArticleFavoriteButton
-    canUnfavorite={{ value: true }}
-    favoritesCount={1}
-    onFavorite={action('onFavorite')}
-    onUnfavorite={action('onUnfavorite')}
-    slug="a-simple-title"
-    viewerDidFavorite={true}
-  />
-);
+export const Renders = Template.bind({});
+
+Renders.args = {
+  onFavorite: action('onFavorite'),
+  onUnfavorite: action('onUnfavorite'),
+  slug: 'a-simple-title',
+};
+
+export const CanFavorite = Template.bind({});
+
+CanFavorite.args = {
+  onFavorite: action('onFavorite'),
+  onUnfavorite: action('onUnfavorite'),
+  slug: 'a-simple-title',
+  canFavorite: { value: true },
+};
+
+export const CanUnfavorite = Template.bind({});
+
+CanUnfavorite.args = {
+  canUnfavorite: { value: false },
+  favoritesCount: 1,
+  onFavorite: action('onFavorite'),
+  onUnfavorite: action('onUnfavorite'),
+  slug: 'a-simple-title',
+  viewerDidFavorite: true,
+};

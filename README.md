@@ -8,7 +8,6 @@ This repo implements opinionated best practices for Apollo Client, React, Next.j
 
 1 caveat is it does not try to implement a best practice on UI Components as the styles are reused from the [realworld.io](https://github.com/gothinkster/realworld) project.
 
-
 ## Setup
 
 ### Api
@@ -25,8 +24,8 @@ bin/rails s
 
 ```sh
 cd web
-yarn
-yarn dev
+npm install
+npm run dev
 ```
 
 ## Testing
@@ -42,9 +41,8 @@ bin/rails spec
 
 ```sh
 cd web
-yarn test
+npm test
 ```
-
 
 ## Tooling
 
@@ -61,5 +59,5 @@ bin/rails erd
 #### Storybook
 
 ```sh
-yarn storybook
+npm run storybook
 ```

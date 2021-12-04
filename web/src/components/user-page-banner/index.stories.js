@@ -2,44 +2,42 @@ import React from 'react';
 import { UserPageBanner } from '.';
 import { action } from '@storybook/addon-actions';
 
-export default {
+const meta = {
   title: 'Banners/UserPageBanner',
   component: UserPageBanner,
 };
 
-export const renders = () => (
-  <UserPageBanner
-    onFollow={action('onFollow')}
-    onUnfollow={action('onUnfollow')}
-    username="lifeiscontent"
-  />
-);
+export default meta;
 
-export const canFollow = () => (
-  <UserPageBanner
-    canFollow={{ value: true }}
-    onFollow={action('onFollow')}
-    onUnfollow={action('onUnfollow')}
-    username="lifeiscontent"
-  />
-);
+const Template = args => <UserPageBanner {...args} />;
 
-export const canUnfollow = () => (
-  <UserPageBanner
-    canUnfollow={{ value: true }}
-    followersCount={1}
-    onFollow={action('onFollow')}
-    onUnfollow={action('onUnfollow')}
-    username="lifeiscontent"
-    viewerIsFollowing
-  />
-);
+export const Renders = Template.bind({});
 
-export const canUpdate = () => (
-  <UserPageBanner
-    canUpdate={{ value: true }}
-    onFollow={action('onFollow')}
-    onUnfollow={action('onUnfollow')}
-    username="lifeiscontent"
-  />
-);
+Renders.args = {
+  onFollow: action('onFollow'),
+  onUnfollow: action('onUnfollow'),
+  username: 'lifeiscontent',
+};
+
+export const CanFollow = Template.bind({});
+
+CanFollow.args = {
+  ...Renders.args,
+  canFollow: { value: true },
+};
+
+export const CanUnfollow = Template.bind({});
+
+CanUnfollow.args = {
+  ...Renders.args,
+  canUnfollow: { value: true },
+  followersCount: 1,
+  viewerIsFollowing: true,
+};
+
+export const CanUpdate = Template.bind({});
+
+CanUpdate.args = {
+  ...Renders.args,
+  canUpdate: { value: true },
+};

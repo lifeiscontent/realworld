@@ -43,13 +43,15 @@ export function UserCommentForm({
             />
           </div>
           <div className="card-footer">
-            <Image
-              width="32"
-              height="32"
-              src={profile.imageUrl ?? '/images/smiley-cyrus.jpg'}
-              className="comment-author-img"
-              alt={`Image of ${username}`}
-            />
+            <span style={{ display: 'inline-flex', verticalAlign: 'middle' }}>
+              <Image
+                width="32"
+                height="32"
+                src={profile.imageUrl ?? '/images/smiley-cyrus.jpg'}
+                className="comment-author-img"
+                alt={`Image of ${username}`}
+              />
+            </span>
             &nbsp;&nbsp;
             <Link href="/user/[username]" as={`/user/${username}`}>
               <a className="comment-author">{username}</a>

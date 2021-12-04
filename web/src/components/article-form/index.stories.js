@@ -2,9 +2,17 @@ import React from 'react';
 import { ArticleForm } from '.';
 import { action } from '@storybook/addon-actions';
 
-export default {
+const meta = {
   title: 'Forms/ArticleForm',
   component: ArticleForm,
 };
 
-export const renders = () => <ArticleForm onSubmit={action('onSubmit')} />;
+export default meta;
+
+const Template = args => <ArticleForm {...args} />;
+
+export const Renders = Template.bind({});
+
+Renders.args = {
+  onSubmit: action('onSubmit'),
+};

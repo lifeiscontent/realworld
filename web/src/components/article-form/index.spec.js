@@ -10,7 +10,9 @@ describe('ArticleForm', () => {
 
   beforeEach(() => {
     onSubmit = jest.fn();
-    mocks = [{ request: { query: TagsInput.query }, result: { data: {} } }];
+    mocks = [
+      { request: { query: TagsInput.query }, result: { data: { tags: [] } } },
+    ];
   });
 
   it('displays errors on submit', async () => {
@@ -56,10 +58,10 @@ describe('ArticleForm', () => {
       },
     });
 
-    await waitFor(async () => {
-      fireEvent.click(submitButton);
-    });
+    fireEvent.click(submitButton);
 
-    expect(onSubmit).toHaveBeenCalled();
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalled();
+    });
   });
 });

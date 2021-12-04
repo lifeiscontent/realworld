@@ -1,9 +1,13 @@
 import React from 'react';
 import { HomePageBanner } from '.';
 
-export default {
+const meta = {
   title: 'Banners/HomePageBanner',
   component: HomePageBanner,
 };
 
-export const renders = () => <HomePageBanner />;
+export default meta;
+
+const Template = args => <HomePageBanner {...args} />;
+
+export const Renders = Template.bind({});

@@ -1,13 +1,25 @@
 import React from 'react';
 import { Pagination } from '.';
 
-export default {
+const meta = {
   title: 'Main/Pagination',
   component: Pagination,
 };
 
-export const renders = () => <Pagination />;
+export default meta;
 
-export const hasNextPage = () => <Pagination hasNextPage />;
+const Template = args => <Pagination {...args} />;
 
-export const hasPreviousPage = () => <Pagination hasPreviousPage />;
+export const Renders = Template.bind({});
+
+export const HasNextPage = Template.bind({});
+
+HasNextPage.args = {
+  hasNextPage: true,
+};
+
+export const HasPreviousPage = Template.bind({});
+
+HasPreviousPage.args = {
+  hasPreviousPage: true,
+};

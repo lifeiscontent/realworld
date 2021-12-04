@@ -1,17 +1,19 @@
 import React from 'react';
 import { Navbar } from '.';
 
-export default {
+const meta = {
   title: 'Main/Navbar',
   component: Navbar,
 };
 
-export const renders = () => <Navbar />;
+export default meta;
 
-export const loggedIn = () => <Navbar username="lifeiscontent" />;
+const Template = args => <Navbar {...args} />;
 
-renders.parameters = {
-  nextRouter: {
-    pathname: '/',
-  },
+export const Renders = Template.bind({});
+
+export const LoggedIn = Template.bind({});
+
+LoggedIn.args = {
+  username: 'lifeiscontent',
 };

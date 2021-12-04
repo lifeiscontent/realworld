@@ -1,31 +1,52 @@
 import React from 'react';
 import { ViewerFeedToggle } from '.';
 
-export default {
+const meta = {
   title: 'Tabs/ViewerFeedToggle',
   component: ViewerFeedToggle,
 };
 
-export const renders = () => <ViewerFeedToggle />;
+export default meta;
 
-renders.parameters = {
+const Template = args => <ViewerFeedToggle {...args} />;
+
+export const Renders = Template.bind({});
+
+Renders.parameters = {
   nextRouter: {
-    pathname: '/',
+    asPath: '/',
   },
 };
 
-export const feedEnabled = () => <ViewerFeedToggle username="lifeiscontent" />;
+export const FeedEnabled = Template.bind({});
 
-feedEnabled.parameters = {
-  nextRouter: {
-    pathname: '/',
-  },
+FeedEnabled.args = {
+  username: 'lifeiscontent',
 };
 
-export const feedActive = () => <ViewerFeedToggle username="lifeiscontent" />;
+export const FeedActive = Template.bind({});
 
-feedActive.parameters = {
+FeedActive.args = {
+  ...FeedEnabled.args,
+};
+
+FeedActive.parameters = {
   nextRouter: {
     pathname: '/feed',
+    asPath: '/feed',
+  },
+};
+
+export const HashTagActive = Template.bind({});
+
+HashTagActive.args = {
+  ...FeedEnabled.args,
+};
+
+HashTagActive.parameters = {
+  nextRouter: {
+    pathname: '/',
+    asPath: '/?tagName=react',
+    query: { tagName: 'react' },
   },
 };

@@ -2,17 +2,19 @@ import React from 'react';
 import { UserSettingsForm } from '.';
 import { action } from '@storybook/addon-actions';
 
-export default {
+const meta = {
   title: 'Forms/UserSettingsForm',
   component: UserSettingsForm,
 };
 
-const handleSubmit = action('onSubmit');
+export default meta;
 
-export const renders = () => (
-  <UserSettingsForm
-    onSubmit={handleSubmit}
-    username="john"
-    email="john@example.com"
-  />
-);
+const Template = args => <UserSettingsForm {...args} />;
+
+export const Renders = Template.bind({});
+
+Renders.args = {
+  onSubmit: action('onSubmit'),
+  username: 'john',
+  email: 'john@example.com',
+};

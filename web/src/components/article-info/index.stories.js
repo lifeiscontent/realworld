@@ -1,14 +1,18 @@
 import React from 'react';
 import { ArticleInfo } from '.';
 
-export default {
+const meta = {
   title: 'Content/ArticleInfo',
   component: ArticleInfo,
 };
 
-export const renders = () => (
-  <ArticleInfo
-    createdAt={new Date(2000, 2, 1).toISOString()}
-    author={{ username: 'lifeiscontent' }}
-  />
-);
+export default meta;
+
+const Template = args => <ArticleInfo {...args} />;
+
+export const Renders = Template.bind({});
+
+Renders.args = {
+  author: { username: 'lifeiscontent' },
+  createdAt: new Date(2000, 2, 1).toISOString(),
+};

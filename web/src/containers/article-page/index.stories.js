@@ -1,14 +1,18 @@
 import React from 'react';
 import ArticlePage from '.';
 
-export default {
+const meta = {
   title: 'Pages/ArticlePage',
   component: ArticlePage,
 };
 
-export const renders = () => <ArticlePage />;
+export default meta;
 
-renders.parameters = {
+const Template = args => <ArticlePage {...args} />;
+
+export const Renders = Template.bind({});
+
+Renders.parameters = {
   apolloClient: {
     mocks: [
       {
@@ -175,9 +179,9 @@ renders.parameters = {
   },
 };
 
-export const isAuthor = () => <ArticlePage />;
+export const IsAuthor = Template.bind({});
 
-isAuthor.parameters = {
+IsAuthor.parameters = {
   apolloClient: {
     mocks: [
       {

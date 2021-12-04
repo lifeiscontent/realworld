@@ -10,9 +10,7 @@ Let's break down what that means.
 when writing UI in HTML, you might do something like this:
 
 ```html
-<button class="btn btn-sm btn-primary">
-  Favorite Button
-</button>
+<button class="btn btn-sm btn-primary">Favorite Button</button>
 ```
 
 what is interesting about the component model is you can hide the implementation detail of how a component makes itself look like a button.
@@ -190,10 +188,12 @@ import React from 'react';
 import { ArticleFavoriteButton } from '.'; // import our UI Component
 import { action } from '@storybook/addon-actions'; // import some addons
 
-export default {
+const meta = {
   title: 'Buttons/ArticleFavoriteButton', // the title of our story
   component: ArticleFavoriteButton, // the component we're viewing
 };
+
+export default meta;
 
 // the minimum number of props needed to get the component to render.
 // the name `renders` comes from a test, e.g. `it('renders', () => { ... })`
