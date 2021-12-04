@@ -2,129 +2,78 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 import { ArticlePageBanner } from '.';
 
-export default {
+const meta = {
   title: 'Banners/ArticlePageBanner',
   component: ArticlePageBanner,
 };
 
-export const renders = () => (
-  <ArticlePageBanner
-    author={{
-      username: 'lifeiscontent',
-    }}
-    createdAt={new Date(2000, 2, 1).toISOString()}
-    onDelete={action('onDelete')}
-    onFavorite={action('onFavorite')}
-    onFollow={action('onFollow')}
-    onUnfavorite={action('onUnfavorite')}
-    onUnfollow={action('onUnfollow')}
-    title="Some cool title"
-    slug="some-cool-title"
-  />
-);
+export default meta;
 
-export const canFollow = () => (
-  <ArticlePageBanner
-    author={{
-      username: 'lifeiscontent',
-      canFollow: { value: true },
-    }}
-    createdAt={new Date(2000, 2, 1).toISOString()}
-    onDelete={action('onDelete')}
-    onFavorite={action('onFavorite')}
-    onFollow={action('onFollow')}
-    onUnfavorite={action('onUnfavorite')}
-    onUnfollow={action('onUnfollow')}
-    title="Some cool title"
-    slug="some-cool-title"
-  />
-);
+const Template = args => <ArticlePageBanner {...args} />;
 
-export const canUnfollow = () => (
-  <ArticlePageBanner
-    author={{
-      username: 'lifeiscontent',
-      canUnfollow: { value: true },
-      viewerIsFollowing: true,
-      followersCount: 1,
-    }}
-    createdAt={new Date(2000, 2, 1).toISOString()}
-    onDelete={action('onDelete')}
-    onFavorite={action('onFavorite')}
-    onFollow={action('onFollow')}
-    onUnfavorite={action('onUnfavorite')}
-    onUnfollow={action('onUnfollow')}
-    title="Some cool title"
-    slug="some-cool-title"
-  />
-);
+export const Renders = Template.bind({});
+Renders.args = {
+  author: {
+    username: 'lifeiscontent',
+  },
+  createdAt: new Date(2000, 2, 1).toISOString(),
+  onDelete: action('onDelete'),
+  onFavorite: action('onFavorite'),
+  onFollow: action('onFollow'),
+  onUnfavorite: action('onUnfavorite'),
+  onUnfollow: action('onUnfollow'),
+  title: 'Some cool title',
+  slug: 'some-cool-title',
+};
 
-export const canFavorite = () => (
-  <ArticlePageBanner
-    author={{
-      username: 'lifeiscontent',
-    }}
-    canFavorite={{ value: true }}
-    createdAt={new Date(2000, 2, 1).toISOString()}
-    onDelete={action('onDelete')}
-    onFavorite={action('onFavorite')}
-    onFollow={action('onFollow')}
-    onUnfavorite={action('onUnfavorite')}
-    onUnfollow={action('onUnfollow')}
-    slug="some-cool-title"
-    title="Some cool title"
-  />
-);
+export const CanFollow = Template.bind({});
 
-export const canUnfavorite = () => (
-  <ArticlePageBanner
-    author={{
-      username: 'lifeiscontent',
-    }}
-    canUnfavorite={{ value: true }}
-    createdAt={new Date(2000, 2, 1).toISOString()}
-    favoritesCount={1}
-    onDelete={action('onDelete')}
-    onFavorite={action('onFavorite')}
-    onFollow={action('onFollow')}
-    onUnfavorite={action('onUnfavorite')}
-    onUnfollow={action('onUnfollow')}
-    slug="some-cool-title"
-    title="Some cool title"
-    viewerDidFavorite
-  />
-);
+CanFollow.args = {
+  ...Renders.args,
+  author: {
+    ...Renders.args.author,
+    canFollow: { value: true },
+  },
+};
 
-export const canUpdate = () => (
-  <ArticlePageBanner
-    title="Some cool title"
-    author={{
-      username: 'lifeiscontent',
-    }}
-    canUpdate={{ value: true }}
-    createdAt={new Date(2000, 2, 1).toISOString()}
-    slug="some-cool-title"
-    onDelete={action('onDelete')}
-    onFavorite={action('onFavorite')}
-    onFollow={action('onFollow')}
-    onUnfavorite={action('onUnfavorite')}
-    onUnfollow={action('onUnfollow')}
-  />
-);
+export const CanUnfollow = Template.bind({});
 
-export const canDelete = () => (
-  <ArticlePageBanner
-    title="Some cool title"
-    author={{
-      username: 'lifeiscontent',
-    }}
-    canDelete={{ value: true }}
-    createdAt={new Date(2000, 2, 1).toISOString()}
-    slug="some-cool-title"
-    onDelete={action('onDelete')}
-    onFavorite={action('onFavorite')}
-    onFollow={action('onFollow')}
-    onUnfavorite={action('onUnfavorite')}
-    onUnfollow={action('onUnfollow')}
-  />
-);
+CanUnfollow.args = {
+  ...Renders.args,
+  author: {
+    ...Renders.args.author,
+    canUnfollow: { value: true },
+    viewerIsFollowing: true,
+    followersCount: 1,
+  },
+};
+
+export const CanFavorite = Template.bind({});
+
+CanFavorite.args = {
+  ...Renders.args,
+  canFavorite: { value: true },
+};
+
+export const CanUnfavorite = Template.bind({});
+
+CanUnfavorite.args = {
+  ...Renders.args,
+  canUnfavorite: { value: true },
+  favoritesCount: 1,
+  viewerDidFavorite: true,
+};
+
+export const CanUpdate = Template.bind({});
+
+CanUpdate.args = {
+  ...Renders.args,
+  canUpdate: { value: true },
+};
+
+export const CanDelete = Template.bind({});
+
+CanDelete.args = {
+  ...Renders.args,
+  canDelete: { value: true },
+};

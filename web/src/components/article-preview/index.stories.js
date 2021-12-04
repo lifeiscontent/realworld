@@ -2,114 +2,61 @@ import React from 'react';
 import { ArticlePreview } from '.';
 import { action } from '@storybook/addon-actions';
 
-export default {
+const meta = {
   title: 'Content/ArticlePreview',
   component: ArticlePreview,
 };
 
-export const renders = () => (
-  <ArticlePreview
-    author={{ username: 'lifeiscontent', profile: {} }}
-    title="Some cool title"
-    description="web stuff"
-    createdAt={new Date(2000, 2, 1).toISOString()}
-    slug="some-cool-title"
-    onFavorite={action('onFavorite')}
-    onUnfavorite={action('onUnfavorite')}
-  />
-);
+export default meta;
 
-renders.parameters = {
-  nextRouter: {
-    pathname: '/',
+const Template = args => <ArticlePreview {...args} />;
+
+export const Renders = Template.bind({});
+
+Renders.args = {
+  author: {
+    username: 'lifeiscontent',
+    profile: {},
   },
+  title: 'Some cool title',
+  description: 'web stuff',
+  slug: 'some-cool-title',
+  onFavorite: action('onFavorite'),
+  onUnfavorite: action('onUnfavorite'),
+  createdAt: new Date(2000, 2, 1).toISOString(),
 };
 
-export const hasTags = () => (
-  <ArticlePreview
-    author={{ username: 'lifeiscontent', profile: {} }}
-    title="Some cool title"
-    description="web stuff"
-    createdAt={new Date(2000, 2, 1).toISOString()}
-    tags={[{ id: '1', name: 'programming' }]}
-    slug="some-cool-title"
-    onFavorite={action('onFavorite')}
-    onUnfavorite={action('onUnfavorite')}
-  />
-);
+export const HasTags = Template.bind({});
 
-hasTags.parameters = {
-  nextRouter: {
-    pathname: '/',
-  },
+HasTags.args = {
+  ...Renders.args,
+  tags: [{ id: '1', name: 'programming' }],
 };
 
-export const canFavorite = () => (
-  <ArticlePreview
-    author={{
-      username: 'lifeiscontent',
-      profile: {},
-    }}
-    title="Some cool title"
-    description="web stuff"
-    createdAt={new Date(2000, 2, 1).toISOString()}
-    slug="some-cool-title"
-    viewerDidFavorite
-    canFavorite={{ value: true }}
-    onFavorite={action('onFavorite')}
-    onUnfavorite={action('onUnfavorite')}
-  />
-);
+export const CanFavorite = Template.bind({});
 
-canFavorite.parameters = {
-  nextRouter: {
-    pathname: '/',
-  },
+CanFavorite.args = {
+  ...Renders.args,
+  canFavorite: { value: true },
+  viewerDidFavorite: true,
 };
 
-export const canUnfavorite = () => (
-  <ArticlePreview
-    author={{
-      username: 'lifeiscontent',
-      profile: {},
-    }}
-    title="Some cool title"
-    description="web stuff"
-    createdAt={new Date(2000, 2, 1).toISOString()}
-    slug="some-cool-title"
-    favoritesCount={1}
-    canUnfavorite={{ value: true }}
-    onFavorite={action('onFavorite')}
-    onUnfavorite={action('onUnfavorite')}
-  />
-);
+export const CanUnfavorite = Template.bind({});
 
-canUnfavorite.parameters = {
-  nextRouter: {
-    pathname: '/',
-  },
+CanUnfavorite.args = {
+  ...Renders.args,
+  canUnfavorite: { value: true },
+  favoritesCount: 1,
 };
 
-export const withProfileImage = () => (
-  <ArticlePreview
-    author={{
-      username: 'lifeiscontent',
-      profile: {
-        imageUrl: 'https://randomuser.me/api/portraits/men/1.jpg',
-      },
-    }}
-    title="Some cool title"
-    description="web stuff"
-    createdAt={new Date(2000, 2, 1).toISOString()}
-    slug="some-cool-title"
-    viewerDidFavorite
-    onFavorite={action('onFavorite')}
-    onUnfavorite={action('onUnfavorite')}
-  />
-);
+export const WithProfileImage = Template.bind({});
 
-withProfileImage.parameters = {
-  nextRouter: {
-    pathname: '/',
+WithProfileImage.args = {
+  ...Renders.args,
+  author: {
+    profile: {
+      imageUrl: 'https://randomuser.me/api/portraits/men/1.jpg',
+    },
   },
+  viewerDidFavorite: true,
 };

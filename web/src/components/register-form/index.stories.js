@@ -2,11 +2,17 @@ import React from 'react';
 import { RegisterForm } from '.';
 import { action } from '@storybook/addon-actions';
 
-export default {
+const meta = {
   title: 'Forms/RegisterForm',
   component: RegisterForm,
 };
 
-const handleSubmit = action('onSubmit');
+export default meta;
 
-export const renders = () => <RegisterForm onSubmit={handleSubmit} />;
+const Template = args => <RegisterForm {...args} />;
+
+export const Renders = Template.bind({});
+
+Renders.args = {
+  onSubmit: action('onSubmit'),
+};

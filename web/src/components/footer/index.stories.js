@@ -1,9 +1,13 @@
 import React from 'react';
 import { Footer } from '.';
 
-export default {
+const meta = {
   title: 'Main/Footer',
   component: Footer,
 };
 
-export const renders = () => <Footer />;
+export default meta;
+
+const Template = args => <Footer {...args} />;
+
+export const Renders = Template.bind({});

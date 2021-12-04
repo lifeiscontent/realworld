@@ -2,19 +2,25 @@ import React from 'react';
 import { UserCommentForm } from '.';
 import { action } from '@storybook/addon-actions';
 
-export default {
+const meta = {
   title: 'Forms/UserCommentForm',
   component: UserCommentForm,
 };
 
-export const renders = () => (
-  <UserCommentForm username="lifeiscontent" onSubmit={action('onSubmit')} />
-);
+export default meta;
 
-export const canCreateComment = () => (
-  <UserCommentForm
-    canCreateComment={{ value: true }}
-    username="lifeiscontent"
-    onSubmit={action('onSubmit')}
-  />
-);
+const Template = args => <UserCommentForm {...args} />;
+
+export const Renders = Template.bind({});
+
+Renders.args = {
+  onSubmit: action('onSubmit'),
+  username: 'lifeiscontent',
+};
+
+export const CanCreateComment = Template.bind({});
+
+CanCreateComment.args = {
+  ...Renders.args,
+  canCreateComment: { value: true },
+};

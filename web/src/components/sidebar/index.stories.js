@@ -1,47 +1,37 @@
 import React from 'react';
 import { Sidebar } from '.';
 
-export default {
+const meta = {
   title: 'Main/Sidebar',
   component: Sidebar,
 };
 
-export const renders = () => <Sidebar />;
+export default meta;
 
-renders.parameters = {
-  nextRouter: {
-    pathname: '/',
-  },
+const Template = args => <Sidebar {...args} />;
+
+export const Renders = Template.bind({});
+
+export const WithTags = Template.bind({});
+
+WithTags.args = {
+  popularTags: [
+    { id: '1', name: 'react' },
+    { id: '2', name: 'rails' },
+  ],
 };
 
-export const withTags = () => (
-  <Sidebar
-    popularTags={[
-      { id: '1', name: 'react' },
-      { id: '2', name: 'rails' },
-    ]}
-  />
-);
+export const WithActiveTag = Template.bind({});
 
-withTags.parameters = {
-  nextRouter: {
-    pathname: '/',
-  },
+WithActiveTag.args = {
+  popularTags: [
+    { id: '1', name: 'react' },
+    { id: '2', name: 'rails' },
+  ],
 };
 
-export const withActiveTag = () => (
-  <Sidebar
-    popularTags={[
-      { id: '1', name: 'react' },
-      { id: '2', name: 'rails' },
-    ]}
-  />
-);
-
-withActiveTag.parameters = {
+WithActiveTag.parameters = {
   nextRouter: {
-    pathname: '/',
-    asPath: '/',
     query: { tagName: 'react' },
   },
 };

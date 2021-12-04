@@ -1,13 +1,24 @@
 import React from 'react';
 import { ArticleUpdateButton } from '.';
 
-export default {
+const meta = {
   title: 'Buttons/ArticleUpdateButton',
   component: ArticleUpdateButton,
 };
 
-export const renders = () => <ArticleUpdateButton slug="a-simple-title" />;
+export default meta;
 
-export const canUpdate = () => (
-  <ArticleUpdateButton canUpdate={{ value: true }} slug="a-simple-title" />
-);
+const Template = args => <ArticleUpdateButton {...args} />;
+
+export const Renders = Template.bind({});
+
+Renders.args = {
+  slug: 'a-simple-title',
+};
+
+export const CanUpdate = Template.bind({});
+
+CanUpdate.args = {
+  ...Renders.args,
+  canUpdate: { value: true },
+};

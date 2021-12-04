@@ -2,19 +2,26 @@ import React from 'react';
 import { ArticleDeleteButton } from '.';
 import { action } from '@storybook/addon-actions';
 
-export default {
+const meta = {
   title: 'Buttons/ArticleDeleteButton',
   component: ArticleDeleteButton,
 };
 
-export const renders = () => (
-  <ArticleDeleteButton onDelete={action('onDelete')} slug="a-simple-title" />
-);
+export default meta;
 
-export const canDelete = () => (
-  <ArticleDeleteButton
-    canDelete={{ value: true }}
-    onDelete={action('onDelete')}
-    slug="a-simple-title"
-  />
-);
+const Template = args => <ArticleDeleteButton {...args} />;
+
+export const Renders = Template.bind({});
+
+Renders.args = {
+  onDelete: action('onDelete'),
+  slug: 'a-simple-title',
+};
+
+export const CanDelete = Template.bind({});
+
+CanDelete.args = {
+  canDelete: { value: true },
+  onDelete: action('onDelete'),
+  slug: 'a-simple-title',
+};

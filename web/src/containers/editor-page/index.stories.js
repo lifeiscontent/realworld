@@ -1,14 +1,18 @@
 import React from 'react';
 import EditorPage from '.';
 
-export default {
+const meta = {
   title: 'Pages/EditorPage',
   component: EditorPage,
 };
 
-export const renders = () => <EditorPage />;
+export default meta;
 
-renders.parameters = {
+const Template = args => <EditorPage {...args} />;
+
+export const Renders = Template.bind({});
+
+Renders.parameters = {
   apolloClient: {
     mocks: [
       {
@@ -34,9 +38,9 @@ renders.parameters = {
   },
 };
 
-export const asUser = () => <EditorPage />;
+export const AsUser = Template.bind({});
 
-asUser.parameters = {
+AsUser.parameters = {
   apolloClient: {
     mocks: [
       {

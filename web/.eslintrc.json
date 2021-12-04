@@ -1,38 +1,23 @@
 {
-  "parser": "babel-eslint",
-  "env": {
-    "browser": true,
-    "es6": true,
-    "node": true
-  },
   "extends": [
-    "next",
+    "next/core-web-vitals",
     "eslint:recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
     "plugin:jest/recommended",
     "plugin:jest/style",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "plugin:storybook/recommended"
   ],
-  "globals": {
-    "Atomics": "readonly",
-    "SharedArrayBuffer": "readonly"
-  },
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    },
-    "ecmaVersion": 2019,
-    "sourceType": "module"
-  },
-  "plugins": ["react", "react-hooks"],
-  "rules": {
-    "react-hooks/exhaustive-deps": "warn",
-    "react-hooks/rules-of-hooks": "error"
-  },
-  "settings": {
-    "react": {
-      "version": "detect"
+  "plugins": ["testing-library"],
+  "overrides": [
+    // Only uses Testing Library lint rules in test files
+    {
+      "files": [
+        "**/__tests__/**/*.[jt]s?(x)",
+        "**/?(*.)+(spec|test).[jt]s?(x)"
+      ],
+      "extends": ["plugin:testing-library/react"]
     }
-  }
+  ]
 }

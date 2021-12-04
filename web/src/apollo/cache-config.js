@@ -1,6 +1,6 @@
 import { defaultDataIdFromObject } from '@apollo/client';
 
-export default {
+const cacheConfig = {
   freezeResults: true,
   resultCaching: true,
   dataIdFromObject(object) {
@@ -42,3 +42,5 @@ export default {
     },
   },
 };
+
+export default cacheConfig;

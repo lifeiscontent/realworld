@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { MockedProvider } from '@apollo/client/testing';
 import { ArticleComments, ArticleCommentsCreateCommentMutation } from '.';
 
@@ -202,9 +202,7 @@ describe('ArticleComments', () => {
 
     fireEvent.change(commentInput, { target: { value: 'Hello world' } });
 
-    await waitFor(async () => {
-      fireEvent.click(submitButton);
-    });
+    fireEvent.click(submitButton);
 
     const comment = await screen.findByText('Hello world', {
       selector: '.card-text > p',

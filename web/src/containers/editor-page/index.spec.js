@@ -46,7 +46,7 @@ describe('EditorPage', () => {
             variables: {},
           },
           result: {
-            data: {},
+            data: { tags: [] },
           },
         },
       ];
@@ -94,7 +94,9 @@ describe('EditorPage', () => {
             variables: {},
           },
           result: {
-            data: {},
+            data: {
+              tags: [],
+            },
           },
         },
       ];

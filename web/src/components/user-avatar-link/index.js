@@ -7,11 +7,7 @@ import { gql } from '@apollo/client';
 export function UserAvatarLink({ profile, username, size }) {
   return (
     <Link href="/user/[username]" as={`/user/${username}`}>
-      <a
-        style={{
-          verticalAlign: 'middle',
-        }}
-      >
+      <a>
         <UserAvatar size={size} profile={profile} username={username} />
       </a>
     </Link>

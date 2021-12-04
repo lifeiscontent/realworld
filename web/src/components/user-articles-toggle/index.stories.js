@@ -1,28 +1,40 @@
 import React from 'react';
 import { UserArticlesToggle } from '.';
 
-export default {
+const meta = {
   title: 'Tabs/UserArticlesToggle',
   component: UserArticlesToggle,
 };
 
-export const renders = () => <UserArticlesToggle username="lifeiscontent" />;
+export default meta;
 
-export const myArticlesActive = () => (
-  <UserArticlesToggle username="lifeiscontent" />
-);
+const Template = args => <UserArticlesToggle {...args} />;
 
-myArticlesActive.parameters = {
+export const Renders = Template.bind({});
+
+Renders.args = {
+  username: 'lifeiscontent',
+};
+
+export const MyArticlesActive = Template.bind({});
+
+MyArticlesActive.args = {
+  ...Renders.args,
+};
+
+MyArticlesActive.parameters = {
   nextRouter: {
     pathname: '/user/[username]',
   },
 };
 
-export const favoritedArticlesActive = () => (
-  <UserArticlesToggle username="lifeiscontent" />
-);
+export const FavoritedArticlesActive = Template.bind({});
 
-favoritedArticlesActive.parameters = {
+FavoritedArticlesActive.args = {
+  ...Renders.args,
+};
+
+FavoritedArticlesActive.parameters = {
   nextRouter: {
     pathname: '/user/[username]/favorites',
   },
