@@ -39,7 +39,7 @@
     "@babel/runtime-corejs2": "7.16.7",
     "@storybook/addon-actions": "6.4.9",
     "@storybook/addon-essentials": "6.4.9",
-    "@storybook/addon-links": "6.4.9",
+    "@storybook/addon-links": "6.4.13",
     "@storybook/addons": "6.4.9",
     "@storybook/builder-webpack5": "6.4.9",
     "@storybook/manager-webpack5": "6.4.9",
