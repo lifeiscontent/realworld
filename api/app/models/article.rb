@@ -24,4 +24,8 @@ class Article < ApplicationRecord
 
     joins(:taggings).merge(Tagging.joins(:tag).merge(tags)).distinct
   end
+
+  def is_favorited_by?(user)
+    users_who_favorited.include?(user)
+  end
 end
