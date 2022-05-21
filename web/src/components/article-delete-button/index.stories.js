@@ -1,27 +1,39 @@
-import React from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, waitFor, within } from '@storybook/testing-library';
 import { ArticleDeleteButton } from '.';
-import { action } from '@storybook/addon-actions';
+import { buildAuthorizationResult } from '../../utils/storybook';
 
 const meta = {
-  title: 'Buttons/ArticleDeleteButton',
   component: ArticleDeleteButton,
+  args: {
+    slug: 'a-simple-title',
+    canDelete: buildAuthorizationResult(),
+  },
+  argTypes: {
+    onDelete: { action: true },
+  },
 };
 
 export default meta;
 
-const Template = args => <ArticleDeleteButton {...args} />;
+export const AsGuest = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const elements = canvas.queryAllByRole('button');
 
-export const Renders = Template.bind({});
-
-Renders.args = {
-  onDelete: action('onDelete'),
-  slug: 'a-simple-title',
+    await waitFor(() => expect(elements).toHaveLength(0));
+  },
 };
 
-export const CanDelete = Template.bind({});
+export const AsAuthor = {
+  args: {
+    canDelete: buildAuthorizationResult({ value: true }),
+  },
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
 
-CanDelete.args = {
-  canDelete: { value: true },
-  onDelete: action('onDelete'),
-  slug: 'a-simple-title',
+    await userEvent.click(canvas.getByRole('button'));
+
+    await waitFor(() => expect(args.onDelete).toHaveBeenCalled());
+  },
 };

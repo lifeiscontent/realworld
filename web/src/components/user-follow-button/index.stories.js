@@ -1,36 +1,31 @@
-import React from 'react';
 import { UserFollowButton } from '.';
-import { action } from '@storybook/addon-actions';
+import { buildAuthorizationResult } from '../../utils/storybook';
 
 const meta = {
-  title: 'Buttons/UserFollowButton',
   component: UserFollowButton,
+  args: {
+    username: 'lifeiscontent',
+  },
+  argTypes: {
+    onFollow: { action: true },
+    onUnfollow: { action: true },
+  },
 };
 
 export default meta;
 
-const Template = args => <UserFollowButton {...args} />;
+export const AsGuest = {};
 
-export const Renders = Template.bind({});
-
-Renders.args = {
-  onFollow: action('onFollow'),
-  onUnfollow: action('onUnfollow'),
-  username: 'lifeiscontent',
-};
-
-export const CanFollow = Template.bind({});
+export const CanFollow = {};
 
 CanFollow.args = {
-  ...Renders.args,
-  canFollow: { value: true },
+  canFollow: buildAuthorizationResult({ value: true }),
 };
 
-export const CanUnfollow = Template.bind({});
+export const CanUnfollow = {};
 
 CanUnfollow.args = {
-  ...Renders.args,
-  canUnfollow: { value: true },
+  canUnfollow: buildAuthorizationResult({ value: true }),
   followersCount: 1,
   viewerIsFollowing: true,
 };

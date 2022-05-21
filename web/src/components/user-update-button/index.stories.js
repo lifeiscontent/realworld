@@ -1,19 +1,16 @@
-import React from 'react';
 import { UserUpdateButton } from '.';
+import { buildAuthorizationResult } from '../../utils/storybook';
 
 const meta = {
-  title: 'Buttons/UserUpdateButton',
   component: UserUpdateButton,
 };
 
 export default meta;
 
-const Template = args => <UserUpdateButton {...args} />;
+export const AsGuest = {};
 
-export const Renders = Template.bind({});
-
-export const CanUpdate = Template.bind({});
+export const CanUpdate = {};
 
 CanUpdate.args = {
-  canUpdate: { value: true },
+  canUpdate: buildAuthorizationResult({ value: true }),
 };

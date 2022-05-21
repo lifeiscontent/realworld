@@ -1,79 +1,70 @@
-import React from 'react';
-import { action } from '@storybook/addon-actions';
 import { ArticlePageBanner } from '.';
+import { buildAuthorizationResult } from '../../utils/storybook';
 
 const meta = {
-  title: 'Banners/ArticlePageBanner',
   component: ArticlePageBanner,
+  args: {
+    author: {
+      username: 'lifeiscontent',
+    },
+    createdAt: new Date(2000, 2, 1).toISOString(),
+    slug: 'some-cool-title',
+  },
+  argTypes: {
+    onDelete: { action: true },
+    onFavorite: { action: true },
+    onFollow: { action: true },
+    onUnfavorite: { action: true },
+    onUnfollow: { action: true },
+  },
 };
 
 export default meta;
 
-const Template = args => <ArticlePageBanner {...args} />;
+export const AsGuest = {};
 
-export const Renders = Template.bind({});
-Renders.args = {
-  author: {
-    username: 'lifeiscontent',
-  },
-  createdAt: new Date(2000, 2, 1).toISOString(),
-  onDelete: action('onDelete'),
-  onFavorite: action('onFavorite'),
-  onFollow: action('onFollow'),
-  onUnfavorite: action('onUnfavorite'),
-  onUnfollow: action('onUnfollow'),
-  title: 'Some cool title',
-  slug: 'some-cool-title',
-};
-
-export const CanFollow = Template.bind({});
-
-CanFollow.args = {
-  ...Renders.args,
-  author: {
-    ...Renders.args.author,
-    canFollow: { value: true },
+export const CanFollow = {
+  args: {
+    author: {
+      ...meta.args.author,
+      canFollow: buildAuthorizationResult({ value: true }),
+    },
   },
 };
 
-export const CanUnfollow = Template.bind({});
-
-CanUnfollow.args = {
-  ...Renders.args,
-  author: {
-    ...Renders.args.author,
-    canUnfollow: { value: true },
-    viewerIsFollowing: true,
-    followersCount: 1,
+export const CanUnfollow = {
+  args: {
+    author: {
+      ...meta.args.author,
+      canUnfollow: buildAuthorizationResult({ value: true }),
+      viewerIsFollowing: true,
+      followersCount: 1,
+    },
   },
 };
 
-export const CanFavorite = Template.bind({});
-
-CanFavorite.args = {
-  ...Renders.args,
-  canFavorite: { value: true },
+export const CanFavorite = {
+  args: {
+    canFavorite: buildAuthorizationResult({ value: true }),
+  },
 };
 
-export const CanUnfavorite = Template.bind({});
-
-CanUnfavorite.args = {
-  ...Renders.args,
-  canUnfavorite: { value: true },
-  favoritesCount: 1,
-  viewerDidFavorite: true,
+export const CanUnfavorite = {
+  args: {
+    canUnfavorite: buildAuthorizationResult({ value: true }),
+    favoritesCount: 1,
+    viewerDidFavorite: true,
+  },
 };
 
-export const CanUpdate = Template.bind({});
-
-CanUpdate.args = {
-  ...Renders.args,
-  canUpdate: { value: true },
+export const CanUpdate = {
+  args: {
+    canUpdate: buildAuthorizationResult({ value: true }),
+  },
 };
 
-export const CanDelete = Template.bind({});
-
-CanDelete.args = {
-  ...Renders.args,
-  canDelete: { value: true },
+export const CanDelete = {
+  args: {
+    canDelete: buildAuthorizationResult({ value: true }),
+  },
 };

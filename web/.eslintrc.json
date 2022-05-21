@@ -1,23 +1,21 @@
 {
   "extends": [
-    "next/core-web-vitals",
     "eslint:recommended",
-    "plugin:import/errors",
-    "plugin:import/warnings",
-    "plugin:jest/recommended",
-    "plugin:jest/style",
-    "plugin:prettier/recommended",
-    "plugin:storybook/recommended"
+    "next/core-web-vitals",
+    "prettier",
+    "plugin:import/recommended",
+    "plugin:testing-library/react"
   ],
-  "plugins": ["testing-library"],
   "overrides": [
-    // Only uses Testing Library lint rules in test files
     {
-      "files": [
-        "**/__tests__/**/*.[jt]s?(x)",
-        "**/?(*.)+(spec|test).[jt]s?(x)"
-      ],
-      "extends": ["plugin:testing-library/react"]
+      "files": ["src/**/*.spec.[jt]s?(x)"],
+      "plugins": ["jest"],
+      "extends": ["plugin:jest/recommended"]
+    },
+    {
+      "files": ["src/**/*.stories.[jt]s?(x)"],
+      "plugins": ["jest"],
+      "extends": ["plugin:storybook/recommended"]
     }
   ]
 }

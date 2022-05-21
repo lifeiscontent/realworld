@@ -1,26 +1,22 @@
-import React from 'react';
 import { UserCommentForm } from '.';
-import { action } from '@storybook/addon-actions';
+import { buildAuthorizationResult } from '../../utils/storybook';
 
 const meta = {
-  title: 'Forms/UserCommentForm',
   component: UserCommentForm,
+  args: {
+    username: 'lifeiscontent',
+  },
+  argTypes: {
+    onSubmit: { action: true },
+  },
 };
 
 export default meta;
 
-const Template = args => <UserCommentForm {...args} />;
+export const AsGuest = {};
 
-export const Renders = Template.bind({});
-
-Renders.args = {
-  onSubmit: action('onSubmit'),
-  username: 'lifeiscontent',
-};
-
-export const CanCreateComment = Template.bind({});
-
-CanCreateComment.args = {
-  ...Renders.args,
-  canCreateComment: { value: true },
+export const AsUser = {
+  args: {
+    canCreateComment: buildAuthorizationResult({ value: true }),
+  },
 };

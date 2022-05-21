@@ -1,66 +1,58 @@
-import React from 'react';
 import EditorPage from '.';
 
 const meta = {
-  title: 'Pages/EditorPage',
   component: EditorPage,
+  parameters: {
+    apolloClient: {
+      mocks: [
+        {
+          request: {
+            query: EditorPage.query,
+            variables: {},
+          },
+          result: {
+            data: {
+              viewer: null,
+            },
+          },
+        },
+      ],
+    },
+    nextRouter: {
+      pathname: '/editor',
+      asPath: '/editor',
+    },
+  },
 };
 
 export default meta;
 
-const Template = args => <EditorPage {...args} />;
+export const AsGuest = {};
 
-export const Renders = Template.bind({});
-
-Renders.parameters = {
-  apolloClient: {
-    mocks: [
-      {
-        request: {
-          query: EditorPage.query,
-          variables: {},
-        },
-        result: {
-          data: {
-            viewer: null,
+export const AsUser = {
+  parameters: {
+    ...meta.parameters,
+    apolloClient: {
+      mocks: [
+        {
+          request: {
+            query: EditorPage.query,
+            variables: {},
           },
-        },
-      },
-    ],
-  },
-  nextRouter: {
-    pathname: '/editor',
-    asPath: '/editor',
-  },
-};
-
-export const AsUser = Template.bind({});
-
-AsUser.parameters = {
-  apolloClient: {
-    mocks: [
-      {
-        request: {
-          query: EditorPage.query,
-          variables: {},
-        },
-        result: {
-          data: {
-            viewer: {
-              canCreateArticle: {
-                value: true,
-                __typename: 'AuthorizationResult',
+          result: {
+            data: {
+              viewer: {
+                canCreateArticle: {
+                  value: true,
+                  __typename: 'AuthorizationResult',
+                },
+                username: 'jamie',
+                __typename: 'User',
               },
-              username: 'jamie',
-              __typename: 'User',
             },
           },
         },
-      },
-    ],
-  },
-  nextRouter: {
-    pathname: '/editor',
-    asPath: '/editor',
+      ],
+    },
   },
 };
