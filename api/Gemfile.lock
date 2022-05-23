@@ -242,7 +242,7 @@ GEM
     ruby-progressbar (1.11.0)
     shoulda-matchers (5.1.0)
       activesupport (>= 5.2.0)
-    solargraph (0.44.3)
+    solargraph (0.45.0)
       backport (~> 1.2)
       benchmark
       bundler (>= 1.17.2)
