@@ -27,5 +27,5 @@ gem 'spring', group: :development
 gem 'spring-watcher-listen', group: :development
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
-ruby '3.1.1'
+ruby '3.1.2'
 source 'https://rubygems.org'
