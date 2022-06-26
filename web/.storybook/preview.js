@@ -18,3 +18,5 @@ export const parameters = {
     MockedProvider,
   },
 };
+
+export const decorators = [];

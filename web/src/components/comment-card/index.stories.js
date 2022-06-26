@@ -1,29 +1,25 @@
-import React from 'react';
 import { CommentCard } from '.';
-import { action } from '@storybook/addon-actions';
+import { buildAuthorizationResult } from '../../utils/storybook';
 
 const meta = {
-  title: 'Cards/CommentCard',
   component: CommentCard,
+  args: {
+    author: { username: 'lifeiscontent' },
+    body: 'Hello world!',
+    createdAt: new Date(200, 2, 1).toISOString(),
+    id: '1',
+  },
+  argTypes: {
+    onDelete: { action: true },
+  },
 };
 
 export default meta;
 
-const Template = args => <CommentCard {...args} />;
+export const AsGuest = {};
 
-export const Renders = Template.bind({});
-
-Renders.args = {
-  author: { username: 'lifeiscontent' },
-  body: 'Hello world!',
-  createdAt: new Date(200, 2, 1).toISOString(),
-  id: '1',
-  onDelete: action('onDelete'),
-};
-
-export const CanDelete = Template.bind({});
+export const CanDelete = {};
 
 CanDelete.args = {
-  ...Renders.args,
-  canDelete: { value: true },
+  canDelete: buildAuthorizationResult({ value: true }),
 };

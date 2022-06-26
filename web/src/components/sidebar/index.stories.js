@@ -1,18 +1,14 @@
-import React from 'react';
 import { Sidebar } from '.';
 
 const meta = {
-  title: 'Main/Sidebar',
   component: Sidebar,
 };
 
 export default meta;
 
-const Template = args => <Sidebar {...args} />;
+export const WithoutTags = {};
 
-export const Renders = Template.bind({});
-
-export const WithTags = Template.bind({});
+export const WithTags = {};
 
 WithTags.args = {
   popularTags: [
@@ -21,17 +17,16 @@ WithTags.args = {
   ],
 };
 
-export const WithActiveTag = Template.bind({});
-
-WithActiveTag.args = {
-  popularTags: [
-    { id: '1', name: 'react' },
-    { id: '2', name: 'rails' },
-  ],
-};
-
-WithActiveTag.parameters = {
-  nextRouter: {
-    query: { tagName: 'react' },
+export const WithActiveTag = {
+  args: {
+    popularTags: [
+      { id: '1', name: 'react' },
+      { id: '2', name: 'rails' },
+    ],
+  },
+  parameters: {
+    nextRouter: {
+      query: { tagName: 'react' },
+    },
   },
 };

@@ -1,66 +1,130 @@
-import React from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, waitFor, within } from '@storybook/testing-library';
 import { ArticleMeta } from '.';
-import { action } from '@storybook/addon-actions';
+import { buildAuthorizationResult } from '../../utils/storybook';
 
 const meta = {
-  title: 'Content/ArticleMeta',
   component: ArticleMeta,
+  args: {
+    author: {
+      canFollow: buildAuthorizationResult(),
+      canUnfollow: buildAuthorizationResult(),
+      createdAt: new Date(2000, 2, 1).toISOString(),
+      followersCount: 0,
+      username: 'lifeiscontent',
+      viewerIsFollowing: false,
+    },
+    canFavorite: buildAuthorizationResult(),
+    canUnfavorite: buildAuthorizationResult(),
+    createdAt: new Date(2000, 2, 1).toISOString(),
+    favoritesCount: 0,
+    slug: 'a-simple-title',
+    viewerDidFavorite: false,
+  },
+  argTypes: {
+    onDelete: { action: true },
+    onFavorite: { action: true },
+    onFollow: { action: true },
+    onUnfavorite: { action: true },
+    onUnfollow: { action: true },
+  },
 };
 
 export default meta;
 
-const Template = args => <ArticleMeta {...args} />;
+export const AsGuest = {};
 
-export const Renders = Template.bind({});
+export const AsAuthorCanDelete = {
+  args: {
+    canDelete: buildAuthorizationResult({ value: true }),
+  },
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
 
-Renders.args = {
-  author: { username: 'lifeiscontent' },
-  createdAt: new Date(2000, 2, 1).toISOString(),
-  onDelete: action('onDelete'),
-  onFavorite: action('onFavorite'),
-  onFollow: action('onFollow'),
-  onUnfavorite: action('onUnfavorite'),
-  onUnfollow: action('onUnfollow'),
-  slug: 'a-simple-title',
+    await userEvent.click(
+      canvas.getByRole('button', {
+        name: new RegExp('Delete Article', 'i'),
+      })
+    );
+
+    await waitFor(() => expect(args.onDelete).toHaveBeenCalled());
+  },
 };
 
-export const CanDelete = Template.bind({});
+export const AsUserWhoHasNotFavoritedCanFavorite = {
+  args: {
+    canFavorite: buildAuthorizationResult({ value: true }),
+  },
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
 
-CanDelete.args = {
-  ...Renders.args,
-  canDelete: { value: true },
+    await userEvent.click(
+      canvas.getByRole('button', {
+        name: new RegExp('Favorite Article', 'i'),
+      })
+    );
+
+    await waitFor(() => expect(args.onFavorite).toHaveBeenCalled());
+  },
 };
 
-export const CanFavorite = Template.bind({});
+export const AsUserWhoHasNotFollowedCanFollow = {
+  args: {
+    author: {
+      ...meta.args.author,
+      canFollow: buildAuthorizationResult({ value: true }),
+    },
+  },
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
 
-CanFavorite.args = {
-  ...Renders.args,
-  canFavorite: { value: true },
+    await userEvent.click(
+      canvas.getByRole('button', {
+        name: new RegExp('Follow lifeiscontent \\(0\\)', 'i'),
+      })
+    );
+
+    await waitFor(() => expect(args.onFollow).toHaveBeenCalled());
+  },
 };
 
-export const CanFollow = Template.bind({});
+export const AsUserWhoHasFavoritedCanUnfavorite = {
+  args: {
+    canUnfavorite: buildAuthorizationResult({ value: true }),
+    favoritesCount: 1,
+    viewerDidFavorite: true,
+  },
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
 
-CanFollow.args = {
-  ...Renders.args,
-  canFollow: { value: true },
+    await userEvent.click(
+      canvas.getByRole('button', {
+        name: new RegExp('Unfavorite Article \\(1\\)', 'i'),
+      })
+    );
+
+    await waitFor(() => expect(args.onUnfavorite).toHaveBeenCalled());
+  },
 };
 
-export const CanUnfavorite = Template.bind({});
+export const AsUserWhoHasFollowedCanUnfollow = {
+  args: {
+    author: {
+      ...meta.args.author,
+      canUnfollow: buildAuthorizationResult({ value: true }),
+      followersCount: 1,
+      viewerIsFollowing: true,
+    },
+  },
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
 
-CanUnfavorite.args = {
-  ...Renders.args,
-  canUnfavorite: { value: true },
-  favoritesCount: 1,
-};
+    await userEvent.click(
+      canvas.getByRole('button', {
+        name: new RegExp('Unfollow lifeiscontent \\(1\\)', 'i'),
+      })
+    );
 
-export const CanUnfollow = Template.bind({});
-
-CanUnfollow.args = {
-  ...Renders.args,
-  author: {
-    canUnfollow: { value: true },
-    followersCount: 1,
-    username: 'lifeiscontent',
-    viewerIsFollowing: true,
+    await waitFor(() => expect(args.onUnfollow).toHaveBeenCalled());
   },
 };
