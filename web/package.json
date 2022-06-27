@@ -42,7 +42,7 @@
     "babel-jest": "^27.0.0",
     "babel-loader": "8.2.5",
     "babel-plugin-graphql-tag": "3.3.0",
-    "chromatic": "^6.6.3",
+    "chromatic": "^6.6.4",
     "eslint": "^8.18.0",
     "eslint-config-next": "12.1.6",
     "eslint-config-prettier": "8.5.0",
