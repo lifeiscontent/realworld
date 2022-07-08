@@ -52,7 +52,7 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.1, >= 1.2.0)
-    active_record_doctor (1.9.0)
+    active_record_doctor (1.10.0)
       activerecord (>= 4.2.0)
     activejob (7.0.3)
       activesupport (= 7.0.3)
@@ -132,7 +132,7 @@ GEM
     method_source (1.0.0)
     mini_mime (1.1.2)
     mini_portile2 (2.8.0)
-    minitest (5.16.1)
+    minitest (5.16.2)
     msgpack (1.5.2)
     net-imap (0.2.3)
       digest
