@@ -1,7 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    action_policy (0.6.1)
+    action_policy (0.6.2)
       ruby-next-core (>= 0.14.0)
     action_policy-graphql (0.5.3)
       action_policy (>= 0.5.0)
@@ -238,7 +238,7 @@ GEM
       parser (>= 3.1.1.0)
     ruby-graphviz (1.2.5)
       rexml
-    ruby-next-core (0.15.1)
+    ruby-next-core (0.15.2)
     ruby-progressbar (1.11.0)
     shoulda-matchers (5.1.0)
       activesupport (>= 5.2.0)
