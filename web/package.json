@@ -55,7 +55,7 @@
     "jest": "^27.0.0",
     "jest-environment-jsdom": "^27.0.0",
     "jest-environment-node": "^27.0.0",
-    "jest-runner": "^27.0.0",
+    "jest-runner": "^29.1.1",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
     "react-test-renderer": "^18.2.0",
