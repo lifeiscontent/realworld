@@ -14,11 +14,11 @@ class ArticlePolicy < ApplicationPolicy
   end
 
   def favorite?
-    user_not_author? && !record.is_favorited_by?(user)
+    user_not_author? && !record.favorited_by?(user)
   end
 
   def unfavorite?
-    user_not_author? && record.is_favorited_by?(user)
+    user_not_author? && record.favorited_by?(user)
   end
 
   private

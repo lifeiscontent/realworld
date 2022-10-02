@@ -27,7 +27,7 @@ module Types
     end
 
     def article_by_slug(slug:)
-      Article.find_by(slug: slug)
+      Article.find_by(slug:)
     end
 
     field :popular_tags, [TagType], null: false
@@ -63,7 +63,7 @@ module Types
     end
 
     def user_by_username(username:)
-      User.find_by(username: username)
+      User.find_by(username:)
     end
 
     field :viewer, UserType, null: true
@@ -71,5 +71,7 @@ module Types
     def viewer
       context[:current_user]
     end
+
+    expose_authorization_rules :read?, with: ArticleFeedPolicy, field_name: 'can_read_feed'
   end
 end

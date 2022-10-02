@@ -6,7 +6,7 @@ RSpec.describe ArticlePolicy, type: :policy do
   let(:current_user) { nil }
   let(:author) { create(:author) }
   let(:user) { create(:user) }
-  let(:record) { create(:article, author: author) }
+  let(:record) { create(:article, author:) }
   let(:context) { { user: current_user } }
 
   describe_rule :create? do
@@ -42,7 +42,7 @@ RSpec.describe ArticlePolicy, type: :policy do
 
   describe_rule :unfavorite? do
     succeed 'when user is not author and has favorited' do
-      let(:favorite) { create(:favorite, article: record, user: user) }
+      let(:favorite) { create(:favorite, article: record, user:) }
       let(:current_user) { favorite.user }
     end
 

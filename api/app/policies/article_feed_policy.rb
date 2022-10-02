@@ -8,4 +8,8 @@ class ArticleFeedPolicy < ApplicationPolicy
       scope.none
     end
   end
+
+  def read?
+    user.instance_of?(User)
+  end
 end

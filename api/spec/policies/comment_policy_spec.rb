@@ -8,7 +8,7 @@ RSpec.describe CommentPolicy, type: :policy do
   let(:author) { build_stubbed(:author) }
   let(:context) { { user: current_user } }
   let(:current_user) { nil }
-  let(:record) { build_stubbed :comment, author: author, article: article }
+  let(:record) { build_stubbed :comment, author:, article: }
   let(:user) { build_stubbed(:user) }
 
   describe_rule :create? do

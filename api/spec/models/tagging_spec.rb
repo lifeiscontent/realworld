@@ -12,7 +12,7 @@ RSpec.describe Tagging, type: :model do
     let(:article) { create(:article, author: create(:author)) }
     let(:tag) { create(:tag) }
 
-    subject { create(:tagging, article: article, tag: tag) }
+    subject { create(:tagging, article:, tag:) }
 
     it { is_expected.to validate_uniqueness_of(:tag_id).scoped_to(:article_id) }
   end

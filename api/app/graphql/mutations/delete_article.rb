@@ -7,12 +7,12 @@ module Mutations
     field :article, Types::ArticleType, null: false
 
     def resolve(slug:)
-      article = Article.find_by(slug: slug)
+      article = Article.find_by(slug:)
 
       authorize! article, to: :delete?
       article.destroy!
 
-      { article: article }
+      { article: }
     end
   end
 end

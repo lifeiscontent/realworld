@@ -17,7 +17,7 @@ RSpec.describe 'deleteComment', type: :graphql do
   let(:comment_author) { create(:author) }
   let(:article_author) { create(:author) }
   let(:article) { create(:article, author: article_author) }
-  let(:comment) { create(:comment, author: comment_author, article: article) }
+  let(:comment) { create(:comment, author: comment_author, article:) }
   let(:variables) do
     {
       id: comment.id

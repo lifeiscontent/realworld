@@ -9,6 +9,6 @@ module Types
     field :author, UserType, null: false
     field :article, ArticleType, null: false
 
-    expose_authorization_rules :delete?, prefix: 'can_'
+    expose_authorization_rules :delete?
   end
 end

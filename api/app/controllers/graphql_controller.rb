@@ -11,7 +11,7 @@ class GraphqlController < ApplicationController
     variables = ensure_hash(params[:variables])
     query = params[:query]
     operation_name = params[:operationName]
-    result = ApiSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
+    result = ApiSchema.execute(query, variables:, context:, operation_name:)
     render json: result
   rescue StandardError => e
     raise e unless Rails.env.development?
@@ -23,7 +23,7 @@ class GraphqlController < ApplicationController
 
   def context
     {
-      current_user: current_user
+      current_user:
     }
   end
 

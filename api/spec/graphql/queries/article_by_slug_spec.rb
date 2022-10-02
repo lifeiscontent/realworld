@@ -47,7 +47,7 @@ RSpec.describe 'articleBySlug', type: :graphql do
     GRAPHQL
   end
   let(:author) { create(:author) }
-  let(:article) { create(:article, author: author) }
+  let(:article) { create(:article, author:) }
   let(:variables) do
     {
       slug: article.slug
@@ -118,7 +118,7 @@ RSpec.describe 'articleBySlug', type: :graphql do
   end
 
   context 'current_user is a user who has favorited the article' do
-    let(:current_user) { create(:favorite, article: article, user: build(:user)).user }
+    let(:current_user) { create(:favorite, article:, user: build(:user)).user }
     let(:result) do
       {
         data: {

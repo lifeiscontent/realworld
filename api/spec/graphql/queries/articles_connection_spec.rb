@@ -30,8 +30,8 @@ RSpec.describe 'articlesConnection', type: :graphql do
     { first: 2 }
   end
 
-  let!(:tagged_articles) { create_list(:article, 2, author: author, tags: tags) }
-  let!(:articles) { create_list(:article, 2, author: author) }
+  let!(:tagged_articles) { create_list(:article, 2, author:, tags:) }
+  let!(:articles) { create_list(:article, 2, author:) }
 
   context 'current_user is not defined' do
     let(:result) do

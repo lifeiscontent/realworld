@@ -35,7 +35,7 @@ RSpec.describe 'signIn', type: :graphql do
       {
         data: {
           signIn: {
-            token: token,
+            token:,
             user: {
               email: user.email,
               username: user.username

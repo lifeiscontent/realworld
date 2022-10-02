@@ -12,7 +12,7 @@ RSpec.describe Relationship, type: :model do
     let(:followed) { create(:followed) }
     let(:follower) { create(:follower) }
 
-    subject { create(:relationship, followed: followed, follower: follower) }
+    subject { create(:relationship, followed:, follower:) }
 
     it { is_expected.to validate_presence_of(:followed) }
     it { is_expected.to validate_presence_of(:follower) }

@@ -6,6 +6,7 @@ module Types
     field :bio, String, null: false
     field :image_url, String, null: true
     field :user, UserType, null: false
-    expose_authorization_rules :update?, prefix: 'can_'
+
+    expose_authorization_rules :update?
   end
 end

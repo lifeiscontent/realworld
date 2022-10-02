@@ -24,7 +24,7 @@ RSpec.describe 'unfavoriteArticle', type: :graphql do
     }
   end
 
-  before(:each) { Favorite.create(article: article, user: user) }
+  before(:each) { Favorite.create(article:, user:) }
 
   context 'current_user is not defined' do
     let(:result) do

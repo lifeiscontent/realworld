@@ -4,16 +4,16 @@ RSpec.shared_context 'GraphQL' do
   let(:current_user) { nil }
   let(:operation_name) { nil }
   let(:variables) { nil }
-  let(:context) { { current_user: current_user } }
+  let(:context) { { current_user: } }
   let(:query) { nil }
   let(:mutation) { nil }
   let(:result) { {} }
 
   subject do
     ApiSchema.execute(query || mutation,
-                      variables: variables,
-                      context: context,
-                      operation_name: operation_name).to_h.deep_symbolize_keys
+                      variables:,
+                      context:,
+                      operation_name:).to_h.deep_symbolize_keys
   end
 end
 

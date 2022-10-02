@@ -6,7 +6,7 @@ module Mutations
     field :user, Types::UserType, null: false
 
     def resolve(username:)
-      user = User.find_by(username: username)
+      user = User.find_by(username:)
 
       authorize! user, to: :unfollow?
 

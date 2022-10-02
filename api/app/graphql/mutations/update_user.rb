@@ -36,7 +36,7 @@ module Mutations
     field :user, Types::UserType, null: false
 
     def resolve(username:, input:)
-      user = User.includes(:profile).find_by(username: username)
+      user = User.includes(:profile).find_by(username:)
 
       authorize! user, to: :update?
       authorize! user.profile, to: :update?
@@ -44,7 +44,7 @@ module Mutations
       user.update!(input)
 
       {
-        user: user
+        user:
       }
     end
   end

@@ -19,13 +19,13 @@ module Mutations
     field :article, Types::ArticleType, null: false
 
     def resolve(slug:, input:)
-      article = Article.find_by(slug: slug)
+      article = Article.find_by(slug:)
 
       authorize! article, to: :update?
 
       article.update!(input)
 
-      { article: article }
+      { article: }
     end
   end
 end

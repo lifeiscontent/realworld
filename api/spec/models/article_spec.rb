@@ -55,7 +55,7 @@ RSpec.describe Article, type: :model do
 
     before(:each) do
       create_list(:article, 3, author: build(:author))
-      create_list(:article, 3, author: author)
+      create_list(:article, 3, author:)
     end
 
     subject { described_class.feed_for(relationship.follower) }
@@ -72,7 +72,7 @@ RSpec.describe Article, type: :model do
   describe '#favorites_count' do
     let(:user) { create(:user) }
     let(:article) { create(:article, author: build(:author)) }
-    let(:favorite) { build(:favorite, user: user, article: article) }
+    let(:favorite) { build(:favorite, user:, article:) }
 
     it 'will increment favorites_count by 1 when user favorites an article' do
       expect do
