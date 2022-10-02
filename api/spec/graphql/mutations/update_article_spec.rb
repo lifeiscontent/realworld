@@ -22,7 +22,7 @@ RSpec.describe 'updateArticle', type: :graphql do
   end
   let(:author) { create(:author) }
   let(:tags) { create_list(:tag, 3) }
-  let(:article) { create(:article, author: author) }
+  let(:article) { create(:article, author:) }
   let(:variables) do
     {
       slug: article.slug,

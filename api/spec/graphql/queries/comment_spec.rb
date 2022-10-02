@@ -25,7 +25,7 @@ RSpec.describe 'comment', type: :graphql do
   let(:article_author) { create(:author) }
   let(:comment_author) { create(:author) }
   let(:article) { create(:article, author: article_author) }
-  let(:comment) { create(:comment, article: article, author: comment_author) }
+  let(:comment) { create(:comment, article:, author: comment_author) }
   let(:variables) do
     {
       id: comment.id

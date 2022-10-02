@@ -11,9 +11,9 @@ RSpec.describe Favorite, type: :model do
   describe 'validations' do
     let(:user) { create(:user) }
     let(:author) { create(:author) }
-    let(:article) { create(:article, author: author) }
+    let(:article) { create(:article, author:) }
 
-    subject { create(:favorite, user: user, article: article) }
+    subject { create(:favorite, user:, article:) }
 
     it { is_expected.to validate_uniqueness_of(:article_id).scoped_to(:user_id) }
   end

@@ -18,12 +18,12 @@ module Mutations
       authorize! Comment, to: :create?
       article = Article.find_by(slug: article_slug)
       comment = Comment.create!(
-        article: article,
+        article:,
         author: context[:current_user],
         body: input[:body]
       )
 
-      { comment: comment }
+      { comment: }
     end
   end
 end

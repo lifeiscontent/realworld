@@ -11,7 +11,7 @@ module Mutations
       authorize! comment, to: :delete?
       comment.destroy!
 
-      { comment: comment }
+      { comment: }
     end
   end
 end

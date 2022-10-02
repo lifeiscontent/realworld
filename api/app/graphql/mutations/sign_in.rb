@@ -20,7 +20,7 @@ module Mutations
 
       user.authenticate!(input[:password])
 
-      { user: user, token: user.generate_jwt }
+      { user:, token: user.generate_jwt }
     end
   end
 end
