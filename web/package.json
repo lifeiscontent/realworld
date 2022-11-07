@@ -16,7 +16,7 @@
     "yup": "0.32.11"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.5",
+    "@babel/core": "^7.20.2",
     "@babel/runtime-corejs2": "^7.18.3",
     "@next/eslint-plugin-next": "12.1.6",
     "@storybook/addon-actions": "^6.5.9",
