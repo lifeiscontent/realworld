@@ -13,16 +13,20 @@ export const AsGuest = {};
 
 export const MyArticlesActive = {
   parameters: {
-    nextRouter: {
-      pathname: '/user/[username]',
+    nextjs: {
+      router: {
+        asPath: '/user/lifeiscontent',
+      },
     },
   },
 };
 
 export const FavoritedArticlesActive = {
   parameters: {
-    nextRouter: {
-      pathname: '/user/[username]/favorites',
+    nextjs: {
+      router: {
+        asPath: '/user/lifeiscontent/favorites',
+      },
     },
   },
 };

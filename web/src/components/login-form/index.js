@@ -21,7 +21,7 @@ export function LoginForm({ onSubmit }) {
           <h1 className="text-xs-center">Sign in</h1>
           <p className="text-xs-center">
             <Link href="/register">
-              <a>Need an account?</a>
+              Need an account?
             </Link>
           </p>
           <Formik

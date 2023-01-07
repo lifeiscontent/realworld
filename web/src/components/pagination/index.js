@@ -34,8 +34,8 @@ export function Pagination({
                     last: 10,
                   },
             }}
-          >
-            <a className="page-link">Previous</a>
+            className="page-link">
+            Previous
           </Link>
         </li>
         <li
@@ -57,8 +57,8 @@ export function Pagination({
                     first: 10,
                   },
             }}
-          >
-            <a className="page-link">Next</a>
+            className="page-link">
+            Next
           </Link>
         </li>
       </ul>

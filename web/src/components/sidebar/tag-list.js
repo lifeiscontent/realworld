@@ -16,14 +16,11 @@ export function SidebarTagList({ popularTags }) {
         <Link
           href={{ pathname: router.pathname, query: { tagName: tag.name } }}
           key={tag.id}
+          className={clsx('tag-pill tag-default', {
+            'tag-outline': router.query.tagName !== tag.name,
+          })}
         >
-          <a
-            className={clsx('tag-pill tag-default', {
-              'tag-outline': router.query.tagName !== tag.name,
-            })}
-          >
-            {tag.name}
-          </a>
+          {tag.name}
         </Link>
       ))}
     </div>

@@ -7,10 +7,9 @@ export function ArticleUpdateButton({ canUpdate, slug }) {
   if (canUpdate.value === false) return null;
 
   return (
-    <Link href="/editor/[slug]" as={`/editor/${slug}`}>
-      <a className="btn btn-sm btn-outline-secondary">
-        <i className="ion-edit" /> Edit Article
-      </a>
+    <Link href={`/editor/${slug}`} className="btn btn-sm btn-outline-secondary">
+      <i className="ion-edit" />
+      Edit Article
     </Link>
   );
 }

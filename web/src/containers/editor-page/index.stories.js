@@ -18,9 +18,10 @@ const meta = {
         },
       ],
     },
-    nextRouter: {
-      pathname: '/editor',
-      asPath: '/editor',
+    nextjs: {
+      router: {
+        asPath: '/editor',
+      },
     },
   },
 };

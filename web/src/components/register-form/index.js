@@ -22,7 +22,7 @@ export function RegisterForm({ onSubmit }) {
           <h1 className="text-xs-center">Sign up</h1>
           <p className="text-xs-center">
             <Link href="/login">
-              <a>Have an account?</a>
+              Have an account?
             </Link>
           </p>
           <Formik

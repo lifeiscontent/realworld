@@ -29,24 +29,22 @@ export function CommentCard({
         </div>
       </div>
       <div className="card-footer">
-        <Link href="/user/[username]" as={`/user/${author.username}`}>
-          <a className="comment-author">
-            <span style={{ display: 'inline-flex', verticalAlign: 'middle' }}>
-              <Image
-                alt={`Image of ${author.username}`}
-                className="comment-author-img"
-                height="20"
-                src={profile.imageUrl ?? '/images/smiley-cyrus.jpg'}
-                unoptimized={!!profile.imageUrl}
-                width="20"
-              />
-            </span>
-            <span className="comment-author-name">{author.username}</span>
-          </a>
+        <Link href={`/user/${author.username}`} className="comment-author">
+          <span style={{ display: 'inline-flex', verticalAlign: 'middle' }}>
+            <Image
+              alt={`Image of ${author.username}`}
+              className="comment-author-img"
+              height="20"
+              src={profile.imageUrl ?? '/images/smiley-cyrus.jpg'}
+              unoptimized={!!profile.imageUrl}
+              width="20"
+            />
+          </span>
+          <span className="comment-author-name">{author.username}</span>
         </Link>
         &nbsp;&nbsp;&nbsp;
-        <Link href="/user/[username]" as={`/user/${author.username}`}>
-          <a className="comment-author">{author.username}</a>
+        <Link href={`/user/${author.username}`} className="comment-author">
+          {author.username}
         </Link>
         <time dateTime={createdAt} className="date-posted">
           {format(new Date(createdAt), 'MMM Qo')}
