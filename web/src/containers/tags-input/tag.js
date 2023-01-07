@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { gql, useQuery, NetworkStatus } from '@apollo/client';
 

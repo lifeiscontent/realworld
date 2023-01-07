@@ -18,7 +18,7 @@ what is interesting about the component model is you can hide the implementation
 if you don't expose properties like `style` or `className` to the react component, you can guarantee the style will be deterministic which makes it safe for refactoring later if you need to. Let take a look at what this might look like.
 
 ```jsx
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
@@ -59,7 +59,7 @@ This will serve as our starting template
 [web/src/components/article-favorite-button/index.js][web/src/components/article-favorite-button/index.js]
 
 ```jsx
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { gql } from '@apollo/client';
@@ -184,7 +184,7 @@ We'll use the `ArticleFavoriteButton` as an example.
 [web/src/components/article-favorite-button/index.stories.js][web/src/components/article-favorite-button/index.stories.js]
 
 ```jsx
-import React from 'react';
+import * as React from 'react';
 import { ArticleFavoriteButton } from '.'; // import our UI Component
 import { action } from '@storybook/addon-actions'; // import some addons
 
@@ -237,7 +237,7 @@ since we have 2 actions (favorite/unfavorite) we can test them in jest, let's do
 [web/src/components/article-favorite-button/index.spec.js][web/src/components/article-favorite-button/index.spec.js]
 
 ```jsx
-import React from 'react';
+import * as React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 
 describe('ArticleFavoriteButton', () => {

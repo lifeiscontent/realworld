@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import Link from 'next/link';
 
 export function NavbarUserDropdown({ username }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = React.useState(false);
 
   return (
     <li className={clsx('nav-item dropdown', { open })}>

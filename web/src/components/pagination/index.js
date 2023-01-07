@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import clsx from 'clsx';
@@ -34,7 +33,8 @@ export function Pagination({
                     last: 10,
                   },
             }}
-            className="page-link">
+            className="page-link"
+          >
             Previous
           </Link>
         </li>
@@ -57,7 +57,8 @@ export function Pagination({
                     first: 10,
                   },
             }}
-            className="page-link">
+            className="page-link"
+          >
             Next
           </Link>
         </li>

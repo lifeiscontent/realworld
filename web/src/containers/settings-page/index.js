@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import * as React from 'react';
 import { gql, useQuery, useMutation, NetworkStatus } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { handleValidationError } from '../../utils/graphql';
@@ -8,7 +8,7 @@ import { Layout } from '../layout';
 function SettingsPage() {
   const router = useRouter();
   const page = useQuery(SettingsPageQuery, {
-    onCompleted: useCallback(
+    onCompleted: React.useCallback(
       data => {
         if (data.viewer) return;
 

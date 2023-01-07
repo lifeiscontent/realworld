@@ -4,6 +4,7 @@
     "plugin:import/recommended",
     "next/core-web-vitals",
     "plugin:testing-library/react",
+    "plugin:react/jsx-runtime",
     "prettier"
   ],
   "overrides": [

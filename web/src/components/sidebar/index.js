@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { SidebarTagList } from './tag-list';
 import { gql } from '@apollo/client';

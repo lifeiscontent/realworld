@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import * as React from 'react';
 import { ArticleForm } from '../../components/article-form';
 import { useMutation, useQuery, gql, NetworkStatus } from '@apollo/client';
 import { useRouter } from 'next/router';
@@ -8,7 +8,7 @@ import { Layout } from '../layout';
 function EditorPage() {
   const router = useRouter();
   const page = useQuery(EditorPageQuery, {
-    onCompleted: useCallback(
+    onCompleted: React.useCallback(
       data => {
         if (data.viewer?.canCreateArticle.value) return;
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { useQuery, useMutation, gql, NetworkStatus } from '@apollo/client';
 import { UserCommentForm } from '../../components/user-comment-form';

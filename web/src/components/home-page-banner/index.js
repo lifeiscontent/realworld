@@ -1,5 +1,3 @@
-import React from 'react';
-
 export function HomePageBanner() {
   return (
     <div className="banner">

@@ -1,4 +1,3 @@
-import React from 'react';
 import { gql, useQuery, useMutation, NetworkStatus } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { ArticlePreview } from '../../components/article-preview';

@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import { useField } from 'formik';
 import { TagsInputTag } from './tag';
 import { gql, useQuery } from '@apollo/client';
 
 export function TagsInput(props) {
-  const [value, setValue] = useState('');
+  const [value, setValue] = React.useState('');
 
   const component = useQuery(TagsInputQuery, {
     returnPartialData: true,
