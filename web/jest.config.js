@@ -23,6 +23,7 @@ const esModules = [
   'unist-util-position',
   'unist-util-stringify-position',
   'unist-util-visit',
+  'trim-lines',
   'vfile',
 ].join('|');
 
