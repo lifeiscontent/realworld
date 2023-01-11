@@ -12,7 +12,7 @@ export function ArticlePreview({
   canUnfavorite,
   createdAt,
   description,
-  favoritesCount,
+  favoritesCount = 0,
   onFavorite,
   onUnfavorite,
   slug,
@@ -66,11 +66,6 @@ ArticlePreview.fragments = {
     ${ArticlePreviewFavoriteButton.fragments.article}
     ${ArticlePreviewTagsList.fragments.article}
   `,
-};
-
-ArticlePreview.defaultProps = {
-  favoritesCount: 0,
-  viewerDidFavorite: false,
 };
 
 ArticlePreview.propTypes = {

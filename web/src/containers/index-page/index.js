@@ -33,7 +33,12 @@ function IndexPage() {
   const [favoriteArticle] = useMutation(IndexPageFavoriteArticleMutation);
   const [unfavoriteArticle] = useMutation(IndexPageUnfavoriteArticleMutation);
 
-  if (page.networkStatus === NetworkStatus.loading) return null;
+  if (
+    page.networkStatus === NetworkStatus.loading ||
+    page.networkStatus === NetworkStatus.setVariables
+  ) {
+    return null;
+  }
 
   return (
     <Layout {...page.data.viewer}>

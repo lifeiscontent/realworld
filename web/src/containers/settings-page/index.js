@@ -19,7 +19,12 @@ function SettingsPage() {
   });
   const [updateUser] = useMutation(SettingsPageUpdateUserMutation);
 
-  if (page.networkStatus === NetworkStatus.loading) return null;
+  if (
+    page.networkStatus === NetworkStatus.loading ||
+    page.networkStatus === NetworkStatus.setVariables
+  ) {
+    return null;
+  }
 
   return (
     <Layout {...page.data.viewer}>

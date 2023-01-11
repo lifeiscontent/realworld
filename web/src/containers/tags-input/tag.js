@@ -2,21 +2,25 @@ import PropTypes from 'prop-types';
 import { gql, useQuery, NetworkStatus } from '@apollo/client';
 
 export function TagsInputTag({ id, onRemoveTag }) {
-  const tagInputTag = useQuery(TagsInputTagQuery, {
+  const component = useQuery(TagsInputTagQuery, {
     variables: {
       id,
     },
   });
 
-  if (tagInputTag.networkStatus === NetworkStatus.loading) return null;
+  if (
+    component.networkStatus === NetworkStatus.loading ||
+    component.networkStatus === NetworkStatus.setVariables
+  )
+    return null;
 
   return (
     <span className="tag-default tag-pill">
       <i
         className="ion-close-round"
-        onClick={() => onRemoveTag(tagInputTag.data.tag)}
+        onClick={() => onRemoveTag(component.data.tag)}
       />
-      {tagInputTag.data.tag.name}
+      {component.data.tag.name}
     </span>
   );
 }

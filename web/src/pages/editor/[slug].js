@@ -6,7 +6,7 @@ import { addApolloState, initializeApollo } from '../../lib/apolloClient';
 export default EditorUpdatePage;
 
 export async function getServerSideProps(ctx) {
-  const apolloClient = initializeApollo();
+  const apolloClient = initializeApollo(ctx);
 
   await apolloClient.query({
     query: EditorUpdatePage.query,

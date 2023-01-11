@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import { gql } from '@apollo/client';
 
-export function SidebarTagList({ popularTags }) {
+export function SidebarTagList({ popularTags = [] }) {
   const router = useRouter();
 
   if (popularTags.length === 0) return null;
@@ -33,10 +33,6 @@ SidebarTagList.fragments = {
       name
     }
   `,
-};
-
-SidebarTagList.defaultProps = {
-  popularTags: [],
 };
 
 SidebarTagList.propTypes = {

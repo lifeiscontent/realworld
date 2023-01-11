@@ -6,7 +6,7 @@ import { addApolloState, initializeApollo } from '../../../lib/apolloClient';
 export default ProfileFavoritesPage;
 
 export async function getServerSideProps(ctx) {
-  const apolloClient = initializeApollo();
+  const apolloClient = initializeApollo(ctx);
 
   await apolloClient.query({
     query: ProfileFavoritesPage.query,

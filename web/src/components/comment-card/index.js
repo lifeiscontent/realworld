@@ -8,13 +8,11 @@ import Image from 'next/image';
 export function CommentCard({
   author,
   body,
+  canDelete,
   createdAt,
   id,
   onDelete,
-  canDelete,
 }) {
-  const { profile = {} } = author;
-
   const handleDelete = event => {
     event.preventDefault();
     onDelete({ variables: { id } });
@@ -29,16 +27,15 @@ export function CommentCard({
       </div>
       <div className="card-footer">
         <Link href={`/user/${author.username}`} className="comment-author">
-          <span style={{ display: 'inline-flex', verticalAlign: 'middle' }}>
-            <Image
-              alt={`Image of ${author.username}`}
-              className="comment-author-img"
-              height="20"
-              src={profile.imageUrl ?? '/images/smiley-cyrus.jpg'}
-              unoptimized={!!profile.imageUrl}
-              width="20"
-            />
-          </span>
+          <Image
+            alt={`Image of ${author.username}`}
+            className="comment-author-img"
+            height="20"
+            src={author?.profile?.imageUrl ?? '/images/smiley-cyrus.jpg'}
+            unoptimized={!!author?.profile?.imageUrl}
+            priority
+            width="20"
+          />
           <span className="comment-author-name">{author.username}</span>
         </Link>
         &nbsp;&nbsp;&nbsp;
@@ -49,7 +46,7 @@ export function CommentCard({
           {format(new Date(createdAt), 'MMM Qo')}
         </time>
         <span className="mod-options">
-          {canDelete.value ? (
+          {canDelete?.value ? (
             <i className="ion-trash-a" onClick={handleDelete} />
           ) : null}
         </span>
@@ -75,11 +72,6 @@ CommentCard.fragments = {
       id
     }
   `,
-};
-
-CommentCard.defaultProps = {
-  canDelete: { value: false },
-  author: {},
 };
 
 CommentCard.propTypes = {

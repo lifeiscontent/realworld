@@ -22,7 +22,7 @@ export function UserPageBanner({
           <div className="col-xs-12 col-md-10 offset-md-1">
             <UserAvatar size="128" username={username} profile={profile} />
             <h4>{username}</h4>
-            <p>{profile.bio}</p>
+            {profile?.bio ? <p>{profile.bio}</p> : null}
             <div className="btn-toolbar">
               <UserFollowButton
                 canFollow={canFollow}
@@ -57,10 +57,6 @@ UserPageBanner.fragments = {
     ${UserFollowButton.fragments.user}
     ${UserUpdateButton.fragments.user}
   `,
-};
-
-UserPageBanner.defaultProps = {
-  profile: {},
 };
 
 UserPageBanner.propTypes = {

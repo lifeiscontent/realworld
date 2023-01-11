@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { gql } from '@apollo/client';
 
-export function UserUpdateButton({ canUpdate }) {
-  if (canUpdate.value === false) return null;
+export function UserUpdateButton({ canUpdate = { value: false } }) {
+  if (!canUpdate?.value) return null;
 
   return (
     <Link
@@ -24,10 +24,6 @@ UserUpdateButton.fragments = {
       }
     }
   `,
-};
-
-UserUpdateButton.defaultProps = {
-  canUpdate: { value: false },
 };
 
 UserUpdateButton.propTypes = {

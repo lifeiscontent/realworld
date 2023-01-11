@@ -5,7 +5,7 @@ import { gql } from '@apollo/client';
 export function ArticlePreviewFavoriteButton({
   canFavorite,
   canUnfavorite,
-  favoritesCount,
+  favoritesCount = 0,
   onFavorite,
   onUnfavorite,
   slug,
@@ -13,10 +13,10 @@ export function ArticlePreviewFavoriteButton({
 }) {
   return (
     <button
-      disabled={!(canFavorite.value || canUnfavorite.value)}
+      disabled={!canFavorite?.value && !canUnfavorite?.value}
       className={clsx('btn btn-sm', {
-        'btn-outline-primary': viewerDidFavorite === false,
-        'btn-primary': viewerDidFavorite,
+        'btn-outline-primary': !viewerDidFavorite,
+        'btn-primary': !!viewerDidFavorite,
       })}
       onClick={() =>
         viewerDidFavorite
@@ -43,13 +43,6 @@ ArticlePreviewFavoriteButton.fragments = {
       viewerDidFavorite
     }
   `,
-};
-
-ArticlePreviewFavoriteButton.defaultProps = {
-  canFavorite: { value: false },
-  canUnfavorite: { value: false },
-  favoritesCount: 0,
-  viewerDidFavorite: false,
 };
 
 ArticlePreviewFavoriteButton.propTypes = {

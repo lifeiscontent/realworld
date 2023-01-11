@@ -14,7 +14,7 @@ export function ViewerFeedToggle({ username }) {
             <Link
               href="/feed"
               className={clsx('nav-link', {
-                active: router.asPath === '/feed',
+                active: router.route === '/feed',
               })}
             >
               Your Feed
@@ -26,19 +26,14 @@ export function ViewerFeedToggle({ username }) {
         <li className="nav-item">
           <Link
             href="/"
-            className={clsx('nav-link', { active: router.asPath === '/' })}
+            className={clsx('nav-link', { active: router.route === '/' })}
           >
             Global Feed
           </Link>
         </li>
         {router.query.tagName && (
           <li className="nav-item">
-            <Link
-              href={router.asPath}
-              className={clsx('nav-link', {
-                active: router.asPath === '/',
-              })}
-            >
+            <Link href={router.asPath} className="nav-link active">
               #{router.query.tagName}
             </Link>
           </li>

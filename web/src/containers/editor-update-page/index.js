@@ -27,7 +27,12 @@ function EditorUpdatePage() {
 
   const [updateArticle] = useMutation(EditorUpdatePageUpdateArticleMutation);
 
-  if (page.networkStatus === NetworkStatus.loading || skip) return null;
+  if (
+    page.networkStatus === NetworkStatus.loading ||
+    page.networkStatus === NetworkStatus.setVariables ||
+    skip
+  )
+    return null;
 
   return (
     <Layout {...page.data.viewer}>

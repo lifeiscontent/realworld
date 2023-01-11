@@ -5,10 +5,10 @@ import Link from 'next/link';
 import { gql } from '@apollo/client';
 
 export function Pagination({
-  hasNextPage,
-  hasPreviousPage,
-  startCursor,
-  endCursor,
+  hasNextPage = false,
+  hasPreviousPage = false,
+  startCursor = null,
+  endCursor = null,
 }) {
   const router = useRouter();
   return (
@@ -16,7 +16,7 @@ export function Pagination({
       <ul className="pagination">
         <li
           className={clsx('page-item', {
-            disabled: hasPreviousPage === false,
+            disabled: !hasPreviousPage,
           })}
         >
           <Link
@@ -40,7 +40,7 @@ export function Pagination({
         </li>
         <li
           className={clsx('page-item', {
-            disabled: hasNextPage === false,
+            disabled: !hasNextPage,
           })}
         >
           <Link
@@ -76,13 +76,6 @@ Pagination.fragments = {
       startCursor
     }
   `,
-};
-
-Pagination.defaultProps = {
-  hasNextPage: false,
-  hasPreviousPage: false,
-  startCursor: null,
-  endCursor: null,
 };
 
 Pagination.propTypes = {

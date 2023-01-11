@@ -42,7 +42,12 @@ function FeedPage() {
   const [favoriteArticle] = useMutation(FeedPageFavoriteArticleMutation);
   const [unfavoriteArticle] = useMutation(FeedPageUnfavoriteArticleMutation);
 
-  if (page.networkStatus === NetworkStatus.loading) return null;
+  if (
+    page.networkStatus === NetworkStatus.loading ||
+    page.networkStatus === NetworkStatus.setVariables
+  ) {
+    return null;
+  }
 
   return (
     <Layout {...page.data.viewer}>

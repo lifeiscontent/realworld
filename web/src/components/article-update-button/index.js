@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { gql } from '@apollo/client';
 
 export function ArticleUpdateButton({ canUpdate, slug }) {
-  if (canUpdate.value === false) return null;
+  if (!canUpdate?.value) return null;
 
   return (
     <Link href={`/editor/${slug}`} className="btn btn-sm btn-outline-secondary">
@@ -22,10 +22,6 @@ ArticleUpdateButton.fragments = {
       slug
     }
   `,
-};
-
-ArticleUpdateButton.defaultProps = {
-  canUpdate: { value: false },
 };
 
 ArticleUpdateButton.propTypes = {

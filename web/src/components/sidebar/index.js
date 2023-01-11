@@ -22,10 +22,6 @@ Sidebar.fragments = {
   `,
 };
 
-Sidebar.defaultProps = {
-  popularTags: [],
-};
-
 Sidebar.propTypes = {
   popularTags: PropTypes.arrayOf(
     PropTypes.shape({

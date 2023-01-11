@@ -63,28 +63,60 @@ function createApolloClient(ctx) {
       typePolicies: {
         Article: {
           keyFields: ['slug'],
+          fields: {
+            comments: {
+              merge(_existing, incoming = []) {
+                return incoming;
+              },
+            },
+          },
         },
         User: {
           keyFields: ['username'],
+          fields: {
+            profile: {
+              merge: true,
+            },
+          },
         },
         Query: {
           fields: {
-            articlesConnection: relayStylePagination(),
-            articleBySlug(_, { args, toReference }) {
-              return toReference({ __typename: 'Article', slug: args.slug });
+            articlesConnection: relayStylePagination([
+              'after',
+              'before',
+              'first',
+              'last',
+              'tagName',
+            ]),
+            articleBySlug: {
+              read(_, { args, toReference }) {
+                return toReference({ __typename: 'Article', slug: args.slug });
+              },
             },
-            comment(_, { args, toReference }) {
-              return toReference({ __typename: 'Comment', id: args.id });
+            comment: {
+              read(_, { args, toReference }) {
+                return toReference({ __typename: 'Comment', id: args.id });
+              },
             },
-            feedConnection: relayStylePagination(),
-            userByUsername(_, { args, toReference }) {
-              return toReference({
-                __typename: 'User',
-                username: args.username,
-              });
+            feedConnection: relayStylePagination([
+              'after',
+              'before',
+              'first',
+              'last',
+              'tagName',
+            ]),
+            userByUsername: {
+              read(_, { args, toReference }) {
+                return toReference({
+                  __typename: 'User',
+                  username: args.username,
+                });
+              },
             },
-            tag(_, { args, toReference }) {
-              return toReference({ __typename: 'Tag', id: args.id });
+            tag: {
+              read(_, { args, toReference }) {
+                return toReference({ __typename: 'Tag', id: args.id });
+              },
             },
           },
         },
@@ -93,8 +125,8 @@ function createApolloClient(ctx) {
   });
 }
 
-export function initializeApollo(initialState = null) {
-  const _apolloClient = apolloClient ?? createApolloClient();
+export function initializeApollo(ctx, initialState = null) {
+  const _apolloClient = apolloClient ?? createApolloClient(ctx);
 
   // If your page has Next.js data fetching methods that use Apollo Client, the initial state
   // gets hydrated here

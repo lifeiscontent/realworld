@@ -7,7 +7,7 @@ export function ArticleDeleteButton({ canDelete, onDelete, slug }) {
     onDelete({ variables: { slug } });
   };
 
-  if (canDelete.value === false) return null;
+  if (!canDelete?.value) return null;
 
   return (
     <button className="btn btn-sm btn-outline-danger" onClick={handleDelete}>
@@ -25,10 +25,6 @@ ArticleDeleteButton.fragments = {
       slug
     }
   `,
-};
-
-ArticleDeleteButton.defaultProps = {
-  canDelete: { value: false },
 };
 
 ArticleDeleteButton.propTypes = {

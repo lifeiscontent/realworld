@@ -11,55 +11,9 @@ export function ArticleComments({ articleSlug }) {
     },
   });
 
-  const [deleteComment] = useMutation(ArticleCommentsDeleteCommentMutation, {
-    update(proxy, mutationResult) {
-      const commentsList = proxy.readQuery({
-        query: ArticleCommentsQuery,
-        variables: { slug: articleSlug },
-      });
+  const [deleteComment] = useMutation(ArticleCommentsDeleteCommentMutation);
 
-      proxy.writeQuery({
-        query: ArticleCommentsQuery,
-        variables: { slug: articleSlug },
-        data: {
-          ...commentsList,
-          article: {
-            ...commentsList.article,
-            comments: [
-              ...commentsList.article.comments.filter(
-                comment =>
-                  comment.id !== mutationResult.data.deleteComment.comment.id
-              ),
-            ],
-          },
-        },
-      });
-    },
-  });
-
-  const [createComment] = useMutation(ArticleCommentsCreateCommentMutation, {
-    update(proxy, mutationResult) {
-      const commentsList = proxy.readQuery({
-        query: ArticleCommentsQuery,
-        variables: { slug: articleSlug },
-      });
-
-      proxy.writeQuery({
-        query: ArticleCommentsQuery,
-        variables: { slug: articleSlug },
-        data: {
-          ...commentsList,
-          article: {
-            ...commentsList.article,
-            comments: [
-              mutationResult.data.createComment.comment,
-              ...commentsList.article.comments,
-            ],
-          },
-        },
-      });
-    },
-  });
+  const [createComment] = useMutation(ArticleCommentsCreateCommentMutation);
 
   const handleSubmit = (input, { setSubmitting, setStatus, resetForm }) => {
     createComment({
@@ -76,7 +30,10 @@ export function ArticleComments({ articleSlug }) {
       .finally(() => setSubmitting(false));
   };
 
-  if (component.networkStatus === NetworkStatus.loading) {
+  if (
+    component.networkStatus === NetworkStatus.loading ||
+    component.networkStatus === NetworkStatus.setVariables
+  ) {
     return null;
   }
 
@@ -108,6 +65,7 @@ ArticleComments.fragments = {
   article: gql`
     fragment ArticleCommentsArticleFragment on Article {
       ...UserCommentFormArticleFragment
+      slug
       comments {
         ...CommentCardCommentFragment
       }

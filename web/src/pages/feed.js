@@ -1,17 +1,9 @@
-import FeedPage, { queryToVariables } from '../containers/feed-page';
-import { initializeApollo, addApolloState } from '../lib/apolloClient';
+import FeedPage from '../containers/feed-page';
 
 export default FeedPage;
 
-export async function getServerSideProps(ctx) {
-  const apolloClient = initializeApollo();
-
-  await apolloClient.query({
-    query: FeedPage.query,
-    variables: queryToVariables(ctx.query),
-  });
-
-  return addApolloState(apolloClient, {
+export async function getStaticProps() {
+  return {
     props: {},
-  });
+  };
 }
