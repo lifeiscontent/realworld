@@ -3,8 +3,8 @@ import clsx from 'clsx';
 import { gql } from '@apollo/client';
 
 export function UserFollowButton({
-  canFollow,
-  canUnfollow,
+  canFollow = { value: false },
+  canUnfollow = { value: false },
   followersCount = 0,
   onFollow,
   onUnfollow,

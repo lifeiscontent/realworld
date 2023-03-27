@@ -36,11 +36,8 @@ export function CommentCard({
             priority
             width="20"
           />
+          &nbsp;&nbsp;
           <span className="comment-author-name">{author.username}</span>
-        </Link>
-        &nbsp;&nbsp;&nbsp;
-        <Link href={`/user/${author.username}`} className="comment-author">
-          {author.username}
         </Link>
         <time dateTime={createdAt} className="date-posted">
           {format(new Date(createdAt), 'MMM Qo')}

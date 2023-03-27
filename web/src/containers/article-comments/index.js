@@ -11,9 +11,59 @@ export function ArticleComments({ articleSlug }) {
     },
   });
 
-  const [deleteComment] = useMutation(ArticleCommentsDeleteCommentMutation);
+  const [deleteComment] = useMutation(ArticleCommentsDeleteCommentMutation, {
+    update(
+      cache,
+      {
+        data: {
+          deleteComment: { comment },
+        },
+      }
+    ) {
+      cache.modify({
+        id: cache.identify(component.data.article),
+        fields: {
+          comments(existingCommentRefs = [], { readField }) {
+            return existingCommentRefs.filter(
+              ref => readField('id', ref) !== comment.id
+            );
+          },
+        },
+      });
+    },
+  });
 
-  const [createComment] = useMutation(ArticleCommentsCreateCommentMutation);
+  const [createComment] = useMutation(ArticleCommentsCreateCommentMutation, {
+    update(
+      cache,
+      {
+        data: {
+          createComment: { comment },
+        },
+      }
+    ) {
+      cache.modify({
+        id: cache.identify(component.data.article),
+        fields: {
+          comments(existingCommentRefs = [], { readField }) {
+            const newCommentRef = cache.writeFragment({
+              data: comment,
+              fragment: CommentCard.fragments.comment,
+            });
+            if (
+              existingCommentRefs.some(
+                ref => readField('id', ref) === comment.id
+              )
+            ) {
+              return existingCommentRefs;
+            }
+
+            return [newCommentRef, ...existingCommentRefs];
+          },
+        },
+      });
+    },
+  });
 
   const handleSubmit = (input, { setSubmitting, setStatus, resetForm }) => {
     createComment({
