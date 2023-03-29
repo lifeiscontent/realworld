@@ -2,7 +2,7 @@ import LogoutPage from '../containers/logout-page';
 
 export default LogoutPage;
 
-export function getStaticProps() {
+export async function getStaticProps() {
   return {
     props: {},
   };

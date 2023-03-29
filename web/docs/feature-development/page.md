@@ -13,7 +13,7 @@ We'll be using a mock for [next/router][web/__mocks__/next/router.js]
 [web/src/containers/editor-page/index.spec.js][web/src/containers/editor-page/index.spec.js]
 
 ```js
-import React from 'react';
+import * as React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import EditorPage from '.';
 // we use MockedProvider from Apollo because we have some data we need to fetch

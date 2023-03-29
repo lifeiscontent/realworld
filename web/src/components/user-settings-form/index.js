@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { FormikSubmitButton } from '../formik-submit-button';
@@ -20,7 +19,6 @@ const validationSchema = Yup.object({
 });
 
 export function UserSettingsForm({ onSubmit, username, email, profile }) {
-  const { bio = '', imageUrl } = profile;
   return (
     <div className="container page">
       <div className="row">
@@ -37,8 +35,8 @@ export function UserSettingsForm({ onSubmit, username, email, profile }) {
                 password: '',
                 username,
                 profile: {
-                  bio,
-                  imageUrl: imageUrl ?? '',
+                  bio: profile?.bio ?? '',
+                  imageUrl: profile?.imageUrl ?? '',
                 },
               },
             }}
@@ -127,10 +125,6 @@ UserSettingsForm.fragments = {
       }
     }
   `,
-};
-
-UserSettingsForm.defaultProps = {
-  profile: {},
 };
 
 UserSettingsForm.propTypes = {

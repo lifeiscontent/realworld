@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import * as React from 'react';
 import { ArticleForm } from '../../components/article-form';
 import { useMutation, useQuery, gql, NetworkStatus } from '@apollo/client';
 import { useRouter } from 'next/router';
@@ -13,7 +13,7 @@ function EditorUpdatePage() {
   const router = useRouter();
   const skip = !router.query.slug;
   const page = useQuery(EditorUpdatePageQuery, {
-    onCompleted: useCallback(
+    onCompleted: React.useCallback(
       data => {
         if (data.article.canUpdate.value) return;
 
@@ -27,7 +27,12 @@ function EditorUpdatePage() {
 
   const [updateArticle] = useMutation(EditorUpdatePageUpdateArticleMutation);
 
-  if (page.networkStatus === NetworkStatus.loading || skip) return null;
+  if (
+    page.networkStatus === NetworkStatus.loading ||
+    page.networkStatus === NetworkStatus.setVariables ||
+    skip
+  )
+    return null;
 
   return (
     <Layout {...page.data.viewer}>

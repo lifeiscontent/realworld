@@ -1,7 +1,7 @@
 import EditorUpdatePage, {
   queryToVariables,
 } from '../../containers/editor-update-page';
-import { initializeApollo } from '../../lib/apolloClient';
+import { addApolloState, initializeApollo } from '../../lib/apolloClient';
 
 export default EditorUpdatePage;
 
@@ -13,9 +13,7 @@ export async function getServerSideProps(ctx) {
     variables: queryToVariables(ctx.query),
   });
 
-  return {
-    props: {
-      initialApolloState: apolloClient.cache.extract(),
-    },
-  };
+  return addApolloState(apolloClient, {
+    props: {},
+  });
 }

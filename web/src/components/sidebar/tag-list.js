@@ -1,11 +1,10 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import { gql } from '@apollo/client';
 
-export function SidebarTagList({ popularTags }) {
+export function SidebarTagList({ popularTags = [] }) {
   const router = useRouter();
 
   if (popularTags.length === 0) return null;
@@ -16,14 +15,11 @@ export function SidebarTagList({ popularTags }) {
         <Link
           href={{ pathname: router.pathname, query: { tagName: tag.name } }}
           key={tag.id}
+          className={clsx('tag-pill tag-default', {
+            'tag-outline': router.query.tagName !== tag.name,
+          })}
         >
-          <a
-            className={clsx('tag-pill tag-default', {
-              'tag-outline': router.query.tagName !== tag.name,
-            })}
-          >
-            {tag.name}
-          </a>
+          {tag.name}
         </Link>
       ))}
     </div>
@@ -37,10 +33,6 @@ SidebarTagList.fragments = {
       name
     }
   `,
-};
-
-SidebarTagList.defaultProps = {
-  popularTags: [],
 };
 
 SidebarTagList.propTypes = {

@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { useQuery, useMutation, gql, NetworkStatus } from '@apollo/client';
 import { UserCommentForm } from '../../components/user-comment-form';
@@ -13,25 +12,21 @@ export function ArticleComments({ articleSlug }) {
   });
 
   const [deleteComment] = useMutation(ArticleCommentsDeleteCommentMutation, {
-    update(proxy, mutationResult) {
-      const commentsList = proxy.readQuery({
-        query: ArticleCommentsQuery,
-        variables: { slug: articleSlug },
-      });
-
-      proxy.writeQuery({
-        query: ArticleCommentsQuery,
-        variables: { slug: articleSlug },
+    update(
+      cache,
+      {
         data: {
-          ...commentsList,
-          article: {
-            ...commentsList.article,
-            comments: [
-              ...commentsList.article.comments.filter(
-                comment =>
-                  comment.id !== mutationResult.data.deleteComment.comment.id
-              ),
-            ],
+          deleteComment: { comment },
+        },
+      }
+    ) {
+      cache.modify({
+        id: cache.identify(component.data.article),
+        fields: {
+          comments(existingCommentRefs = [], { readField }) {
+            return existingCommentRefs.filter(
+              ref => readField('id', ref) !== comment.id
+            );
           },
         },
       });
@@ -39,23 +34,31 @@ export function ArticleComments({ articleSlug }) {
   });
 
   const [createComment] = useMutation(ArticleCommentsCreateCommentMutation, {
-    update(proxy, mutationResult) {
-      const commentsList = proxy.readQuery({
-        query: ArticleCommentsQuery,
-        variables: { slug: articleSlug },
-      });
-
-      proxy.writeQuery({
-        query: ArticleCommentsQuery,
-        variables: { slug: articleSlug },
+    update(
+      cache,
+      {
         data: {
-          ...commentsList,
-          article: {
-            ...commentsList.article,
-            comments: [
-              mutationResult.data.createComment.comment,
-              ...commentsList.article.comments,
-            ],
+          createComment: { comment },
+        },
+      }
+    ) {
+      cache.modify({
+        id: cache.identify(component.data.article),
+        fields: {
+          comments(existingCommentRefs = [], { readField }) {
+            const newCommentRef = cache.writeFragment({
+              data: comment,
+              fragment: CommentCard.fragments.comment,
+            });
+            if (
+              existingCommentRefs.some(
+                ref => readField('id', ref) === comment.id
+              )
+            ) {
+              return existingCommentRefs;
+            }
+
+            return [newCommentRef, ...existingCommentRefs];
           },
         },
       });
@@ -77,7 +80,10 @@ export function ArticleComments({ articleSlug }) {
       .finally(() => setSubmitting(false));
   };
 
-  if (component.networkStatus === NetworkStatus.loading) {
+  if (
+    component.networkStatus === NetworkStatus.loading ||
+    component.networkStatus === NetworkStatus.setVariables
+  ) {
     return null;
   }
 
@@ -109,6 +115,7 @@ ArticleComments.fragments = {
   article: gql`
     fragment ArticleCommentsArticleFragment on Article {
       ...UserCommentFormArticleFragment
+      slug
       comments {
         ...CommentCardCommentFragment
       }

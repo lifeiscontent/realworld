@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { FormikSubmitButton } from '../formik-submit-button';
@@ -18,7 +17,7 @@ export function UserCommentForm({
   profile,
   canCreateComment,
 }) {
-  if (canCreateComment.value === false) return null;
+  if (!canCreateComment?.value) return null;
 
   return (
     <Formik
@@ -43,19 +42,18 @@ export function UserCommentForm({
             />
           </div>
           <div className="card-footer">
-            <span style={{ display: 'inline-flex', verticalAlign: 'middle' }}>
-              <Image
-                alt={`Image of ${username}`}
-                className="comment-author-img"
-                height="32"
-                src={profile.imageUrl ?? '/images/smiley-cyrus.jpg'}
-                unoptimized={!!profile.imageUrl}
-                width="32"
-              />
-            </span>
+            <Image
+              alt={`Image of ${username}`}
+              className="comment-author-img"
+              height="32"
+              src={profile?.imageUrl ?? '/images/smiley-cyrus.jpg'}
+              unoptimized={!!profile?.imageUrl}
+              priority
+              width="32"
+            />
             &nbsp;&nbsp;
-            <Link href="/user/[username]" as={`/user/${username}`}>
-              <a className="comment-author">{username}</a>
+            <Link href={`/user/${username}`} className="comment-author">
+              {username}
             </Link>
             <FormikSubmitButton className="btn btn-sm btn-primary">
               Post Comment
@@ -83,11 +81,6 @@ UserCommentForm.fragments = {
       }
     }
   `,
-};
-
-UserCommentForm.defaultProps = {
-  profile: {},
-  canCreateComment: { value: false },
 };
 
 UserCommentForm.propTypes = {

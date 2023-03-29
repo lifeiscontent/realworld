@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { ArticleInfo } from '../article-info';
@@ -13,7 +12,7 @@ export function ArticlePreview({
   canUnfavorite,
   createdAt,
   description,
-  favoritesCount,
+  favoritesCount = 0,
   onFavorite,
   onUnfavorite,
   slug,
@@ -38,13 +37,11 @@ export function ArticlePreview({
           />
         </div>
       </div>
-      <Link href="/article/[slug]" as={`/article/${slug}`}>
-        <a className="preview-link">
-          <h1>{title}</h1>
-          <p>{description}</p>
-          <span>Read more...</span>
-          <ArticlePreviewTagsList tags={tags} />
-        </a>
+      <Link href={`/article/${slug}`} className="preview-link">
+        <h1>{title}</h1>
+        <p>{description}</p>
+        <span>Read more...</span>
+        <ArticlePreviewTagsList tags={tags} />
       </Link>
     </div>
   );
@@ -69,11 +66,6 @@ ArticlePreview.fragments = {
     ${ArticlePreviewFavoriteButton.fragments.article}
     ${ArticlePreviewTagsList.fragments.article}
   `,
-};
-
-ArticlePreview.defaultProps = {
-  favoritesCount: 0,
-  viewerDidFavorite: false,
 };
 
 ArticlePreview.propTypes = {

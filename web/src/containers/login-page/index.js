@@ -1,4 +1,3 @@
-import React from 'react';
 import cookie from 'cookie';
 import { gql, useMutation } from '@apollo/client';
 import { handleValidationError } from '../../utils/graphql';

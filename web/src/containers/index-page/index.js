@@ -1,4 +1,3 @@
-import React from 'react';
 import { gql, useQuery, useMutation, NetworkStatus } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { Sidebar } from '../../components/sidebar';
@@ -34,7 +33,12 @@ function IndexPage() {
   const [favoriteArticle] = useMutation(IndexPageFavoriteArticleMutation);
   const [unfavoriteArticle] = useMutation(IndexPageUnfavoriteArticleMutation);
 
-  if (page.networkStatus === NetworkStatus.loading) return null;
+  if (
+    page.networkStatus === NetworkStatus.loading ||
+    page.networkStatus === NetworkStatus.setVariables
+  ) {
+    return null;
+  }
 
   return (
     <Layout {...page.data.viewer}>

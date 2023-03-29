@@ -1,18 +1,16 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { gql } from '@apollo/client';
 
 export function UserFollowButton({
-  canFollow,
-  canUnfollow,
-  followersCount,
+  canFollow = { value: false },
+  canUnfollow = { value: false },
+  followersCount = 0,
   onFollow,
   onUnfollow,
   username,
-  viewerIsFollowing,
+  viewerIsFollowing = false,
 }) {
-  const disabled = !(canFollow.value || canUnfollow.value);
   const handleClick = event => {
     event.preventDefault();
     if (viewerIsFollowing) {
@@ -28,7 +26,7 @@ export function UserFollowButton({
         'btn-outline-secondary': viewerIsFollowing === false,
         'btn-secondary': viewerIsFollowing,
       })}
-      disabled={disabled}
+      disabled={!canFollow.value && !canUnfollow.value}
       onClick={handleClick}
     >
       <i className="ion-plus-round" />{' '}
@@ -51,13 +49,6 @@ UserFollowButton.fragments = {
       viewerIsFollowing
     }
   `,
-};
-
-UserFollowButton.defaultProps = {
-  followersCount: 0,
-  viewerIsFollowing: false,
-  canFollow: { value: false },
-  canUnfollow: { value: false },
 };
 
 UserFollowButton.propTypes = {

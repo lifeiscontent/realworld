@@ -1,4 +1,3 @@
-import React from 'react';
 import { gql, useQuery, useMutation, NetworkStatus } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { ArticlePreview } from '../../components/article-preview';
@@ -23,7 +22,12 @@ function ProfilePage() {
   const [followUser] = useMutation(ProfilePageFollowUser);
   const [unfollowUser] = useMutation(ProfilePageUnfollowUserMutation);
 
-  if (page.networkStatus === NetworkStatus.loading || skip) return null;
+  if (
+    page.networkStatus === NetworkStatus.loading ||
+    page.networkStatus === NetworkStatus.setVariables ||
+    skip
+  )
+    return null;
 
   return (
     <Layout {...page.data.viewer}>

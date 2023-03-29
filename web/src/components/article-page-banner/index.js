@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { ArticleMeta } from '../article-meta';
 import { gql } from '@apollo/client';

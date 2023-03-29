@@ -25,8 +25,11 @@ export const WithActiveTag = {
     ],
   },
   parameters: {
-    nextRouter: {
-      query: { tagName: 'react' },
+    nextjs: {
+      router: {
+        pathname: '/',
+        query: { tagName: 'react' },
+      },
     },
   },
 };

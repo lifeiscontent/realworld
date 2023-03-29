@@ -187,11 +187,12 @@ export const CanCreateComment = {
         },
       ],
     },
-    nextRouter: {
-      pathname: '/article/[slug]',
-      asPath: '/article/sunt-vitae-voluptatum-quas',
-      query: {
-        slug: 'sunt-vitae-voluptatum-quas',
+    nextjs: {
+      router: {
+        asPath: '/article/sunt-vitae-voluptatum-quas',
+        query: {
+          slug: 'sunt-vitae-voluptatum-quas',
+        },
       },
     },
   },

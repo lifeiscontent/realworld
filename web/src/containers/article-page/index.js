@@ -1,4 +1,3 @@
-import React from 'react';
 import { gql, useQuery, useMutation, NetworkStatus } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { ArticleContent } from '../../components/article-content';
@@ -20,12 +19,20 @@ function ArticlePage() {
   });
 
   const [deleteArticle] = useMutation(ArticlePageDeleteArticleMutation);
+
   const [favoriteArticle] = useMutation(ArticlePageFavoriteArticleMutation);
+
   const [followUser] = useMutation(ArticlePageFollowUserMutation);
+
   const [unfavoriteArticle] = useMutation(ArticlePageUnfavoriteArticleMutation);
+
   const [unfollowUser] = useMutation(ArticlePageUnfollowUserMutation);
 
-  if (page.networkStatus === NetworkStatus.loading || skip) {
+  if (
+    page.networkStatus === NetworkStatus.loading ||
+    page.networkStatus === NetworkStatus.setVariables ||
+    skip
+  ) {
     return null;
   }
 

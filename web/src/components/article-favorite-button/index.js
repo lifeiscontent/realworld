@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { gql } from '@apollo/client';
@@ -6,13 +5,12 @@ import { gql } from '@apollo/client';
 export function ArticleFavoriteButton({
   canFavorite,
   canUnfavorite,
-  favoritesCount,
+  favoritesCount = 0,
   onFavorite,
   onUnfavorite,
   slug,
   viewerDidFavorite,
 }) {
-  const disabled = !(canUnfavorite.value || canFavorite.value);
   const handleClick = event => {
     event.preventDefault();
     if (viewerDidFavorite) {
@@ -25,10 +23,10 @@ export function ArticleFavoriteButton({
   return (
     <button
       className={clsx('btn btn-sm', {
-        'btn-outline-primary': viewerDidFavorite === false,
-        'btn-primary': viewerDidFavorite,
+        'btn-outline-primary': !viewerDidFavorite,
+        'btn-primary': !!viewerDidFavorite,
       })}
-      disabled={disabled}
+      disabled={!canUnfavorite?.value && !canFavorite?.value}
       onClick={handleClick}
     >
       <i className="ion-heart" />{' '}
@@ -52,13 +50,6 @@ ArticleFavoriteButton.fragments = {
       viewerDidFavorite
     }
   `,
-};
-
-ArticleFavoriteButton.defaultProps = {
-  canFavorite: { value: false },
-  canUnfavorite: { value: false },
-  favoritesCount: 0,
-  viewerDidFavorite: false,
 };
 
 ArticleFavoriteButton.propTypes = {

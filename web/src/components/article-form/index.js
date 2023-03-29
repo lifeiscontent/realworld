@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { Formik, Form, ErrorMessage, Field } from 'formik';
 import { FormikStatusErrors } from '../formik-status-errors';
@@ -31,23 +30,13 @@ const updateValidationSchema = Yup.object({
 });
 
 export function ArticleForm({
-  slug,
-  title,
-  description,
-  body,
-  tags,
+  body = '',
+  description = '',
+  slug = '',
+  tags = [],
+  title = '',
   onSubmit,
 }) {
-  const initialValues = {
-    slug,
-    input: {
-      title,
-      description,
-      body,
-      tagIds: tags.map(tag => tag.id),
-    },
-  };
-
   return (
     <div className="container page">
       <div className="row">
@@ -56,7 +45,15 @@ export function ArticleForm({
             validationSchema={
               slug ? updateValidationSchema : createValidationSchema
             }
-            initialValues={initialValues}
+            initialValues={{
+              slug,
+              input: {
+                title,
+                description,
+                body,
+                tagIds: tags.map(tag => tag.id),
+              },
+            }}
             onSubmit={onSubmit}
           >
             <Form id="article-form">
@@ -135,14 +132,6 @@ ArticleForm.fragments = {
       title
     }
   `,
-};
-
-ArticleForm.defaultProps = {
-  body: '',
-  description: '',
-  slug: '',
-  tags: [],
-  title: '',
 };
 
 ArticleForm.propTypes = {

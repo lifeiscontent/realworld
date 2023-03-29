@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import * as React from 'react';
 import { gql, useQuery, useMutation, NetworkStatus } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { handleValidationError } from '../../utils/graphql';
@@ -8,7 +8,7 @@ import { Layout } from '../layout';
 function SettingsPage() {
   const router = useRouter();
   const page = useQuery(SettingsPageQuery, {
-    onCompleted: useCallback(
+    onCompleted: React.useCallback(
       data => {
         if (data.viewer) return;
 
@@ -19,7 +19,12 @@ function SettingsPage() {
   });
   const [updateUser] = useMutation(SettingsPageUpdateUserMutation);
 
-  if (page.networkStatus === NetworkStatus.loading) return null;
+  if (
+    page.networkStatus === NetworkStatus.loading ||
+    page.networkStatus === NetworkStatus.setVariables
+  ) {
+    return null;
+  }
 
   return (
     <Layout {...page.data.viewer}>

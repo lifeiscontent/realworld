@@ -2,7 +2,7 @@ import LoginPage from '../containers/login-page';
 
 export default LoginPage;
 
-export function getStaticProps() {
+export async function getStaticProps() {
   return {
     props: {},
   };

@@ -23,6 +23,7 @@ const esModules = [
   'unist-util-position',
   'unist-util-stringify-position',
   'unist-util-visit',
+  'trim-lines',
   'vfile',
 ].join('|');
 
@@ -43,9 +44,6 @@ module.exports = {
     // Handle image imports
     // https://jestjs.io/docs/webpack#handling-static-assets
     '^.+\\.(jpg|jpeg|png|gif|webp|avif|svg)$': `<rootDir>/__mocks__/fileMock.js`,
-
-    // Handle module aliases
-    '^@/components/(.*)$': '<rootDir>/components/$1',
   },
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/.next/'],

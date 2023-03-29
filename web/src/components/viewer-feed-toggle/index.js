@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import clsx from 'clsx';
@@ -12,36 +11,30 @@ export function ViewerFeedToggle({ username }) {
       <ul className="nav nav-pills outline-active">
         <li className="nav-item">
           {username ? (
-            <Link href="/feed">
-              <a
-                className={clsx('nav-link', {
-                  active: router.pathname === '/feed',
-                })}
-              >
-                Your Feed
-              </a>
+            <Link
+              href="/feed"
+              className={clsx('nav-link', {
+                active: router.route === '/feed',
+              })}
+            >
+              Your Feed
             </Link>
           ) : (
             <span className="nav-link disabled">Your Feed</span>
           )}
         </li>
         <li className="nav-item">
-          <Link href="/">
-            <a className={clsx('nav-link', { active: router.asPath === '/' })}>
-              Global Feed
-            </a>
+          <Link
+            href="/"
+            className={clsx('nav-link', { active: router.route === '/' })}
+          >
+            Global Feed
           </Link>
         </li>
         {router.query.tagName && (
           <li className="nav-item">
-            <Link href={router.asPath}>
-              <a
-                className={clsx('nav-link', {
-                  active: router.pathname === '/',
-                })}
-              >
-                #{router.query.tagName}
-              </a>
+            <Link href={router.asPath} className="nav-link active">
+              #{router.query.tagName}
             </Link>
           </li>
         )}

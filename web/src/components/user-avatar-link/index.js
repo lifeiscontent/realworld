@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { UserAvatar } from '../user-avatar';
@@ -6,10 +5,8 @@ import { gql } from '@apollo/client';
 
 export function UserAvatarLink({ profile, username, size }) {
   return (
-    <Link href="/user/[username]" as={`/user/${username}`}>
-      <a>
-        <UserAvatar size={size} profile={profile} username={username} />
-      </a>
+    <Link href={`/user/${username}`}>
+      <UserAvatar size={size} profile={profile} username={username} />
     </Link>
   );
 }

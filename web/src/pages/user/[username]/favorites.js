@@ -1,7 +1,7 @@
 import ProfileFavoritesPage, {
   queryToVariables,
 } from '../../../containers/profile-favorites-page';
-import { initializeApollo } from '../../../lib/apolloClient';
+import { addApolloState, initializeApollo } from '../../../lib/apolloClient';
 
 export default ProfileFavoritesPage;
 
@@ -13,9 +13,7 @@ export async function getServerSideProps(ctx) {
     variables: queryToVariables(ctx.query),
   });
 
-  return {
-    props: {
-      initialApolloState: apolloClient.cache.extract(),
-    },
-  };
+  return addApolloState(apolloClient, {
+    props: {},
+  });
 }

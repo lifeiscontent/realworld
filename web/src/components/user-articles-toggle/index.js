@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import clsx from 'clsx';
@@ -11,28 +10,23 @@ export function UserArticlesToggle({ username }) {
     <div className="articles-toggle">
       <ul className="nav nav-pills outline-active">
         <li className="nav-item">
-          <Link href="/user/[username]" as={`/user/${username}`}>
-            <a
-              className={clsx('nav-link', {
-                active: router.pathname === '/user/[username]',
-              })}
-            >
-              My Articles
-            </a>
+          <Link
+            href={`/user/${username}`}
+            className={clsx('nav-link', {
+              active: router.asPath === `/user/${username}`,
+            })}
+          >
+            My Articles
           </Link>
         </li>
         <li className="nav-item">
           <Link
-            href="/user/[username]/favorites"
-            as={`/user/${username}/favorites`}
+            href={`/user/${username}/favorites`}
+            className={clsx('nav-link', {
+              active: router.asPath === `/user/${username}/favorites`,
+            })}
           >
-            <a
-              className={clsx('nav-link', {
-                active: router.pathname === '/user/[username]/favorites',
-              })}
-            >
-              Favorited Articles
-            </a>
+            Favorited Articles
           </Link>
         </li>
       </ul>

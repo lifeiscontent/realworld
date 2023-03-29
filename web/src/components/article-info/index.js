@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { format } from '../../utils/date';
@@ -7,8 +6,8 @@ import { gql } from '@apollo/client';
 export function ArticleInfo({ author, createdAt }) {
   return (
     <div className="info">
-      <Link href="/user/[username]" as={`/user/${author.username}`}>
-        <a className="author">{author.username}</a>
+      <Link href={`/user/${author.username}`} className="author">
+        {author.username}
       </Link>
       <time dateTime={createdAt} className="date">
         {format(new Date(createdAt), 'MMMM Qo')}

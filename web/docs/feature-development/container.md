@@ -11,7 +11,7 @@ Let's write a test for the ArticleComments component.
 [web/src/containers/article-comments/index.spec.js][web/src/containers/article-comments/index.spec.js]
 
 ```js
-import React from 'react';
+import * as React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MockedProvider } from '@apollo/client/testing';
 import { ArticleComments, ArticleCommentsCreateCommentMutation } from '.';
@@ -134,8 +134,7 @@ describe('ArticleComments', () => {
                   __typename: 'Comment',
                 },
               ],
-              body:
-                'Sit delectus in. Nesciunt saepe inventore. Quo quibusdam facere. Rem aliquam est. Est eveniet rerum. Porro enim consequatur. Sit culpa fuga. Accusamus dolores eaque. Id reiciendis totam. Quibusdam quod exercitationem.',
+              body: 'Sit delectus in. Nesciunt saepe inventore. Quo quibusdam facere. Rem aliquam est. Est eveniet rerum. Porro enim consequatur. Sit culpa fuga. Accusamus dolores eaque. Id reiciendis totam. Quibusdam quod exercitationem.',
               description: 'Eos facere consequuntur id.',
               favoritesCount: 0,
               slug: 'sunt-vitae-voluptatum-quas',

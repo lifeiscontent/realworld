@@ -1,12 +1,11 @@
-import React from 'react';
 import Link from 'next/link';
 
 export function Footer() {
   return (
     <footer>
       <div className="container">
-        <Link href="/">
-          <a className="logo-font">conduit</a>
+        <Link href="/" className="logo-font">
+          conduit
         </Link>
         <span className="attribution">
           An interactive learning project from{' '}

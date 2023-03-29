@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { Formik, Form, ErrorMessage, Field } from 'formik';
 import { FormikStatusErrors } from '../formik-status-errors';
@@ -20,9 +19,7 @@ export function LoginForm({ onSubmit }) {
         <div className="col-md-6 offset-md-3 col-xs-12">
           <h1 className="text-xs-center">Sign in</h1>
           <p className="text-xs-center">
-            <Link href="/register">
-              <a>Need an account?</a>
-            </Link>
+            <Link href="/register">Need an account?</Link>
           </p>
           <Formik
             validationSchema={validationSchema}

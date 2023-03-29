@@ -8,8 +8,10 @@ export default meta;
 
 export const AsGuest = {
   parameters: {
-    nextRouter: {
-      asPath: '/',
+    nextjs: {
+      router: {
+        asPath: '/',
+      },
     },
   },
 };
@@ -25,9 +27,10 @@ export const FeedActive = {
     ...FeedEnabled.args,
   },
   parameters: {
-    nextRouter: {
-      pathname: '/feed',
-      asPath: '/feed',
+    nextjs: {
+      router: {
+        asPath: '/feed',
+      },
     },
   },
 };
@@ -37,10 +40,11 @@ export const HashTagActive = {
     ...FeedEnabled.args,
   },
   parameters: {
-    nextRouter: {
-      pathname: '/',
-      asPath: '/?tagName=react',
-      query: { tagName: 'react' },
+    nextjs: {
+      router: {
+        asPath: '/?tagName=react',
+        query: { tagName: 'react' },
+      },
     },
   },
 };

@@ -1,11 +1,11 @@
 import cookie from 'cookie';
 import Router from 'next/router';
-import { useEffect } from 'react';
+import * as React from 'react';
 import { useApolloClient } from '@apollo/client';
 
 export default function LogoutPage() {
   const client = useApolloClient();
-  useEffect(() => {
+  React.useEffect(() => {
     document.cookie = cookie.serialize('authorization', '', {
       maxAge: -1,
       path: '/',

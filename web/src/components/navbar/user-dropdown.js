@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import Link from 'next/link';
 
 export function NavbarUserDropdown({ username }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = React.useState(false);
 
   return (
     <li className={clsx('nav-item dropdown', { open })}>
@@ -24,20 +24,26 @@ export function NavbarUserDropdown({ username }) {
         {username}
       </a>
       <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-        <Link href="/user/[username]" as={`/user/${username}`}>
-          <a className="dropdown-item" onClick={() => setOpen(false)}>
-            Profile
-          </a>
+        <Link
+          href={`/user/${username}`}
+          className="dropdown-item"
+          onClick={() => setOpen(false)}
+        >
+          Profile
         </Link>
-        <Link href="/settings">
-          <a className="dropdown-item" onClick={() => setOpen(false)}>
-            Settings
-          </a>
+        <Link
+          href="/settings"
+          className="dropdown-item"
+          onClick={() => setOpen(false)}
+        >
+          Settings
         </Link>
-        <Link href="/logout">
-          <a className="dropdown-item" onClick={() => setOpen(false)}>
-            Logout
-          </a>
+        <Link
+          href="/logout"
+          className="dropdown-item"
+          onClick={() => setOpen(false)}
+        >
+          Logout
         </Link>
       </div>
     </li>

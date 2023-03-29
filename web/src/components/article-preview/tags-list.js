@@ -1,8 +1,7 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { gql } from '@apollo/client';
 
-export function ArticlePreviewTagsList({ tags }) {
+export function ArticlePreviewTagsList({ tags = [] }) {
   if (tags.length === 0) return null;
 
   return (
@@ -25,10 +24,6 @@ ArticlePreviewTagsList.fragments = {
       }
     }
   `,
-};
-
-ArticlePreviewTagsList.defaultProps = {
-  tags: [],
 };
 
 ArticlePreviewTagsList.propTypes = {
