@@ -1,5 +1,7 @@
-const startCase = require('lodash/startCase');
-function buildSection(context) {
+import type { StorybookConfig } from '@storybook/nextjs';
+import { startCase } from 'lodash';
+
+function buildSection(context: string) {
   return {
     // 👇 The directory field sets the directory your stories
     directory: `../src/${context}`,
@@ -9,23 +11,23 @@ function buildSection(context) {
     files: `**/*.stories.*`,
   };
 }
-module.exports = {
+
+const config: StorybookConfig = {
   stories: [buildSection('components'), buildSection('containers')],
   addons: [
+    '@storybook/addon-links',
     '@storybook/addon-essentials',
-    'storybook-addon-apollo-client',
     '@storybook/addon-interactions',
+    'storybook-addon-apollo-client',
   ],
   staticDirs: ['../public'],
-  features: {
-    storyStoreV7: true,
-    interactionsDebugger: true,
-  },
   framework: {
     name: '@storybook/nextjs',
     options: {},
   },
   docs: {
-    autodocs: true,
+    autodocs: 'tag',
   },
 };
+
+export default config;

@@ -135,6 +135,7 @@ const meta = {
                 description: 'Eos facere consequuntur id.',
                 favoritesCount: 0,
                 slug: 'sunt-vitae-voluptatum-quas',
+                title: 'Sunt vitae voluptatum quas.',
                 viewerDidFavorite: false,
                 canDelete: {
                   value: false,
@@ -316,6 +317,7 @@ export const IsAuthor = {
                 description: 'Eos facere consequuntur id.',
                 favoritesCount: 0,
                 slug: 'sunt-vitae-voluptatum-quas',
+                title: 'Sunt vitae voluptatum quas.',
                 viewerDidFavorite: false,
                 canDelete: {
                   value: true,

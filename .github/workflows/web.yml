@@ -13,7 +13,7 @@ jobs:
         with:
           cache-dependency-path: web/package-lock.json
           cache: "npm"
-          node-version: "16.x"
+          node-version: "18.x"
       - run: npm install
         working-directory: ./web
       - run: npm run lint

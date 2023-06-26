@@ -12,21 +12,6 @@ export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 
 let apolloClient;
 
-const errorLink = onError(({ graphQLErrors, networkError }) => {
-  if (graphQLErrors)
-    graphQLErrors.forEach(({ message, locations, path }) =>
-      console.log(
-        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-      )
-    );
-  if (networkError) console.log(`[Network error]: ${networkError}`);
-});
-
-const httpLink = new HttpLink({
-  uri: process.env.NEXT_PUBLIC_GRAPHQL_URL, // Server URL (must be absolute)
-  credentials: 'omit', // Additional fetch() options like `credentials` or `headers`
-});
-
 function createApolloClient(ctx) {
   const ssrMode = typeof window === 'undefined';
 
@@ -45,83 +30,98 @@ function createApolloClient(ctx) {
           headers: { authorization },
         };
       }),
-      errorLink,
-      httpLink,
+      onError(({ graphQLErrors, networkError }) => {
+        if (graphQLErrors)
+          graphQLErrors.forEach(({ message, locations, path }) =>
+            console.log(
+              `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+            )
+          );
+        if (networkError) console.log(`[Network error]: ${networkError}`);
+      }),
+      new HttpLink({
+        uri: process.env.NEXT_PUBLIC_GRAPHQL_URL, // Server URL (must be absolute)
+        credentials: 'omit', // Additional fetch() options like `credentials` or `headers`
+      }),
     ]),
-    cache: new InMemoryCache({
-      resultCaching: true,
-      dataIdFromObject(object) {
-        switch (object.__typename) {
-          case 'Article':
-            return `${object.__typename}:${object.slug}`;
-          case 'User':
-            return `${object.__typename}:${object.username}`;
-          default:
-            return defaultDataIdFromObject(object);
-        }
-      },
-      typePolicies: {
-        Article: {
-          keyFields: ['slug'],
-          fields: {
-            comments: {
-              merge(_existing, incoming = []) {
-                return incoming;
-              },
-            },
-          },
-        },
-        User: {
-          keyFields: ['username'],
-          fields: {
-            profile: {
-              merge: true,
-            },
-          },
-        },
-        Query: {
-          fields: {
-            articlesConnection: relayStylePagination([
-              'after',
-              'before',
-              'first',
-              'last',
-              'tagName',
-            ]),
-            articleBySlug: {
-              read(_, { args, toReference }) {
-                return toReference({ __typename: 'Article', slug: args.slug });
-              },
-            },
-            comment: {
-              read(_, { args, toReference }) {
-                return toReference({ __typename: 'Comment', id: args.id });
-              },
-            },
-            feedConnection: relayStylePagination([
-              'after',
-              'before',
-              'first',
-              'last',
-              'tagName',
-            ]),
-            userByUsername: {
-              read(_, { args, toReference }) {
-                return toReference({
-                  __typename: 'User',
-                  username: args.username,
-                });
-              },
-            },
-            tag: {
-              read(_, { args, toReference }) {
-                return toReference({ __typename: 'Tag', id: args.id });
-              },
+    cache: createCache(),
+  });
+}
+
+export function createCache() {
+  return new InMemoryCache({
+    resultCaching: true,
+    dataIdFromObject(object) {
+      switch (object.__typename) {
+        case 'Article':
+          return `${object.__typename}:${object.slug}`;
+        case 'User':
+          return `${object.__typename}:${object.username}`;
+        default:
+          return defaultDataIdFromObject(object);
+      }
+    },
+    typePolicies: {
+      Article: {
+        keyFields: ['slug'],
+        fields: {
+          comments: {
+            merge(_existing, incoming = []) {
+              return incoming;
             },
           },
         },
       },
-    }),
+      User: {
+        keyFields: ['username'],
+        fields: {
+          profile: {
+            merge: true,
+          },
+        },
+      },
+      Query: {
+        fields: {
+          articlesConnection: relayStylePagination([
+            'after',
+            'before',
+            'first',
+            'last',
+            'tagName',
+          ]),
+          articleBySlug: {
+            read(_, { args, toReference }) {
+              return toReference({ __typename: 'Article', slug: args.slug });
+            },
+          },
+          comment: {
+            read(_, { args, toReference }) {
+              return toReference({ __typename: 'Comment', id: args.id });
+            },
+          },
+          feedConnection: relayStylePagination([
+            'after',
+            'before',
+            'first',
+            'last',
+            'tagName',
+          ]),
+          userByUsername: {
+            read(_, { args, toReference }) {
+              return toReference({
+                __typename: 'User',
+                username: args.username,
+              });
+            },
+          },
+          tag: {
+            read(_, { args, toReference }) {
+              return toReference({ __typename: 'Tag', id: args.id });
+            },
+          },
+        },
+      },
+    },
   });
 }
 
