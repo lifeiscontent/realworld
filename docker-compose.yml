@@ -1,0 +1,52 @@
+version: '3'
+services:
+  node:
+    image: node:18.16.0
+    volumes:
+      - ./web:/web
+    working_dir: /web
+    command: bash -c "npm install && PORT=8090 npm run dev"
+    links:
+      - ruby
+    depends_on:
+      - ruby
+    ports:
+      - 8090:8090
+    networks:
+      realworld_network:
+        aliases:
+          - node 
+  ruby:
+    image: ruby:3.1.1
+    volumes:
+      - ./api:/api
+    working_dir: /api
+    command: bash -c "bundle install && bin/rails db:migrate && bin/rails db:seed && bundle exec rails s -p 4000 -b '0.0.0.0'"
+    links:
+      - postgres
+    depends_on:
+      - postgres
+    networks:
+      realworld_network:
+        aliases:
+          - ruby
+    ports:
+      - 4000:4000
+  postgres:
+    image: postgres:12.9
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=realworld_development
+    ports:
+      - 5432:5432
+    networks:
+      realworld_network:
+        aliases:
+          - postgres
+volumes:
+  postgres_data:
+networks:
+  realworld_network:
