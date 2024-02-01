@@ -14,7 +14,7 @@ gem 'graphql'
 gem 'jwt'
 gem 'listen', group: :development
 gem 'net-smtp', require: false
-gem 'pg'
+gem 'mysql2'
 gem 'puma'
 gem 'rack-cors'
 gem 'rails'
