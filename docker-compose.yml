@@ -21,7 +21,10 @@ services:
     volumes:
       - ./api:/api
     working_dir: /api
-    command: bash -c "bundle install && bin/rails db:migrate && bin/rails db:seed && bundle exec rails s -p 4000 -b '0.0.0.0'"
+    command: bash -c "bundle install && bin/rails db:migrate && bin/rails db:seed && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    environment:
+      - RAILS_ENV=development
+      - PORT=3000
     links:
       - postgres
     depends_on:
@@ -31,7 +34,7 @@ services:
         aliases:
           - ruby
     ports:
-      - 4000:4000
+      - 3000:3000
   postgres:
     image: postgres:12.9
     volumes:
