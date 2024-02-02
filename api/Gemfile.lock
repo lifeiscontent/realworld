@@ -134,6 +134,7 @@ GEM
     mini_portile2 (2.8.0)
     minitest (5.16.3)
     msgpack (1.6.0)
+    mysql2 (0.5.5)
     net-imap (0.3.1)
       net-protocol
     net-pop (0.1.2)
@@ -150,7 +151,6 @@ GEM
     parallel (1.22.1)
     parser (3.1.2.1)
       ast (~> 2.4.1)
-    pg (1.4.3)
     puma (5.6.5)
       nio4r (~> 2.0)
     racc (1.6.0)
@@ -289,8 +289,8 @@ DEPENDENCIES
   graphql
   jwt
   listen
+  mysql2
   net-smtp
-  pg
   puma
   rack-cors
   rails

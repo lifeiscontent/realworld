@@ -40,7 +40,9 @@ function createApolloClient(ctx) {
         if (networkError) console.log(`[Network error]: ${networkError}`);
       }),
       new HttpLink({
-        uri: process.env.NEXT_PUBLIC_GRAPHQL_URL, // Server URL (must be absolute)
+        uri: typeof window === 'undefined' 
+              ? process.env.NEXT_INTERNAL_GRAPHQL_URL // internal Server URL (must be absolute)
+              : process.env.NEXT_PUBLIC_GRAPHQL_URL, // public Server URL (must be absolute)
         credentials: 'omit', // Additional fetch() options like `credentials` or `headers`
       }),
     ]),

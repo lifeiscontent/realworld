@@ -5,13 +5,16 @@ services:
     volumes:
       - ./web:/web
     working_dir: /web
-    command: bash -c "npm install && PORT=8090 npm run dev"
+    command: bash -c "npm install && npm run dev"
     links:
       - ruby
     depends_on:
       - ruby
     ports:
-      - 8090:8090
+      - 8090:8090 # next.js
+      - 6006:6006 # storybook
+    environment:
+      - PORT=8090
     networks:
       realworld_network:
         aliases:
@@ -21,32 +24,33 @@ services:
     volumes:
       - ./api:/api
     working_dir: /api
-    command: bash -c "bundle install && bin/rails db:migrate && bin/rails db:seed && bundle exec rails s -p 4000 -b '0.0.0.0'"
+    command: bash -c "bundle install && bin/rails db:create && bin/rails db:migrate && bin/rails db:seed && bundle exec rails s -b '0.0.0.0'"
+    environment:
+      - RAILS_ENV=development
+      - PORT=3500
     links:
-      - postgres
+      - tidb
     depends_on:
-      - postgres
+      - tidb
     networks:
       realworld_network:
         aliases:
           - ruby
     ports:
-      - 4000:4000
-  postgres:
-    image: postgres:12.9
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    environment:
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=realworld_development
+      - 3500:3500
+  tidb:
+    build:
+      context: ./docker/tidb
+      dockerfile: Dockerfile # v7.5.0
+    command: /bin/sh -c "exec /root/.tiup/bin/tiup playground v7.5.0 --host 0.0.0.0 --tag=devenv --db 1 --kv 1 --pd 1 --tiflash 0"
     ports:
-      - 5432:5432
+      - "4000:4000"   # tidb(mysql protocol)
+      - "10080:10080" # tidb(http protocol)
+      - "2379:2379"   # pd/dashboard
+      - "3000:3000"   # grafana
     networks:
       realworld_network:
         aliases:
-          - postgres
-volumes:
-  postgres_data:
+          - tidb
 networks:
   realworld_network:
