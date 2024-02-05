@@ -1,5 +1,5 @@
 # This migration comes from active_storage (originally 20191206030411)
-class CreateActiveStorageVariantRecords < ActiveRecord::Migration[6.0]
+class CreateActiveStorageVariantRecords < ActiveRecord::Migration[5.1]
   def change
     unless table_exists?(:active_storage_variant_records)
       create_table :active_storage_variant_records do |t|

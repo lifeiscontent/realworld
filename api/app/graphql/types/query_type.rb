@@ -27,7 +27,7 @@ module Types
     end
 
     def article_by_slug(slug:)
-      Article.find_by(slug:)
+      Article.find_by(slug:slug)
     end
 
     field :popular_tags, [TagType], null: false
@@ -63,7 +63,7 @@ module Types
     end
 
     def user_by_username(username:)
-      User.find_by(username:)
+      User.find_by(username:username)
     end
 
     field :viewer, UserType, null: true

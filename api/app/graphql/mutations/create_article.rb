@@ -21,7 +21,7 @@ module Mutations
 
       article = context[:current_user].articles.create!(input)
 
-      { article: }
+      { article: article}
     end
   end
 end

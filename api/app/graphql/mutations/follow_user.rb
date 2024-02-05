@@ -6,7 +6,7 @@ module Mutations
     field :user, Types::UserType, null: false
 
     def resolve(username:)
-      user = User.find_by(username:)
+      user = User.find_by(username:username)
 
       authorize! user, to: :follow?
       relationship = Relationship.create!(follower: context[:current_user], followed: user)

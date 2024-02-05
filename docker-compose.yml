@@ -20,11 +20,11 @@ services:
         aliases:
           - node 
   ruby:
-    image: ruby:3.1.1
+    image: ruby:2.7.8
     volumes:
       - ./api:/api
     working_dir: /api
-    command: bash -c "bundle install && bin/rails db:create && bin/rails db:migrate && bin/rails db:seed && bundle exec rails s -b '0.0.0.0'"
+    command: bash -c "rm -rf tmp/*; bundle install && bin/rails db:create && bin/rails db:migrate && bin/rails db:seed && bundle exec rails s -b '0.0.0.0'"
     environment:
       - RAILS_ENV=development
       - PORT=3500

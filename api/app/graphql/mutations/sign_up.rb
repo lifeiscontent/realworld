@@ -20,7 +20,7 @@ module Mutations
       user.build_profile
       user.save!
 
-      { user: }
+      { user: user}
     end
   end
 end

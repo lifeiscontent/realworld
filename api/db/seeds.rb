@@ -41,7 +41,7 @@ end
         article.tags << Tag.offset(rand(Tag.count)).first
         5.times do
           User.offset(rand(User.count)).first.comments.create(
-            article:,
+            article: nil,
             body: Faker::Lorem.sentence
           )
         end

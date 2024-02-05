@@ -6,7 +6,7 @@ gem 'active_record_doctor', group: :development
 gem 'bootsnap', require: false
 gem 'byebug', platforms: %i[mri mingw x64_mingw], group: %i[development test]
 gem 'database_cleaner-active_record', group: :test
-gem 'devise'
+gem 'devise', '4.7.2'
 gem 'factory_bot_rails', group: :test
 gem 'faker'
 gem 'friendly_id'
@@ -15,17 +15,18 @@ gem 'jwt'
 gem 'listen', group: :development
 gem 'net-smtp', require: false
 gem 'mysql2'
-gem 'puma'
+gem 'puma', '3.12.1'
 gem 'rack-cors'
-gem 'rails'
+gem 'rails', '5.1.7'
+gem 'rake', '12.3.1'
 gem 'rails-erd', group: :development
 gem 'rspec-rails', group: :development
 gem 'rubocop', group: :development, require: false
 gem 'shoulda-matchers', group: :test
 gem 'solargraph', group: :development
-gem 'spring', group: :development
+gem 'spring', '2.1.0', group: :development
 gem 'spring-watcher-listen', group: :development
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
-ruby '3.1.1'
+ruby '2.7.8'
 source 'https://rubygems.org'
