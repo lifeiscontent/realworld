@@ -1,0 +1,61 @@
+datadir="/var/lib/proxysql"
+
+admin_variables=
+{
+    admin_credentials="admin:c9ApWNPHAfUz"
+    admin-web_enabled=false
+    mysql_ifaces="0.0.0.0:6032"
+}
+
+mysql_variables=
+{
+    threads=4
+    max_connections=2048
+    default_query_delay=0
+    default_query_timeout=36000000
+    default_tx_isolation="REPEATABLE-READ"
+    have_compress=true
+    poll_timeout=2000
+    interfaces="0.0.0.0:6033;/var/lib/proxysql/proxysql.sock"
+    default_schema="information_schema"
+    stacksize=1048576
+    server_version="8.0.11-TiDB-v7.5.0"
+    connect_timeout_server=3000
+    monitor_username="monitor"
+    monitor_password="e8GKWZb4BaC6Pum"
+    monitor_history=60000
+    monitor_connect_interval=200000
+    monitor_ping_interval=100000
+    monitor_read_only_interval=1500
+    monitor_read_only_timeout=500
+    ping_interval_server_msec=10000
+    ping_timeout_server=200
+    commands_stats=true
+    sessions_sort=true
+    mysql-max_stmts_per_connection=20
+    mysql-connection_max_age_ms=300000
+    mysql-connection_delay_multiplex_ms=0
+}
+
+mysql_servers =
+(
+    {
+        address = "${BACKEND_TIDB_HOST}"
+        port = ${BACKEND_TIDB_PORT}
+        hostgroup = 1
+        use_ssl = 0
+        max_connections = 100
+    }
+)
+
+mysql_users =
+(
+    {
+        username = "${BACKEND_TIDB_USER}"
+        password = "${BACKEND_TIDB_PASS}"
+        backend = true
+        frontend = true
+        default_hostgroup = 1
+    }
+)
+
