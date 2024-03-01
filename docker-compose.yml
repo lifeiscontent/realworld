@@ -23,6 +23,7 @@ services:
     image: ruby:2.7.8
     volumes:
       - ./api:/api
+      - proxysql-sock:/var/lib/proxysql
     working_dir: /api
       #command: bash -c "rm -rf tmp/*; bundle install && bin/rails db:create && bin/rails db:migrate && bin/rails db:seed && bundle exec rails s -b '0.0.0.0'"
     command: bash -c "rm -rf tmp/*; bundle install && bundle exec rails s -b '0.0.0.0'"
@@ -33,17 +34,41 @@ services:
       - tidb
     depends_on:
       - tidb
+      - proxysql
     networks:
       realworld_network:
         aliases:
           - ruby
     ports:
       - 3500:3500
+
+  proxysql:
+    build: ./docker/proxysql
+    volumes:
+      - proxysql-sock:/var/lib/proxysql
+      - ./docker/proxysql/proxysql.cnf.template:/etc/proxysql.cnf.template
+    ports:
+      - "6033:6033" # mysql protocol
+      - "6032:6032" # admin
+    environment:
+      - BACKEND_TIDB_HOST=tidb
+      - BACKEND_TIDB_PORT=4000
+      - BACKEND_TIDB_USER=root
+      - BACKEND_TIDB_PASS=tidb1234
+    networks:
+      realworld_network:
+        aliases:
+          - proxysql
+    links:
+      - tidb
+    depends_on:
+      - tidb
+
   tidb:
     build:
       context: ./docker/tidb
       dockerfile: Dockerfile # v7.5.0
-    command: /bin/sh -c "exec /root/.tiup/bin/tiup playground v7.5.0 --host 0.0.0.0 --tag=devenv --db 1 --kv 1 --pd 1 --tiflash 0"
+    command: /bin/sh -c "envsubst < /root/.tiup/initialize.sql.template > /root/.tiup/initialize.sql; exec /root/.tiup/bin/tiup playground v7.5.0 --host 0.0.0.0 --tag=devenv --db 1 --db.config /root/.tiup/tidb.toml --kv 1 --pd 1 --tiflash 0"
     ports:
       - "4000:4000"   # tidb(mysql protocol)
       - "10080:10080" # tidb(http protocol)
@@ -53,6 +78,9 @@ services:
       realworld_network:
         aliases:
           - tidb
+    environment:
+      - TIDB_ROOT_PASSWORD=tidb1234
+
   agent:
     container_name: newrelic-infra
     build:
@@ -67,5 +95,10 @@ services:
       - "/:/host:ro"
       - "/var/run/docker.sock:/var/run/docker.sock"
     restart: unless-stopped
+
+
+volumes:
+  proxysql-sock:
+
 networks:
   realworld_network:
