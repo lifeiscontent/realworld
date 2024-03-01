@@ -1,4 +1,4 @@
-FROM proxysql/proxysql:2.5.1
+FROM proxysql/proxysql:2.5.5
 RUN apt-get update && \
     apt-get install -y --no-install-recommends gettext-base && \
     rm -rf /var/lib/apt/lists/*

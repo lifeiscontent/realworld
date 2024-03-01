@@ -3,7 +3,7 @@ datadir="/var/lib/proxysql"
 admin_variables=
 {
     admin_credentials="admin:c9ApWNPHAfUz"
-    admin-web_enabled=false
+    web_enabled=false
     mysql_ifaces="0.0.0.0:6032"
 }
 
@@ -32,9 +32,9 @@ mysql_variables=
     ping_timeout_server=200
     commands_stats=true
     sessions_sort=true
-    mysql-max_stmts_per_connection=20
-    mysql-connection_max_age_ms=300000
-    mysql-connection_delay_multiplex_ms=0
+    max_stmts_per_connection=20
+    connection_max_age_ms=300000
+    connection_delay_multiplex_ms=0
 }
 
 mysql_servers =
