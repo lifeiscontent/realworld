@@ -25,7 +25,8 @@ services:
       - ./api:/api
       - proxysql-sock:/var/lib/proxysql
     working_dir: /api
-    command: bash -c "rm -rf tmp/*; bundle install && bin/rails db:create && bin/rails db:migrate && bin/rails db:seed && bundle exec rails s -b '0.0.0.0'"
+      #command: bash -c "rm -rf tmp/*; bundle install && bin/rails db:create && bin/rails db:migrate && bin/rails db:seed && bundle exec rails s -b '0.0.0.0'"
+    command: bash -c "rm -rf tmp/*; bundle install && bundle exec rails s -b '0.0.0.0'"
     environment:
       - RAILS_ENV=development
       - PORT=3500
@@ -80,7 +81,24 @@ services:
     environment:
       - TIDB_ROOT_PASSWORD=tidb1234
 
+  agent:
+    container_name: newrelic-infra
+    build:
+      context: ./docker/newrelic-infra
+      dockerfile: newrelic-infra.dockerfile
+    cap_add:
+      - SYS_PTRACE
+    network_mode: host
+    pid: host
+    privileged: true
+    volumes:
+      - "/:/host:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    restart: unless-stopped
+
+
 volumes:
   proxysql-sock:
+
 networks:
   realworld_network:
