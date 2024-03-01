@@ -25,12 +25,13 @@ services:
       - ./api:/api
       - proxysql-sock:/var/lib/proxysql
     working_dir: /api
-      #command: bash -c "rm -rf tmp/*; bundle install && bin/rails db:create && bin/rails db:migrate && bin/rails db:seed && bundle exec rails s -b '0.0.0.0'"
-    command: bash -c "rm -rf tmp/*; bundle install && bundle exec rails s -b '0.0.0.0'"
+    command: bash -c "rm -rf tmp/*; bundle install && bin/rails db:create && bin/rails db:migrate && bin/rails db:seed && bundle exec rails s -b '0.0.0.0'"
+      # command: bash -c "rm -rf tmp/*; bundle install && bundle exec rails s -b '0.0.0.0'"
     environment:
       - RAILS_ENV=development
       - PORT=3500
       - WEB_CONCURRENCY=15
+      - NRIA_LICENSE_KEY=xxxx
     links:
       - tidb
     depends_on:
@@ -109,6 +110,8 @@ services:
       - "/:/host:ro"
       - "/var/run/docker.sock:/var/run/docker.sock"
     restart: unless-stopped
+    environment:
+      - NRIA_LICENSE_KEY=xxxx
 
 
 volumes:
