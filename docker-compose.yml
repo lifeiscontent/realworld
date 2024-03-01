@@ -30,6 +30,7 @@ services:
     environment:
       - RAILS_ENV=development
       - PORT=3500
+      - WEB_CONCURRENCY=15
     links:
       - tidb
     depends_on:
@@ -81,6 +82,19 @@ services:
     environment:
       - TIDB_ROOT_PASSWORD=tidb1234
 
+  gatling:
+    build: ./docker/gatling
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./docker/gatling/scenario/:/workdir/gatling-charts-highcharts-bundle-3.3.1/user-files/simulations
+      - gatlingdata:/workdir/gatling-charts-highcharts-bundle-3.3.1/results
+    command: /bin/bash
+    networks:
+      realworld_network:
+        aliases:
+          - gatling
+
   agent:
     container_name: newrelic-infra
     build:
@@ -99,6 +113,7 @@ services:
 
 volumes:
   proxysql-sock:
+  gatlingdata:
 
 networks:
   realworld_network:
