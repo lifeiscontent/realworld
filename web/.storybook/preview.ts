@@ -8,7 +8,6 @@ const preview: Preview = {
       MockedProvider,
       cache: createCache(),
     },
-    actions: { argTypesRegex: '^on[A-Z].*' },
     controls: {
       matchers: {
         color: /(background|color)$/i,

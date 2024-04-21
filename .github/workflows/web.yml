@@ -20,7 +20,14 @@ jobs:
         working-directory: ./web
       - run: npm run build
         working-directory: ./web
-      - run: npm run test:ci
+      - run: npx playwright install --with-deps
+        working-directory: ./web
+      - run: npm run build-storybook -- --quiet
+        working-directory: ./web
+      - run: |
+          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+            "npx http-server storybook-static --port 6006 --silent" \
+            "npx wait-on http://127.0.0.1:6006 && npm run test-storybook"
         working-directory: ./web
       - name: Publish Storybook and run visual tests
         if: github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]'

@@ -1,3 +1,4 @@
+import { expect, userEvent, within } from '@storybook/test';
 import { UserFollowButton } from '.';
 import { buildAuthorizationResult } from '../../utils/storybook';
 
@@ -14,18 +15,44 @@ const meta = {
 
 export default meta;
 
-export const AsGuest = {};
+export const AsGuest = {
+  async play({ canvasElement }) {
+    const canvas = within(canvasElement);
 
-export const CanFollow = {};
-
-CanFollow.args = {
-  canFollow: buildAuthorizationResult({ value: true }),
+    await expect(canvas.getByRole('button')).toBeDisabled();
+  },
 };
 
-export const CanUnfollow = {};
+export const CanFollow = {
+  args: {
+    canFollow: buildAuthorizationResult({ value: true }),
+  },
+  async play({ args, canvasElement }) {
+    const canvas = within(canvasElement);
+    const button = canvas.getByRole('button');
 
-CanUnfollow.args = {
-  canUnfollow: buildAuthorizationResult({ value: true }),
-  followersCount: 1,
-  viewerIsFollowing: true,
+    await expect(button).not.toBeDisabled();
+
+    await userEvent.click(button);
+
+    await expect(args.onFollow).toHaveBeenCalled();
+  },
+};
+
+export const CanUnfollow = {
+  args: {
+    canUnfollow: buildAuthorizationResult({ value: true }),
+    followersCount: 1,
+    viewerIsFollowing: true,
+  },
+  async play({ args, canvasElement }) {
+    const canvas = within(canvasElement);
+    const button = canvas.getByRole('button');
+
+    await expect(button).not.toBeDisabled();
+
+    await userEvent.click(button);
+
+    await expect(args.onUnfollow).toHaveBeenCalled();
+  },
 };

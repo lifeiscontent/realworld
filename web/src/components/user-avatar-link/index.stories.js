@@ -1,5 +1,4 @@
-import { expect } from '@storybook/jest';
-import { waitFor, within } from '@storybook/testing-library';
+import { expect, within } from '@storybook/test';
 import { UserAvatarLink } from '.';
 
 const meta = {
@@ -22,8 +21,6 @@ export const AsGuest = {
       name: new RegExp('lifeiscontent', 'i'),
     });
 
-    await waitFor(() =>
-      expect(link).toHaveAttribute('href', '/user/lifeiscontent')
-    );
+    await expect(link).toHaveAttribute('href', '/user/lifeiscontent');
   },
 };

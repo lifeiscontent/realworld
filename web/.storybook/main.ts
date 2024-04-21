@@ -13,12 +13,21 @@ function buildSection(context: string) {
 }
 
 const config: StorybookConfig = {
-  stories: [buildSection('components'), buildSection('containers')],
+  stories: [{
+    directory: '../src/components',
+    titlePrefix: 'Components',
+    files: '**/*.@(mdx|stories.*)'
+  }, {
+    directory: '../src/containers',
+    titlePrefix: 'Containers',
+    files: '**/*.@(mdx|stories.*)'
+  }],
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
     'storybook-addon-apollo-client',
+    '@chromatic-com/storybook'
   ],
   staticDirs: ['../public'],
   framework: {

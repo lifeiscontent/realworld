@@ -1,5 +1,4 @@
-import { expect } from '@storybook/jest';
-import { userEvent, waitFor, within } from '@storybook/testing-library';
+import { userEvent, expect, within } from '@storybook/test';
 import { ArticleMeta } from '.';
 import { buildAuthorizationResult } from '../../utils/storybook';
 
@@ -47,7 +46,7 @@ export const AsAuthorCanDelete = {
       })
     );
 
-    await waitFor(() => expect(args.onDelete).toHaveBeenCalled());
+    await expect(args.onDelete).toHaveBeenCalled();
   },
 };
 
@@ -64,7 +63,7 @@ export const AsUserWhoHasNotFavoritedCanFavorite = {
       })
     );
 
-    await waitFor(() => expect(args.onFavorite).toHaveBeenCalled());
+    await expect(args.onFavorite).toHaveBeenCalled();
   },
 };
 
@@ -84,7 +83,7 @@ export const AsUserWhoHasNotFollowedCanFollow = {
       })
     );
 
-    await waitFor(() => expect(args.onFollow).toHaveBeenCalled());
+    await expect(args.onFollow).toHaveBeenCalled();
   },
 };
 
@@ -103,7 +102,7 @@ export const AsUserWhoHasFavoritedCanUnfavorite = {
       })
     );
 
-    await waitFor(() => expect(args.onUnfavorite).toHaveBeenCalled());
+    await expect(args.onUnfavorite).toHaveBeenCalled();
   },
 };
 
@@ -125,6 +124,6 @@ export const AsUserWhoHasFollowedCanUnfollow = {
       })
     );
 
-    await waitFor(() => expect(args.onUnfollow).toHaveBeenCalled());
+    await expect(args.onUnfollow).toHaveBeenCalled();
   },
 };

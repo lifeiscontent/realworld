@@ -15,12 +15,11 @@ jobs:
           POSTGRES_PASSWORD: postgres
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install dependent libraries
         run: sudo apt-get install libpq-dev
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.1.1
           working-directory: ./api
           bundler-cache: true
       - name: Setup Database
@@ -33,9 +32,8 @@ jobs:
           RAILS_ENV: test
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-
       - name: Run RSpec
-        run: COVERAGE=true bin/rails spec
+        run: bundle exec rspec
         working-directory: ./api
         env:
           RAILS_ENV: test

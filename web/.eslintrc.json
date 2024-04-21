@@ -9,13 +9,7 @@
   ],
   "overrides": [
     {
-      "files": ["src/**/*.spec.[jt]s?(x)"],
-      "plugins": ["jest"],
-      "extends": ["plugin:jest/recommended"]
-    },
-    {
       "files": ["src/**/*.stories.[jt]s?(x)"],
-      "plugins": ["jest"],
       "extends": ["plugin:storybook/recommended"]
     }
   ]

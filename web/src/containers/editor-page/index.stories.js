@@ -2,13 +2,17 @@ import EditorPage from '.';
 
 const meta = {
   component: EditorPage,
+};
+
+export default meta;
+
+export const AsGuest = {
   parameters: {
     apolloClient: {
       mocks: [
         {
           request: {
             query: EditorPage.query,
-            variables: {},
           },
           result: {
             data: {
@@ -21,24 +25,29 @@ const meta = {
     nextjs: {
       router: {
         asPath: '/editor',
+        path: '/editor',
       },
     },
   },
+  async play() {
+    // TODO: Implement play test
+    // await waitFor(() =>
+    //   expect(parameters.nextjs.router.replace).toHaveBeenCalledWith(
+    //     '/editor',
+    //     '/',
+    //     { shallow: true }
+    //   )
+    // );
+  },
 };
-
-export default meta;
-
-export const AsGuest = {};
 
 export const AsUser = {
   parameters: {
-    ...meta.parameters,
     apolloClient: {
       mocks: [
         {
           request: {
             query: EditorPage.query,
-            variables: {},
           },
           result: {
             data: {
@@ -55,5 +64,17 @@ export const AsUser = {
         },
       ],
     },
+    nextjs: {
+      router: {
+        asPath: '/editor',
+        path: '/editor',
+      },
+    },
+  },
+  async play() {
+    // TODO: Implement play test
+    // await waitFor(() =>
+    //   expect(parameters.nextjs.router.replace).not.toHaveBeenCalled()
+    // );
   },
 };

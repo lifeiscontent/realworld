@@ -1,5 +1,4 @@
-import { expect } from '@storybook/jest';
-import { within, waitFor } from '@storybook/testing-library';
+import { within, expect } from '@storybook/test';
 import { ArticleUpdateButton } from '.';
 import { buildAuthorizationResult } from '../../utils/storybook';
 
@@ -15,9 +14,8 @@ export default meta;
 export const AsGuest = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const elements = canvas.queryAllByRole('link');
 
-    await waitFor(() => expect(elements).toHaveLength(0));
+    await expect(canvas.queryByRole('link')).toBeNull();
   },
 };
 
@@ -29,8 +27,6 @@ export const CanUpdate = {
     const canvas = within(canvasElement);
     const link = canvas.getByRole('link');
 
-    await waitFor(() =>
-      expect(link).toHaveAttribute('href', '/editor/a-simple-title')
-    );
+    await expect(link).toHaveAttribute('href', '/editor/a-simple-title');
   },
 };

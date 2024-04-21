@@ -8,8 +8,8 @@ export default meta;
 
 export const AsGuest = {};
 
-export const LoggedIn = {};
-
-LoggedIn.args = {
-  username: 'lifeiscontent',
+export const LoggedIn = {
+  args: {
+    username: 'lifeiscontent',
+  },
 };

@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_04_034913) do
-
+ActiveRecord::Schema[7.1].define(version: 2021_12_04_034913) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,7 +19,7 @@ ActiveRecord::Schema.define(version: 2021_12_04_034913) do
     t.string "record_type", null: false
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
@@ -33,7 +32,7 @@ ActiveRecord::Schema.define(version: 2021_12_04_034913) do
     t.string "service_name", null: false
     t.bigint "byte_size", null: false
     t.string "checksum", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
@@ -50,8 +49,8 @@ ActiveRecord::Schema.define(version: 2021_12_04_034913) do
     t.text "body", null: false
     t.integer "favorites_count", default: 0, null: false
     t.bigint "author_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["author_id"], name: "index_articles_on_author_id"
     t.index ["slug"], name: "index_articles_on_slug", unique: true
   end
@@ -60,8 +59,8 @@ ActiveRecord::Schema.define(version: 2021_12_04_034913) do
     t.bigint "author_id", null: false
     t.bigint "article_id", null: false
     t.text "body", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["article_id"], name: "index_comments_on_article_id"
     t.index ["author_id"], name: "index_comments_on_author_id"
   end
@@ -69,8 +68,8 @@ ActiveRecord::Schema.define(version: 2021_12_04_034913) do
   create_table "favorites", force: :cascade do |t|
     t.bigint "article_id", null: false
     t.bigint "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["article_id", "user_id"], name: "index_favorites_on_article_id_and_user_id", unique: true
   end
 
@@ -89,32 +88,32 @@ ActiveRecord::Schema.define(version: 2021_12_04_034913) do
     t.text "bio", default: "", null: false
     t.string "image_url"
     t.bigint "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["user_id"], name: "index_profiles_on_user_id", unique: true
   end
 
   create_table "relationships", force: :cascade do |t|
     t.bigint "followed_id", null: false
     t.bigint "follower_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["followed_id", "follower_id"], name: "index_relationships_on_followed_id_and_follower_id", unique: true
   end
 
   create_table "taggings", force: :cascade do |t|
     t.bigint "article_id", null: false
     t.bigint "tag_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["article_id", "tag_id"], name: "index_taggings_on_article_id_and_tag_id", unique: true
   end
 
   create_table "tags", force: :cascade do |t|
     t.string "name", null: false
     t.integer "taggings_count", default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
@@ -122,10 +121,10 @@ ActiveRecord::Schema.define(version: 2021_12_04_034913) do
     t.string "email", null: false
     t.string "encrypted_password", null: false
     t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "reset_password_sent_at", precision: nil
+    t.datetime "remember_created_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "followers_count", default: 0, null: false
     t.integer "following_count", default: 0, null: false
     t.string "username", null: false
