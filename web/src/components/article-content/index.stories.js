@@ -1,5 +1,4 @@
-import { expect } from '@storybook/jest';
-import { within, waitFor } from '@storybook/testing-library';
+import { expect, within } from '@storybook/test';
 import { ArticleContent } from '.';
 
 const meta = {
@@ -33,8 +32,8 @@ export const AsGuest = {
       )
     );
 
-    await waitFor(() => expect(content).toBeInTheDocument());
-    await waitFor(() => expect(h1).toBeInTheDocument());
-    await waitFor(() => expect(p).toBeInTheDocument());
+    await expect(content).toBeInTheDocument();
+    await expect(h1).toBeInTheDocument();
+    await expect(p).toBeInTheDocument();
   },
 };

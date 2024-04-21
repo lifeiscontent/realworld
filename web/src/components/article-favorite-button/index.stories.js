@@ -1,5 +1,4 @@
-import { expect } from '@storybook/jest';
-import { userEvent, waitFor, within } from '@storybook/testing-library';
+import { userEvent, within, expect } from '@storybook/test';
 import { ArticleFavoriteButton } from '.';
 import { buildAuthorizationResult } from '../../utils/storybook';
 
@@ -22,7 +21,7 @@ export const AsGuest = {
 
     await userEvent.click(canvas.getByRole('button'));
 
-    await waitFor(() => expect(args.onFavorite).not.toHaveBeenCalled());
+    await expect(args.onFavorite).not.toHaveBeenCalled();
   },
 };
 
@@ -35,7 +34,7 @@ export const AsUserWhoHasNotFavorited = {
 
     await userEvent.click(canvas.getByRole('button'));
 
-    await waitFor(() => expect(args.onFavorite).toHaveBeenCalled());
+    await expect(args.onFavorite).toHaveBeenCalled();
   },
 };
 
@@ -50,6 +49,6 @@ export const AsUserWhoHasFavorited = {
 
     await userEvent.click(canvas.getByRole('button'));
 
-    await waitFor(() => expect(args.onUnfavorite).toHaveBeenCalled());
+    await expect(args.onUnfavorite).toHaveBeenCalled();
   },
 };

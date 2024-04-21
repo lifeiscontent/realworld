@@ -46,7 +46,6 @@ describe('EditorPage', () => {
         {
           request: {
             query: EditorPage.query,
-            variables: {},
           },
           result: {
             data: {
@@ -65,12 +64,9 @@ describe('EditorPage', () => {
         </MockedProvider>
       );
 
-      // since this this happens in an effect, we need to use `waitFor`.
-      await waitFor(() => {
-        // test that the router was called with the right arguments
-        expect(Router.replace).toHaveBeenCalledWith('/editor', '/', {
-          shallow: true,
-        });
+      // test that the router was called with the right arguments
+      await expect(Router.replace).toHaveBeenCalledWith('/editor', '/', {
+        shallow: true,
       });
     });
   });
@@ -81,7 +77,6 @@ describe('EditorPage', () => {
         {
           request: {
             query: EditorPage.query,
-            variables: {},
           },
           result: {
             data: {
@@ -107,9 +102,7 @@ describe('EditorPage', () => {
         </MockedProvider>
       );
 
-      await waitFor(() => {
-        expect(Router.replace).not.toHaveBeenCalled();
-      });
+      await expect(Router.replace).not.toHaveBeenCalled();
     });
   });
 });

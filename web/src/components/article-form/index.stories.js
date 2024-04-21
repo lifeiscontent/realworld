@@ -1,10 +1,4 @@
-import { expect } from '@storybook/jest';
-import {
-  fireEvent,
-  userEvent,
-  waitFor,
-  within,
-} from '@storybook/testing-library';
+import { fireEvent, userEvent, expect, within } from '@storybook/test';
 import { ArticleForm } from '.';
 import { TagsInput } from '../../containers/tags-input';
 
@@ -34,14 +28,13 @@ export const AsGuestWithInvalidFormShowsErrors = {
       new RegExp('is a required field', 'i')
     );
 
-    await waitFor(() => expect(args.onSubmit).not.toHaveBeenCalled());
-
-    await waitFor(() => expect(errors).toHaveLength(3));
+    await expect(args.onSubmit).not.toHaveBeenCalled();
+    await expect(errors).toHaveLength(3);
   },
 };
 
 export const AsGuestWithValidFormCallsOnSubmit = {
-  play: async ({ canvasElement }) => {
+  play: async ({ args, canvasElement }) => {
     const canvas = within(canvasElement);
 
     await userEvent.click(canvas.getByRole('button'));
@@ -68,7 +61,6 @@ export const AsGuestWithValidFormCallsOnSubmit = {
       canvas.getByRole('button', { name: new RegExp('Publish Article', 'i') })
     );
 
-    // TODO: Figure out how to submit the form
-    // await waitFor(() => expect(args.onSubmit).toHaveBeenCalled());
+    await expect(args.onSubmit).toHaveBeenCalled();
   },
 };

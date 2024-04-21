@@ -1,5 +1,4 @@
-import { expect } from '@storybook/jest';
-import { waitFor, within } from '@storybook/testing-library';
+import { within, expect } from '@storybook/test';
 import { ArticleInfo } from '.';
 
 const meta = {
@@ -18,14 +17,10 @@ export const AsGuest = {
     const link = canvas.getByText('lifeiscontent');
     const time = canvas.getByText('March 1st');
 
-    await waitFor(() =>
-      expect(time).toHaveAttribute(
-        'datetime',
-        new Date(2000, 2, 1).toISOString()
-      )
+    await expect(time).toHaveAttribute(
+      'datetime',
+      new Date(2000, 2, 1).toISOString()
     );
-    await waitFor(() =>
-      expect(link).toHaveAttribute('href', '/user/lifeiscontent')
-    );
+    await expect(link).toHaveAttribute('href', '/user/lifeiscontent');
   },
 };

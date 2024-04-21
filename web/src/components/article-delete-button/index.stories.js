@@ -1,5 +1,4 @@
-import { expect } from '@storybook/jest';
-import { userEvent, waitFor, within } from '@storybook/testing-library';
+import { userEvent, within, expect } from '@storybook/test';
 import { ArticleDeleteButton } from '.';
 import { buildAuthorizationResult } from '../../utils/storybook';
 
@@ -21,7 +20,7 @@ export const AsGuest = {
     const canvas = within(canvasElement);
     const elements = canvas.queryAllByRole('button');
 
-    await waitFor(() => expect(elements).toHaveLength(0));
+    await expect(elements).toHaveLength(0);
   },
 };
 
@@ -34,6 +33,6 @@ export const AsAuthor = {
 
     await userEvent.click(canvas.getByRole('button'));
 
-    await waitFor(() => expect(args.onDelete).toHaveBeenCalled());
+    await expect(args.onDelete).toHaveBeenCalled();
   },
 };

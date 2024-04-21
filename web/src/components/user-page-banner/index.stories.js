@@ -16,22 +16,22 @@ export default meta;
 
 export const AsGuest = {};
 
-export const CanFollow = {};
-
-CanFollow.args = {
-  canFollow: buildAuthorizationResult({ value: true }),
+export const CanFollow = {
+  args: {
+    canFollow: buildAuthorizationResult({ value: true }),
+  },
 };
 
-export const CanUnfollow = {};
-
-CanUnfollow.args = {
-  canUnfollow: buildAuthorizationResult({ value: true }),
-  followersCount: 1,
-  viewerIsFollowing: true,
+export const CanUnfollow = {
+  args: {
+    canUnfollow: buildAuthorizationResult({ value: true }),
+    followersCount: 1,
+    viewerIsFollowing: true,
+  },
 };
 
-export const CanUpdate = {};
-
-CanUpdate.args = {
-  canUpdate: buildAuthorizationResult({ value: true }),
+export const CanUpdate = {
+  args: {
+    canUpdate: buildAuthorizationResult({ value: true }),
+  },
 };

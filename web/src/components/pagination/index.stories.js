@@ -8,14 +8,14 @@ export default meta;
 
 export const AsGuest = {};
 
-export const HasNextPage = {};
-
-HasNextPage.args = {
-  hasNextPage: true,
+export const HasNextPage = {
+  args: {
+    hasNextPage: true,
+  },
 };
 
-export const HasPreviousPage = {};
-
-HasPreviousPage.args = {
-  hasPreviousPage: true,
+export const HasPreviousPage = {
+  args: {
+    hasPreviousPage: true,
+  },
 };

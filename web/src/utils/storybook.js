@@ -1,4 +1,4 @@
-import { defaultDecorateStory } from '@storybook/client-api';
+import { defaultDecorateStory } from '@storybook/preview-api';
 
 export function decorateStory(example, story) {
   return defaultDecorateStory(example, story.decorators ?? [])(example.story);

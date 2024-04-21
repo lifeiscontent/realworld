@@ -177,7 +177,7 @@ as you can see, nothing about this UI Component talks about `style` or `classNam
 Our UI Component is finished, but let's add some tests to make sure it doesn't break in the future.
 
 1.  Add a UI Test in Storybook
-    1. if there are any actions, test them in jest / react-testing-library.
+    1. if there are any actions, test them in storybook.
 
 We'll use the `ArticleFavoriteButton` as an example.
 
@@ -198,7 +198,7 @@ export default meta;
 // the minimum number of props needed to get the component to render.
 // the name `renders` comes from a test, e.g. `it('renders', () => { ... })`
 // this will be visualized in storybook as ArticleFavoriteButton -> Renders
-export const renders = () => (
+export const Renders = () => (
   <ArticleFavoriteButton
     onFavorite={action('onFavorite')} // the action addon allows us to
     onUnfavorite={action('onUnfavorite')} // test handlers and inspect arguments in react
@@ -211,7 +211,7 @@ we can also add all of the variations of our UI elements
 
 ```jsx
 // ...
-export const canFavorite = () => (
+export const CanFavorite = () => (
   <ArticleFavoriteButton
     onFavorite={action('onFavorite')}
     onUnfavorite={action('onUnfavorite')}
@@ -220,7 +220,7 @@ export const canFavorite = () => (
   />
 );
 
-export const canUnfavorite = () => (
+export const CanUnfavorite = () => (
   <ArticleFavoriteButton
     canUnfavorite={{ value: true }}
     favoritesCount={1}
@@ -232,78 +232,67 @@ export const canUnfavorite = () => (
 );
 ```
 
-since we have 2 actions (favorite/unfavorite) we can test them in jest, let's do that now.
+since we have 2 actions (favorite/unfavorite) we can test them in storybook, let's do that now.
 
-[web/src/components/article-favorite-button/index.spec.js][web/src/components/article-favorite-button/index.spec.js]
+[web/src/components/article-favorite-button/index.stories.js][web/src/components/article-favorite-button/index.stories.js]
 
 ```jsx
-import * as React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { userEvent, within, expect } from '@storybook/test';
+import { ArticleFavoriteButton } from '.';
+import { buildAuthorizationResult } from '../../utils/storybook';
 
-describe('ArticleFavoriteButton', () => {
-  let onFavorite;
-  let onUnfavorite;
+const meta = {
+  component: ArticleFavoriteButton,
+  args: {
+    slug: 'a-simple-title',
+  },
+  argTypes: {
+    onFavorite: { action: true },
+    onUnfavorite: { action: true },
+  },
+};
 
-  // we replace the mock functions on each test run to
-  // make sure our tests are isolated from each other.
+export default meta;
 
-  beforeEach(() => {
-    onFavorite = jest.fn();
-    onUnfavorite = jest.fn();
-  });
+export const AsGuest = {
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
 
-  it('is disabled with insufficient access', async () => {
-    render(
-      <ArticleFavoriteButton
-        onFavorite={onFavorite}
-        onUnfavorite={onUnfavorite}
-        slug="a-simple-title"
-      />
-    );
+    await userEvent.click(canvas.getByRole('button'));
 
-    const button = await screen.findByText('Favorite Article (0)');
+    await expect(args.onFavorite).not.toHaveBeenCalled();
+  },
+};
 
-    expect(button).toHaveAttribute('disabled');
-  });
+export const AsUserWhoHasNotFavorited = {
+  args: {
+    canFavorite: buildAuthorizationResult({ value: true }),
+  },
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
 
-  it('calls onFavorite when clicked', async () => {
-    render(
-      <ArticleFavoriteButton
-        onFavorite={onFavorite}
-        onUnfavorite={onUnfavorite}
-        slug="a-simple-title"
-        canFavorite={{ value: true }}
-      />
-    );
+    await userEvent.click(canvas.getByRole('button'));
 
-    const button = await screen.findByText('Favorite Article (0)');
+    await expect(args.onFavorite).toHaveBeenCalled();
+  },
+};
 
-    fireEvent.click(button);
+export const AsUserWhoHasFavorited = {
+  args: {
+    canUnfavorite: buildAuthorizationResult({ value: true }),
+    favoritesCount: 1,
+    viewerDidFavorite: buildAuthorizationResult({ value: true }),
+  },
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
 
-    expect(onFavorite).toHaveBeenCalled();
-  });
+    await userEvent.click(canvas.getByRole('button'));
 
-  it('calls onUnfavorite when clicked', async () => {
-    render(
-      <ArticleFavoriteButton
-        canUnfavorite={{ value: true }}
-        favoritesCount={1}
-        onFavorite={onFavorite}
-        onUnfavorite={onUnfavorite}
-        slug="a-simple-title"
-        viewerDidFavorite={true}
-      />
-    );
-
-    const button = await screen.findByText('Unfavorite Article (1)');
-
-    fireEvent.click(button);
-
-    expect(onUnfavorite).toHaveBeenCalled();
-  });
-});
+    await expect(args.onUnfavorite).toHaveBeenCalled();
+  },
+};
 ```
 
 [web/src/components/article-favorite-button/index.js]: https://github.com/lifeiscontent/realworld/blob/master/web/src/components/article-favorite-button/index.js
 [web/src/components/article-favorite-button/index.stories.js]: https://github.com/lifeiscontent/realworld/blob/master/web/src/components/article-favorite-button/index.stories.js
-[web/src/components/article-favorite-button/index.spec.js]: https://github.com/lifeiscontent/realworld/blob/master/web/src/components/article-favorite-button/index.spec.js
+[web/src/components/article-favorite-button/index.stories.js]: https://github.com/lifeiscontent/realworld/blob/master/web/src/components/article-favorite-button/index.stories.js
