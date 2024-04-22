@@ -33,7 +33,7 @@
     "@types/react-dom": "18.2.6",
     "chromatic": "6.19.9",
     "concurrently": "^8.2.2",
-    "eslint": "8.43.0",
+    "eslint": "9.1.0",
     "eslint-config-next": "13.4.7",
     "eslint-config-prettier": "8.8.0",
     "eslint-plugin-import": "2.27.5",
