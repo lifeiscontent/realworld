@@ -4,7 +4,6 @@ updates:
     directory: "/api"
     schedule:
       interval: daily
-      time: "13:00"
     open-pull-requests-limit: 10
     reviewers:
       - lifeiscontent
@@ -12,7 +11,11 @@ updates:
     directory: "/web"
     schedule:
       interval: daily
-      time: "13:00"
+    groups:
+      storybook:
+        applies-to: version-updates
+        patterns:
+        - "@storybook*"
     open-pull-requests-limit: 10
     reviewers:
       - lifeiscontent

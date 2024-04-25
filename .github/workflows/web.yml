@@ -31,7 +31,7 @@ jobs:
         working-directory: ./web
       - name: Publish Storybook and run visual tests
         if: github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]'
-        run: npm run chromatic --exit-once-uploaded
+        run: npm run chromatic -- --exit-once-uploaded
         env:
           CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
         working-directory: ./web
