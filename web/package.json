@@ -10,7 +10,7 @@
     "lodash": "4.17.21",
     "next": "14.2.2",
     "prop-types": "15.8.1",
-    "react": "18.2.0",
+    "react": "18.3.0",
     "react-dom": "18.2.0",
     "react-markdown": "8.0.7",
     "yup": "1.2.0"
@@ -29,7 +29,7 @@
     "@storybook/test-runner": "^0.17.0",
     "@testing-library/react": "14.0.0",
     "@testing-library/user-event": "14.4.3",
-    "@types/react": "18.2.14",
+    "@types/react": "18.3.0",
     "@types/react-dom": "18.2.6",
     "chromatic": "6.19.9",
     "concurrently": "^8.2.2",
