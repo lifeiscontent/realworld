@@ -28,7 +28,7 @@
     "@storybook/test": "^8.0.8",
     "@storybook/test-runner": "^0.17.0",
     "@testing-library/react": "15.0.5",
-    "@testing-library/user-event": "14.4.3",
+    "@testing-library/user-event": "14.5.2",
     "@types/react": "18.3.1",
     "@types/react-dom": "18.2.6",
     "chromatic": "11.3.0",
