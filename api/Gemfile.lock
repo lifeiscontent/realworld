@@ -124,7 +124,7 @@ GEM
       activerecord (>= 4.0.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    graphql (2.3.2)
+    graphql (2.3.3)
       base64
     i18n (1.14.4)
       concurrent-ruby (~> 1.0)
