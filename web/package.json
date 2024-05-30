@@ -43,7 +43,7 @@
     "http-server": "^14.1.1",
     "lint-staged": "15.2.5",
     "prettier": "3.2.5",
-    "storybook": "^8.1.4",
+    "storybook": "^8.1.5",
     "storybook-addon-apollo-client": "7.3.0",
     "wait-on": "^7.2.0"
   },
