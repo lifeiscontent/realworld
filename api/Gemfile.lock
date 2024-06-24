@@ -134,7 +134,7 @@ GEM
       reline (>= 0.4.2)
     jaro_winkler (1.5.6)
     json (2.7.2)
-    jwt (2.8.1)
+    jwt (2.8.2)
       base64
     kramdown (2.4.0)
       rexml
