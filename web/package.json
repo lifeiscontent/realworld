@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@apollo/client": "3.10.6",
+    "@apollo/client": "3.10.7",
     "clsx": "1.2.1",
     "cookie": "0.5.0",
     "deepmerge": "4.3.1",
