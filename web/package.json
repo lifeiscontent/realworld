@@ -42,7 +42,7 @@
     "eslint-plugin-testing-library": "5.11.0",
     "http-server": "^14.1.1",
     "lint-staged": "15.2.7",
-    "prettier": "3.3.2",
+    "prettier": "3.3.3",
     "storybook": "^8.1.11",
     "storybook-addon-apollo-client": "7.3.0",
     "wait-on": "^7.2.0"
