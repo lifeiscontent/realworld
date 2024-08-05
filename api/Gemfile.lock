@@ -120,12 +120,14 @@ GEM
     faker (3.4.1)
       i18n (>= 1.8.11, < 2)
     ffi (1.16.3)
+    fiber-storage (0.1.2)
     friendly_id (5.5.1)
       activerecord (>= 4.0.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    graphql (2.3.7)
+    graphql (2.3.12)
       base64
+      fiber-storage
     i18n (1.14.5)
       concurrent-ruby (~> 1.0)
     io-console (0.7.2)
