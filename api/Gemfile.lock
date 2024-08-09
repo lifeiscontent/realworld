@@ -154,7 +154,7 @@ GEM
       net-smtp
     marcel (1.0.4)
     mini_mime (1.1.5)
-    minitest (5.24.0)
+    minitest (5.24.1)
     msgpack (1.7.2)
     mutex_m (0.2.0)
     net-imap (0.4.12)
@@ -278,7 +278,7 @@ GEM
       rexml
     ruby-next-core (1.0.3)
     ruby-progressbar (1.13.0)
-    shoulda-matchers (6.2.0)
+    shoulda-matchers (6.3.0)
       activesupport (>= 5.2.0)
     solargraph (0.50.0)
       backport (~> 1.2)
