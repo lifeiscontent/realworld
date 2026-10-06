@@ -30,7 +30,7 @@ RSpec.describe 'updateArticle', type: :graphql do
         title: article.title,
         description: article.description,
         body: article.body,
-        tagIds: tags.map(&:id)
+        tagList: tags.map(&:name)
       }
     }
   end
@@ -107,5 +107,20 @@ RSpec.describe 'updateArticle', type: :graphql do
     end
 
     it { is_expected.to eql result }
+  end
+
+  context 'current_user is author and the tag list is empty' do
+    let(:current_user) { author }
+    let(:article) { create(:article, author:, tags:) }
+    let(:variables) do
+      {
+        slug: article.slug,
+        input: { title: article.title, description: article.description, body: article.body, tagList: [] }
+      }
+    end
+
+    it 'removes all tags' do
+      expect(subject.dig(:data, :updateArticle, :article, :tags)).to eq([])
+    end
   end
 end

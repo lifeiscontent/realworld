@@ -24,5 +24,15 @@ RSpec.describe Tag, type: :model do
     subject { described_class }
 
     it { expect(subject.most_used(10)).to be_a(ActiveRecord::Relation) }
+
+    it 'finds or creates tags by name' do
+      existing = create(:tag, name: 'ruby')
+
+      tags = subject.from_names(['ruby', ' rails ', '', 'rails'])
+
+      expect(tags.map(&:name)).to eq(%w[ruby rails])
+      expect(tags.first).to eq(existing)
+      expect(subject.where(name: 'rails').count).to eq(1)
+    end
   end
 end

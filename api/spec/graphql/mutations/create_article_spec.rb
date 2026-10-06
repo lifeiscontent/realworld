@@ -28,7 +28,7 @@ RSpec.describe 'createArticle', type: :graphql do
         title: article_attributes[:title],
         description: article_attributes[:description],
         body: article_attributes[:body],
-        tagIds: tags.map(&:id)
+        tagList: tags.map(&:name)
       }
     }
   end
@@ -72,5 +72,27 @@ RSpec.describe 'createArticle', type: :graphql do
     end
 
     it { is_expected.to eql result }
+  end
+
+  context 'current_user is defined and the tag list has new names' do
+    let(:current_user) { create(:user) }
+    let(:existing_tag) { create(:tag) }
+    let(:variables) do
+      {
+        input: {
+          title: article_attributes[:title],
+          description: article_attributes[:description],
+          body: article_attributes[:body],
+          tagList: [existing_tag.name, ' playwright ', '', 'playwright']
+        }
+      }
+    end
+
+    it 'reuses known tags and creates new tags' do
+      names = subject.dig(:data, :createArticle, :article, :tags).pluck(:name)
+
+      expect(names).to contain_exactly(existing_tag.name, 'playwright')
+      expect(Tag.where(name: existing_tag.name).count).to eq(1)
+    end
   end
 end

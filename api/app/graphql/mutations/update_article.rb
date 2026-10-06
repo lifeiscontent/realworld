@@ -6,10 +6,11 @@ module Mutations
       argument :title, String, required: true
       argument :description, String, required: true
       argument :body, String, required: true
-      argument :tag_ids, [ID], required: true
+      argument :tag_list, [String], required: true, description: 'The names of the tags. Unknown tags are created.'
 
       def prepare
-        to_h
+        attributes = to_h
+        attributes.merge(tags: Tag.from_names(attributes.delete(:tag_list)))
       end
     end
 

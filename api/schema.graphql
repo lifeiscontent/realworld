@@ -60,7 +60,11 @@ type Comment {
 input CreateArticleInput {
   body: String!
   description: String!
-  tagIds: [ID!]!
+
+  """
+  The names of the tags. Unknown tags are created.
+  """
+  tagList: [String!]!
   title: String!
 }
 
@@ -233,7 +237,11 @@ type UnfollowUserPayload {
 input UpdateArticleInput {
   body: String!
   description: String!
-  tagIds: [ID!]!
+
+  """
+  The names of the tags. Unknown tags are created.
+  """
+  tagList: [String!]!
   title: String!
 }
 
