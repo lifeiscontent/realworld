@@ -21,17 +21,20 @@ module Types
       object == context[:current_user]
     end
 
-    field :articles_connection, ArticleType.connection_type, null: false
-
-    def articles_connection
-      object.articles.order(created_at: :desc)
+    field :articles, ArticleListType, null: false do
+      limit_offset_arguments
     end
 
-    field :favorite_articles_connection, ArticleType.connection_type,
-          null: false
+    def articles(limit:, offset:)
+      { relation: object.articles.order(created_at: :desc), limit:, offset: }
+    end
 
-    def favorite_articles_connection
-      object.favorite_articles.order(created_at: :desc)
+    field :favorite_articles, ArticleListType, null: false do
+      limit_offset_arguments
+    end
+
+    def favorite_articles(limit:, offset:)
+      { relation: object.favorite_articles.order(created_at: :desc), limit:, offset: }
     end
 
     expose_authorization_rules :unfollow?, :follow?, :update?

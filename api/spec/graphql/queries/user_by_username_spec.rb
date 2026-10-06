@@ -17,19 +17,17 @@ RSpec.describe 'userByUsername', type: :graphql do
         followersCount
         viewerIsFollowing
         isViewer
-        articlesConnection {
-          edges {
-            node {
-              slug
-            }
+        articles {
+          nodes {
+            slug
           }
+          totalCount
         }
-        favoriteArticlesConnection {
-          edges {
-            node {
-              slug
-            }
+        favoriteArticles {
+          nodes {
+            slug
           }
+          totalCount
         }
         canUnfollow {
           value
@@ -57,14 +55,12 @@ RSpec.describe 'userByUsername', type: :graphql do
       {
         data: {
           userByUsername: {
-            articlesConnection: {
-              edges: []
-            },
+            articles: { nodes: [], totalCount: 0 },
             canFollow: { value: false },
             canUnfollow: { value: false },
             canUpdate: { value: false },
             email: owner.email,
-            favoriteArticlesConnection: { edges: [] },
+            favoriteArticles: { nodes: [], totalCount: 0 },
             followersCount: owner.followers_count,
             isViewer: false,
             profile: {
@@ -87,14 +83,12 @@ RSpec.describe 'userByUsername', type: :graphql do
       {
         data: {
           userByUsername: {
-            articlesConnection: {
-              edges: []
-            },
+            articles: { nodes: [], totalCount: 0 },
             canFollow: { value: true },
             canUnfollow: { value: false },
             canUpdate: { value: false },
             email: owner.email,
-            favoriteArticlesConnection: { edges: [] },
+            favoriteArticles: { nodes: [], totalCount: 0 },
             followersCount: owner.followers_count,
             isViewer: false,
             profile: {
@@ -117,14 +111,12 @@ RSpec.describe 'userByUsername', type: :graphql do
       {
         data: {
           userByUsername: {
-            articlesConnection: {
-              edges: []
-            },
+            articles: { nodes: [], totalCount: 0 },
             canFollow: { value: false },
             canUnfollow: { value: true },
             canUpdate: { value: false },
             email: owner.email,
-            favoriteArticlesConnection: { edges: [] },
+            favoriteArticles: { nodes: [], totalCount: 0 },
             followersCount: owner.followers_count,
             isViewer: false,
             profile: {
@@ -147,14 +139,12 @@ RSpec.describe 'userByUsername', type: :graphql do
       {
         data: {
           userByUsername: {
-            articlesConnection: {
-              edges: []
-            },
+            articles: { nodes: [], totalCount: 0 },
             canFollow: { value: false },
             canUnfollow: { value: false },
             canUpdate: { value: true },
             email: owner.email,
-            favoriteArticlesConnection: { edges: [] },
+            favoriteArticles: { nodes: [], totalCount: 0 },
             followersCount: owner.followers_count,
             isViewer: true,
             profile: {

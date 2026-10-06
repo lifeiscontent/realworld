@@ -2,24 +2,26 @@
 
 module Types
   class QueryType < Types::BaseObject
-    field :feed_connection, ArticleType.connection_type, null: false, authorized_scope: { with: ArticleFeedPolicy } do
+    field :feed, ArticleListType, null: false do
       argument :tag_name, String, required: false
+      limit_offset_arguments
     end
 
-    def feed_connection(tag_name: nil)
+    def feed(limit:, offset:, tag_name: nil)
+      scope = authorized_scope(Article.all, with: ArticleFeedPolicy)
+      scope = scope.tagged_with(Tag.where(name: tag_name)) if tag_name.present?
+      { relation: scope.order(created_at: :desc), limit:, offset: }
+    end
+
+    field :articles, ArticleListType, null: false do
+      argument :tag_name, String, required: false
+      limit_offset_arguments
+    end
+
+    def articles(limit:, offset:, tag_name: nil)
       scope = Article.all
       scope = scope.tagged_with(Tag.where(name: tag_name)) if tag_name.present?
-      scope.order(created_at: :desc)
-    end
-
-    field :articles_connection, ArticleType.connection_type, null: false do
-      argument :tag_name, String, required: false
-    end
-
-    def articles_connection(tag_name: nil)
-      scope = Article.all
-      scope = scope.tagged_with(Tag.where(name: tag_name)) if tag_name.present?
-      scope.order(created_at: :desc)
+      { relation: scope.order(created_at: :desc), limit:, offset: }
     end
 
     field :article_by_slug, ArticleType, null: false do
