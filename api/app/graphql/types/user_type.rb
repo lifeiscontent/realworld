@@ -7,9 +7,9 @@ module Types
     field :profile, Types::ProfileType, null: false
     field :followers_count, Int, null: false
 
-    field :viewer_is_following, Boolean, null: false
+    field :viewer_is_following, Boolean, null: false, resolver_method: :viewer_is_following?
 
-    def viewer_is_following
+    def viewer_is_following?
       return false if context[:current_user].nil?
 
       context[:current_user].following.include?(object)

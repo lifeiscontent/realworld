@@ -18,9 +18,9 @@ module Types
     field :title, String, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
 
-    field :viewer_did_favorite, Boolean, null: false
+    field :viewer_did_favorite, Boolean, null: false, resolver_method: :viewer_did_favorite?
 
-    def viewer_did_favorite
+    def viewer_did_favorite?
       return false if context[:current_user].nil?
 
       context[:current_user].favorite_articles.include?(object)

@@ -6,6 +6,8 @@ AllCops:
     - db/migrate/*.rb
 Layout/LineLength:
   Max: 120
+Naming/PredicateMethod:
+  AllowBangMethods: true
 Metrics/BlockLength:
   Exclude:
     - spec/**/*.rb

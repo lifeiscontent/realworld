@@ -2,6 +2,7 @@
 
 class Article < ApplicationRecord
   extend FriendlyId
+
   friendly_id :title, use: :slugged
   before_validation :set_slug, only: %i[create update]
   belongs_to :author, class_name: 'User', validate: true
