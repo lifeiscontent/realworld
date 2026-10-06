@@ -1,51 +1,19 @@
 # frozen_string_literal: true
 
 module Mutations
-  class UpdateUser < Mutations::BaseMutation
-    class UpdateUserProfileInput < Types::BaseInputObject
-      argument :bio, String, required: false
-      argument :image_url, String, required: false, prepare: :nil_if_empty
+  # PUT /api/user
+  class UpdateUser < BaseMutation
+    argument :user, Types::UpdateUserInputType
+    type Types::UserType, null: false
 
-      def prepare
-        to_h
-      end
-
-      def nil_if_empty(val)
-        val.present? ? val : nil
-      end
-    end
-
-    class UpdateUserInput < Types::BaseInputObject
-      argument :email, String, required: false
-      argument :password, String, required: false, prepare: :nil_if_empty
-      argument :username, ID, required: false
-      argument :profile, UpdateUserProfileInput, required: false, as: :profile_attributes
-
-      def prepare
-        to_h
-      end
-
-      def nil_if_empty(val)
-        val.present? ? val : nil
-      end
-    end
-
-    argument :username, ID, required: true
-    argument :input, UpdateUserInput, required: true
-
-    field :user, Types::UserType, null: false
-
-    def resolve(username:, input:)
-      user = User.includes(:profile).find_by(username:)
-
-      authorize! user, to: :update?
-      authorize! user.profile, to: :update?
-
-      user.update!(input)
-
-      {
-        user:
-      }
+    def resolve(user:)
+      account = require_user!
+      changes = user.to_h
+      account.assign_attributes(changes.slice(:email, :username, :password).compact_blank)
+      profile = account.profile || account.build_profile
+      profile.bio = changes[:bio] || '' if changes.key?(:bio)
+      profile.image_url = changes[:image].presence if changes.key?(:image)
+      save!(account)
     end
   end
 end

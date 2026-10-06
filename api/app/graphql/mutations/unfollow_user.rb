@@ -1,19 +1,17 @@
 # frozen_string_literal: true
 
 module Mutations
-  class UnfollowUser < Mutations::BaseMutation
-    argument :username, ID, required: true
-    field :user, Types::UserType, null: false
+  # DELETE /api/profiles/:username/follow
+  class UnfollowUser < BaseMutation
+    argument :username, String
+    type Types::ProfileType, null: false
 
     def resolve(username:)
-      user = User.find_by(username:)
-
-      authorize! user, to: :unfollow?
-
-      relationship = Relationship.find_by(follower: context[:current_user], followed: user)
-      relationship.destroy!
-
-      { user: relationship.followed }
+      follower = require_user!
+      followed = find_user!(username)
+      authorize! followed, to: :unfollow?
+      Relationship.where(follower:, followed:).destroy_all
+      followed.reload
     end
   end
 end

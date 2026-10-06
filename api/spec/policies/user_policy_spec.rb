@@ -3,47 +3,22 @@
 require 'rails_helper'
 
 RSpec.describe UserPolicy, type: :policy do
+  let(:record) { create(:user) }
   let(:context) { { user: current_user } }
-  let(:current_user) { nil }
-  let(:record) { owner }
-  let(:user) { create(:user) }
-  let(:owner) { create(:user) }
 
-  describe_rule :follow? do
-    failed 'when user is not logged in'
+  %i[follow? unfollow?].each do |rule|
+    describe_rule rule do
+      failed 'when user is a guest' do
+        let(:current_user) { nil }
+      end
 
-    failed 'when user is themself' do
-      let(:current_user) { owner }
-    end
+      failed 'when user is the same user' do
+        let(:current_user) { record }
+      end
 
-    succeed 'when user is not themself' do
-      let(:current_user) { user }
-    end
-  end
-
-  describe_rule :unfollow? do
-    failed 'when user is not logged in'
-
-    failed 'when user is themself' do
-      let(:current_user) { owner }
-    end
-
-    failed 'when user is not themself' do
-      let(:current_user) { user }
-    end
-
-    succeed 'when user is a follower' do
-      let(:current_user) { create(:relationship, follower: user, followed: owner).follower }
-    end
-  end
-
-  describe_rule :update? do
-    failed 'when user is not logged in'
-    failed 'when user is not themself' do
-      let(:current_user) { user }
-    end
-    succeed 'when user is themself' do
-      let(:current_user) { owner }
+      succeed 'when user is another user' do
+        let(:current_user) { create(:user) }
+      end
     end
   end
 end

@@ -1,12 +1,28 @@
 # frozen_string_literal: true
 
 module Types
+  # The public profile of a user.
   class ProfileType < Types::BaseObject
-    field :id, ID, null: false
-    field :bio, String, null: false
-    field :image_url, String, null: true
-    field :user, UserType, null: false
+    graphql_name 'Profile'
 
-    expose_authorization_rules :update?
+    field :username, String, null: false
+    field :bio, String
+    field :image, String
+    field :following, Boolean, null: false, resolver_method: :following?,
+                               description: 'True when the current user follows this user.'
+
+    def bio
+      object.profile&.bio.presence
+    end
+
+    def image
+      object.profile&.image_url.presence
+    end
+
+    def following?
+      return false unless current_user
+
+      Relationship.exists?(follower: current_user, followed: object)
+    end
   end
 end

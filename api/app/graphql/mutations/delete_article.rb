@@ -1,18 +1,17 @@
 # frozen_string_literal: true
 
 module Mutations
-  class DeleteArticle < Mutations::BaseMutation
-    argument :slug, ID, required: true
-
-    field :article, Types::ArticleType, null: false
+  # DELETE /api/articles/:slug
+  class DeleteArticle < BaseMutation
+    argument :slug, String
+    type Boolean, null: false
 
     def resolve(slug:)
-      article = Article.find_by(slug:)
-
-      authorize! article, to: :delete?
-      article.destroy!
-
-      { article: }
+      require_user!
+      record = find_article!(slug)
+      authorize! record, to: :delete?
+      record.destroy!
+      record.destroyed?
     end
   end
 end

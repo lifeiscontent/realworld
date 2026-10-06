@@ -1,17 +1,18 @@
 # frozen_string_literal: true
 
 module Mutations
-  class DeleteComment < Mutations::BaseMutation
-    argument :id, ID, required: true
-    field :comment, Types::CommentType, null: false
+  # DELETE /api/articles/:slug/comments/:id
+  class DeleteComment < BaseMutation
+    argument :slug, String
+    argument :id, ID
+    type Boolean, null: false
 
-    def resolve(id:)
-      comment = Comment.find(id)
-
+    def resolve(slug:, id:)
+      require_user!
+      comment = find_article!(slug).comments.find_by(id:) || Errors.not_found!('Comment not found')
       authorize! comment, to: :delete?
       comment.destroy!
-
-      { comment: }
+      comment.destroyed?
     end
   end
 end

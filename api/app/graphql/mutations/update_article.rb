@@ -1,32 +1,20 @@
 # frozen_string_literal: true
 
 module Mutations
-  class UpdateArticle < Mutations::BaseMutation
-    class UpdateArticleInput < Types::BaseInputObject
-      argument :title, String, required: true
-      argument :description, String, required: true
-      argument :body, String, required: true
-      argument :tag_list, [String], required: true, description: 'The names of the tags. Unknown tags are created.'
+  # PUT /api/articles/:slug. The slug changes when the title changes.
+  class UpdateArticle < BaseMutation
+    argument :slug, String
+    argument :article, Types::UpdateArticleInputType
+    type Types::ArticleType, null: false
 
-      def prepare
-        attributes = to_h
-        attributes.merge(tags: Tag.from_names(attributes.delete(:tag_list)))
-      end
-    end
-
-    argument :slug, ID, required: true
-    argument :input, UpdateArticleInput, required: true
-
-    field :article, Types::ArticleType, null: false
-
-    def resolve(slug:, input:)
-      article = Article.find_by(slug:)
-
-      authorize! article, to: :update?
-
-      article.update!(input)
-
-      { article: }
+    def resolve(slug:, article:)
+      require_user!
+      record = find_article!(slug)
+      authorize! record, to: :update?
+      attributes = article.to_h
+      record.assign_attributes(attributes.slice(:title, :description, :body))
+      record.tags = Tag.from_names(attributes[:tag_list]) if attributes.key?(:tag_list)
+      save!(record)
     end
   end
 end

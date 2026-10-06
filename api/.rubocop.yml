@@ -6,8 +6,10 @@ AllCops:
     - db/migrate/*.rb
 Layout/LineLength:
   Max: 120
+# GraphQL mutations must name their method resolve, even when it returns a Boolean.
 Naming/PredicateMethod:
-  AllowBangMethods: true
+  AllowedMethods:
+    - resolve
 Metrics/BlockLength:
   Exclude:
     - spec/**/*.rb

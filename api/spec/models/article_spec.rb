@@ -48,21 +48,6 @@ RSpec.describe Article, type: :model do
     it { expect(subject.length).to be 3 }
   end
 
-  describe '.feed_for' do
-    let(:user) { create(:user, profile: build(:profile)) }
-    let(:author) { create(:author, profile: build(:profile)) }
-    let(:relationship) { create(:relationship, follower: user, followed: author) }
-
-    before(:each) do
-      create_list(:article, 3, author: build(:author))
-      create_list(:article, 3, author:)
-    end
-
-    subject { described_class.feed_for(relationship.follower) }
-
-    it { expect(subject.length).to be 3 }
-  end
-
   describe '#persisted?' do
     subject { create(:article, author: create(:author)) }
 

@@ -14,19 +14,14 @@ class Article < ApplicationRecord
   validates_presence_of :body, :description, :slug, :title, :favorites_count
   validates_uniqueness_of :slug
 
-  def self.feed_for(user)
-    return none unless user.present?
-
-    joins(:author).merge(user.following)
-  end
-
   def self.tagged_with(tags)
     return none unless tags.present?
 
     joins(:taggings).merge(Tagging.joins(:tag).merge(tags)).distinct
   end
 
-  def favorited_by?(user)
-    users_who_favorited.include?(user)
+  # The RealWorld API changes the slug when an update changes the title.
+  def should_generate_new_friendly_id?
+    (persisted? && title_changed?) || super
   end
 end

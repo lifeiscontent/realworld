@@ -4,36 +4,17 @@ class ApiSchema < GraphQL::Schema
   mutation Types::MutationType
   query Types::QueryType
 
+  # The RealWorld API answers 422 with { errors: { field: [messages] } }.
   rescue_from ActiveRecord::RecordInvalid do |error|
-    raise GraphQL::ExecutionError.new(
-      error.message,
-      extensions: {
-        code: 'GRAPHQL_VALIDATION_FAILED',
-        errors: error.record.errors.full_messages
-      }
-    )
+    Errors.unprocessable!(error.record)
   end
 
   rescue_from ActiveModel::ValidationError do |error|
-    raise GraphQL::ExecutionError.new(
-      error.message,
-      extensions: {
-        code: 'GRAPHQL_VALIDATION_FAILED',
-        errors: error.model.errors.full_messages
-      }
-    )
+    Errors.unprocessable!(error.model)
   end
 
+  # The RealWorld API answers 403 when the user may not change the record.
   rescue_from ActionPolicy::Unauthorized do |error|
-    raise GraphQL::ExecutionError.new(
-      # use result.message (backed by i18n) as an error message
-      error.result.message,
-      # use GraphQL error extensions to provide more context
-      extensions: {
-        code: 'UNAUTHORIZED',
-        fullMessages: error.result.reasons.full_messages,
-        details: error.result.reasons.details
-      }
-    )
+    raise GraphQL::ExecutionError.new(error.result.message, extensions: { code: 'FORBIDDEN' })
   end
 end

@@ -1,23 +1,16 @@
 # frozen_string_literal: true
 
 class UserPolicy < ApplicationPolicy
+  # Users cannot follow themselves. Following again has no effect.
   def follow?
-    another_user? && user.following.exclude?(record)
+    another_user?
   end
 
   def unfollow?
-    another_user? && user.following.include?(record)
-  end
-
-  def update?
-    owner?
+    another_user?
   end
 
   private
-
-  def owner?
-    user? && user.id == record.id
-  end
 
   def another_user?
     user? && user.id != record.id

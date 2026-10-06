@@ -1,17 +1,16 @@
 # frozen_string_literal: true
 
 module Mutations
-  class FavoriteArticle < Mutations::BaseMutation
-    argument :slug, ID, required: true
-    field :article, Types::ArticleType, null: false
+  # POST /api/articles/:slug/favorite
+  class FavoriteArticle < BaseMutation
+    argument :slug, String
+    type Types::ArticleType, null: false
 
     def resolve(slug:)
-      article = Article.find_by(slug:)
-
-      authorize! article, to: :favorite?
-      favorite = Favorite.create!(article:, user: context[:current_user])
-
-      { article: favorite.article }
+      user = require_user!
+      article = find_article!(slug)
+      Favorite.find_or_create_by!(user:, article:)
+      article.reload
     end
   end
 end

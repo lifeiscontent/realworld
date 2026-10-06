@@ -5,5 +5,11 @@ module Types
     include ActionPolicy::GraphQL::Behaviour
 
     field_class Types::BaseField
+
+    private
+
+    def current_user
+      context[:current_user]
+    end
   end
 end
