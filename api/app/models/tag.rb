@@ -11,7 +11,9 @@ class Tag < ApplicationRecord
     names.map(&:strip).compact_blank.uniq.map { |name| create_or_find_by!(name:) }
   end
 
-  def self.most_used(limit = 20)
-    where.not(taggings_count: 0).order(taggings_count: :desc).limit(limit)
+  # The tags that have articles, most used first. Tags with the same use are
+  # sorted by name, so the order does not change between requests.
+  def self.most_used
+    where.not(taggings_count: 0).order(taggings_count: :desc, name: :asc)
   end
 end
