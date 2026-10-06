@@ -1,14 +1,13 @@
+import { fn } from 'storybook/test';
 import { UserPageBanner } from '.';
 import { buildAuthorizationResult } from '../../utils/storybook';
 
 const meta = {
   component: UserPageBanner,
   args: {
+    onFollow: fn(),
+    onUnfollow: fn(),
     username: 'lifeiscontent',
-  },
-  argTypes: {
-    onFollow: { action: true },
-    onUnfollow: { action: true },
   },
 };
 

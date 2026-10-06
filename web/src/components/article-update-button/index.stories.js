@@ -1,4 +1,4 @@
-import { within, expect } from '@storybook/test';
+import { within, expect } from 'storybook/test';
 import { ArticleUpdateButton } from '.';
 import { buildAuthorizationResult } from '../../utils/storybook';
 

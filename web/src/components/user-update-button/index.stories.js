@@ -1,6 +1,6 @@
 import { UserUpdateButton } from '.';
 import { buildAuthorizationResult } from '../../utils/storybook';
-import { within, expect } from '@storybook/test';
+import { within, expect } from 'storybook/test';
 
 const meta = {
   component: UserUpdateButton,

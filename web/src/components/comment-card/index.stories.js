@@ -1,16 +1,15 @@
+import { fn } from 'storybook/test';
 import { CommentCard } from '.';
 import { buildAuthorizationResult } from '../../utils/storybook';
 
 const meta = {
   component: CommentCard,
   args: {
+    onDelete: fn(),
     author: { username: 'lifeiscontent' },
     body: 'Hello world!',
     createdAt: new Date(200, 2, 1).toISOString(),
     id: '1',
-  },
-  argTypes: {
-    onDelete: { action: true },
   },
 };
 

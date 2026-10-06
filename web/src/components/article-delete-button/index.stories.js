@@ -1,15 +1,13 @@
-import { userEvent, within, expect } from '@storybook/test';
+import { userEvent, within, expect, fn } from 'storybook/test';
 import { ArticleDeleteButton } from '.';
 import { buildAuthorizationResult } from '../../utils/storybook';
 
 const meta = {
   component: ArticleDeleteButton,
   args: {
+    onDelete: fn(),
     slug: 'a-simple-title',
     canDelete: buildAuthorizationResult(),
-  },
-  argTypes: {
-    onDelete: { action: true },
   },
 };
 

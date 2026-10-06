@@ -1,15 +1,13 @@
-import { expect, userEvent, within } from '@storybook/test';
+import { expect, userEvent, within, fn } from 'storybook/test';
 import { UserFollowButton } from '.';
 import { buildAuthorizationResult } from '../../utils/storybook';
 
 const meta = {
   component: UserFollowButton,
   args: {
+    onFollow: fn(),
+    onUnfollow: fn(),
     username: 'lifeiscontent',
-  },
-  argTypes: {
-    onFollow: { action: true },
-    onUnfollow: { action: true },
   },
 };
 

@@ -1,10 +1,11 @@
+import { fn } from 'storybook/test';
 import { RegisterForm } from '.';
 
 const meta = {
-  component: RegisterForm,
-  argTypes: {
-    onSubmit: { action: true },
+  args: {
+    onSubmit: fn(),
   },
+  component: RegisterForm,
 };
 
 export default meta;

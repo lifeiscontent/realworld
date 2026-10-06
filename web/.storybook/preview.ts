@@ -1,13 +1,17 @@
-import { MockedProvider } from '@apollo/client/testing';
-import type { Preview } from '@storybook/react';
+import { ApolloClient } from '@apollo/client';
+import { MockLink, type MockedResponse } from '@apollo/client/testing';
+import { definePreview } from '@storybook/nextjs';
+import apolloClient from 'storybook-addon-apollo-client';
 import { createCache } from '../src/lib/apolloClient';
 
-const preview: Preview = {
+export default definePreview({
+  addons: [
+    apolloClient({
+      createClient: ({ mocks = [] }: { mocks?: ReadonlyArray<MockedResponse> }) =>
+        new ApolloClient({ cache: createCache(), link: new MockLink(mocks) }),
+    }),
+  ],
   parameters: {
-    apolloClient: {
-      MockedProvider,
-      cache: createCache(),
-    },
     controls: {
       matchers: {
         color: /(background|color)$/i,
@@ -15,6 +19,4 @@ const preview: Preview = {
       },
     },
   },
-};
-
-export default preview;
+});

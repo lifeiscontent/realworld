@@ -1,10 +1,15 @@
-import { userEvent, expect, within } from '@storybook/test';
+import { userEvent, expect, within, fn } from 'storybook/test';
 import { ArticleMeta } from '.';
 import { buildAuthorizationResult } from '../../utils/storybook';
 
 const meta = {
   component: ArticleMeta,
   args: {
+    onDelete: fn(),
+    onFavorite: fn(),
+    onFollow: fn(),
+    onUnfavorite: fn(),
+    onUnfollow: fn(),
     author: {
       canFollow: buildAuthorizationResult(),
       canUnfollow: buildAuthorizationResult(),
@@ -19,13 +24,6 @@ const meta = {
     favoritesCount: 0,
     slug: 'a-simple-title',
     viewerDidFavorite: false,
-  },
-  argTypes: {
-    onDelete: { action: true },
-    onFavorite: { action: true },
-    onFollow: { action: true },
-    onUnfavorite: { action: true },
-    onUnfollow: { action: true },
   },
 };
 

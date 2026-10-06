@@ -1,9 +1,12 @@
+import { fn } from 'storybook/test';
 import { ArticlePreview } from '.';
 import { buildAuthorizationResult } from '../../utils/storybook';
 
 const meta = {
   component: ArticlePreview,
   args: {
+    onFavorite: fn(),
+    onUnfavorite: fn(),
     author: {
       username: 'lifeiscontent',
       profile: {},
@@ -13,10 +16,6 @@ const meta = {
     favoritesCount: 0,
     slug: 'some-cool-title',
     viewerDidFavorite: false,
-  },
-  argTypes: {
-    onFavorite: { action: true },
-    onUnfavorite: { action: true },
   },
 };
 

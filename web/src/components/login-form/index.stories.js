@@ -1,10 +1,11 @@
+import { fn } from 'storybook/test';
 import { LoginForm } from '.';
 
 const meta = {
-  component: LoginForm,
-  argTypes: {
-    onSubmit: { action: true },
+  args: {
+    onSubmit: fn(),
   },
+  component: LoginForm,
 };
 
 export default meta;

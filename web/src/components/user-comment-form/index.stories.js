@@ -1,13 +1,12 @@
+import { fn } from 'storybook/test';
 import { UserCommentForm } from '.';
 import { buildAuthorizationResult } from '../../utils/storybook';
 
 const meta = {
   component: UserCommentForm,
   args: {
+    onSubmit: fn(),
     username: 'lifeiscontent',
-  },
-  argTypes: {
-    onSubmit: { action: true },
   },
 };
 

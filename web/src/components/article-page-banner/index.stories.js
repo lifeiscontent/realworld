@@ -1,21 +1,20 @@
+import { fn } from 'storybook/test';
 import { ArticlePageBanner } from '.';
 import { buildAuthorizationResult } from '../../utils/storybook';
 
 const meta = {
   component: ArticlePageBanner,
   args: {
+    onDelete: fn(),
+    onFavorite: fn(),
+    onFollow: fn(),
+    onUnfavorite: fn(),
+    onUnfollow: fn(),
     author: {
       username: 'lifeiscontent',
     },
     createdAt: new Date(2000, 2, 1).toISOString(),
     slug: 'some-cool-title',
-  },
-  argTypes: {
-    onDelete: { action: true },
-    onFavorite: { action: true },
-    onFollow: { action: true },
-    onUnfavorite: { action: true },
-    onUnfollow: { action: true },
   },
 };
 

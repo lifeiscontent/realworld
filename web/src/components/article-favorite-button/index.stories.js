@@ -1,15 +1,13 @@
-import { userEvent, within, expect } from '@storybook/test';
+import { userEvent, within, expect, fn } from 'storybook/test';
 import { ArticleFavoriteButton } from '.';
 import { buildAuthorizationResult } from '../../utils/storybook';
 
 const meta = {
   component: ArticleFavoriteButton,
   args: {
+    onFavorite: fn(),
+    onUnfavorite: fn(),
     slug: 'a-simple-title',
-  },
-  argTypes: {
-    onFavorite: { action: true },
-    onUnfavorite: { action: true },
   },
 };
 
