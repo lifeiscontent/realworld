@@ -26,7 +26,7 @@ export function ArticleAuthorActions({ slug }: { slug: string }) {
         variant="secondary"
         outline
         size="sm"
-        to={href('/editor/:slug?', { slug })}
+        to={href('/editor/:slug', { slug })}
       >
         <i className="ion-edit" /> Edit Article
       </ButtonLink>{' '}

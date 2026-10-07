@@ -1,9 +1,7 @@
 import { gql, type TypedDocumentNode } from '@apollo/client';
-import type { ActionFunctionArgs } from 'react-router';
 
 import { apolloClientContext } from '../app/context';
 import { actionOk, attempt } from '../lib/forms';
-import { requireParam } from '../lib/params';
 import { actionOnlyLoader, methodNotAllowed } from '../lib/responses';
 import type {
   FavoriteArticleMutation,
@@ -12,10 +10,11 @@ import type {
   UnfavoriteArticleMutation,
   UnfavoriteArticleMutationVariables,
 } from '../types/__generated__/graphql';
+import type { Route } from './+types/article-favorite';
 
-export const loader = actionOnlyLoader;
+export const clientLoader = actionOnlyLoader;
 
-export const FAVORITE_STATE_FRAGMENT: TypedDocumentNode<FavoriteStateFragment> = gql`
+const FAVORITE_STATE_FRAGMENT: TypedDocumentNode<FavoriteStateFragment> = gql`
   fragment FavoriteState on Article {
     slug
     favorited
@@ -51,14 +50,17 @@ const UNFAVORITE_ARTICLE_MUTATION: TypedDocumentNode<
  * POST /article/:slug/favorite favorites, DELETE unfavorites. The optimistic
  * result updates the cache at once, and the routes do not load again.
  */
-export async function action({ request, params, context }: ActionFunctionArgs) {
-  const slug = requireParam(params, 'slug');
+export async function clientAction({
+  request,
+  params,
+  context,
+}: Route.ClientActionArgs) {
   const client = context.get(apolloClientContext);
   const favorite = request.method === 'POST';
   if (!favorite && request.method !== 'DELETE') throw methodNotAllowed();
 
   const current = client.readFragment({
-    id: client.cache.identify({ __typename: 'Article', slug }),
+    id: client.cache.identify({ __typename: 'Article', slug: params.slug }),
     fragment: FAVORITE_STATE_FRAGMENT,
   });
   const optimistic = current && {
@@ -73,7 +75,7 @@ export async function action({ request, params, context }: ActionFunctionArgs) {
     if (favorite) {
       await client.mutate({
         mutation: FAVORITE_ARTICLE_MUTATION,
-        variables: { slug },
+        variables: params,
         optimisticResponse: optimistic
           ? { favoriteArticle: optimistic }
           : undefined,
@@ -82,7 +84,7 @@ export async function action({ request, params, context }: ActionFunctionArgs) {
     }
     await client.mutate({
       mutation: UNFAVORITE_ARTICLE_MUTATION,
-      variables: { slug },
+      variables: params,
       optimisticResponse: optimistic
         ? { unfavoriteArticle: optimistic }
         : undefined,

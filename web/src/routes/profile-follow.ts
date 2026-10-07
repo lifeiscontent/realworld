@@ -1,9 +1,7 @@
 import { gql, type TypedDocumentNode } from '@apollo/client';
-import type { ActionFunctionArgs } from 'react-router';
 
 import { apolloClientContext } from '../app/context';
 import { actionOk, attempt } from '../lib/forms';
-import { requireParam } from '../lib/params';
 import { actionOnlyLoader, methodNotAllowed } from '../lib/responses';
 import type {
   FollowUserMutation,
@@ -11,8 +9,9 @@ import type {
   UnfollowUserMutation,
   UnfollowUserMutationVariables,
 } from '../types/__generated__/graphql';
+import type { Route } from './+types/profile-follow';
 
-export const loader = actionOnlyLoader;
+export const clientLoader = actionOnlyLoader;
 
 const FOLLOW_USER_MUTATION: TypedDocumentNode<
   FollowUserMutation,
@@ -42,29 +41,32 @@ const UNFOLLOW_USER_MUTATION: TypedDocumentNode<
  * POST /profile/:username/follow follows, DELETE unfollows. The optimistic
  * result updates the cache at once, and the routes do not load again.
  */
-export async function action({ request, params, context }: ActionFunctionArgs) {
-  const username = requireParam(params, 'username');
+export async function clientAction({
+  request,
+  params,
+  context,
+}: Route.ClientActionArgs) {
   const client = context.get(apolloClientContext);
   const follow = request.method === 'POST';
   if (!follow && request.method !== 'DELETE') throw methodNotAllowed();
 
   const profile = {
     __typename: 'Profile' as const,
-    username,
+    username: params.username,
     following: follow,
   };
   const { failure } = await attempt(async () => {
     if (follow) {
       await client.mutate({
         mutation: FOLLOW_USER_MUTATION,
-        variables: { username },
+        variables: params,
         optimisticResponse: { followUser: profile },
       });
       return;
     }
     await client.mutate({
       mutation: UNFOLLOW_USER_MUTATION,
-      variables: { username },
+      variables: params,
       optimisticResponse: { unfollowUser: profile },
     });
   });

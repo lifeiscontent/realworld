@@ -1,13 +1,6 @@
 import { gql, type TypedDocumentNode } from '@apollo/client';
 import { useReadQuery } from '@apollo/client/react';
-import {
-  type ActionFunctionArgs,
-  href,
-  Link,
-  type LoaderFunctionArgs,
-  redirect,
-  useLoaderData,
-} from 'react-router';
+import { href, Link, redirect } from 'react-router';
 
 import { evictArticleLists } from '../app/apollo';
 import { apolloClientContext, preloadQueryContext } from '../app/context';
@@ -32,7 +25,7 @@ import {
 } from '../features/comment/CommentCard';
 import { CommentForm } from '../features/comment/CommentForm';
 import { attempt } from '../lib/forms';
-import { requireParam } from '../lib/params';
+import { pageMeta } from '../lib/meta';
 import { methodNotAllowed, notFound } from '../lib/responses';
 import type {
   ArticlePageQuery,
@@ -41,6 +34,7 @@ import type {
   DeleteArticleMutationVariables,
 } from '../types/__generated__/graphql';
 import { Banner } from '../ui/Banner';
+import type { Route } from './+types/article';
 
 export { shouldRevalidate } from '../app/revalidation';
 
@@ -76,39 +70,47 @@ const DELETE_ARTICLE_MUTATION: TypedDocumentNode<
 `;
 
 /** GET /article/:slug. An unknown slug is a 404. */
-export async function loader({ params, context }: LoaderFunctionArgs) {
-  const slug = requireParam(params, 'slug');
+export const meta: Route.MetaFunction = ({ loaderData, error }) =>
+  pageMeta(loaderData?.title, error);
+
+export async function clientLoader({
+  params,
+  context,
+}: Route.ClientLoaderArgs) {
   const preloadQuery = context.get(preloadQueryContext);
   const articleRef = await preloadQuery.toPromise(
     preloadQuery(ARTICLE_PAGE_QUERY, {
-      variables: { slug },
+      variables: params,
       fetchPolicy: 'cache-and-network',
     })
   );
 
   const page = context
     .get(apolloClientContext)
-    .readQuery({ query: ARTICLE_PAGE_QUERY, variables: { slug } });
+    .readQuery({ query: ARTICLE_PAGE_QUERY, variables: params });
   if (!page?.article) throw notFound('This article does not exist.');
 
-  return { articleRef };
+  return { articleRef, title: page.article.title };
 }
 
 /** DELETE /article/:slug deletes the article and opens the home page. */
-export async function action({ request, params, context }: ActionFunctionArgs) {
+export async function clientAction({
+  request,
+  params,
+  context,
+}: Route.ClientActionArgs) {
   if (request.method !== 'DELETE') throw methodNotAllowed();
   if (!context.get(viewerContext)) throw redirect(href('/login'));
 
-  const slug = requireParam(params, 'slug');
   const client = context.get(apolloClientContext);
   const { failure } = await attempt(() =>
     client.mutate({
       mutation: DELETE_ARTICLE_MUTATION,
-      variables: { slug },
+      variables: params,
       update(cache) {
         // The article page is still open, so it must not update now.
         cache.evict({
-          id: cache.identify({ __typename: 'Article', slug }),
+          id: cache.identify({ __typename: 'Article', slug: params.slug }),
           broadcast: false,
         });
         evictArticleLists(cache);
@@ -120,8 +122,8 @@ export async function action({ request, params, context }: ActionFunctionArgs) {
   return redirect(href('/'));
 }
 
-export function Component() {
-  const { articleRef } = useLoaderData<typeof loader>();
+export default function Article({ loaderData }: Route.ComponentProps) {
+  const { articleRef } = loaderData;
   const { data, dataState } = useReadQuery(articleRef);
   const { viewer } = useViewer();
 
@@ -129,7 +131,7 @@ export function Component() {
   const { article, comments } = data;
 
   const isAuthor = viewer?.username === article.author.username;
-  const meta = (
+  const articleMeta = (
     <ArticleMeta article={article}>
       {isAuthor ? (
         <ArticleAuthorActions slug={article.slug} />
@@ -141,15 +143,14 @@ export function Component() {
 
   return (
     <div className="article-page">
-      <title>{`${article.title} | Conduit`}</title>
       <Banner>
         <h1>{article.title}</h1>
-        {meta}
+        {articleMeta}
       </Banner>
       <div className="container page">
         <ArticleContent article={article} />
         <hr />
-        <div className="article-actions">{meta}</div>
+        <div className="article-actions">{articleMeta}</div>
         <div className="row">
           <div className="col-xs-12 col-md-8 offset-md-2">
             {viewer ? (

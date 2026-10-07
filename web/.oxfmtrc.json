@@ -9,7 +9,8 @@
     "src/types/__generated__",
     "public/styles.css",
     "pnpm-lock.yaml",
-    "dist",
+    "build",
+    ".react-router",
     "storybook-static",
     "e2e"
   ]

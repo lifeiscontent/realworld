@@ -1,9 +1,8 @@
 import preview from '../../.storybook/preview';
-import { routes } from '../app/router';
 
 const meta = preview.meta({
   title: 'Pages/Register',
-  parameters: { router: { routes, url: '/register' } },
+  parameters: { router: { app: true, url: '/register' } },
 });
 
 export const Default = meta.story({

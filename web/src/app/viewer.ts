@@ -3,6 +3,7 @@ import { useReadQuery } from '@apollo/client/react';
 import { useOutletContext, useRouteLoaderData } from 'react-router';
 
 import { actionErrors, attempt } from '../lib/forms';
+import type { clientLoader as rootLoader } from '../root';
 import type {
   Viewer_UserFragment,
   ViewerQuery,
@@ -73,7 +74,7 @@ export async function loadViewer(context: AppContext) {
  * Starts a session after login or register: it clears the data of the guest,
  * caches the user without the token, and stores the token.
  */
-export async function startSession(
+async function startSession(
   client: ApolloClient,
   { token, ...user }: SignedInUser
 ) {
@@ -114,14 +115,9 @@ export async function endSession(client: ApolloClient) {
 
 export type AuthState = 'authenticated' | 'unauthenticated' | 'unavailable';
 
-/** The data of the root loader. */
-export interface RootLoaderData {
-  viewerRef: Awaited<ReturnType<typeof loadViewer>>;
-}
-
 /** The viewer in a component, from the root loader. It updates with the cache. */
 export function useViewer() {
-  const root = useRouteLoaderData<RootLoaderData>('root');
+  const root = useRouteLoaderData<typeof rootLoader>('root');
   if (!root) throw new Error('useViewer needs the root route.');
   const { data, dataState, error } = useReadQuery(root.viewerRef);
   const viewer = dataState === 'complete' ? data.user : null;

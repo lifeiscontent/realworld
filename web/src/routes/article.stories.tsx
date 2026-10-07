@@ -1,7 +1,6 @@
 import { expect, waitFor } from 'storybook/test';
 
 import preview from '../../.storybook/preview';
-import { routes } from '../app/router';
 import {
   article,
   comment,
@@ -15,7 +14,7 @@ import { ADD_COMMENT_MUTATION } from './article-comments';
 
 const meta = preview.meta({
   title: 'Pages/Article',
-  parameters: { router: { routes, url: `/article/${article.slug}` } },
+  parameters: { router: { app: true, url: `/article/${article.slug}` } },
 });
 
 const articleMock = (data: object) => ({

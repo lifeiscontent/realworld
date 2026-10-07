@@ -1,5 +1,6 @@
 .env*.local
-dist/
+build/
+.react-router/
 *.log
 node_modules/
 storybook-static/

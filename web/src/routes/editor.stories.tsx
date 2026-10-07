@@ -2,14 +2,13 @@ import { GraphQLError } from 'graphql';
 import { expect } from 'storybook/test';
 
 import preview from '../../.storybook/preview';
-import { routes } from '../app/router';
 import { signIn, viewerMock } from '../stories/fixtures';
-import { CREATE_ARTICLE_MUTATION } from './editor';
+import { CREATE_ARTICLE_MUTATION } from './new-article';
 
 const meta = preview.meta({
   title: 'Pages/Editor',
   beforeEach: signIn,
-  parameters: { router: { routes, url: '/editor' } },
+  parameters: { router: { app: true, url: '/editor' } },
 });
 
 /** A guest goes to the sign-in page. */

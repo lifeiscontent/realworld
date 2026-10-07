@@ -1,20 +1,17 @@
 import { gql, type TypedDocumentNode } from '@apollo/client';
-import {
-  type ActionFunctionArgs,
-  href,
-  redirect,
-  useActionData,
-} from 'react-router';
+import { href, redirect } from 'react-router';
 import { z } from 'zod';
 
 import { apolloClientContext } from '../app/context';
 import { authenticate, VIEWER_FRAGMENT } from '../app/viewer';
 import { RegisterForm } from '../features/auth/RegisterForm';
 import { actionErrors, errorsOf, parseForm } from '../lib/forms';
+import { pageMeta } from '../lib/meta';
 import type {
   RegisterMutation,
   RegisterMutationVariables,
 } from '../types/__generated__/graphql';
+import type { Route } from './+types/register';
 
 const REGISTER_MUTATION: TypedDocumentNode<
   RegisterMutation,
@@ -37,7 +34,13 @@ const schema = z.object({
 });
 
 /** POST /register makes an account, signs in, and opens the home page. */
-export async function action({ request, context }: ActionFunctionArgs) {
+export const meta: Route.MetaFunction = ({ error }) =>
+  pageMeta('Sign up', error);
+
+export async function clientAction({
+  request,
+  context,
+}: Route.ClientActionArgs) {
   const { values, errors } = parseForm(schema, await request.formData());
   if (errors) return actionErrors(errors);
 
@@ -54,12 +57,6 @@ export async function action({ request, context }: ActionFunctionArgs) {
   return failure ?? redirect(href('/'));
 }
 
-export function Component() {
-  const result = useActionData<typeof action>();
-  return (
-    <>
-      <title>Sign up | Conduit</title>
-      <RegisterForm errors={errorsOf(result)} />
-    </>
-  );
+export default function Register({ actionData }: Route.ComponentProps) {
+  return <RegisterForm errors={errorsOf(actionData)} />;
 }

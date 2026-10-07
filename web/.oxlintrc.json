@@ -28,7 +28,8 @@
   },
   "ignorePatterns": [
     "src/types/__generated__/**",
-    "dist/**",
+    "build/**",
+    ".react-router/**",
     "storybook-static/**",
     "e2e/**"
   ],

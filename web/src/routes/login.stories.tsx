@@ -2,12 +2,11 @@ import { GraphQLError } from 'graphql';
 import { expect } from 'storybook/test';
 
 import preview from '../../.storybook/preview';
-import { routes } from '../app/router';
 import { LOGIN_MUTATION } from './login';
 
 const meta = preview.meta({
   title: 'Pages/Login',
-  parameters: { router: { routes, url: '/login' } },
+  parameters: { router: { app: true, url: '/login' } },
 });
 
 export const Default = meta.story({

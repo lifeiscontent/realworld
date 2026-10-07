@@ -1,9 +1,21 @@
 import { useState } from 'react';
 import { Form } from 'react-router';
+import { z } from 'zod';
 
 import { ErrorMessages } from '../../ui/ErrorMessages';
 import { SubmitButton } from '../../ui/SubmitButton';
 import { TextArea, TextField } from '../../ui/TextField';
+
+/**
+ * Reads the posted form. The API validates the values. A form without tags
+ * sends no tagList.
+ */
+export const articleFormSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  body: z.string(),
+  tagList: z.array(z.string()).default([]),
+});
 
 interface ArticleFormValues {
   title: string;

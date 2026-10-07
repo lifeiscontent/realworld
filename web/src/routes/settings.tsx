@@ -1,10 +1,5 @@
 import { gql, type TypedDocumentNode } from '@apollo/client';
-import {
-  type ActionFunctionArgs,
-  href,
-  redirect,
-  useActionData,
-} from 'react-router';
+import { href, redirect } from 'react-router';
 import { z } from 'zod';
 
 import { apolloClientContext } from '../app/context';
@@ -16,10 +11,12 @@ import {
 import { SettingsForm } from '../features/auth/SettingsForm';
 import { FormPage } from '../layout/FormPage';
 import { actionErrors, errorsOf, parseForm } from '../lib/forms';
+import { pageMeta } from '../lib/meta';
 import type {
   UpdateUserMutation,
   UpdateUserMutationVariables,
 } from '../types/__generated__/graphql';
+import type { Route } from './+types/settings';
 
 const UPDATE_USER_MUTATION: TypedDocumentNode<
   UpdateUserMutation,
@@ -44,7 +41,13 @@ const schema = z.object({
 });
 
 /** POST /settings updates the user and opens the profile. */
-export async function action({ request, context }: ActionFunctionArgs) {
+export const meta: Route.MetaFunction = ({ error }) =>
+  pageMeta('Settings', error);
+
+export async function clientAction({
+  request,
+  context,
+}: Route.ClientActionArgs) {
   const { values, errors } = parseForm(schema, await request.formData());
   if (errors) return actionErrors(errors);
 
@@ -65,15 +68,11 @@ export async function action({ request, context }: ActionFunctionArgs) {
   );
 }
 
-export function Component() {
-  const result = useActionData<typeof action>();
+export default function Settings({ actionData }: Route.ComponentProps) {
   const viewer = useSignedInViewer();
   return (
-    <>
-      <title>Settings | Conduit</title>
-      <FormPage page="settings-page" width="narrow">
-        <SettingsForm user={viewer} errors={errorsOf(result)} />
-      </FormPage>
-    </>
+    <FormPage page="settings-page" width="narrow">
+      <SettingsForm user={viewer} errors={errorsOf(actionData)} />
+    </FormPage>
   );
 }

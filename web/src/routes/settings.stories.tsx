@@ -1,14 +1,13 @@
 import { expect } from 'storybook/test';
 
 import preview from '../../.storybook/preview';
-import { routes } from '../app/router';
 import { signIn, viewer, viewerMock } from '../stories/fixtures';
 
 const meta = preview.meta({
   title: 'Pages/Settings',
   beforeEach: signIn,
   parameters: {
-    router: { routes, url: '/settings' },
+    router: { app: true, url: '/settings' },
     apolloClient: { mocks: [viewerMock] },
   },
 });

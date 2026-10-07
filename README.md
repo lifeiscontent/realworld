@@ -10,7 +10,7 @@ GraphQL schema maps one to one to the RealWorld REST API.
 | Project | Stack |
 | --- | --- |
 | [`api`](api) | Ruby 4, Rails 8.1, graphql-ruby, action_policy, Postgres 18 |
-| [`web`](web) | TypeScript, Vite, React 19, React Router 8, Apollo Client 4, Storybook 10 |
+| [`web`](web) | TypeScript, Vite, React 19, React Router 8 (SPA mode), Apollo Client 4, Storybook 10 |
 
 The two projects deploy independently. Each project has its own
 `mise.toml`, so [mise](https://mise.jdx.dev) installs the correct tool

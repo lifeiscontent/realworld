@@ -22,7 +22,7 @@ export function Navbar({ viewer }: NavbarProps) {
           {viewer ? (
             <>
               <li className="nav-item">
-                <NavLink className="nav-link" to={href('/editor/:slug?')} end>
+                <NavLink className="nav-link" to={href('/editor')} end>
                   <i className="ion-compose" />
                   &nbsp;New Article
                 </NavLink>

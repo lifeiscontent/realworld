@@ -1,11 +1,9 @@
 import { gql, type TypedDocumentNode } from '@apollo/client';
-import type { ActionFunctionArgs } from 'react-router';
 import { z } from 'zod';
 
 import { apolloClientContext } from '../app/context';
 import { COMMENT_CARD_FRAGMENT } from '../features/comment/CommentCard';
 import { actionErrors, actionOk, attempt, parseForm } from '../lib/forms';
-import { requireParam } from '../lib/params';
 import { actionOnlyLoader, methodNotAllowed } from '../lib/responses';
 import type {
   AddCommentMutation,
@@ -13,8 +11,9 @@ import type {
   ArticleCommentsQuery,
   ArticleCommentsQueryVariables,
 } from '../types/__generated__/graphql';
+import type { Route } from './+types/article-comments';
 
-export const loader = actionOnlyLoader;
+export const clientLoader = actionOnlyLoader;
 
 const ARTICLE_COMMENTS_QUERY: TypedDocumentNode<
   ArticleCommentsQuery,
@@ -49,10 +48,13 @@ const schema = z.object({
  * top of the cached list, like the API orders it, so the page does not load
  * again.
  */
-export async function action({ request, params, context }: ActionFunctionArgs) {
+export async function clientAction({
+  request,
+  params,
+  context,
+}: Route.ClientActionArgs) {
   if (request.method !== 'POST') throw methodNotAllowed();
 
-  const slug = requireParam(params, 'slug');
   const { values, errors } = parseForm(schema, await request.formData());
   if (errors) return actionErrors(errors);
 
@@ -60,12 +62,12 @@ export async function action({ request, params, context }: ActionFunctionArgs) {
   const { failure } = await attempt(() =>
     client.mutate({
       mutation: ADD_COMMENT_MUTATION,
-      variables: { slug, comment: values },
+      variables: { ...params, comment: values },
       update(cache, { data }) {
         const comment = data?.addComment;
         if (!comment) return;
         cache.updateQuery(
-          { query: ARTICLE_COMMENTS_QUERY, variables: { slug } },
+          { query: ARTICLE_COMMENTS_QUERY, variables: params },
           current =>
             current?.comments
               ? { ...current, comments: [comment, ...current.comments] }

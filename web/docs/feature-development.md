@@ -1,7 +1,9 @@
 # Feature development
 
-The web app is a client-side app: TypeScript, Vite, React, React Router 8,
-Apollo Client 4, and Storybook 10. This guide tells you where each part of a
+The web app is a client-side app: TypeScript, Vite, React, React Router 8
+in framework mode, Apollo Client 4, and Storybook 10. It uses SPA mode
+(`ssr: false` in `react-router.config.ts`), so the build makes static files
+and the routes use client exports. This guide tells you where each part of a
 feature goes.
 
 ## Boundaries
@@ -12,7 +14,7 @@ decides how the data is fetched and cached. Components only show data.
 | Layer         | Folder         | Can use                                       | Must not use        |
 | ------------- | -------------- | --------------------------------------------- | ------------------- |
 | Route modules | `src/routes`   | loaders, actions, Apollo through `context`    | module state        |
-| App layer     | `src/app`      | the router, Apollo, middleware, the session   | components          |
+| App layer     | `src/app`      | Apollo, middleware, the session               | components          |
 | Features      | `src/features` | fragments, `ui`, forms and fetchers to routes | Apollo, loaders     |
 | Layout        | `src/layout`   | `ui`, router links                            | Apollo, domain data |
 | UI            | `src/ui`       | props, router links                           | domain types, forms |
@@ -27,9 +29,17 @@ example `FormPage` for the account and editor forms.
 
 ### Route modules
 
-Each route module exports the parts that React Router reads, for example
-`loader`, `action`, `Component`, and `shouldRevalidate`. The root route also
-exports `middleware`, `HydrateFallback`, and `ErrorBoundary`.
+`src/routes.ts` has the routes, and `src/root.tsx` is the root route. Each
+route module exports the parts that React Router reads, for example
+`clientLoader`, `clientAction`, the page component as the default export,
+and `shouldRevalidate`. The root route also exports `Layout`,
+`clientMiddleware`, `HydrateFallback`, and `ErrorBoundary`.
+
+React Router makes the types of each route in `./+types/<route>`. Use
+`Route.ClientLoaderArgs`, `Route.ClientActionArgs`, and `Route.ComponentProps`.
+The page component gets `loaderData` and `actionData` as props, and `params`
+has the types of the path. When the params have the same names as the
+variables of an operation, give `params` as the `variables`.
 
 - A loader gets the client from `context.get(apolloClientContext)` or
   `context.get(preloadQueryContext)`. Use `preloadQuery.toPromise()` and give
@@ -39,18 +49,17 @@ exports `middleware`, `HydrateFallback`, and `ErrorBoundary`.
   or a redirect. Use `parseForm`, `attempt`, and `actionErrors` from
   `src/lib/forms.ts`. A component reads the messages with `errorsOf`.
 - A missing record is a 404. Throw `notFound(message)` from
-  `src/lib/responses.ts`. Read route parameters with `requireParam`.
-- A route that only has an action exports `loader = actionOnlyLoader`, so a
-  GET request to it is a 405.
+  `src/lib/responses.ts`.
+- A route that only has an action exports `clientLoader = actionOnlyLoader`,
+  so a GET request to it is a 405.
 - Make URLs with React Router's `href`, for example
-  `href('/article/:slug', { slug })`. It encodes the params. `src/app/pages.ts`
-  registers the paths of the routes, so a wrong path or a missing param is a
-  type error. When you add a route, add its path there too. A unit test
-  checks that the router and the list have the same paths.
+  `href('/article/:slug', { slug })`. It encodes the params. React Router
+  registers the paths of `src/routes.ts`, so a wrong path or a missing param
+  is a type error.
 - Each page renders its `<title>`. React puts it in the document head.
 
-Errors of a page show in the layout, below the navbar. The pathless route
-in `src/app/router.tsx` has the error boundary for all pages.
+Errors of a page show in the layout, below the navbar. The pages layout
+(`src/routes/pages.tsx`) has the error boundary for all pages.
 
 The routes follow the RealWorld API. For example, `POST` and `DELETE` to
 `/article/:slug/favorite` favorite and unfavorite an article.
@@ -65,8 +74,7 @@ The routes follow the RealWorld API. For example, `POST` and `DELETE` to
   `signedInUserContext`, which is never null.
 - `guestOnly` sends signed-in users to `/`.
 
-Two layout routes use the guards. Middleware cannot load lazily, so the
-layouts load with the router:
+Two layout routes use the guards in their `clientMiddleware`:
 
 - `src/routes/signed-in.tsx` uses `requireViewer`. A loader or an action
   below it reads the user with `context.get(signedInUserContext)`, and a
@@ -74,8 +82,8 @@ layouts load with the router:
 - `src/routes/guest.tsx` uses `guestOnly`, and puts the sign-in and sign-up
   forms in the auth page layout.
 
-To add a page for signed-in users, add its route below the `signed-in`
-route in `src/app/router.tsx`.
+To add a page for signed-in users, add its route in the `signed-in.tsx`
+layout in `src/routes.ts`.
 
 ### Revalidation
 
@@ -126,8 +134,8 @@ query includes it.
 2. Write the query or mutation in the route module.
 3. Make the components. Give each component a fragment for the data that it
    shows, and write its stories.
-4. Write the loader and the action, and add the route to
-   `src/app/router.tsx`.
+4. Write the `clientLoader` and the `clientAction`, and add the route to
+   `src/routes.ts`.
 5. Write a page story that opens the route with mocked data.
 
 ## Stories
@@ -142,7 +150,7 @@ export const Default = meta.story({
     apolloClient: {
       mocks: [
         {
-          request: { query: ArticlePageQuery, variables: { slug } },
+          request: { query: ARTICLE_PAGE_QUERY, variables: { slug } },
           result: { data: { article, comments: [] } },
         },
       ],
@@ -151,14 +159,16 @@ export const Default = meta.story({
 });
 ```
 
-The `withRouter` decorator renders each story in a memory router. The
-loaders and actions get the mocked client from the router context. A page
-story gives the app routes and a URL:
+The `withRouter` decorator renders each story in a test router from
+React Router's `createRoutesStub`. The loaders, actions, and middleware get
+the mocked client from the router context. A page story sets `app: true`.
+Then the router has the routes of `src/routes.ts` with the real route
+modules, and opens the URL:
 
 ```tsx
 const meta = preview.meta({
   title: 'Pages/Article',
-  parameters: { router: { routes, url: `/article/${slug}` } },
+  parameters: { router: { app: true, url: `/article/${slug}` } },
 });
 ```
 

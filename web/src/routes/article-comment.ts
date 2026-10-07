@@ -1,16 +1,15 @@
 import { gql, type TypedDocumentNode } from '@apollo/client';
-import type { ActionFunctionArgs } from 'react-router';
 
 import { apolloClientContext } from '../app/context';
 import { actionOk, attempt } from '../lib/forms';
-import { requireParam } from '../lib/params';
 import { actionOnlyLoader, methodNotAllowed } from '../lib/responses';
 import type {
   DeleteCommentMutation,
   DeleteCommentMutationVariables,
 } from '../types/__generated__/graphql';
+import type { Route } from './+types/article-comment';
 
-export const loader = actionOnlyLoader;
+export const clientLoader = actionOnlyLoader;
 
 const DELETE_COMMENT_MUTATION: TypedDocumentNode<
   DeleteCommentMutation,
@@ -25,19 +24,23 @@ const DELETE_COMMENT_MUTATION: TypedDocumentNode<
  * DELETE /article/:slug/comments/:id deletes a comment. The comment leaves
  * the cache at once, and comes back if the API fails.
  */
-export async function action({ request, params, context }: ActionFunctionArgs) {
+export async function clientAction({
+  request,
+  params,
+  context,
+}: Route.ClientActionArgs) {
   if (request.method !== 'DELETE') throw methodNotAllowed();
 
-  const slug = requireParam(params, 'slug');
-  const id = requireParam(params, 'id');
   const client = context.get(apolloClientContext);
   const { failure } = await attempt(() =>
     client.mutate({
       mutation: DELETE_COMMENT_MUTATION,
-      variables: { slug, id },
+      variables: params,
       optimisticResponse: { deleteComment: true },
       update(cache) {
-        cache.evict({ id: cache.identify({ __typename: 'Comment', id }) });
+        cache.evict({
+          id: cache.identify({ __typename: 'Comment', id: params.id }),
+        });
         cache.gc();
       },
     })

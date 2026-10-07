@@ -1,20 +1,17 @@
 import { gql, type TypedDocumentNode } from '@apollo/client';
-import {
-  type ActionFunctionArgs,
-  href,
-  redirect,
-  useActionData,
-} from 'react-router';
+import { href, redirect } from 'react-router';
 import { z } from 'zod';
 
 import { apolloClientContext } from '../app/context';
 import { authenticate, VIEWER_FRAGMENT } from '../app/viewer';
 import { LoginForm } from '../features/auth/LoginForm';
 import { actionErrors, errorsOf, parseForm } from '../lib/forms';
+import { pageMeta } from '../lib/meta';
 import type {
   LoginMutation,
   LoginMutationVariables,
 } from '../types/__generated__/graphql';
+import type { Route } from './+types/login';
 
 export const LOGIN_MUTATION: TypedDocumentNode<
   LoginMutation,
@@ -33,7 +30,13 @@ export const LOGIN_MUTATION: TypedDocumentNode<
 const schema = z.object({ email: z.string(), password: z.string() });
 
 /** POST /login signs in and opens the home page. */
-export async function action({ request, context }: ActionFunctionArgs) {
+export const meta: Route.MetaFunction = ({ error }) =>
+  pageMeta('Sign in', error);
+
+export async function clientAction({
+  request,
+  context,
+}: Route.ClientActionArgs) {
   const { values, errors } = parseForm(schema, await request.formData());
   if (errors) return actionErrors(errors);
 
@@ -50,12 +53,6 @@ export async function action({ request, context }: ActionFunctionArgs) {
   return failure ?? redirect(href('/'));
 }
 
-export function Component() {
-  const result = useActionData<typeof action>();
-  return (
-    <>
-      <title>Sign in | Conduit</title>
-      <LoginForm errors={errorsOf(result)} />
-    </>
-  );
+export default function Login({ actionData }: Route.ComponentProps) {
+  return <LoginForm errors={errorsOf(actionData)} />;
 }

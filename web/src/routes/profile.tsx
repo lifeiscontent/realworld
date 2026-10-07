@@ -1,6 +1,5 @@
 import { gql, type TypedDocumentNode } from '@apollo/client';
 import { useReadQuery } from '@apollo/client/react';
-import { type LoaderFunctionArgs, useLoaderData } from 'react-router';
 
 import { apolloClientContext, preloadQueryContext } from '../app/context';
 import { viewerContext } from '../app/middleware';
@@ -11,14 +10,15 @@ import {
   ProfileInfo,
 } from '../features/profile/ProfileInfo';
 import { ProfileTabs } from '../features/profile/ProfileTabs';
+import { pageMeta } from '../lib/meta';
 import { pageOf } from '../lib/pagination';
-import { requireParam } from '../lib/params';
 import { notFound } from '../lib/responses';
 import type {
   ProfilePageQuery,
   ProfilePageQueryVariables,
 } from '../types/__generated__/graphql';
 import { Pagination } from '../ui/Pagination';
+import type { Route } from './+types/profile';
 
 export { shouldRevalidate } from '../app/revalidation';
 
@@ -56,12 +56,18 @@ export const PROFILE_PAGE_QUERY: TypedDocumentNode<
  * GET /profile/:username lists the articles of the user, and
  * /profile/:username/favorites the articles that the user favorited.
  */
-export async function loader({ request, params, context }: LoaderFunctionArgs) {
-  const username = requireParam(params, 'username');
-  if (params.tab !== undefined && params.tab !== 'favorites') {
+export const meta: Route.MetaFunction = ({ params, error }) =>
+  pageMeta(params.username, error);
+
+export async function clientLoader({
+  request,
+  params: { username, tab },
+  context,
+}: Route.ClientLoaderArgs) {
+  if (tab !== undefined && tab !== 'favorites') {
     throw notFound('This page does not exist.');
   }
-  const favorites = params.tab === 'favorites';
+  const favorites = tab === 'favorites';
   const { page, limit, offset } = pageOf(new URL(request.url));
   const variables = {
     username,
@@ -92,16 +98,14 @@ export async function loader({ request, params, context }: LoaderFunctionArgs) {
   };
 }
 
-export function Component() {
-  const { profileRef, favorites, page, isViewer } =
-    useLoaderData<typeof loader>();
+export default function Profile({ loaderData }: Route.ComponentProps) {
+  const { profileRef, favorites, page, isViewer } = loaderData;
   const { data, dataState } = useReadQuery(profileRef);
   if (dataState !== 'complete' || !data.profile) return null;
   const { profile, articles } = data;
 
   return (
     <div className="profile-page">
-      <title>{`${profile.username} | Conduit`}</title>
       <ProfileInfo profile={profile} isViewer={isViewer} />
       <div className="container">
         <div className="row">

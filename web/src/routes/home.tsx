@@ -1,12 +1,6 @@
 import { gql, type TypedDocumentNode } from '@apollo/client';
 import { useReadQuery } from '@apollo/client/react';
-import {
-  href,
-  Link,
-  type LoaderFunctionArgs,
-  redirect,
-  useLoaderData,
-} from 'react-router';
+import { href, Link, redirect } from 'react-router';
 
 import { preloadQueryContext } from '../app/context';
 import { viewerContext } from '../app/middleware';
@@ -14,6 +8,7 @@ import { ArticleList } from '../features/article/ArticleList';
 import { ARTICLE_PREVIEW_FRAGMENT } from '../features/article/ArticlePreview';
 import { FeedToggle } from '../features/article/FeedToggle';
 import { PopularTags } from '../features/article/PopularTags';
+import { pageMeta } from '../lib/meta';
 import { pageOf } from '../lib/pagination';
 import type {
   HomePageQuery,
@@ -21,6 +16,7 @@ import type {
 } from '../types/__generated__/graphql';
 import { Banner } from '../ui/Banner';
 import { Pagination } from '../ui/Pagination';
+import type { Route } from './+types/home';
 
 export { shouldRevalidate } from '../app/revalidation';
 
@@ -52,9 +48,15 @@ export const HOME_PAGE_QUERY: TypedDocumentNode<
 `;
 
 /** "/", "/?feed=following", and "/tag/:tag", each with ?page=N. */
-export async function loader({ request, params, context }: LoaderFunctionArgs) {
+export const meta: Route.MetaFunction = ({ params, error }) =>
+  pageMeta(params.tag ? `#${params.tag}` : 'Home', error);
+
+export async function clientLoader({
+  request,
+  params: { tag },
+  context,
+}: Route.ClientLoaderArgs) {
   const url = new URL(request.url);
-  const tag = params.tag;
   const signedIn = !!context.get(viewerContext);
   const following = !tag && url.searchParams.get('feed') === 'following';
   if (following && !signedIn) throw redirect(href('/login'));
@@ -71,9 +73,8 @@ export async function loader({ request, params, context }: LoaderFunctionArgs) {
   return { homeRef, page, tag, following, signedIn };
 }
 
-export function Component() {
-  const { homeRef, page, tag, following, signedIn } =
-    useLoaderData<typeof loader>();
+export default function Home({ loaderData }: Route.ComponentProps) {
+  const { homeRef, page, tag, following, signedIn } = loaderData;
   const { data } = useReadQuery(homeRef);
   const list = (following ? data.feed : data.articles) ?? {
     articles: [],
@@ -82,7 +83,6 @@ export function Component() {
 
   return (
     <div className="home-page">
-      <title>{tag ? `#${tag} | Conduit` : 'Home | Conduit'}</title>
       <Banner>
         <h1 className="logo-font">conduit</h1>
         <p>A place to share your knowledge.</p>

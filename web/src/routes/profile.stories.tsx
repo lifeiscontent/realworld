@@ -1,13 +1,12 @@
 import { expect } from 'storybook/test';
 
 import preview from '../../.storybook/preview';
-import { routes } from '../app/router';
 import { article, author } from '../stories/fixtures';
 import { PROFILE_PAGE_QUERY } from './profile';
 
 const meta = preview.meta({
   title: 'Pages/Profile',
-  parameters: { router: { routes, url: `/profile/${author.username}` } },
+  parameters: { router: { app: true, url: `/profile/${author.username}` } },
 });
 
 const profileMock = (favorites: boolean, data: object) => ({
@@ -51,7 +50,7 @@ export const MyArticles = meta.story({
 /** The articles that the user favorited. */
 export const FavoritedArticles = meta.story({
   parameters: {
-    router: { routes, url: `/profile/${author.username}/favorites` },
+    router: { app: true, url: `/profile/${author.username}/favorites` },
     apolloClient: { mocks: [profileMock(true, { profile: author, articles })] },
   },
   play: async ({ canvas }) => {
@@ -80,7 +79,9 @@ export const NotFound = meta.story({
 
 /** Only "favorites" is a profile tab. */
 export const UnknownTab = meta.story({
-  parameters: { router: { routes, url: `/profile/${author.username}/other` } },
+  parameters: {
+    router: { app: true, url: `/profile/${author.username}/other` },
+  },
   play: async ({ canvas }) => {
     await canvas.findByRole('heading', { name: '404 Not Found' });
   },
