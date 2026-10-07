@@ -1,27 +1,17 @@
 # frozen_string_literal: true
 
 module Mutations
-  class CreateArticle < Mutations::BaseMutation
-    class CreateArticleInput < Types::BaseInputObject
-      argument :title, String, required: true
-      argument :description, String, required: true
-      argument :body, String, required: true
-      argument :tag_ids, [ID], required: true
+  # POST /api/articles
+  class CreateArticle < BaseMutation
+    argument :article, Types::NewArticleInputType
+    type Types::ArticleType, null: false
 
-      def prepare
-        to_h
-      end
-    end
-
-    argument :input, CreateArticleInput, required: true
-    field :article, Types::ArticleType, null: false
-
-    def resolve(input:)
-      authorize! Article, to: :create?
-
-      article = context[:current_user].articles.create!(input)
-
-      { article: }
+    def resolve(article:)
+      author = require_user!
+      attributes = article.to_h
+      record = author.articles.build(attributes.slice(:title, :description, :body))
+      record.tags = Tag.from_names(attributes.fetch(:tag_list, []))
+      save!(record)
     end
   end
 end

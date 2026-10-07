@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
 module Mutations
-  class FollowUser < Mutations::BaseMutation
-    argument :username, ID, required: true
-    field :user, Types::UserType, null: false
+  # POST /api/profiles/:username/follow
+  class FollowUser < BaseMutation
+    argument :username, String
+    type Types::ProfileType, null: false
 
     def resolve(username:)
-      user = User.find_by(username:)
-
-      authorize! user, to: :follow?
-      relationship = Relationship.create!(follower: context[:current_user], followed: user)
-
-      { user: relationship.followed }
+      follower = require_user!
+      followed = find_user!(username)
+      authorize! followed, to: :follow?
+      Relationship.create_or_find_by!(follower:, followed:)
+      followed.reload
     end
   end
 end

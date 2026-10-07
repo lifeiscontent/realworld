@@ -1,41 +1,38 @@
-import type { StorybookConfig } from '@storybook/nextjs';
-import { startCase } from 'lodash';
+import type { StorybookConfig } from '@storybook/react-vite';
+import react from '@vitejs/plugin-react';
+import type { PluginOption } from 'vite';
 
-function buildSection(context: string) {
-  return {
-    // 👇 The directory field sets the directory your stories
-    directory: `../src/${context}`,
-    // 👇 The titlePrefix field will generate automatic titles for your stories
-    titlePrefix: startCase(context),
-    // 👇 Storybook will load all files that contain the stories extension
-    files: `**/*.stories.*`,
-  };
+/** True for the plugins of @react-router/dev, which build the whole app. */
+function isReactRouterPlugin(plugin: PluginOption): boolean {
+  if (Array.isArray(plugin)) return plugin.some(isReactRouterPlugin);
+  return (
+    !!plugin &&
+    typeof plugin === 'object' &&
+    'name' in plugin &&
+    plugin.name.startsWith('react-router')
+  );
 }
 
 const config: StorybookConfig = {
-  stories: [{
-    directory: '../src/components',
-    titlePrefix: 'Components',
-    files: '**/*.@(mdx|stories.*)'
-  }, {
-    directory: '../src/containers',
-    titlePrefix: 'Containers',
-    files: '**/*.@(mdx|stories.*)'
-  }],
+  framework: '@storybook/react-vite',
+  stories: ['../src/**/*.stories.@(ts|tsx)'],
   addons: [
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
-    '@storybook/addon-interactions',
+    '@storybook/addon-docs',
+    '@storybook/addon-a11y',
+    '@storybook/addon-vitest',
+    '@storybook/addon-mcp',
+    '@chromatic-com/storybook',
     'storybook-addon-apollo-client',
-    '@chromatic-com/storybook'
   ],
   staticDirs: ['../public'],
-  framework: {
-    name: '@storybook/nextjs',
-    options: {},
-  },
-  docs: {
-    autodocs: 'tag',
+  // Stories render route modules in a test router, so they need the React
+  // plugin instead of the React Router plugin from vite.config.ts.
+  viteFinal: viteConfig => {
+    const plugins = (viteConfig.plugins ?? []).filter(
+      plugin => !isReactRouterPlugin(plugin)
+    );
+    if (!process.env.VITEST) plugins.push(react());
+    return { ...viteConfig, plugins };
   },
 };
 

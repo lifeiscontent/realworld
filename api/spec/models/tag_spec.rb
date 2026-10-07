@@ -21,8 +21,27 @@ RSpec.describe Tag, type: :model do
   end
 
   describe 'methods' do
-    subject { described_class }
+    it 'returns all tags in use, most used first, then by name' do
+      article = create(:article, author: create(:author))
+      unused = create(:tag, name: 'unused')
+      zeta = create(:tag, name: 'zeta')
+      alpha = create(:tag, name: 'alpha')
+      popular = create(:tag, name: 'popular')
+      article.update!(tags: [zeta, alpha, popular])
+      create(:article, author: create(:author), tags: [popular])
 
-    it { expect(subject.most_used(10)).to be_a(ActiveRecord::Relation) }
+      expect(described_class.most_used).to eq([popular, alpha, zeta])
+      expect(described_class.most_used).not_to include(unused)
+    end
+
+    it 'finds or creates tags by name' do
+      existing = create(:tag, name: 'ruby')
+
+      tags = described_class.from_names(['ruby', ' rails ', '', 'rails'])
+
+      expect(tags.map(&:name)).to eq(%w[ruby rails])
+      expect(tags.first).to eq(existing)
+      expect(described_class.where(name: 'rails').count).to eq(1)
+    end
   end
 end

@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "singleQuote": true,
+  "trailingComma": "es5",
+  "arrowParens": "avoid",
+  "printWidth": 80,
+  "sortImports": {},
+  "ignorePatterns": [
+    "src/types/__generated__",
+    "public/styles.css",
+    "pnpm-lock.yaml",
+    "build",
+    ".react-router",
+    "storybook-static",
+    "e2e"
+  ]
+}

@@ -1,5 +1,10 @@
 .env*.local
-.next/
+build/
+.react-router/
 *.log
 node_modules/
 storybook-static/
+test-results/
+playwright-report/
+# Made by GraphQL Codegen (pnpm codegen).
+src/types/__generated__/

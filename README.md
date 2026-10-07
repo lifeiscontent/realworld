@@ -1,63 +1,71 @@
 # realworld
 
-![Web](https://github.com/lifeiscontent/realworld/workflows/Web/badge.svg?branch=master)
-![Api](https://github.com/lifeiscontent/realworld/workflows/Api/badge.svg?branch=master)
-[![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@master/badge/badge-storybook.svg)](https://master--5fcdd27b2771900021fc381e.chromatic.com)
+![Web](https://github.com/lifeiscontent/realworld/actions/workflows/web.yml/badge.svg?branch=main)
+![Api](https://github.com/lifeiscontent/realworld/actions/workflows/api.yml/badge.svg?branch=main)
+[![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@master/badge/badge-storybook.svg)](https://main--5fcdd27b2771900021fc381e.chromatic.com)
 
-This repo implements opinionated best practices for Apollo Client, React, Next.js and Storybook.
+A [RealWorld](https://docs.realworld.show) app with a GraphQL API. The
+GraphQL schema maps one to one to the RealWorld REST API.
 
-1 caveat is it does not try to implement a best practice on UI Components as the styles are reused from the [realworld.io](https://github.com/gothinkster/realworld) project.
+| Project | Stack |
+| --- | --- |
+| [`api`](api) | Ruby 4, Rails 8.1, graphql-ruby, action_policy, Postgres 18 |
+| [`web`](web) | TypeScript, Vite, React 19, React Router 8 (SPA mode), Apollo Client 4, Storybook 10 |
+
+The two projects deploy independently. Each project has its own
+`mise.toml`, so [mise](https://mise.jdx.dev) installs the correct tool
+versions in each folder.
 
 ## Setup
 
 ### Api
 
+The API needs Postgres. Set `DATABASE_URL` if Postgres is not on
+`localhost:5432`.
+
 ```sh
 cd api
-bundle
-bin/rails db:migrate
-bin/rails db:seed
-bin/rails s
+mise install
+bin/setup
+```
+
+`bin/setup` installs the gems, prepares the database, and starts the API on
+port 4000.
+
+### Web
+
+```sh
+cd web
+mise install
+pnpm install
+pnpm dev
+```
+
+The app opens on <http://localhost:5173> and uses the API on port 4000.
+
+## Tests
+
+### Api
+
+```sh
+cd api
+bundle exec rspec
 ```
 
 ### Web
 
 ```sh
 cd web
-npm install
-npm run dev
+pnpm test
 ```
 
-## Testing
-
-### Api
-
-```sh
-cd api
-bin/rails spec
-```
-
-### Web
+`pnpm test` runs the Storybook stories as browser tests. To run the
+RealWorld e2e suite, start the API, then run:
 
 ```sh
 cd web
-npm test
+TEST_MODE=fullstack pnpm exec playwright test
 ```
 
-## Tooling
-
-### Api
-
-#### Generate ERD
-
-```sh
-bin/rails erd
-```
-
-### Web
-
-#### Storybook
-
-```sh
-npm run storybook
-```
+See [web/docs/feature-development.md](web/docs/feature-development.md) for
+the structure of the web app.

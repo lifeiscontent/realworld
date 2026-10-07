@@ -1,0 +1,118 @@
+import { gql, type TypedDocumentNode } from '@apollo/client';
+import { useReadQuery } from '@apollo/client/react';
+import { href, Link, redirect } from 'react-router';
+
+import { preloadQueryContext } from '../app/context';
+import { viewerContext } from '../app/middleware';
+import { ArticleList } from '../features/article/ArticleList';
+import { ARTICLE_PREVIEW_FRAGMENT } from '../features/article/ArticlePreview';
+import { FeedToggle } from '../features/article/FeedToggle';
+import { PopularTags } from '../features/article/PopularTags';
+import { pageMeta } from '../lib/meta';
+import { pageOf } from '../lib/pagination';
+import type {
+  HomePageQuery,
+  HomePageQueryVariables,
+} from '../types/__generated__/graphql';
+import { Banner } from '../ui/Banner';
+import { Pagination } from '../ui/Pagination';
+import type { Route } from './+types/home';
+
+export { shouldRevalidate } from '../app/revalidation';
+
+export const HOME_PAGE_QUERY: TypedDocumentNode<
+  HomePageQuery,
+  HomePageQueryVariables
+> = gql`
+  query HomePage(
+    $limit: Int!
+    $offset: Int!
+    $tag: String
+    $following: Boolean!
+  ) {
+    articles(limit: $limit, offset: $offset, tag: $tag) @skip(if: $following) {
+      articles {
+        ...ArticlePreview_article
+      }
+      articlesCount
+    }
+    feed(limit: $limit, offset: $offset) @include(if: $following) {
+      articles {
+        ...ArticlePreview_article
+      }
+      articlesCount
+    }
+    tags
+  }
+  ${ARTICLE_PREVIEW_FRAGMENT}
+`;
+
+/** "/", "/?feed=following", and "/tag/:tag", each with ?page=N. */
+export const meta: Route.MetaFunction = ({ params, error }) =>
+  pageMeta(params.tag ? `#${params.tag}` : 'Home', error);
+
+export async function clientLoader({
+  request,
+  params: { tag },
+  context,
+}: Route.ClientLoaderArgs) {
+  const url = new URL(request.url);
+  const signedIn = !!context.get(viewerContext);
+  const following = !tag && url.searchParams.get('feed') === 'following';
+  if (following && !signedIn) throw redirect(href('/login'));
+
+  const { page, limit, offset } = pageOf(url);
+  const preloadQuery = context.get(preloadQueryContext);
+  const homeRef = await preloadQuery.toPromise(
+    preloadQuery(HOME_PAGE_QUERY, {
+      variables: { limit, offset, tag, following },
+      fetchPolicy: 'cache-and-network',
+    })
+  );
+
+  return { homeRef, page, tag, following, signedIn };
+}
+
+export default function Home({ loaderData }: Route.ComponentProps) {
+  const { homeRef, page, tag, following, signedIn } = loaderData;
+  const { data } = useReadQuery(homeRef);
+  const list = (following ? data.feed : data.articles) ?? {
+    articles: [],
+    articlesCount: 0,
+  };
+
+  return (
+    <div className="home-page">
+      <Banner>
+        <h1 className="logo-font">conduit</h1>
+        <p>A place to share your knowledge.</p>
+      </Banner>
+      <div className="container page">
+        <div className="row">
+          <div className="col-md-9">
+            <FeedToggle
+              showYourFeed={signedIn}
+              feed={following ? 'following' : tag ? 'tag' : 'global'}
+              tag={tag}
+            />
+            <ArticleList
+              articles={list.articles}
+              emptyMessage={
+                following ? (
+                  <>
+                    Your feed is empty. Follow other users to see their articles
+                    here, or read the <Link to={href('/')}>Global Feed</Link>.
+                  </>
+                ) : undefined
+              }
+            />
+            <Pagination currentPage={page} totalCount={list.articlesCount} />
+          </div>
+          <div className="col-md-3">
+            <PopularTags tags={data.tags} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

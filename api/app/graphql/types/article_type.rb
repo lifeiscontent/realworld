@@ -2,32 +2,30 @@
 
 module Types
   class ArticleType < Types::BaseObject
-    field :author, UserType, null: false
-    field :body, String, null: false
-    field :comments, [CommentType], null: false
-
-    def comments
-      object.comments.order(created_at: :desc)
-    end
-
-    field :created_at, GraphQL::Types::ISO8601DateTime, null: false
-    field :description, String, null: true
-    field :favorites_count, Int, null: false
-    field :slug, ID, null: false
-    field :tags, [TagType], null: false
+    field :slug, String, null: false
     field :title, String, null: false
+    field :description, String, null: false
+    field :body, String, null: false
+    field :tag_list, [String], null: false
+    field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
+    field :favorited, Boolean, null: false, resolver_method: :favorited?,
+                               description: 'True when the current user favorited this article.'
+    field :favorites_count, Int, null: false
+    field :author, ProfileType, null: false
 
-    field :viewer_did_favorite, Boolean, null: false
-
-    def viewer_did_favorite
-      return false if context[:current_user].nil?
-
-      context[:current_user].favorite_articles.include?(object)
+    def tag_list
+      dataloader.with(Sources::TagNames).load(object.id)
     end
 
-    expose_authorization_rules :favorite?, :unfavorite?, :create?, :update?, :delete?
-    expose_authorization_rules :create?, with: CommentPolicy,
-                                         field_name: 'can_create_comment'
+    def favorited?
+      return false unless current_user
+
+      dataloader.with(Sources::Favorited, current_user).load(object.id)
+    end
+
+    def author
+      dataload_association(:author)
+    end
   end
 end

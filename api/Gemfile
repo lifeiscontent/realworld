@@ -1,31 +1,27 @@
 # frozen_string_literal: true
 
+source 'https://rubygems.org'
+ruby '4.0.7'
+
 gem 'action_policy'
 gem 'action_policy-graphql'
 gem 'active_record_doctor', group: :development
+gem 'bcrypt'
 gem 'bootsnap', require: false
-gem 'byebug', platforms: %i[mri mingw x64_mingw], group: %i[development test]
-gem 'database_cleaner-active_record', group: :test
-gem 'devise'
+gem 'debug', platforms: %i[mri windows], group: %i[development test], require: 'debug/prelude'
 gem 'factory_bot_rails', group: :test
-gem 'faker'
+gem 'faker', group: %i[development test]
 gem 'friendly_id'
 gem 'graphql'
 gem 'jwt'
 gem 'listen', group: :development
-gem 'net-smtp', require: false
 gem 'pg'
 gem 'puma'
 gem 'rack-cors'
 gem 'rails'
-gem 'rails-erd', group: :development
-gem 'rspec-rails', group: :development
+gem 'rspec-rails', group: %i[development test]
 gem 'rubocop', group: :development, require: false
+gem 'rubocop-rails', group: :development, require: false
+gem 'rubocop-rspec', group: :development, require: false
 gem 'shoulda-matchers', group: :test
-gem 'solargraph', group: :development
-gem 'spring', group: :development
-gem 'spring-watcher-listen', group: :development
-gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
-git_source(:github) { |repo| "https://github.com/#{repo}.git" }
-ruby '3.2.2'
-source 'https://rubygems.org'
+gem 'tzinfo-data', platforms: %i[windows jruby]

@@ -1,21 +1,44 @@
 version: 2
 updates:
   - package-ecosystem: bundler
-    directory: "/api"
+    directory: /api
     schedule:
       interval: daily
+    groups:
+      rails:
+        patterns:
+          - "rails"
+          - "action*"
+          - "active*"
+          - "railties"
     open-pull-requests-limit: 10
-    reviewers:
-      - lifeiscontent
   - package-ecosystem: npm
-    directory: "/web"
+    directory: /web
     schedule:
       interval: daily
     groups:
       storybook:
-        applies-to: version-updates
         patterns:
-        - "@storybook*"
+          - "storybook"
+          - "@storybook/*"
+          - "eslint-plugin-storybook"
+      graphql-codegen:
+        patterns:
+          - "@graphql-codegen/*"
+      vitest:
+        patterns:
+          - "vitest"
+          - "@vitest/*"
+      playwright:
+        patterns:
+          - "playwright"
+          - "@playwright/*"
+      oxc:
+        patterns:
+          - "oxlint"
+          - "oxfmt"
     open-pull-requests-limit: 10
-    reviewers:
-      - lifeiscontent
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly

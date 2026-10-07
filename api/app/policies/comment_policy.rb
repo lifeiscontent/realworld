@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 class CommentPolicy < ApplicationPolicy
-  def create?
-    user?
-  end
-
   def delete?
     owner? || article_author?
   end
