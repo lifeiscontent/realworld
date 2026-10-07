@@ -3,6 +3,10 @@
 # Creates example tags, users, articles, and comments for development.
 # Run it with bin/rails db:seed.
 
+# db:prepare also seeds a new test database, for example in CI. The specs
+# need an empty database, so the test environment gets no seeds.
+return if Rails.env.test?
+
 require 'faker'
 
 %w[
