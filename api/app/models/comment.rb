@@ -3,5 +3,5 @@
 class Comment < ApplicationRecord
   belongs_to :article, validate: true
   belongs_to :author, class_name: 'User', validate: true
-  validates_presence_of :article, :author, :body
+  validates :body, presence: true
 end

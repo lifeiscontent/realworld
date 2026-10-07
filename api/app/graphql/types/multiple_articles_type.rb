@@ -3,8 +3,6 @@
 module Types
   # One page of articles, with the number of articles on all pages.
   class MultipleArticlesType < Types::BaseObject
-    graphql_name 'MultipleArticles'
-
     field :articles, [ArticleType], null: false
     field :articles_count, Int, null: false
 

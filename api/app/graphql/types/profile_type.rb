@@ -3,8 +3,6 @@
 module Types
   # The public profile of a user.
   class ProfileType < Types::BaseObject
-    graphql_name 'Profile'
-
     field :username, String, null: false
     field :bio, String
     field :image, String
@@ -12,17 +10,17 @@ module Types
                                description: 'True when the current user follows this user.'
 
     def bio
-      object.profile&.bio.presence
+      object.bio.presence
     end
 
     def image
-      object.profile&.image_url.presence
+      object.image.presence
     end
 
     def following?
       return false unless current_user
 
-      Relationship.exists?(follower: current_user, followed: object)
+      dataloader.with(Sources::Following, current_user).load(object.id)
     end
   end
 end

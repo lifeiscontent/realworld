@@ -10,9 +10,8 @@ module Mutations
       account = require_user!
       changes = user.to_h
       account.assign_attributes(changes.slice(:email, :username, :password).compact_blank)
-      profile = account.profile || account.build_profile
-      profile.bio = changes[:bio] || '' if changes.key?(:bio)
-      profile.image_url = changes[:image].presence if changes.key?(:image)
+      account.bio = changes[:bio].presence if changes.key?(:bio)
+      account.image = changes[:image].presence if changes.key?(:image)
       save!(account)
     end
   end

@@ -1,5 +1,10 @@
+plugins:
+  - rubocop-rails
+  - rubocop-rspec
+
 AllCops:
   NewCops: enable
+  SuggestExtensions: false
   Exclude:
     - bin/*
     - db/schema.rb
@@ -15,3 +20,26 @@ Metrics/BlockLength:
     - spec/**/*.rb
 Style/Documentation:
   Enabled: false
+
+# Each spec shows one behavior of the API, and that can need more than one
+# expectation, line, or helper.
+RSpec/ExampleLength:
+  Max: 20
+RSpec/MultipleExpectations:
+  Enabled: false
+RSpec/MultipleMemoizedHelpers:
+  Max: 10
+RSpec/ImplicitSubject:
+  EnforcedStyle: single_statement_only
+
+# The action_policy RSpec DSL defines describe_rule as an example group.
+# Each of succeed and failed adds an example, as it_behaves_like does.
+RSpec:
+  Language:
+    ExampleGroups:
+      Regular:
+        - describe_rule
+    Includes:
+      Examples:
+        - succeed
+        - failed

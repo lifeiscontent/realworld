@@ -9,7 +9,7 @@ module Mutations
     def resolve(slug:)
       user = require_user!
       article = find_article!(slug)
-      Favorite.find_or_create_by!(user:, article:)
+      Favorite.create_or_find_by!(user:, article:)
       article.reload
     end
   end

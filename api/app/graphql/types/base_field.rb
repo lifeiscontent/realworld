@@ -14,7 +14,7 @@ module Types
       argument :offset, GraphQL::Types::Int,
                required: false,
                default_value: 0,
-               validates: { numericality: { greater_than_or_equal_to: 0 } },
+               validates: { numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 10_000 } },
                description: 'The number of items to skip.'
     end
   end

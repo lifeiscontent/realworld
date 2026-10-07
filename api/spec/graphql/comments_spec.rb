@@ -20,8 +20,8 @@ RSpec.describe 'Comments', type: :graphql do
       )
     end
 
-    it 'returns 404 for an unknown article' do
-      expect(error_codes(execute(document, variables: { slug: 'nothing' }))).to eq(['NOT_FOUND'])
+    it 'returns null for an unknown article' do
+      expect(execute(document, variables: { slug: 'nothing' })).to eq(data: { comments: nil })
     end
   end
 

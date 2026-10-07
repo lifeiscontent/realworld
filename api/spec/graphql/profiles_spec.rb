@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Profiles', type: :graphql do
-  let(:jake) { create(:user, username: 'jake').tap { |user| user.create_profile!(bio: 'I work at statefarm') } }
+  let(:jake) { create(:user, username: 'jake', bio: 'I work at statefarm') }
   let(:viewer) { create(:user) }
 
   describe 'profile (GET /api/profiles/:username)' do
@@ -40,7 +40,7 @@ RSpec.describe 'Profiles', type: :graphql do
         result = execute(document, variables: { username: jake.username }, user: viewer)
         expect(result.dig(:data, :followUser)).to eq(username: 'jake', following: true)
       end
-      expect(jake.reload.followers_count).to eq(1)
+      expect(jake.followers.count).to eq(1)
     end
 
     it 'returns 403 for the same user' do
@@ -62,7 +62,7 @@ RSpec.describe 'Profiles', type: :graphql do
       result = execute(document, variables: { username: jake.username }, user: viewer)
 
       expect(result.dig(:data, :unfollowUser)).to eq(username: 'jake', following: false)
-      expect(jake.reload.followers_count).to eq(0)
+      expect(jake.followers.count).to eq(0)
     end
   end
 end

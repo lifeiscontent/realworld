@@ -7,9 +7,7 @@ module Mutations
     type Types::UserType, null: false
 
     def resolve(user:)
-      account = User.new(username: user.username, email: user.email, password: user.password)
-      account.build_profile
-      save!(account)
+      save!(User.new(username: user.username, email: user.email, password: user.password))
     end
   end
 end

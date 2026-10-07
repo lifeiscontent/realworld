@@ -10,7 +10,7 @@ module Mutations
       follower = require_user!
       followed = find_user!(username)
       authorize! followed, to: :follow?
-      Relationship.find_or_create_by!(follower:, followed:)
+      Relationship.create_or_find_by!(follower:, followed:)
       followed.reload
     end
   end

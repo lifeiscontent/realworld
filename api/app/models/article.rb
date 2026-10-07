@@ -4,20 +4,17 @@ class Article < ApplicationRecord
   extend FriendlyId
 
   friendly_id :title, use: :slugged
-  before_validation :set_slug, only: %i[create update]
   belongs_to :author, class_name: 'User', validate: true
   has_many :comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many :taggings, dependent: :destroy
   has_many :tags, through: :taggings
   has_many :users_who_favorited, through: :favorites, source: :user
-  validates_presence_of :body, :description, :slug, :title, :favorites_count
-  validates_uniqueness_of :slug
+  validates :body, :description, :slug, :title, presence: true
+  validates :slug, uniqueness: true
 
   def self.tagged_with(tags)
-    return none unless tags.present?
-
-    joins(:taggings).merge(Tagging.joins(:tag).merge(tags)).distinct
+    where(id: Tagging.where(tag: tags).select(:article_id))
   end
 
   # The RealWorld API changes the slug when an update changes the title.

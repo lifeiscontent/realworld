@@ -53,13 +53,12 @@ module Types
       Article.find_by(slug:)
     end
 
-    field :comments, [CommentType], null: false, description: 'GET /api/articles/:slug/comments' do
+    field :comments, [CommentType], description: 'GET /api/articles/:slug/comments' do
       argument :slug, String
     end
 
     def comments(slug:)
-      article = Article.find_by(slug:) || Errors.not_found!('Article not found')
-      article.comments.order(created_at: :desc)
+      Article.find_by(slug:)&.comments&.order(created_at: :desc)
     end
 
     field :tags, [String], null: false, description: 'GET /api/tags'

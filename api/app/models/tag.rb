@@ -3,7 +3,7 @@
 class Tag < ApplicationRecord
   has_many :taggings, dependent: :destroy
   has_many :articles, through: :taggings
-  validates_presence_of :name, :taggings_count
+  validates :name, presence: true
 
   # Finds or creates the tags with these names. It ignores blank and
   # duplicate names.

@@ -13,18 +13,10 @@ module Errors
 
   # Validation errors in the shape of the RealWorld API: { field: [messages] }.
   def self.unprocessable!(record)
-    errors = record.errors.to_hash.transform_keys { |key| field_name(key) }
+    errors = record.errors.to_hash.transform_keys { |key| key.to_s.camelize(:lower) }
     raise GraphQL::ExecutionError.new(
       record.errors.full_messages.to_sentence,
       extensions: { code: 'UNPROCESSABLE_ENTITY', errors: }
     )
-  end
-
-  def self.field_name(attribute)
-    case attribute.to_s
-    when 'profile.bio' then 'bio'
-    when 'profile.image_url' then 'image'
-    else attribute.to_s.camelize(:lower)
-    end
   end
 end

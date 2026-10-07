@@ -129,7 +129,7 @@ type Query {
   """
   GET /api/articles/:slug/comments
   """
-  comments(slug: String!): [Comment!]!
+  comments(slug: String!): [Comment!]
 
   """
   GET /api/articles/feed

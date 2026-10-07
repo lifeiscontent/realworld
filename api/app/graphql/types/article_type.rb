@@ -2,8 +2,6 @@
 
 module Types
   class ArticleType < Types::BaseObject
-    graphql_name 'Article'
-
     field :slug, String, null: false
     field :title, String, null: false
     field :description, String, null: false
@@ -17,13 +15,17 @@ module Types
     field :author, ProfileType, null: false
 
     def tag_list
-      object.tags.order('taggings.id').pluck(:name)
+      dataloader.with(Sources::TagNames).load(object.id)
     end
 
     def favorited?
       return false unless current_user
 
-      Favorite.exists?(user: current_user, article: object)
+      dataloader.with(Sources::Favorited, current_user).load(object.id)
+    end
+
+    def author
+      dataload_association(:author)
     end
   end
 end

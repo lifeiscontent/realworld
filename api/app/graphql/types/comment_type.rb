@@ -2,12 +2,14 @@
 
 module Types
   class CommentType < Types::BaseObject
-    graphql_name 'Comment'
-
     field :id, ID, null: false
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
     field :body, String, null: false
     field :author, ProfileType, null: false
+
+    def author
+      dataload_association(:author)
+    end
   end
 end

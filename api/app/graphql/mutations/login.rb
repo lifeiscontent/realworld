@@ -7,11 +7,13 @@ module Mutations
     type Types::UserType, null: false
 
     def resolve(user:)
-      account = User.find_for_authentication(email: user.email)
-      return account if account.persisted? && account.valid_password?(user.password)
+      account = User.authenticate_by(email: user.email, password: user.password)
+      return account if account
 
-      account.errors.add(:base, 'email or password is invalid')
-      Errors.unprocessable!(account)
+      # Give one error for both cases, so the answer does not show if the email exists.
+      invalid = User.new
+      invalid.errors.add(:base, 'email or password is invalid')
+      Errors.unprocessable!(invalid)
     end
   end
 end

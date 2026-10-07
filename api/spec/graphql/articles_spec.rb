@@ -52,6 +52,30 @@ RSpec.describe 'Articles', type: :graphql do
         .to eq('limit must be less than or equal to 100')
       expect(execute(document, variables: { offset: -1 })[:errors].first[:message])
         .to eq('offset must be greater than or equal to 0')
+      expect(execute(document, variables: { offset: 10_001 })[:errors].first[:message])
+        .to eq('offset must be less than or equal to 10000')
+    end
+
+    it 'uses the same number of queries for any number of articles' do
+      list = <<~GRAPHQL
+        query($limit: Int) {
+          articles(limit: $limit) {
+            articles { slug tagList favorited favoritesCount author { username bio image following } }
+            articlesCount
+          }
+        }
+      GRAPHQL
+      authors = create_list(:user, 4)
+      tags = create_list(:tag, 3)
+      20.times { |index| create(:article, author: authors[index % authors.size], tags:) }
+      authors.each { |author| create(:relationship, follower: viewer, followed: author) }
+      Article.find_each { |article| create(:favorite, user: viewer, article:) }
+
+      few = count_queries { execute(list, variables: { limit: 2 }, user: viewer) }
+      many = count_queries { execute(list, variables: { limit: 20 }, user: viewer) }
+
+      expect(execute(list, variables: { limit: 20 }, user: viewer).dig(:data, :articles, :articles).size).to eq(20)
+      expect(many).to eq(few)
     end
   end
 
