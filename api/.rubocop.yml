@@ -2,6 +2,12 @@ plugins:
   - rubocop-rails
   - rubocop-rspec
 
+# Add to RuboCop's default excludes, for example vendor/**/* where CI
+# installs the gems, instead of replacing them.
+inherit_mode:
+  merge:
+    - Exclude
+
 AllCops:
   NewCops: enable
   SuggestExtensions: false
