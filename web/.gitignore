@@ -1,5 +1,9 @@
 .env*.local
-.next/
+dist/
 *.log
 node_modules/
 storybook-static/
+test-results/
+playwright-report/
+# Made by GraphQL Codegen (pnpm codegen).
+src/types/__generated__/
