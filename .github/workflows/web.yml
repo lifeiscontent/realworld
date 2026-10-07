@@ -1,35 +1,77 @@
 name: Web
 
-on: [push]
+on:
+  push:
+    branches: [main]
+    paths: ['web/**', 'api/**', '.github/workflows/web.yml']
+  pull_request:
+    paths: ['web/**', 'api/**', '.github/workflows/web.yml']
+
+defaults:
+  run:
+    working-directory: ./web
 
 jobs:
-  build:
+  check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
       - uses: jdx/mise-action@2d8d4cafcbd33be2ea37d2b6f5ad595363d1f1ca # v5.1.1
         with:
           working_directory: web
-      - run: npm install
-        working-directory: ./web
-      - run: npm run lint
-        working-directory: ./web
-      - run: npm run build
-        working-directory: ./web
-      - run: npx playwright install --with-deps
-        working-directory: ./web
-      - run: npm run build-storybook -- --quiet
-        working-directory: ./web
-      - run: |
-          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
-            "npx http-server storybook-static --port 6006 --silent" \
-            "npx wait-on http://127.0.0.1:6006 && npm run test-storybook"
-        working-directory: ./web
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm format:check
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm exec playwright install --with-deps chromium
+      - name: Run the stories as tests
+        run: pnpm test
+      - run: pnpm build
       - name: Publish Storybook and run visual tests
-        if: github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]'
-        run: npm run chromatic -- --exit-once-uploaded
+        if: github.actor != 'dependabot[bot]'
+        run: pnpm chromatic --exit-once-uploaded
         env:
           CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-        working-directory: ./web
+
+  e2e:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:18
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    env:
+      RAILS_ENV: test
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      TEST_MODE: fullstack
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: ruby/setup-ruby@14594264cd68ce8a2345dd349bc3d138a4ef85c8 # v1.327.0
+        with:
+          working-directory: ./api
+          bundler-cache: true
+      - name: Start the API on port 4000
+        working-directory: ./api
+        run: |
+          cp config/database.yml.github-actions config/database.yml
+          bin/rails db:create db:schema:load
+          bin/rails server -p 4000 -d
+      - uses: jdx/mise-action@2d8d4cafcbd33be2ea37d2b6f5ad595363d1f1ca # v5.1.1
+        with:
+          working_directory: web
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - name: Run the RealWorld e2e suite
+        run: pnpm exec playwright test
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: failure()
+        with:
+          name: playwright-results
+          path: web/test-results
