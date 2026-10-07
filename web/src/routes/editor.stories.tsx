@@ -1,5 +1,6 @@
 import { GraphQLError } from 'graphql';
 import { expect } from 'storybook/test';
+
 import preview from '../../.storybook/preview';
 import { routes } from '../app/router';
 import { signIn, viewerMock } from '../stories/fixtures';

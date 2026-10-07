@@ -4,6 +4,7 @@
   "trailingComma": "es5",
   "arrowParens": "avoid",
   "printWidth": 80,
+  "sortImports": {},
   "ignorePatterns": [
     "src/types/__generated__",
     "public/styles.css",

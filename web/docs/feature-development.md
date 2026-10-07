@@ -9,12 +9,21 @@ feature goes.
 React Router decides when data loads and what a form does. Apollo Client
 decides how the data is fetched and cached. Components only show data.
 
-| Layer         | Folder           | Can use                                     | Must not use    |
-| ------------- | ---------------- | ------------------------------------------- | --------------- |
-| Route modules | `src/routes`     | loaders, actions, Apollo through `context`  | module state    |
-| App layer     | `src/app`        | the router, Apollo, middleware, the session | components      |
-| Components    | `src/components` | props, router components and hooks          | Apollo, loaders |
-| Helpers       | `src/lib`        | plain functions                             | React, Apollo   |
+| Layer         | Folder         | Can use                                       | Must not use        |
+| ------------- | -------------- | --------------------------------------------- | ------------------- |
+| Route modules | `src/routes`   | loaders, actions, Apollo through `context`    | module state        |
+| App layer     | `src/app`      | the router, Apollo, middleware, the session   | components          |
+| Features      | `src/features` | fragments, `ui`, forms and fetchers to routes | Apollo, loaders     |
+| Layout        | `src/layout`   | `ui`, router links                            | Apollo, domain data |
+| UI            | `src/ui`       | props, router links                           | domain types, forms |
+| Helpers       | `src/lib`      | plain functions                               | React, Apollo       |
+
+A feature component shows one domain object, for example an article, a
+comment, or a profile. It has the fragment for its data, and it can post to
+the route that changes that data. A UI component knows nothing about the
+domain: `Button`, `TextField`, `Tabs`, `Banner`, `Avatar`, `Pagination`,
+`ErrorMessages`, and `TagList`. A layout puts features on a page, for
+example `FormPage` for the account and editor forms.
 
 ### Route modules
 
@@ -33,7 +42,11 @@ exports `middleware`, `HydrateFallback`, and `ErrorBoundary`.
   `src/lib/responses.ts`. Read route parameters with `requireParam`.
 - A route that only has an action exports `loader = actionOnlyLoader`, so a
   GET request to it is a 405.
-- Make URLs with `paths` from `src/lib/paths.ts`. It encodes the parameters.
+- Make URLs with React Router's `href`, for example
+  `href('/article/:slug', { slug })`. It encodes the params. `src/app/pages.ts`
+  registers the paths of the routes, so a wrong path or a missing param is a
+  type error. When you add a route, add its path there too. A unit test
+  checks that the router and the list have the same paths.
 - Each page renders its `<title>`. React puts it in the document head.
 
 Errors of a page show in the layout, below the navbar. The pathless route
@@ -42,17 +55,27 @@ in `src/app/router.tsx` has the error boundary for all pages.
 The routes follow the RealWorld API. For example, `POST` and `DELETE` to
 `/article/:slug/favorite` favorite and unfavorite an article.
 
-### Middleware
+### Middleware and layouts
 
 `src/app/middleware.ts` has the middleware:
 
 - `viewerMiddleware` loads the signed-in user once for each navigation and
-  puts it in `viewerContext`.
-- `requireViewer` sends guests to `/login`.
+  puts it in `viewerContext`. The value is null for a guest.
+- `requireViewer` sends guests to `/login`. For a user, it sets
+  `signedInUserContext`, which is never null.
 - `guestOnly` sends signed-in users to `/`.
 
-Middleware cannot load lazily. Put a route that needs a guard below the
-pathless route that has that guard in `src/app/router.tsx`.
+Two layout routes use the guards. Middleware cannot load lazily, so the
+layouts load with the router:
+
+- `src/routes/signed-in.tsx` uses `requireViewer`. A loader or an action
+  below it reads the user with `context.get(signedInUserContext)`, and a
+  page reads it with `useSignedInViewer()`. Neither value can be null.
+- `src/routes/guest.tsx` uses `guestOnly`, and puts the sign-in and sign-up
+  forms in the auth page layout.
+
+To add a page for signed-in users, add its route below the `signed-in`
+route in `src/app/router.tsx`.
 
 ### Revalidation
 

@@ -1,22 +1,24 @@
+import { gql, type TypedDocumentNode } from '@apollo/client';
 import { useReadQuery } from '@apollo/client/react';
-import { clsx } from 'clsx';
-import { Link, useLoaderData, type LoaderFunctionArgs } from 'react-router';
+import { type LoaderFunctionArgs, useLoaderData } from 'react-router';
+
 import { apolloClientContext, preloadQueryContext } from '../app/context';
 import { viewerContext } from '../app/middleware';
-import { ArticleList } from '../components/ArticleList';
-import { Pagination } from '../components/Pagination';
-import { ProfileInfo } from '../components/ProfileInfo';
+import { ArticleList } from '../features/article/ArticleList';
+import { ARTICLE_PREVIEW_FRAGMENT } from '../features/article/ArticlePreview';
+import {
+  PROFILE_INFO_FRAGMENT,
+  ProfileInfo,
+} from '../features/profile/ProfileInfo';
+import { ProfileTabs } from '../features/profile/ProfileTabs';
 import { pageOf } from '../lib/pagination';
 import { requireParam } from '../lib/params';
-import { paths } from '../lib/paths';
 import { notFound } from '../lib/responses';
-import { gql, type TypedDocumentNode } from '@apollo/client';
-import { ARTICLE_PREVIEW_FRAGMENT } from '../components/ArticlePreview';
-import { PROFILE_INFO_FRAGMENT } from '../components/ProfileInfo';
 import type {
   ProfilePageQuery,
   ProfilePageQueryVariables,
 } from '../types/__generated__/graphql';
+import { Pagination } from '../ui/Pagination';
 
 export { shouldRevalidate } from '../app/revalidation';
 
@@ -104,26 +106,10 @@ export function Component() {
       <div className="container">
         <div className="row">
           <div className="col-xs-12 col-md-10 offset-md-1">
-            <div className="articles-toggle">
-              <ul className="nav nav-pills outline-active">
-                <li className="nav-item">
-                  <Link
-                    className={clsx('nav-link', { active: !favorites })}
-                    to={paths.profile(profile.username)}
-                  >
-                    My Articles
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link
-                    className={clsx('nav-link', { active: favorites })}
-                    to={paths.profileFavorites(profile.username)}
-                  >
-                    Favorited Articles
-                  </Link>
-                </li>
-              </ul>
-            </div>
+            <ProfileTabs
+              username={profile.username}
+              tab={favorites ? 'favorites' : 'articles'}
+            />
             <ArticleList articles={articles.articles} />
             <Pagination
               currentPage={page}

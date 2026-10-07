@@ -1,24 +1,26 @@
+import { gql, type TypedDocumentNode } from '@apollo/client';
 import { useReadQuery } from '@apollo/client/react';
 import {
+  href,
   Link,
+  type LoaderFunctionArgs,
   redirect,
   useLoaderData,
-  type LoaderFunctionArgs,
 } from 'react-router';
+
 import { preloadQueryContext } from '../app/context';
 import { viewerContext } from '../app/middleware';
-import { ArticleList } from '../components/ArticleList';
-import { FeedToggle } from '../components/FeedToggle';
-import { Pagination } from '../components/Pagination';
-import { PopularTags } from '../components/PopularTags';
+import { ArticleList } from '../features/article/ArticleList';
+import { ARTICLE_PREVIEW_FRAGMENT } from '../features/article/ArticlePreview';
+import { FeedToggle } from '../features/article/FeedToggle';
+import { PopularTags } from '../features/article/PopularTags';
 import { pageOf } from '../lib/pagination';
-import { paths } from '../lib/paths';
-import { gql, type TypedDocumentNode } from '@apollo/client';
-import { ARTICLE_PREVIEW_FRAGMENT } from '../components/ArticlePreview';
 import type {
   HomePageQuery,
   HomePageQueryVariables,
 } from '../types/__generated__/graphql';
+import { Banner } from '../ui/Banner';
+import { Pagination } from '../ui/Pagination';
 
 export { shouldRevalidate } from '../app/revalidation';
 
@@ -55,7 +57,7 @@ export async function loader({ request, params, context }: LoaderFunctionArgs) {
   const tag = params.tag;
   const signedIn = !!context.get(viewerContext);
   const following = !tag && url.searchParams.get('feed') === 'following';
-  if (following && !signedIn) throw redirect(paths.login());
+  if (following && !signedIn) throw redirect(href('/login'));
 
   const { page, limit, offset } = pageOf(url);
   const preloadQuery = context.get(preloadQueryContext);
@@ -81,12 +83,10 @@ export function Component() {
   return (
     <div className="home-page">
       <title>{tag ? `#${tag} | Conduit` : 'Home | Conduit'}</title>
-      <div className="banner">
-        <div className="container">
-          <h1 className="logo-font">conduit</h1>
-          <p>A place to share your knowledge.</p>
-        </div>
-      </div>
+      <Banner>
+        <h1 className="logo-font">conduit</h1>
+        <p>A place to share your knowledge.</p>
+      </Banner>
       <div className="container page">
         <div className="row">
           <div className="col-md-9">
@@ -101,8 +101,7 @@ export function Component() {
                 following ? (
                   <>
                     Your feed is empty. Follow other users to see their articles
-                    here, or read the <Link to={paths.home()}>Global Feed</Link>
-                    .
+                    here, or read the <Link to={href('/')}>Global Feed</Link>.
                   </>
                 ) : undefined
               }

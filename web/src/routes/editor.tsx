@@ -1,19 +1,21 @@
+import { gql, type TypedDocumentNode } from '@apollo/client';
 import {
+  type ActionFunctionArgs,
+  href,
+  type LoaderFunctionArgs,
   redirect,
   useActionData,
   useLoaderData,
-  type ActionFunctionArgs,
-  type LoaderFunctionArgs,
 } from 'react-router';
 import { z } from 'zod';
-import { apolloClientContext } from '../app/context';
-import { viewerContext } from '../app/middleware';
-import { ArticleForm } from '../components/ArticleForm';
+
 import { evictArticleLists } from '../app/apollo';
+import { apolloClientContext } from '../app/context';
+import { signedInUserContext } from '../app/middleware';
+import { ArticleForm } from '../features/article/ArticleForm';
+import { FormPage } from '../layout/FormPage';
 import { actionErrors, attempt, errorsOf, parseForm } from '../lib/forms';
-import { paths } from '../lib/paths';
 import { notFound } from '../lib/responses';
-import { gql, type TypedDocumentNode } from '@apollo/client';
 import type {
   CreateArticleMutation,
   CreateArticleMutationVariables,
@@ -91,8 +93,8 @@ export async function loader({ params, context }: LoaderFunctionArgs) {
   });
   const article = data?.article;
   if (!article) throw notFound('This article does not exist.');
-  if (article.author.username !== context.get(viewerContext)?.username) {
-    throw redirect(paths.article(article.slug));
+  if (article.author.username !== context.get(signedInUserContext).username) {
+    throw redirect(href('/article/:slug', { slug: article.slug }));
   }
 
   return { article };
@@ -126,7 +128,9 @@ export async function action({ request, params, context }: ActionFunctionArgs) {
       })
     );
     if (failure) return failure;
-    return redirect(paths.article(result.data?.updateArticle.slug ?? slug));
+    return redirect(
+      href('/article/:slug', { slug: result.data?.updateArticle.slug ?? slug })
+    );
   }
 
   const { result, failure } = await attempt(() =>
@@ -138,7 +142,9 @@ export async function action({ request, params, context }: ActionFunctionArgs) {
   );
   if (failure) return failure;
   const created = result.data?.createArticle.slug;
-  return redirect(created ? paths.article(created) : paths.home());
+  return redirect(
+    created ? href('/article/:slug', { slug: created }) : href('/')
+  );
 }
 
 export function Component() {
@@ -151,11 +157,13 @@ export function Component() {
       <title>
         {article ? 'Edit article | Conduit' : 'New article | Conduit'}
       </title>
-      <ArticleForm
-        key={article?.slug ?? 'new'}
-        defaultValues={article}
-        errors={errorsOf(result)}
-      />
+      <FormPage page="editor-page" width="wide">
+        <ArticleForm
+          key={article?.slug ?? 'new'}
+          defaultValues={article}
+          errors={errorsOf(result)}
+        />
+      </FormPage>
     </>
   );
 }

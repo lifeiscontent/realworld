@@ -1,4 +1,10 @@
-import { createContext, redirect, type MiddlewareFunction } from 'react-router';
+import {
+  createContext,
+  href,
+  type MiddlewareFunction,
+  redirect,
+} from 'react-router';
+
 import type { Viewer_UserFragment } from '../types/__generated__/graphql';
 import { apolloClientContext } from './context';
 import { getToken } from './session';
@@ -27,14 +33,25 @@ export const viewerMiddleware: MiddlewareFunction = async (
   return next();
 };
 
-/** Sends guests to the sign-in page. */
+/**
+ * The signed-in user in the routes below the signed-in layout. It has no
+ * default, so a route outside that layout cannot read it by mistake.
+ */
+export const signedInUserContext = createContext<Viewer_UserFragment>();
+
+/**
+ * Sends guests to the sign-in page. For signed-in users, it sets
+ * signedInUserContext, so loaders and actions get a user that is not null.
+ */
 export const requireViewer: MiddlewareFunction = ({ context }, next) => {
-  if (!context.get(viewerContext)) throw redirect('/login');
+  const viewer = context.get(viewerContext);
+  if (!viewer) throw redirect(href('/login'));
+  context.set(signedInUserContext, viewer);
   return next();
 };
 
 /** Sends signed-in users away from the sign-in and sign-up pages. */
 export const guestOnly: MiddlewareFunction = ({ context }, next) => {
-  if (context.get(viewerContext)) throw redirect('/');
+  if (context.get(viewerContext)) throw redirect(href('/'));
   return next();
 };

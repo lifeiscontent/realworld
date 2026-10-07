@@ -3,13 +3,15 @@ import { useApolloClient } from '@apollo/client/react';
 import { MockLink } from '@apollo/client/testing';
 import addonA11y from '@storybook/addon-a11y';
 import addonDocs from '@storybook/addon-docs';
-import { definePreview, type Decorator } from '@storybook/react-vite';
+import { type Decorator, definePreview } from '@storybook/react-vite';
 import { useState } from 'react';
 import { createMemoryRouter, type RouteObject } from 'react-router';
 import { RouterProvider } from 'react-router/dom';
 import apolloClient from 'storybook-addon-apollo-client';
+
 import { createCache } from '../src/app/apollo';
 import { routerContextFor } from '../src/app/context';
+
 import '../src/app.css';
 
 interface RouterParameters {

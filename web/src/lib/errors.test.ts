@@ -1,5 +1,6 @@
 import { CombinedGraphQLErrors } from '@apollo/client';
 import { describe, expect, it } from 'vitest';
+
 import { errorMessages } from './errors';
 
 function graphQLErrors(...errors: object[]) {

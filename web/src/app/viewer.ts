@@ -1,19 +1,19 @@
-import type { ApolloClient } from '@apollo/client';
+import { gql, type ApolloClient, type TypedDocumentNode } from '@apollo/client';
 import { useReadQuery } from '@apollo/client/react';
-import { useRouteLoaderData } from 'react-router';
+import { useOutletContext, useRouteLoaderData } from 'react-router';
+
+import { actionErrors, attempt } from '../lib/forms';
 import type {
+  Viewer_UserFragment,
   ViewerQuery,
   ViewerQueryVariables,
-  Viewer_UserFragment,
 } from '../types/__generated__/graphql';
 import {
   apolloClientContext,
-  preloadQueryContext,
   type AppContext,
+  preloadQueryContext,
 } from './context';
-import { actionErrors, attempt } from '../lib/forms';
 import { clearToken, getToken, setToken } from './session';
-import { gql, type TypedDocumentNode } from '@apollo/client';
 
 export const VIEWER_FRAGMENT: TypedDocumentNode<Viewer_UserFragment> = gql`
   fragment Viewer_user on User {
@@ -131,4 +131,13 @@ export function useViewer() {
       ? 'unavailable'
       : 'unauthenticated';
   return { viewer, authState };
+}
+
+/**
+ * The signed-in user in a page below the signed-in layout
+ * (src/routes/signed-in.tsx). The layout renders its pages only with a user,
+ * so the user is never null.
+ */
+export function useSignedInViewer() {
+  return useOutletContext<Viewer_UserFragment>();
 }

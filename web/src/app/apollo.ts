@@ -6,6 +6,7 @@ import {
   InMemoryCache,
 } from '@apollo/client';
 import { SetContextLink } from '@apollo/client/link/context';
+
 import { getToken } from './session';
 
 export function createCache() {

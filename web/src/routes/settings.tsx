@@ -1,12 +1,21 @@
-import { redirect, useActionData, type ActionFunctionArgs } from 'react-router';
-import { z } from 'zod';
-import { apolloClientContext } from '../app/context';
-import { authenticate, useViewer } from '../app/viewer';
-import { SettingsForm } from '../components/SettingsForm';
-import { actionErrors, errorsOf, parseForm } from '../lib/forms';
-import { paths } from '../lib/paths';
 import { gql, type TypedDocumentNode } from '@apollo/client';
-import { VIEWER_FRAGMENT } from '../app/viewer';
+import {
+  type ActionFunctionArgs,
+  href,
+  redirect,
+  useActionData,
+} from 'react-router';
+import { z } from 'zod';
+
+import { apolloClientContext } from '../app/context';
+import {
+  authenticate,
+  useSignedInViewer,
+  VIEWER_FRAGMENT,
+} from '../app/viewer';
+import { SettingsForm } from '../features/auth/SettingsForm';
+import { FormPage } from '../layout/FormPage';
+import { actionErrors, errorsOf, parseForm } from '../lib/forms';
 import type {
   UpdateUserMutation,
   UpdateUserMutationVariables,
@@ -51,17 +60,20 @@ export async function action({ request, context }: ActionFunctionArgs) {
     return data?.updateUser;
   });
   if (failure) return failure;
-  return redirect(paths.profile(user.username));
+  return redirect(
+    href('/profile/:username/:tab?', { username: user.username })
+  );
 }
 
 export function Component() {
   const result = useActionData<typeof action>();
-  const { viewer } = useViewer();
-  if (!viewer) return null;
+  const viewer = useSignedInViewer();
   return (
     <>
       <title>Settings | Conduit</title>
-      <SettingsForm user={viewer} errors={errorsOf(result)} />
+      <FormPage page="settings-page" width="narrow">
+        <SettingsForm user={viewer} errors={errorsOf(result)} />
+      </FormPage>
     </>
   );
 }

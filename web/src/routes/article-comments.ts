@@ -1,11 +1,12 @@
+import { gql, type TypedDocumentNode } from '@apollo/client';
 import type { ActionFunctionArgs } from 'react-router';
 import { z } from 'zod';
+
 import { apolloClientContext } from '../app/context';
+import { COMMENT_CARD_FRAGMENT } from '../features/comment/CommentCard';
 import { actionErrors, actionOk, attempt, parseForm } from '../lib/forms';
 import { requireParam } from '../lib/params';
 import { actionOnlyLoader, methodNotAllowed } from '../lib/responses';
-import { gql, type TypedDocumentNode } from '@apollo/client';
-import { COMMENT_CARD_FRAGMENT } from '../components/CommentCard';
 import type {
   AddCommentMutation,
   AddCommentMutationVariables,

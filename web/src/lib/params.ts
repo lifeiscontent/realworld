@@ -1,4 +1,5 @@
 import type { Params } from 'react-router';
+
 import { notFound } from './responses';
 
 /** Reads a route parameter. A missing parameter is a 404. */

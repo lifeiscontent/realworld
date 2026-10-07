@@ -1,4 +1,5 @@
 import { defineConfig } from '@playwright/test';
+
 import { baseConfig } from './e2e/playwright.base';
 
 // The shared RealWorld e2e suite. This app has its own GraphQL API, so the

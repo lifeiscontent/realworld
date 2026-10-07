@@ -18,7 +18,8 @@
       {
         "allow": ["**/*.css"]
       }
-    ]
+    ],
+    "import/no-duplicates": "error"
   },
   "settings": {
     "react": {

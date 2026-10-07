@@ -1,12 +1,16 @@
-import { redirect, useActionData, type ActionFunctionArgs } from 'react-router';
-import { z } from 'zod';
-import { apolloClientContext } from '../app/context';
-import { authenticate } from '../app/viewer';
-import { LoginForm } from '../components/LoginForm';
-import { actionErrors, errorsOf, parseForm } from '../lib/forms';
-import { paths } from '../lib/paths';
 import { gql, type TypedDocumentNode } from '@apollo/client';
-import { VIEWER_FRAGMENT } from '../app/viewer';
+import {
+  type ActionFunctionArgs,
+  href,
+  redirect,
+  useActionData,
+} from 'react-router';
+import { z } from 'zod';
+
+import { apolloClientContext } from '../app/context';
+import { authenticate, VIEWER_FRAGMENT } from '../app/viewer';
+import { LoginForm } from '../features/auth/LoginForm';
+import { actionErrors, errorsOf, parseForm } from '../lib/forms';
 import type {
   LoginMutation,
   LoginMutationVariables,
@@ -43,7 +47,7 @@ export async function action({ request, context }: ActionFunctionArgs) {
     });
     return data?.login;
   });
-  return failure ?? redirect(paths.home());
+  return failure ?? redirect(href('/'));
 }
 
 export function Component() {

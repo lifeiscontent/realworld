@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+
 import { formatDate } from './date';
 
 // Noon UTC is the same day in every time zone from UTC-11 to UTC+11.

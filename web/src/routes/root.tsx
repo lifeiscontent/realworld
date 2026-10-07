@@ -1,18 +1,19 @@
 import { useEffect } from 'react';
 import {
+  href,
   isRouteErrorResponse,
   Link,
+  type LoaderFunctionArgs,
   Outlet,
   useNavigation,
   useRouteError,
-  type LoaderFunctionArgs,
 } from 'react-router';
+
 import { viewerMiddleware } from '../app/middleware';
 import { getToken } from '../app/session';
-import { loadViewer, useViewer, type RootLoaderData } from '../app/viewer';
-import { Footer } from '../components/Footer';
-import { Navbar } from '../components/Navbar';
-import { paths } from '../lib/paths';
+import { loadViewer, type RootLoaderData, useViewer } from '../app/viewer';
+import { Footer } from '../layout/Footer';
+import { Navbar } from '../layout/Navbar';
 
 export { shouldRevalidate } from '../app/revalidation';
 
@@ -86,7 +87,7 @@ function ErrorPage() {
       <h1>{title}</h1>
       {message && <p>{message}</p>}
       <p>
-        <Link to={paths.home()}>Go to the home page</Link>
+        <Link to={href('/')}>Go to the home page</Link>
       </p>
     </div>
   );

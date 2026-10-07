@@ -1,33 +1,46 @@
+import { gql, type TypedDocumentNode } from '@apollo/client';
 import { useReadQuery } from '@apollo/client/react';
 import {
+  type ActionFunctionArgs,
+  href,
   Link,
+  type LoaderFunctionArgs,
   redirect,
   useLoaderData,
-  type ActionFunctionArgs,
-  type LoaderFunctionArgs,
 } from 'react-router';
+
 import { evictArticleLists } from '../app/apollo';
 import { apolloClientContext, preloadQueryContext } from '../app/context';
 import { viewerContext } from '../app/middleware';
 import { useViewer } from '../app/viewer';
-import { ArticleContent } from '../components/ArticleContent';
-import { ArticleMeta } from '../components/ArticleMeta';
-import { CommentCard } from '../components/CommentCard';
-import { CommentForm } from '../components/CommentForm';
+import {
+  ARTICLE_ACTIONS_FRAGMENT,
+  ArticleAuthorActions,
+  ArticleReaderActions,
+} from '../features/article/ArticleActions';
+import {
+  ARTICLE_CONTENT_FRAGMENT,
+  ArticleContent,
+} from '../features/article/ArticleContent';
+import {
+  ARTICLE_META_FRAGMENT,
+  ArticleMeta,
+} from '../features/article/ArticleMeta';
+import {
+  COMMENT_CARD_FRAGMENT,
+  CommentCard,
+} from '../features/comment/CommentCard';
+import { CommentForm } from '../features/comment/CommentForm';
 import { attempt } from '../lib/forms';
 import { requireParam } from '../lib/params';
-import { paths } from '../lib/paths';
 import { methodNotAllowed, notFound } from '../lib/responses';
-import { gql, type TypedDocumentNode } from '@apollo/client';
-import { ARTICLE_CONTENT_FRAGMENT } from '../components/ArticleContent';
-import { ARTICLE_META_FRAGMENT } from '../components/ArticleMeta';
-import { COMMENT_CARD_FRAGMENT } from '../components/CommentCard';
 import type {
   ArticlePageQuery,
   ArticlePageQueryVariables,
   DeleteArticleMutation,
   DeleteArticleMutationVariables,
 } from '../types/__generated__/graphql';
+import { Banner } from '../ui/Banner';
 
 export { shouldRevalidate } from '../app/revalidation';
 
@@ -40,6 +53,7 @@ export const ARTICLE_PAGE_QUERY: TypedDocumentNode<
       slug
       title
       ...ArticleMeta_article
+      ...ArticleActions_article
       ...ArticleContent_article
     }
     comments(slug: $slug) {
@@ -48,6 +62,7 @@ export const ARTICLE_PAGE_QUERY: TypedDocumentNode<
   }
   ${ARTICLE_CONTENT_FRAGMENT}
   ${ARTICLE_META_FRAGMENT}
+  ${ARTICLE_ACTIONS_FRAGMENT}
   ${COMMENT_CARD_FRAGMENT}
 `;
 
@@ -82,7 +97,7 @@ export async function loader({ params, context }: LoaderFunctionArgs) {
 /** DELETE /article/:slug deletes the article and opens the home page. */
 export async function action({ request, params, context }: ActionFunctionArgs) {
   if (request.method !== 'DELETE') throw methodNotAllowed();
-  if (!context.get(viewerContext)) throw redirect(paths.login());
+  if (!context.get(viewerContext)) throw redirect(href('/login'));
 
   const slug = requireParam(params, 'slug');
   const client = context.get(apolloClientContext);
@@ -102,7 +117,7 @@ export async function action({ request, params, context }: ActionFunctionArgs) {
   );
   if (failure) return failure;
 
-  return redirect(paths.home());
+  return redirect(href('/'));
 }
 
 export function Component() {
@@ -114,17 +129,23 @@ export function Component() {
   const { article, comments } = data;
 
   const isAuthor = viewer?.username === article.author.username;
-  const meta = <ArticleMeta article={article} isAuthor={isAuthor} />;
+  const meta = (
+    <ArticleMeta article={article}>
+      {isAuthor ? (
+        <ArticleAuthorActions slug={article.slug} />
+      ) : (
+        <ArticleReaderActions article={article} />
+      )}
+    </ArticleMeta>
+  );
 
   return (
     <div className="article-page">
       <title>{`${article.title} | Conduit`}</title>
-      <div className="banner">
-        <div className="container">
-          <h1>{article.title}</h1>
-          {meta}
-        </div>
-      </div>
+      <Banner>
+        <h1>{article.title}</h1>
+        {meta}
+      </Banner>
       <div className="container page">
         <ArticleContent article={article} />
         <hr />
@@ -135,8 +156,8 @@ export function Component() {
               <CommentForm slug={article.slug} viewer={viewer} />
             ) : (
               <p>
-                <Link to={paths.login()}>Sign in</Link> or{' '}
-                <Link to={paths.register()}>sign up</Link> to add comments on
+                <Link to={href('/login')}>Sign in</Link> or{' '}
+                <Link to={href('/register')}>sign up</Link> to add comments on
                 this article.
               </p>
             )}
