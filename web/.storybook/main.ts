@@ -1,30 +1,17 @@
-import type { StorybookConfig } from '@storybook/nextjs';
+import type { StorybookConfig } from '@storybook/react-vite';
 
 const config: StorybookConfig = {
-  stories: [{
-    directory: '../src/components',
-    titlePrefix: 'Components',
-    files: '**/*.@(mdx|stories.*)'
-  }, {
-    directory: '../src/containers',
-    titlePrefix: 'Containers',
-    files: '**/*.@(mdx|stories.*)'
-  }],
-
+  framework: '@storybook/react-vite',
+  stories: ['../src/**/*.stories.@(ts|tsx)'],
   addons: [
-    '@storybook/addon-links',
-    'storybook-addon-apollo-client',
-    '@chromatic-com/storybook',
+    '@storybook/addon-docs',
+    '@storybook/addon-a11y',
+    '@storybook/addon-vitest',
     '@storybook/addon-mcp',
-    '@storybook/addon-docs'
+    '@chromatic-com/storybook',
+    'storybook-addon-apollo-client',
   ],
-
   staticDirs: ['../public'],
-
-  framework: {
-    name: '@storybook/nextjs',
-    options: {},
-  }
 };
 
 export default config;
