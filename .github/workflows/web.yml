@@ -48,8 +48,7 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     env:
       RAILS_ENV: test
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/realworld_test
       TEST_MODE: fullstack
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -60,9 +59,14 @@ jobs:
       - name: Start the API on port 4000
         working-directory: ./api
         run: |
-          cp config/database.yml.github-actions config/database.yml
           bin/rails db:create db:schema:load
-          bin/rails server -p 4000 -d
+          bin/rails server -p 4000 > log/server.log 2>&1 &
+          for _ in $(seq 1 30); do
+            curl --silent --fail http://localhost:4000/up > /dev/null && exit 0
+            sleep 1
+          done
+          cat log/server.log
+          exit 1
       - uses: jdx/mise-action@2d8d4cafcbd33be2ea37d2b6f5ad595363d1f1ca # v5.1.1
         with:
           working_directory: web
