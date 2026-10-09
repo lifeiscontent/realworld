@@ -54,7 +54,7 @@
     "storybook": "^10.6.1",
     "storybook-addon-apollo-client": "^11.0.1",
     "typescript": "~6.0.3",
-    "vite": "^8.3.2",
+    "vite": "^8.3.3",
     "vite-plugin-graphql-codegen": "^4.0.1",
     "vitest": "^5.0.3"
   },
