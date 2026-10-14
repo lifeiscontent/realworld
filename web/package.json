@@ -28,7 +28,7 @@
     "react-markdown": "^10.1.0",
     "react-router": "^8.4.0",
     "rxjs": "^7.8.2",
-    "zod": "^4.6.5"
+    "zod": "^4.6.6"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^5.4.0",
