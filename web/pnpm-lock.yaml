@@ -167,8 +167,8 @@ importers:
   .:
     dependencies:
       '@apollo/client':
-        specifier: ^4.3.2
-        version: 4.3.2(graphql-ws@6.3.0(graphql@17.0.2)(ws@8.22.0))(graphql@17.0.2)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(rxjs@7.8.2)
+        specifier: ^4.3.3
+        version: 4.3.3(graphql-ws@6.3.0(graphql@17.0.2)(ws@8.22.0))(graphql@17.0.2)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(rxjs@7.8.2)
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -262,7 +262,7 @@ importers:
         version: 10.6.1(@types/react@19.3.0)(react@19.3.0)
       storybook-addon-apollo-client:
         specifier: ^11.0.1
-        version: 11.0.1(@apollo/client@4.3.2(graphql-ws@6.3.0(graphql@17.0.2)(ws@8.22.0))(graphql@17.0.2)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(rxjs@7.8.2))(graphql@17.0.2)(storybook@10.6.1(@types/react@19.3.0)(react@19.3.0))
+        version: 11.0.1(@apollo/client@4.3.3(graphql-ws@6.3.0(graphql@17.0.2)(ws@8.22.0))(graphql@17.0.2)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(rxjs@7.8.2))(graphql@17.0.2)(storybook@10.6.1(@types/react@19.3.0)(react@19.3.0))
       typescript:
         specifier: ~6.0.3
         version: 6.0.3
@@ -281,8 +281,8 @@ packages:
   '@adobe/css-tools@4.5.0':
     resolution: {integrity: sha512-6OzddxPio9UiWTCemp4N8cYLV2ZN1ncRnV1cVGtve7dhPOtRkleRyx32GQCYSwDYgaHU3USMm84tNsvKzRCa1Q==}
 
-  '@apollo/client@4.3.2':
-    resolution: {integrity: sha512-ra6f8NhP4b5Wznw6VpRGOGF6Q6a8rORToQeIx5BMC5Rc7mRVZ9wCN+01ynIZPjmlGPNif2Lqt0LRD+futfNgIw==}
+  '@apollo/client@4.3.3':
+    resolution: {integrity: sha512-wMfOUaFKLgNsu0OMCg50gfhEHTV9/GyO7DxQvut7iSBUoePy0kvll3oWeY8KVPRfnVhYEzcwPJ/Jwz4uSe3fQA==}
     peerDependencies:
       graphql: ^16.0.0 || ^17.0.0
       graphql-ws: ^5.5.5 || ^6.0.3
@@ -3883,7 +3883,7 @@ snapshots:
 
   '@adobe/css-tools@4.5.0': {}
 
-  '@apollo/client@4.3.2(graphql-ws@6.3.0(graphql@17.0.2)(ws@8.22.0))(graphql@17.0.2)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(rxjs@7.8.2)':
+  '@apollo/client@4.3.3(graphql-ws@6.3.0(graphql@17.0.2)(ws@8.22.0))(graphql@17.0.2)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(rxjs@7.8.2)':
     dependencies:
       '@graphql-typed-document-node/core': 3.2.0(graphql@17.0.2)
       '@wry/caches': 1.0.1
@@ -7090,9 +7090,9 @@ snapshots:
 
   std-env@4.3.0: {}
 
-  storybook-addon-apollo-client@11.0.1(@apollo/client@4.3.2(graphql-ws@6.3.0(graphql@17.0.2)(ws@8.22.0))(graphql@17.0.2)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(rxjs@7.8.2))(graphql@17.0.2)(storybook@10.6.1(@types/react@19.3.0)(react@19.3.0)):
+  storybook-addon-apollo-client@11.0.1(@apollo/client@4.3.3(graphql-ws@6.3.0(graphql@17.0.2)(ws@8.22.0))(graphql@17.0.2)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(rxjs@7.8.2))(graphql@17.0.2)(storybook@10.6.1(@types/react@19.3.0)(react@19.3.0)):
     dependencies:
-      '@apollo/client': 4.3.2(graphql-ws@6.3.0(graphql@17.0.2)(ws@8.22.0))(graphql@17.0.2)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(rxjs@7.8.2)
+      '@apollo/client': 4.3.3(graphql-ws@6.3.0(graphql@17.0.2)(ws@8.22.0))(graphql@17.0.2)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(rxjs@7.8.2)
       graphql: 17.0.2
       storybook: 10.6.1(@types/react@19.3.0)(react@19.3.0)
 
