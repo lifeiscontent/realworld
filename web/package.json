@@ -31,7 +31,7 @@
     "zod": "^4.6.5"
   },
   "devDependencies": {
-    "@chromatic-com/storybook": "^5.4.0",
+    "@chromatic-com/storybook": "^5.5.1",
     "@graphql-codegen/cli": "^7.4.6",
     "@graphql-codegen/typescript-operations": "^6.1.10",
     "@graphql-typed-document-node/core": "^3.2.0",
