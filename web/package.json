@@ -19,7 +19,7 @@
     "chromatic": "chromatic --exit-zero-on-changes"
   },
   "dependencies": {
-    "@apollo/client": "^4.3.3",
+    "@apollo/client": "^4.3.5",
     "clsx": "^2.1.1",
     "graphql": "^17.0.2",
     "isbot": "^5",
