@@ -115,7 +115,7 @@ GEM
       activerecord (>= 4.0.0)
     globalid (1.4.0)
       activesupport (>= 6.1)
-    graphql (2.6.11)
+    graphql (2.6.13)
       base64
       fiber-storage
       logger
