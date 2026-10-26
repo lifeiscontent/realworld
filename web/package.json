@@ -46,7 +46,7 @@
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.2",
     "@vitest/browser-playwright": "^5.0.3",
-    "chromatic": "^18.12.2",
+    "chromatic": "^18.13.3",
     "eslint-plugin-storybook": "^10.6.1",
     "oxfmt": "^0.72.0",
     "oxlint": "^1.87.0",
